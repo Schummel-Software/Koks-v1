@@ -11,23 +11,23 @@ import java.util.List;
  */
 public class ModuleManager {
 
-    public List<Module> modules = new ArrayList<>();
+    private final List<Module> MODULES = new ArrayList<>();
 
     public ModuleManager() {
-    addModule(new Sprint());
+        addModule(new Sprint());
     }
 
     public void addModule(Module module) {
-        modules.add(module);
+        MODULES.add(module);
     }
 
     public List<Module> getModules() {
-        return modules;
+        return MODULES;
     }
 
     public Module getModule(String name) {
-        for(Module module : modules) {
-            if(module.getModuleName().equalsIgnoreCase(name)) {
+        for (Module module : getModules()) {
+            if (module.getModuleName().equalsIgnoreCase(name)) {
                 return module;
             }
         }
@@ -35,11 +35,7 @@ public class ModuleManager {
     }
 
     public <T extends Module> T getModule(Class<T> tClass) {
-        for (Module module : modules) {
-            if (module.getClass() == tClass)
-                return (T)module;
-        }
-        return null;
+        return (T) this.getModules().stream().filter(module -> module.getClass() == tClass).findAny().orElse(null);
     }
 
 }
