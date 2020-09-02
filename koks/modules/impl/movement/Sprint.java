@@ -3,6 +3,7 @@ package koks.modules.impl.movement;
 import koks.event.Event;
 import koks.event.impl.EventUpdate;
 import koks.modules.Module;
+import koks.utilities.MovementUtil;
 
 /**
  * @author avox | lmao | kroko
@@ -16,7 +17,7 @@ public class Sprint extends Module {
 
     @Override
     public void onEvent(Event event) {
-        if(event instanceof EventUpdate) {
+        if (event instanceof EventUpdate) {
             if (mc.thePlayer.moveForward != 0 && !mc.gameSettings.keyBindBack.isKeyDown() && canSprint()) {
                 mc.thePlayer.setSprinting(true);
             }
