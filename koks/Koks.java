@@ -2,6 +2,7 @@ package koks;
 
 import koks.command.CommandManager;
 import koks.event.EventManager;
+import koks.hud.ScreenManager;
 import koks.modules.ModuleManager;
 import net.minecraft.client.Minecraft;
 import org.lwjgl.opengl.Display;
@@ -30,6 +31,7 @@ public class Koks {
     public ModuleManager moduleManager;
     public EventManager eventManager;
     public CommandManager commandManager;
+    public ScreenManager screenManager;
 
     public void initClient() {
 
@@ -38,6 +40,7 @@ public class Koks {
         moduleManager = new ModuleManager();
         commandManager = new CommandManager();
         eventManager = new EventManager();
+        screenManager = new ScreenManager();
     }
 
     public void shutdownClient() {

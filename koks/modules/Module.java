@@ -14,7 +14,7 @@ public abstract class Module {
     private String moduleName;
     private Category moduleCategory;
     private String moduleInfo;
-    private boolean visible, enabled;
+    private boolean visible = true, enabled;
     private int keyBind;
 
     public Module(String moduleName, Category moduleCategory) {
