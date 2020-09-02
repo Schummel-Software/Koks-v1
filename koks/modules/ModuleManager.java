@@ -1,18 +1,20 @@
 package koks.modules;
 
+import koks.modules.impl.movement.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * @author avox | lmao | kroko
- * @created on 29/07/2020.
+ * @created on 02.09.2020 : 21:07
  */
 public class ModuleManager {
 
     public List<Module> modules = new ArrayList<>();
 
     public ModuleManager() {
-
+        addModule(new Sprint());
     }
 
     public void addModule(Module module) {
