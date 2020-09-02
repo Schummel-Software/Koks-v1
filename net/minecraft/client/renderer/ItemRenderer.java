@@ -356,11 +356,11 @@ public class ItemRenderer
                     case 2:
                     case 3:
                         this.func_178104_a(entityplayersp, partialTicks);
-                        this.transformFirstPersonItem(f, 0.0F);
+                        this.transformFirstPersonItem(f + 0.1F, 0.0F);
                         break;
 
                     case 4:
-                        this.transformFirstPersonItem(f, 0.0F);
+                        this.transformFirstPersonItem(f - 0.1F, f1);
                         this.func_178103_d();
                         break;
 

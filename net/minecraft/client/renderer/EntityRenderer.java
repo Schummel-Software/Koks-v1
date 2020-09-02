@@ -10,6 +10,11 @@ import java.util.Date;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.Callable;
+
+import koks.Koks;
+import koks.modules.impl.visuals.NoBob;
+import koks.modules.impl.visuals.NoFov;
+import koks.modules.impl.visuals.NoHurtcam;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBed;
 import net.minecraft.block.material.Material;
@@ -574,16 +579,18 @@ public class EntityRenderer implements IResourceManagerReloadListener
         }
 
         this.fovModifierHandPrev = this.fovModifierHand;
-        this.fovModifierHand += (f - this.fovModifierHand) * 0.5F;
+        if (Koks.getKoks().moduleManager.getModule(NoFov.class).isToggled()) {
+            this.fovModifierHand = 1.0F;
+        } else {
+            this.fovModifierHand += (f - this.fovModifierHand) * 0.5F;
 
-        if (this.fovModifierHand > 1.5F)
-        {
-            this.fovModifierHand = 1.5F;
-        }
+            if (this.fovModifierHand > 1.5F) {
+                this.fovModifierHand = 1.5F;
+            }
 
-        if (this.fovModifierHand < 0.1F)
-        {
-            this.fovModifierHand = 0.1F;
+            if (this.fovModifierHand < 0.1F) {
+                this.fovModifierHand = 0.1F;
+            }
         }
     }
 
@@ -662,6 +669,8 @@ public class EntityRenderer implements IResourceManagerReloadListener
     {
         if (this.mc.getRenderViewEntity() instanceof EntityLivingBase)
         {
+            if (Koks.getKoks().moduleManager.getModule(NoHurtcam.class).isToggled())
+                return;
             EntityLivingBase entitylivingbase = (EntityLivingBase)this.mc.getRenderViewEntity();
             float f = (float)entitylivingbase.hurtTime - partialTicks;
 
@@ -692,6 +701,8 @@ public class EntityRenderer implements IResourceManagerReloadListener
     {
         if (this.mc.getRenderViewEntity() instanceof EntityPlayer)
         {
+            if (Koks.getKoks().moduleManager.getModule(NoBob.class).isToggled())
+                mc.thePlayer.distanceWalkedModified = 0.0F;
             EntityPlayer entityplayer = (EntityPlayer)this.mc.getRenderViewEntity();
             float f = entityplayer.distanceWalkedModified - entityplayer.prevDistanceWalkedModified;
             float f1 = -(entityplayer.distanceWalkedModified + f * partialTicks);

@@ -2,6 +2,9 @@ package koks.modules;
 
 import koks.modules.impl.movement.Speed;
 import koks.modules.impl.movement.Sprint;
+import koks.modules.impl.visuals.NoBob;
+import koks.modules.impl.visuals.NoFov;
+import koks.modules.impl.visuals.NoHurtcam;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +20,9 @@ public class ModuleManager {
     public ModuleManager() {
         addModule(new Sprint());
         addModule(new Speed());
+        addModule(new NoBob());
+        addModule(new NoFov());
+        addModule(new NoHurtcam());
     }
 
     public void addModule(Module module) {
