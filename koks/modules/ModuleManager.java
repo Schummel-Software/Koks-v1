@@ -2,6 +2,9 @@ package koks.modules;
 
 import koks.modules.impl.movement.Speed;
 import koks.modules.impl.movement.Sprint;
+import koks.modules.impl.player.AntiFire;
+import koks.modules.impl.player.FastConsume;
+import koks.modules.impl.player.NoFall;
 import koks.modules.impl.visuals.NoBob;
 import koks.modules.impl.visuals.NoFov;
 import koks.modules.impl.visuals.NoHurtcam;
@@ -23,6 +26,9 @@ public class ModuleManager {
         addModule(new NoBob());
         addModule(new NoFov());
         addModule(new NoHurtcam());
+        addModule(new NoFall());
+        addModule(new AntiFire());
+        addModule(new FastConsume());
     }
 
     public void addModule(Module module) {
