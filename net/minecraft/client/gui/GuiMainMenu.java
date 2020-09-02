@@ -10,6 +10,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
+
+import koks.account.Account;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;
@@ -256,6 +258,9 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback
     /**
      * Called by the controls from the buttonList when activated. (Mouse pressed for buttons)
      */
+
+    private final Account ACCOUNT = new Account();
+
     protected void actionPerformed(GuiButton button) throws IOException
     {
         if (button.id == 0)
@@ -280,7 +285,7 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback
 
         if (button.id == 14 && this.realmsButton.visible)
         {
-            this.switchToRealms();
+            ACCOUNT.generateAltening("api-f561-dceb-f74d");
         }
 
         if (button.id == 4)

@@ -1,5 +1,6 @@
 package koks.modules;
 
+import koks.modules.impl.movement.Speed;
 import koks.modules.impl.movement.Sprint;
 
 import java.util.ArrayList;
@@ -15,6 +16,7 @@ public class ModuleManager {
 
     public ModuleManager() {
         addModule(new Sprint());
+        addModule(new Speed());
     }
 
     public void addModule(Module module) {
