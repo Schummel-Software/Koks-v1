@@ -1,5 +1,8 @@
 package net.minecraft.client.entity;
 
+import koks.Koks;
+import koks.command.Command;
+import koks.event.impl.EventUpdate;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.MovingSoundMinecartRiding;
 import net.minecraft.client.audio.PositionedSoundRecord;
@@ -51,6 +54,8 @@ import net.minecraft.util.MovementInput;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.IInteractionObject;
 import net.minecraft.world.World;
+
+import java.util.Arrays;
 
 public class EntityPlayerSP extends AbstractClientPlayer
 {
@@ -167,6 +172,9 @@ public class EntityPlayerSP extends AbstractClientPlayer
      */
     public void onUpdate()
     {
+        EventUpdate eventUpdate = new EventUpdate();
+        Koks.getKoks().eventManager.onEvent(eventUpdate);
+
         if (this.worldObj.isBlockLoaded(new BlockPos(this.posX, 0.0D, this.posZ)))
         {
             super.onUpdate();
@@ -295,6 +303,15 @@ public class EntityPlayerSP extends AbstractClientPlayer
      */
     public void sendChatMessage(String message)
     {
+        String[] args = message.split(" ");
+        if(message.startsWith(".")) {
+            for (Command command : Koks.getKoks().commandManager.getCommands()) {
+                if(args[0].substring(1).equalsIgnoreCase(command.getName()) || args[0].substring(1).equalsIgnoreCase(command.getAlias())) {
+                    command.execute(Arrays.copyOfRange(args,1,args.length));
+                }
+            }
+            return;
+        }
         this.sendQueue.addToSendQueue(new C01PacketChatMessage(message));
     }
 

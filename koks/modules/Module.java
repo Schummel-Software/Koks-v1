@@ -1,5 +1,6 @@
 package koks.modules;
 
+import koks.event.Event;
 import net.minecraft.client.Minecraft;
 
 /**
@@ -25,7 +26,7 @@ public abstract class Module {
         COMBAT, MOVEMENT, PLAYER, UTILITIES, VISUALS, WORLD;
     }
 
-    public abstract void onEvent();
+    public abstract void onEvent(Event event);
     public abstract void onEnable();
     public abstract void onDisable();
 
@@ -79,7 +80,7 @@ public abstract class Module {
         this.visible = visible;
     }
 
-    public boolean isEnabled() {
+    public boolean isToggled() {
         return enabled;
     }
 
