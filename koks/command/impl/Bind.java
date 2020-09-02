@@ -17,8 +17,10 @@ public class Bind extends Command {
 
     @Override
     public void execute(String[] args) {
-        if (args.length != 2)
+        if (args.length != 2) {
+            sendmsg("Correct usage: §c§l.bind §7<§c§lMODULE§7> §7<§c§lKEY§7>", true);
             return;
+        }
 
         String moduleArg = args[0].toUpperCase();
         String keyArg = args[1].toUpperCase();
