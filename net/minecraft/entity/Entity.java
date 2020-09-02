@@ -4,6 +4,10 @@ import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 import java.util.concurrent.Callable;
+
+import koks.Koks;
+import koks.event.impl.MoveFlyingEvent;
+import koks.event.impl.SafeWalkEvent;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFence;
 import net.minecraft.block.BlockFenceGate;
@@ -615,7 +619,9 @@ public abstract class Entity implements ICommandSender
             double d5 = z;
             boolean flag = this.onGround && this.isSneaking() && this instanceof EntityPlayer;
 
-            if (flag)
+            SafeWalkEvent safeWalkEvent = new SafeWalkEvent(flag);
+
+            if (flag || safeWalkEvent.isSafe())
             {
                 double d6;
 
@@ -1213,6 +1219,16 @@ public abstract class Entity implements ICommandSender
      */
     public void moveFlying(float strafe, float forward, float friction)
     {
+
+        MoveFlyingEvent moveFlyingEvent = new MoveFlyingEvent(rotationYaw, strafe,forward,friction);
+        Koks.getKoks().eventManager.onEvent(moveFlyingEvent);
+
+        if(moveFlyingEvent.isCanceled())return;
+
+        strafe = moveFlyingEvent.getStrafe();
+        forward = moveFlyingEvent.getForward();
+        friction = moveFlyingEvent.getFriction();
+
         float f = strafe * strafe + forward * forward;
 
         if (f >= 1.0E-4F)
@@ -1227,8 +1243,8 @@ public abstract class Entity implements ICommandSender
             f = friction / f;
             strafe = strafe * f;
             forward = forward * f;
-            float f1 = MathHelper.sin(this.rotationYaw * (float)Math.PI / 180.0F);
-            float f2 = MathHelper.cos(this.rotationYaw * (float)Math.PI / 180.0F);
+            float f1 = MathHelper.sin(moveFlyingEvent.getYaw() * (float)Math.PI / 180.0F);
+            float f2 = MathHelper.cos(moveFlyingEvent.getYaw() * (float)Math.PI / 180.0F);
             this.motionX += (double)(strafe * f2 - forward * f1);
             this.motionZ += (double)(forward * f2 + strafe * f1);
         }

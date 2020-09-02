@@ -1,6 +1,6 @@
 package koks.command;
 
-import koks.command.impl.Toggle;
+import koks.command.impl.*;
 
 import java.util.ArrayList;
 
@@ -10,6 +10,7 @@ public class CommandManager {
 
     public CommandManager() {
         addCommand(new Toggle());
+        addCommand(new Bind());
     }
 
     public void addCommand(Command cmd) {
