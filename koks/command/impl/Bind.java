@@ -18,7 +18,7 @@ public class Bind extends Command {
     @Override
     public void execute(String[] args) {
         if (args.length != 2) {
-            sendmsg("Correct usage: §c§l.bind §7<§c§lMODULE§7> §7<§c§lKEY§7>", true);
+            sendError("§7(§4BAD USAGE§7)", "§c§l.bind §7<§c§lMODULE§7> §7<§c§lKEY§7>", true);
             return;
         }
 

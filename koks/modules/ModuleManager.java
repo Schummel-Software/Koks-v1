@@ -1,5 +1,6 @@
 package koks.modules;
 
+import koks.modules.impl.combat.Killaura;
 import koks.modules.impl.movement.Speed;
 import koks.modules.impl.movement.Sprint;
 import koks.modules.impl.player.AntiFire;
@@ -29,6 +30,7 @@ public class ModuleManager {
         addModule(new NoFall());
         addModule(new AntiFire());
         addModule(new FastConsume());
+        addModule(new Killaura());
     }
 
     public void addModule(Module module) {
