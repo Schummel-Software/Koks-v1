@@ -2,6 +2,7 @@ package koks;
 
 import koks.command.CommandManager;
 import koks.event.EventManager;
+import koks.gui.clickgui.ClickGUI;
 import koks.hud.ScreenManager;
 import koks.modules.ModuleManager;
 import net.minecraft.client.Minecraft;
@@ -29,6 +30,7 @@ public class Koks {
     public final String PREFIX = "§c" + CLIENT_NAME + " §7>> §f";
 
     public ModuleManager moduleManager;
+    public ClickGUI clickGUI;
     public EventManager eventManager;
     public CommandManager commandManager;
     public ScreenManager screenManager;
@@ -38,6 +40,7 @@ public class Koks {
         Display.setTitle(CLIENT_NAME + " v" + CLIENT_VERSION + " by " + CLIENT_DEVELOPER[0] + " | " + CLIENT_DEVELOPER[1] + " | " + CLIENT_DEVELOPER[2]);
 
         moduleManager = new ModuleManager();
+        clickGUI = new ClickGUI();
         commandManager = new CommandManager();
         eventManager = new EventManager();
         screenManager = new ScreenManager();

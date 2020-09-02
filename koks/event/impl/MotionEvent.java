@@ -8,7 +8,7 @@ import koks.event.Event;
  */
 public class MotionEvent extends Event {
 
-    private Type type;
+    private final Type type;
 
     private float yaw,pitch;
 

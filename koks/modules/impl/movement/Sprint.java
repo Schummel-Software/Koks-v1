@@ -1,9 +1,13 @@
 package koks.modules.impl.movement;
 
+import koks.Koks;
 import koks.event.Event;
 import koks.event.impl.EventUpdate;
+import koks.gui.clickgui.ClickGUI;
 import koks.modules.Module;
 import koks.utilities.MovementUtil;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiMainMenu;
 
 /**
  * @author avox | lmao | kroko
@@ -30,7 +34,7 @@ public class Sprint extends Module {
 
     @Override
     public void onEnable() {
-
+        Minecraft.getMinecraft().displayGuiScreen(Koks.getKoks().clickGUI);
     }
 
     @Override
