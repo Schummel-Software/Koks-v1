@@ -3,6 +3,7 @@ package net.minecraft.client.entity;
 import koks.Koks;
 import koks.command.Command;
 import koks.event.impl.EventUpdate;
+import koks.event.impl.MotionEvent;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.MovingSoundMinecartRiding;
 import net.minecraft.client.audio.PositionedSoundRecord;
@@ -167,6 +168,8 @@ public class EntityPlayerSP extends AbstractClientPlayer
         }
     }
 
+    public MotionEvent motionEvent;
+
     /**
      * Called to update the entity's position/logic.
      */
@@ -174,6 +177,11 @@ public class EntityPlayerSP extends AbstractClientPlayer
     {
         EventUpdate eventUpdate = new EventUpdate();
         Koks.getKoks().eventManager.onEvent(eventUpdate);
+
+        MotionEvent motionEvent = new MotionEvent(MotionEvent.Type.PRE, rotationYaw, rotationPitch);
+        Koks.getKoks().eventManager.onEvent(motionEvent);
+
+        this.motionEvent = motionEvent;
 
         if (this.worldObj.isBlockLoaded(new BlockPos(this.posX, 0.0D, this.posZ)))
         {
@@ -197,6 +205,8 @@ public class EntityPlayerSP extends AbstractClientPlayer
     public void onUpdateWalkingPlayer()
     {
         boolean flag = this.isSprinting();
+
+        MotionEvent motionEvent = this.motionEvent;
 
         if (flag != this.serverSprintState)
         {
@@ -235,14 +245,16 @@ public class EntityPlayerSP extends AbstractClientPlayer
             double d2 = this.posZ - this.lastReportedPosZ;
             double d3 = (double)(this.rotationYaw - this.lastReportedYaw);
             double d4 = (double)(this.rotationPitch - this.lastReportedPitch);
+            double d31 = (double)(motionEvent.getYaw() - this.lastReportedYaw);
+            double d41 = (double)(motionEvent.getPitch() - this.lastReportedPitch);
             boolean flag2 = d0 * d0 + d1 * d1 + d2 * d2 > 9.0E-4D || this.positionUpdateTicks >= 20;
-            boolean flag3 = d3 != 0.0D || d4 != 0.0D;
+            boolean flag3 = d3 != 0.0D || d4 != 0.0D || d31 != 0.0D || d41 != 0.0D;
 
             if (this.ridingEntity == null)
             {
                 if (flag2 && flag3)
                 {
-                    this.sendQueue.addToSendQueue(new C03PacketPlayer.C06PacketPlayerPosLook(this.posX, this.getEntityBoundingBox().minY, this.posZ, this.rotationYaw, this.rotationPitch, this.onGround));
+                    this.sendQueue.addToSendQueue(new C03PacketPlayer.C06PacketPlayerPosLook(this.posX, this.getEntityBoundingBox().minY, this.posZ, motionEvent.getYaw(), motionEvent.getPitch(), this.onGround));
                 }
                 else if (flag2)
                 {
@@ -250,7 +262,7 @@ public class EntityPlayerSP extends AbstractClientPlayer
                 }
                 else if (flag3)
                 {
-                    this.sendQueue.addToSendQueue(new C03PacketPlayer.C05PacketPlayerLook(this.rotationYaw, this.rotationPitch, this.onGround));
+                    this.sendQueue.addToSendQueue(new C03PacketPlayer.C05PacketPlayerLook(motionEvent.getYaw(), motionEvent.getPitch(), this.onGround));
                 }
                 else
                 {
@@ -259,7 +271,7 @@ public class EntityPlayerSP extends AbstractClientPlayer
             }
             else
             {
-                this.sendQueue.addToSendQueue(new C03PacketPlayer.C06PacketPlayerPosLook(this.motionX, -999.0D, this.motionZ, this.rotationYaw, this.rotationPitch, this.onGround));
+                this.sendQueue.addToSendQueue(new C03PacketPlayer.C06PacketPlayerPosLook(this.motionX, -999.0D, this.motionZ, motionEvent.getYaw(), motionEvent.getPitch(), this.onGround));
                 flag2 = false;
             }
 
@@ -275,10 +287,12 @@ public class EntityPlayerSP extends AbstractClientPlayer
 
             if (flag3)
             {
-                this.lastReportedYaw = this.rotationYaw;
-                this.lastReportedPitch = this.rotationPitch;
+                this.lastReportedYaw = motionEvent.getYaw();
+                this.lastReportedPitch = motionEvent.getPitch();
             }
         }
+        MotionEvent motionEventPost = new MotionEvent(MotionEvent.Type.POST, motionEvent.getYaw(), motionEvent.getPitch());
+        Koks.getKoks().eventManager.onEvent(motionEventPost);
     }
 
     /**
