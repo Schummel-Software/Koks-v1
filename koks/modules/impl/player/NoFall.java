@@ -18,6 +18,8 @@ public class NoFall extends Module {
     @Override
     public void onEvent(Event event) {
         if (event instanceof EventUpdate) {
+            if (mc.thePlayer.onGround)
+                return;
             if (mc.thePlayer.fallDistance > 2) {
                 mc.thePlayer.sendQueue.addToSendQueue(new C03PacketPlayer(true));
                 mc.thePlayer.fallDistance = 0;
