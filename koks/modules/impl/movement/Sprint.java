@@ -2,6 +2,10 @@ package koks.modules.impl.movement;
 
 import koks.modules.Module;
 
+/**
+ * @author avox | lmao | kroko
+ * @created on 29/07/2020.
+ */
 public class Sprint extends Module {
 
     public Sprint() {

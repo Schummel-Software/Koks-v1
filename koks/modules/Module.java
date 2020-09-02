@@ -3,8 +3,8 @@ package koks.modules;
 import net.minecraft.client.Minecraft;
 
 /**
- * @author avox | lmao
- * @since on 29/07/2020.
+ * @author avox | lmao | kroko
+ * @created on 29/07/2020.
  */
 public abstract class Module {
 

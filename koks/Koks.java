@@ -4,6 +4,10 @@ import koks.modules.ModuleManager;
 import net.minecraft.client.Minecraft;
 import org.lwjgl.opengl.Display;
 
+/**
+ * @author avox | lmao | kroko
+ * @created on 29/07/2020.
+ */
 public class Koks {
 
     private static final Koks KOKS;
