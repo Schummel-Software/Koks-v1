@@ -1,5 +1,6 @@
 package net.minecraft.network;
 
+import koks.event.impl.PacketEvent;
 import net.minecraft.util.IThreadListener;
 
 public class PacketThreadUtil
@@ -8,6 +9,10 @@ public class PacketThreadUtil
     {
         if (!p_180031_2_.isCallingFromMinecraftThread())
         {
+            PacketEvent event = new PacketEvent(PacketEvent.Type.RECIVE,p_180031_0_);
+
+            if(event.isCanceled())return;
+
             p_180031_2_.addScheduledTask(new Runnable()
             {
                 public void run()

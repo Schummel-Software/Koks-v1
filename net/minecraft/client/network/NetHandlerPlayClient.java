@@ -13,6 +13,8 @@ import java.util.Map;
 import java.util.Random;
 import java.util.UUID;
 import java.util.Map.Entry;
+
+import koks.event.impl.PacketEvent;
 import net.minecraft.block.Block;
 import net.minecraft.client.ClientBrandRetriever;
 import net.minecraft.client.Minecraft;
@@ -813,6 +815,8 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
 
     public void addToSendQueue(Packet p_147297_1_)
     {
+        PacketEvent packetEvent = new PacketEvent(PacketEvent.Type.SEND, p_147297_1_);
+        if(packetEvent.isCanceled())return;
         this.netManager.sendPacket(p_147297_1_);
     }
 
