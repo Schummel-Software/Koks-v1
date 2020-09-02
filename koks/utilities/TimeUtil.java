@@ -2,7 +2,7 @@ package koks.utilities;
 
 /**
  * @author avox | lmao | kroko
- * @created on 29/07/2020.
+ * @created on 02.09.2020 : 21:06
  */
 public class TimeUtil {
 

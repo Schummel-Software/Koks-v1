@@ -8,7 +8,7 @@ import org.lwjgl.opengl.Display;
 
 /**
  * @author avox | lmao | kroko
- * @created on 29/07/2020.
+ * @created on 02.09.2020 : 21:07
  */
 public class Koks {
 
