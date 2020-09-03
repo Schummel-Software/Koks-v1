@@ -7,10 +7,7 @@ import koks.modules.impl.movement.Sprint;
 import koks.modules.impl.player.AntiFire;
 import koks.modules.impl.player.FastConsume;
 import koks.modules.impl.player.NoFall;
-import koks.modules.impl.visuals.NameTags;
-import koks.modules.impl.visuals.NoBob;
-import koks.modules.impl.visuals.NoFov;
-import koks.modules.impl.visuals.NoHurtcam;
+import koks.modules.impl.visuals.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +32,9 @@ public class ModuleManager {
         addModule(new Killaura());
         addModule(new Velocity());
         addModule(new NameTags());
+        addModule(new PlayerESP());
+        addModule(new ChestESP());
+        addModule(new ItemESP());
     }
 
     public void addModule(Module module) {
