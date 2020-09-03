@@ -2,11 +2,14 @@ package koks.modules;
 
 import koks.modules.impl.combat.Killaura;
 import koks.modules.impl.combat.Velocity;
+import koks.modules.impl.movement.Jesus;
+import koks.modules.impl.movement.NoCobweb;
 import koks.modules.impl.movement.Speed;
 import koks.modules.impl.movement.Sprint;
 import koks.modules.impl.player.AntiFire;
 import koks.modules.impl.player.FastConsume;
 import koks.modules.impl.player.NoFall;
+import koks.modules.impl.player.SetBack;
 import koks.modules.impl.utilities.ClickGUI;
 import koks.modules.impl.visuals.*;
 
@@ -39,6 +42,9 @@ public class ModuleManager {
         addModule(new ItemESP());
         addModule(new ClickGUI());
         addModule(new CustomEnchant());
+        addModule(new Jesus());
+        addModule(new NoCobweb());
+        addModule(new SetBack());
     }
 
     public void addModule(Module module) {
