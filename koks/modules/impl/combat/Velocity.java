@@ -21,10 +21,7 @@ public class Velocity extends Module {
         if (event instanceof PacketEvent) {
             if (((PacketEvent) event).getType() == PacketEvent.Type.RECIVE) {
                 if (((PacketEvent) event).getPacket() instanceof S12PacketEntityVelocity || ((PacketEvent) event).getPacket() instanceof S27PacketExplosion) {
-                    S12PacketEntityVelocity packet = (S12PacketEntityVelocity) ((PacketEvent) event).getPacket();
-                    if (packet.getEntityID() == mc.thePlayer.getEntityId()) {
                         event.setCanceled(true);
-                    }
                 }
             }
         }

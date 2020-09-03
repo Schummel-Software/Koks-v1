@@ -1,17 +1,17 @@
 package koks.gui.clickgui;
 
 import koks.Koks;
-import koks.gui.clickgui.elements.Element;
-import koks.gui.clickgui.elements.ElementBoolean;
-import koks.gui.clickgui.elements.ElementSlider;
+import koks.gui.clickgui.elements.*;
 import koks.modules.Module;
 import koks.utilities.RenderUtils;
 import koks.utilities.value.values.BooleanValue;
+import koks.utilities.value.values.ModeValue;
 import koks.utilities.value.values.NumberValue;
 import net.minecraft.client.Minecraft;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -25,12 +25,15 @@ public class ModuleButton {
     public RenderUtils renderUtils = new RenderUtils();
     public float yMaxElements;
 
-    private final List<Element> elementList = new ArrayList<>();
+    public final List<Element> elementList = new ArrayList<>();
 
     public boolean extended;
 
     public ModuleButton(Module module) {
         this.module = module;
+        elementList.add(new ElementToggle(module));
+        elementList.add(new ElementVisible(module));
+        elementList.add(new ElementKeyBind(module));
         Koks.getKoks().valueManager.getValues().forEach(value -> {
             if (value.getModule().equals(module)) {
                 if (value instanceof BooleanValue) {
@@ -38,6 +41,9 @@ public class ModuleButton {
                 }
                 if (value instanceof NumberValue) {
                     this.elementList.add(new ElementSlider((NumberValue) value));
+                }
+                if (value instanceof ModeValue) {
+                    this.elementList.add(new ElementMode((ModeValue) value));
                 }
             }
         });
@@ -47,11 +53,19 @@ public class ModuleButton {
         if (extended) {
             float[] yTest = {0};
             this.elementList.forEach(element -> {
+                int yHeight[] = {0};
                 element.setPosition(x + 3, this.y + height + yTest[0], width - 6, height - 2);
                 element.drawScreen(mouseX, mouseY);
-                yTest[0] += height;
+
+                if (element instanceof ElementMode) {
+                    Arrays.stream(((ElementMode) element).modeValue.getModes()).forEach(module -> {
+                        if (element.isExtended())
+                            yHeight[0] += height - 2;
+                    });
+                }
+                yTest[0] += height + yHeight[0];
+                yMaxElements = yTest[0] + yHeight[0];
             });
-            yMaxElements = yTest[0];
         } else {
             yMaxElements = 0F;
         }
@@ -60,11 +74,11 @@ public class ModuleButton {
     }
 
     public void mouseReleased() {
-
+        this.elementList.forEach(Element::mouseReleased);
     }
 
     public void keyTyped(int keyCode) {
-
+        elementList.forEach(element -> element.keyTyped(keyCode));
     }
 
     public void mouseClicked(int mouseX, int mouseY, int mouseButton) {
