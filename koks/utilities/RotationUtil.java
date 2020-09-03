@@ -15,12 +15,12 @@ public class RotationUtil {
 
     public float[] faceEntity(Entity entity, float currentYaw, float currentPitch, float speed) {
         double x = entity.posX - mc.thePlayer.posX;
-        double y = entity.posZ - mc.thePlayer.posZ;
-        double z = entity.posY + (double) entity.getEyeHeight() - (mc.thePlayer.posY + (double) mc.thePlayer.getEyeHeight());
+        double y = entity.posY + (double) entity.getEyeHeight() - (mc.thePlayer.posY + (double) mc.thePlayer.getEyeHeight());
+        double z = entity.posZ - mc.thePlayer.posZ;
 
-        double angle = MathHelper.sqrt_double(x * x + y * y);
-        float yawAngle = (float) (MathHelper.func_181159_b(y, x) * 180.0D / Math.PI) - 90.0F;
-        float pitchAngle = (float) (-(MathHelper.func_181159_b(z, angle) * 180.0D / Math.PI));
+        double angle = MathHelper.sqrt_double(x * x + z * z);
+        float yawAngle = (float) (MathHelper.func_181159_b(z, x) * 180.0D / Math.PI) - 90.0F;
+        float pitchAngle = (float) (-(MathHelper.func_181159_b(y, angle) * 180.0D / Math.PI));
         float yaw = updateRotation(currentYaw, yawAngle, speed);
         float pitch = updateRotation(currentPitch, pitchAngle, speed);
 
