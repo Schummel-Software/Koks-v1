@@ -54,7 +54,6 @@ public class Sprint extends Module {
 
     @Override
     public void onEnable() {
-        Minecraft.getMinecraft().displayGuiScreen(Koks.getKoks().clickGUI);
     }
 
     @Override

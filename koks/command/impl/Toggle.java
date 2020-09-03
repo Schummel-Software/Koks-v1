@@ -23,7 +23,7 @@ public class Toggle extends Command {
                 String color = module.isToggled() ? "§a" : "§c";
                 sendmsg(color + "Toggled " + module.getModuleName(), true);
             }else{
-                sendError(args[0] + " doesn't exist", "try another module", true);
+                sendError(args[0], "doesn't exist!", true);
             }
         }
     }

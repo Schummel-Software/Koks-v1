@@ -20,6 +20,7 @@ public class ModuleList {
         ScaledResolution sr = new ScaledResolution(mc);
         int y = 0;
         for (Module module : Koks.getKoks().moduleManager.getModules()) {
+
             if (module.isToggled() && module.isVisible()) {
                 Gui.drawRect(sr.getScaledWidth() - fr.getStringWidth(module.getModuleName()) - 4, y, sr.getScaledWidth(), y + fr.FONT_HEIGHT + 1, Integer.MIN_VALUE);
                 fr.drawStringWithShadow(module.getModuleName(), sr.getScaledWidth() - fr.getStringWidth(module.getModuleName()) - 2, y + 1, 0xFFFFFFFF);

@@ -2,7 +2,9 @@ package koks.modules.impl.combat;
 
 import koks.event.Event;
 import koks.event.impl.EventUpdate;
+import koks.event.impl.JumpEvent;
 import koks.event.impl.MotionEvent;
+import koks.event.impl.MoveFlyingEvent;
 import koks.modules.Module;
 import koks.utilities.RotationUtil;
 import koks.utilities.TimeUtil;
@@ -33,17 +35,22 @@ public class Killaura extends Module {
     public void onEvent(Event event) {
         if (event instanceof MotionEvent) {
             if (((MotionEvent) event).getType() == MotionEvent.Type.PRE) {
+                MotionEvent motionEvent = (MotionEvent)event;
                 if (entity != null && isValid(entity)) {
                     float[] rotations = rotationUtil.faceEntity(entity, yaw, pitch, 360);
-                    ((MotionEvent) event).setYaw(rotations[0]);
-                    ((MotionEvent) event).setPitch(rotations[1]);
+                    yaw = rotations[0];
+                    pitch = rotations[1];
+                    motionEvent.setYaw(yaw);
+                    motionEvent.setPitch(pitch);
+
                     for (int i = 0; i < 5; i++) {
                         mc.effectRenderer.emitParticleAtEntity(entity, EnumParticleTypes.CRIT);
                         mc.effectRenderer.emitParticleAtEntity(entity, EnumParticleTypes.CRIT_MAGIC);
                     }
                     if (timeUtil.isDelayComplete(100)) {
                         mc.thePlayer.swingItem();
-                        mc.thePlayer.sendQueue.addToSendQueue(new C02PacketUseEntity(entity, C02PacketUseEntity.Action.ATTACK));
+                        mc.playerController.attackEntity(mc.thePlayer,entity);
+   //                     mc.thePlayer.sendQueue.addToSendQueue(new C02PacketUseEntity(entity, C02PacketUseEntity.Action.ATTACK));
                         timeUtil.reset();
                     }
                 } else {
@@ -53,8 +60,18 @@ public class Killaura extends Module {
             }
         }
 
+        if(event instanceof JumpEvent) {
+            JumpEvent e = (JumpEvent)event;
+            e.setYaw(yaw);
+        }
+
+        if(event instanceof MoveFlyingEvent) {
+            MoveFlyingEvent e = (MoveFlyingEvent)event;
+            e.setYaw(yaw);
+        }
+
         if (event instanceof EventUpdate) {
-            mineplex = true;
+            mineplex = false;
             range = 3.8F;
             getEntity();
         }

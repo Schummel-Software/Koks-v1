@@ -1,7 +1,12 @@
 package koks.modules;
 
+import koks.Koks;
 import koks.event.Event;
+import koks.files.impl.KeyBindFile;
 import net.minecraft.client.Minecraft;
+import org.lwjgl.input.Keyboard;
+
+import java.io.FileWriter;
 
 /**
  * @author avox | lmao | kroko
@@ -27,7 +32,7 @@ public abstract class Module {
     }
 
     public abstract void onEvent(Event event);
-    public abstract void onEnable();
+    public abstract void onEnable(); //Fixxen das es richtig funktioniert
     public abstract void onDisable();
 
     public void toggle() {
@@ -40,12 +45,15 @@ public abstract class Module {
         }
     }
 
-    public void setEnabled(boolean enabled) {
-        if (enabled)
-            onEnable();
-        else
+    public void setToggled(boolean enabled) {
+        if (!enabled) {
             onDisable();
-        this.enabled = enabled;
+            this.enabled = false;
+        } else {
+            onEnable();
+            this.enabled = true;
+        }
+
     }
 
     public String getModuleName() {

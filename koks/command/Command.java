@@ -3,6 +3,7 @@ package koks.command;
 import koks.Koks;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ChatComponentText;
+import org.lwjgl.input.Keyboard;
 
 public abstract class Command {
 
@@ -33,6 +34,18 @@ public abstract class Command {
         this.alias = alias;
     }
 
+    public int KeytoInt(String Key) {
+        for (int i = 0; i < Keyboard.KEYBOARD_SIZE; i++) {
+            if (Keyboard.getKeyName(i) != null
+                    && Keyboard.getKeyName(i).equalsIgnoreCase(Key.toUpperCase())) {
+                return i;
+            } else if (Keyboard.getKeyName(i) == null) {
+                break;
+            }
+        }
+        return -1;
+    }
+
     public void sendmsg(String msg, boolean prefix) {
         String pref = prefix ? Koks.getKoks().PREFIX : "";
         mc.thePlayer.addChatMessage(new ChatComponentText(pref + msg));
@@ -40,7 +53,7 @@ public abstract class Command {
 
     public void sendError(String errorType, String fix, boolean prefix) {
         String pref = prefix ? Koks.getKoks().PREFIX : "";
-        String message = pref + "§cERROR: " + errorType.toUpperCase() + ": §7" + fix;
+        String message = pref + "§c§lERROR §e" + errorType.toUpperCase() + "§7: " + fix;
         mc.thePlayer.addChatMessage(new ChatComponentText(message));
     }
 }

@@ -181,7 +181,6 @@ public class EntityPlayerSP extends AbstractClientPlayer
 
         MotionEvent motionEvent = new MotionEvent(MotionEvent.Type.PRE, rotationYaw, rotationPitch);
         Koks.getKoks().eventManager.onEvent(motionEvent);
-
         this.motionEvent = motionEvent;
 
         if (this.worldObj.isBlockLoaded(new BlockPos(this.posX, 0.0D, this.posZ)))

@@ -2,8 +2,11 @@ package koks.command.impl;
 
 import koks.Koks;
 import koks.command.Command;
+import koks.files.impl.KeyBindFile;
 import koks.modules.Module;
 import org.lwjgl.input.Keyboard;
+
+import java.io.FileWriter;
 
 /**
  * @author avox | lmao | kroko
@@ -27,7 +30,12 @@ public class Bind extends Command {
 
         for (Module module : Koks.getKoks().moduleManager.getModules()) {
             if (module.getModuleName().equalsIgnoreCase(moduleArg)) {
-                module.setKeyBind(Keyboard.getKeyIndex(keyArg));
+                module.setKeyBind(KeytoInt(keyArg));
+                try {
+                    Koks.getKoks().fileManager.getFiles(KeyBindFile.class).writeToFile(new FileWriter(Koks.getKoks().fileManager.getFiles(KeyBindFile.class).getFile()));
+                } catch (Exception e) {
+                    System.out.println("Failed save Keybind!");
+                }
                 sendmsg("§fSet Key of §b§l" + moduleArg + " §fto §b§l" + Keyboard.getKeyName(Keyboard.getKeyIndex(keyArg)) + "§f", true);
             }
         }

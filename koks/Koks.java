@@ -2,6 +2,7 @@ package koks;
 
 import koks.command.CommandManager;
 import koks.event.EventManager;
+import koks.files.FileManager;
 import koks.gui.clickgui.ClickGUI;
 import koks.hud.ScreenManager;
 import koks.modules.ModuleManager;
@@ -39,21 +40,23 @@ public class Koks {
     public EventManager eventManager;
     public CommandManager commandManager;
     public ScreenManager screenManager;
+    public FileManager fileManager;
 
     public void initClient() {
 
         Display.setTitle(CLIENT_NAME + " v" + CLIENT_VERSION + " by " + CLIENT_DEVELOPER[0] + " | " + CLIENT_DEVELOPER[1] + " | " + CLIENT_DEVELOPER[2]);
-
         valueManager = new ValueManager();
         moduleManager = new ModuleManager();
         clickGUI = new ClickGUI();
         commandManager = new CommandManager();
         eventManager = new EventManager();
         screenManager = new ScreenManager();
+        fileManager = new FileManager();
+        fileManager.createFiles();
     }
 
     public void shutdownClient() {
-
+        fileManager.writeToAllFiles();
     }
 
 }

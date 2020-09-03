@@ -561,8 +561,9 @@ public class Minecraft implements IThreadListener, IPlayerUsage
         GlStateManager.viewport(0, 0, this.displayWidth, this.displayHeight);
         this.effectRenderer = new EffectRenderer(this.theWorld, this.renderEngine);
         this.checkGLError("Post startup");
-        this.ingameGUI = new GuiIngame(this);
         Koks.getKoks().initClient();
+        this.ingameGUI = new GuiIngame(this);
+
 
         if (this.serverName != null)
         {

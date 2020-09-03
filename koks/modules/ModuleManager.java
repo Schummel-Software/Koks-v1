@@ -7,6 +7,7 @@ import koks.modules.impl.movement.Sprint;
 import koks.modules.impl.player.AntiFire;
 import koks.modules.impl.player.FastConsume;
 import koks.modules.impl.player.NoFall;
+import koks.modules.impl.utilities.ClickGUI;
 import koks.modules.impl.visuals.*;
 
 import java.util.ArrayList;
@@ -36,6 +37,7 @@ public class ModuleManager {
         addModule(new PlayerESP());
         addModule(new ChestESP());
         addModule(new ItemESP());
+        addModule(new ClickGUI());
     }
 
     public void addModule(Module module) {
