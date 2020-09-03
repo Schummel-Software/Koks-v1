@@ -9,6 +9,7 @@ import koks.modules.Module;
 import koks.utilities.RotationUtil;
 import koks.utilities.TimeUtil;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemSword;
@@ -88,6 +89,8 @@ public class Killaura extends Module {
     public boolean isValid(Entity entity) {
         if (entity == mc.thePlayer)
             return false;
+        if(!(entity instanceof EntityLiving))
+            return  false;
         if (entity.isInvisible() || entity.isDead)
             return false;
         if (mineplex && !Float.isNaN(((EntityLivingBase) entity).getHealth()))

@@ -2,6 +2,9 @@ package net.minecraft.client.renderer.entity;
 
 import java.util.List;
 import java.util.concurrent.Callable;
+
+import koks.Koks;
+import koks.event.impl.EffectTextureEvent;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDirt;
 import net.minecraft.block.BlockDoublePlant;
@@ -210,7 +213,11 @@ public class RenderItem implements IResourceManagerReloadListener
                 GlStateManager.depthFunc(514);
                 GlStateManager.disableLighting();
                 GlStateManager.blendFunc(768, 1);
-                this.textureManager.bindTexture(RES_ITEM_GLINT);
+
+                EffectTextureEvent effectTextureEvent = new EffectTextureEvent(RES_ITEM_GLINT);
+                Koks.getKoks().eventManager.onEvent(effectTextureEvent);
+
+                this.textureManager.bindTexture(effectTextureEvent.getTexture());
 
                 if (Config.isShaders() && !this.renderItemGui)
                 {

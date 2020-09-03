@@ -19,7 +19,7 @@ public abstract class Module {
     private String moduleName;
     private Category moduleCategory;
     private String moduleInfo;
-    private boolean visible = true, enabled;
+    private boolean visible = true, enabled, bypassed;
     private int keyBind;
 
     public Module(String moduleName, Category moduleCategory) {
@@ -54,6 +54,14 @@ public abstract class Module {
             this.enabled = true;
         }
 
+    }
+
+    public boolean isBypassed() {
+        return bypassed;
+    }
+
+    public void setBypassed(boolean bypassed) {
+        this.bypassed = bypassed;
     }
 
     public String getModuleName() {

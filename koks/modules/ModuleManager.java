@@ -38,6 +38,7 @@ public class ModuleManager {
         addModule(new ChestESP());
         addModule(new ItemESP());
         addModule(new ClickGUI());
+        addModule(new CustomEnchant());
     }
 
     public void addModule(Module module) {
