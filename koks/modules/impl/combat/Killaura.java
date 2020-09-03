@@ -11,6 +11,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemSword;
 import net.minecraft.network.play.client.C02PacketUseEntity;
+import net.minecraft.util.EnumParticleTypes;
 
 /**
  * @author avox | lmao | kroko
@@ -36,6 +37,10 @@ public class Killaura extends Module {
                     float[] rotations = rotationUtil.faceEntity(entity, yaw, pitch, 360);
                     ((MotionEvent) event).setYaw(rotations[0]);
                     ((MotionEvent) event).setPitch(rotations[1]);
+                    for (int i = 0; i < 5; i++) {
+                        mc.effectRenderer.emitParticleAtEntity(entity, EnumParticleTypes.CRIT);
+                        mc.effectRenderer.emitParticleAtEntity(entity, EnumParticleTypes.CRIT_MAGIC);
+                    }
                     if (timeUtil.isDelayComplete(100)) {
                         mc.thePlayer.swingItem();
                         mc.thePlayer.sendQueue.addToSendQueue(new C02PacketUseEntity(entity, C02PacketUseEntity.Action.ATTACK));

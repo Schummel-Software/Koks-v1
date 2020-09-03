@@ -108,6 +108,12 @@ public abstract class EntityLivingBase extends Entity
     /** Entity head rotation yaw at previous tick */
     public float prevRotationYawHead;
 
+    /** Entity head rotation pitch */
+    public float rotationPitchHead;
+
+    /** Entity head rotation pitch at previous tick */
+    public float prevRotationPitchHead;
+
     /**
      * A factor used to determine how far this entity will move each tick if it is jumping or falling.
      */
@@ -207,6 +213,7 @@ public abstract class EntityLivingBase extends Entity
         this.field_70769_ao = (float)Math.random() * 12398.0F;
         this.rotationYaw = (float)(Math.random() * Math.PI * 2.0D);
         this.rotationYawHead = this.rotationYaw;
+        this.rotationPitchHead = this.rotationPitch;
         this.stepHeight = 0.6F;
     }
 
@@ -382,6 +389,7 @@ public abstract class EntityLivingBase extends Entity
         this.prevRenderYawOffset = this.renderYawOffset;
         this.prevRotationYawHead = this.rotationYawHead;
         this.prevRotationYaw = this.rotationYaw;
+        this.prevRotationPitchHead = this.rotationPitchHead;
         this.prevRotationPitch = this.rotationPitch;
         this.worldObj.theProfiler.endSection();
     }

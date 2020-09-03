@@ -243,12 +243,16 @@ public class EntityPlayerSP extends AbstractClientPlayer
             double d0 = this.posX - this.lastReportedPosX;
             double d1 = this.getEntityBoundingBox().minY - this.lastReportedPosY;
             double d2 = this.posZ - this.lastReportedPosZ;
-            double d3 = (double)(this.rotationYaw - this.lastReportedYaw);
-            double d4 = (double)(this.rotationPitch - this.lastReportedPitch);
-            double d31 = (double)(motionEvent.getYaw() - this.lastReportedYaw);
-            double d41 = (double)(motionEvent.getPitch() - this.lastReportedPitch);
+            double d3 = (this.rotationYaw - this.lastReportedYaw);
+            double d4 = (this.rotationPitch - this.lastReportedPitch);
+            double d31 = (motionEvent.getYaw() - this.lastReportedYaw);
+            double d41 = (motionEvent.getPitch() - this.lastReportedPitch);
             boolean flag2 = d0 * d0 + d1 * d1 + d2 * d2 > 9.0E-4D || this.positionUpdateTicks >= 20;
             boolean flag3 = d3 != 0.0D || d4 != 0.0D || d31 != 0.0D || d41 != 0.0D;
+
+            mc.thePlayer.renderYawOffset = motionEvent.getYaw();
+            mc.thePlayer.rotationYawHead = motionEvent.getYaw();
+            mc.thePlayer.rotationPitchHead = motionEvent.getPitch();
 
             if (this.ridingEntity == null)
             {
