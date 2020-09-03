@@ -33,7 +33,7 @@ public class Watermark {
 
         GL11.glPushMatrix();
         GL11.glScaled(2, 2, 2);
-        fr.drawString(name.substring(1), 13, 8, colorUtil.rainbow(3000,1.1F, 1F));
+        fr.drawString(name.substring(1), 13, 8, colorUtil.rainbow(3000,1F, 1F));
         GL11.glPopMatrix();
 
         //fr.drawStringWithShadow("v" + version, 20, 20, 0xFFFFFFFF);

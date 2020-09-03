@@ -27,9 +27,10 @@ public class MovementUtil {
         float f1 = MathHelper.sin(Minecraft.getMinecraft().thePlayer.rotationYaw * (float) Math.PI / 180.0F);
         float f2 = MathHelper.cos(Minecraft.getMinecraft().thePlayer.rotationYaw * (float) Math.PI / 180.0F);
 
-        Minecraft.getMinecraft().thePlayer.motionX = (double) (strafe * strafeSpeed * f2 - forward * speed * f1);
-        Minecraft.getMinecraft().thePlayer.motionZ = (double) (forward * speed * f2 + strafe * strafeSpeed * f1);
-
+        //Minecraft.getMinecraft().thePlayer.motionX = (double) (strafe * strafeSpeed * f2 - forward * speed * f1);
+        //Minecraft.getMinecraft().thePlayer.motionZ = (double) (forward * speed * f2 + strafe * strafeSpeed * f1);
+        Minecraft.getMinecraft().thePlayer.motionX = (double)((strafe * strafeSpeed)* f2 - forward * f1);
+        Minecraft.getMinecraft().thePlayer.motionZ = (double)((forward * speed)* f2 + strafe * f1);
     }
 
 }
