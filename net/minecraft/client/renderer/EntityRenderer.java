@@ -12,6 +12,7 @@ import java.util.Random;
 import java.util.concurrent.Callable;
 
 import koks.Koks;
+import koks.event.impl.EventRender3D;
 import koks.modules.impl.visuals.NoBob;
 import koks.modules.impl.visuals.NoFov;
 import koks.modules.impl.visuals.NoHurtcam;
@@ -1871,6 +1872,9 @@ public class EntityRenderer implements IResourceManagerReloadListener
         GlStateManager.enableCull();
         GlStateManager.disableBlend();
         GlStateManager.disableFog();
+
+        EventRender3D eventRender3D = new EventRender3D(partialTicks);
+        Koks.getKoks().eventManager.onEvent(eventRender3D);
 
         if (entity.posY + (double)entity.getEyeHeight() >= 128.0D + (double)(this.mc.gameSettings.ofCloudsHeight * 128.0F))
         {

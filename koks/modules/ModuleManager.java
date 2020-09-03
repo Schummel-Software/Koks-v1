@@ -7,6 +7,7 @@ import koks.modules.impl.movement.Sprint;
 import koks.modules.impl.player.AntiFire;
 import koks.modules.impl.player.FastConsume;
 import koks.modules.impl.player.NoFall;
+import koks.modules.impl.visuals.NameTags;
 import koks.modules.impl.visuals.NoBob;
 import koks.modules.impl.visuals.NoFov;
 import koks.modules.impl.visuals.NoHurtcam;
@@ -33,6 +34,7 @@ public class ModuleManager {
         addModule(new FastConsume());
         addModule(new Killaura());
         addModule(new Velocity());
+        addModule(new NameTags());
     }
 
     public void addModule(Module module) {

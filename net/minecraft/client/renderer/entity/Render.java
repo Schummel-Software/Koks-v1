@@ -1,5 +1,7 @@
 package net.minecraft.client.renderer.entity;
 
+import koks.Koks;
+import koks.modules.impl.visuals.NameTags;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -60,6 +62,7 @@ public abstract class Render<T extends Entity>
      */
     public void doRender(T entity, double x, double y, double z, float entityYaw, float partialTicks)
     {
+        if (!Koks.getKoks().moduleManager.getModule(NameTags.class).isToggled() || !Koks.getKoks().moduleManager.getModule(NameTags.class).isValid(entity))
         this.renderName(entity, x, y, z);
     }
 

@@ -54,8 +54,8 @@ public class Killaura extends Module {
         }
 
         if (event instanceof EventUpdate) {
-            mineplex = true;
-            range = 4.2F;
+            mineplex = false;
+            range = 4.0F;
             getEntity();
         }
     }
@@ -69,7 +69,7 @@ public class Killaura extends Module {
     }
 
     public boolean isValid(Entity entity) {
-        if (!(entity instanceof EntityPlayer) || entity == mc.thePlayer)
+        if (entity == mc.thePlayer)
             return false;
         if (entity.isInvisible() || entity.isDead)
             return false;
