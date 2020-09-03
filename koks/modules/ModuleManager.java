@@ -21,6 +21,7 @@ public class ModuleManager {
     private final List<Module> MODULES = new ArrayList<>();
 
     public ModuleManager() {
+        addModule(new Animations());
         addModule(new Sprint());
         addModule(new Speed());
         addModule(new NoBob());

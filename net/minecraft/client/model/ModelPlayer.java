@@ -1,5 +1,10 @@
 package net.minecraft.client.model;
 
+import com.sun.org.apache.xpath.internal.operations.Mod;
+import koks.Koks;
+import koks.event.impl.AnimationEvent;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.Entity;
 
@@ -74,6 +79,65 @@ public class ModelPlayer extends ModelBiped
     {
         super.render(entityIn, p_78088_2_, p_78088_3_, p_78088_4_, p_78088_5_, p_78088_6_, scale);
         GlStateManager.pushMatrix();
+
+
+        if(entityIn instanceof EntityPlayerSP && Minecraft.getMinecraft().thePlayer.animationEvent != null) {
+
+            AnimationEvent animationEvent = Minecraft.getMinecraft().thePlayer.animationEvent;
+
+
+
+            this.bipedLeftLegwear.rotateAngleX = animationEvent.getLeftLeg()[0];
+            this.bipedLeftLegwear.rotateAngleY = animationEvent.getLeftLeg()[1];
+            this.bipedLeftLegwear.rotateAngleZ= animationEvent.getLeftLeg()[2];
+
+            this.bipedRightLegwear.rotateAngleX = animationEvent.getRightLeg()[0];
+            this.bipedRightLegwear.rotateAngleY = animationEvent.getRightLeg()[1];
+            this.bipedRightLegwear.rotateAngleZ= animationEvent.getRightLeg()[2];
+
+            this.bipedBodyWear.rotateAngleX = animationEvent.getBody()[0];
+            this.bipedBodyWear.rotateAngleY = animationEvent.getBody()[1];
+            this.bipedBodyWear.rotateAngleZ= animationEvent.getBody()[2];
+
+            this.bipedLeftArmwear.rotateAngleX = animationEvent.getLeftArm()[0];
+            this.bipedLeftArmwear.rotateAngleY = animationEvent.getLeftArm()[1];
+            this.bipedLeftArmwear.rotateAngleZ= animationEvent.getLeftArm()[2];
+
+            this.bipedRightArmwear.rotateAngleX = animationEvent.getRightArm()[0];
+            this.bipedRightArmwear.rotateAngleY = animationEvent.getRightArm()[1];
+            this.bipedRightArmwear.rotateAngleZ= animationEvent.getRightArm()[2];
+
+            this.bipedHeadwear.rotateAngleX = animationEvent.getHead()[0];
+            this.bipedHeadwear.rotateAngleY = animationEvent.getHead()[1];
+
+            //POSITION
+
+            this.bipedLeftLegwear.offsetX = animationEvent.getLeftLegPos()[0];
+            this.bipedLeftLegwear.offsetY = animationEvent.getLeftLegPos()[1];
+            this.bipedLeftLegwear.offsetZ= animationEvent.getLeftLegPos()[2];
+
+            this.bipedRightLegwear.offsetX = animationEvent.getRightLegPos()[0];
+            this.bipedRightLegwear.offsetY = animationEvent.getRightLegPos()[1];
+            this.bipedRightLegwear.offsetZ= animationEvent.getRightLegPos()[2];
+
+            this.bipedBodyWear.offsetX = animationEvent.getBodyPos()[0];
+            this.bipedBodyWear.offsetY = animationEvent.getBodyPos()[1];
+            this.bipedBodyWear.offsetZ= animationEvent.getBodyPos()[2];
+
+            this.bipedLeftArmwear.offsetX = animationEvent.getLeftArmPos()[0];
+            this.bipedLeftArmwear.offsetY = animationEvent.getLeftArmPos()[1];
+            this.bipedLeftArmwear.offsetZ= animationEvent.getLeftArmPos()[2];
+
+            this.bipedRightArmwear.offsetX = animationEvent.getRightArmPos()[0];
+            this.bipedRightArmwear.offsetY = animationEvent.getRightArmPos()[1];
+            this.bipedRightArmwear.offsetZ= animationEvent.getRightArmPos()[2];
+
+            this.bipedHeadwear.offsetX = animationEvent.getHeadPos()[0];
+            this.bipedHeadwear.offsetY = animationEvent.getHeadPos()[1];
+            this.bipedHeadwear.offsetZ = animationEvent.getHeadPos()[2];
+        }
+
+
 
         if (this.isChild)
         {

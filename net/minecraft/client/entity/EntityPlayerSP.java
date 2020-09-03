@@ -2,6 +2,7 @@ package net.minecraft.client.entity;
 
 import koks.Koks;
 import koks.command.Command;
+import koks.event.impl.AnimationEvent;
 import koks.event.impl.EventUpdate;
 import koks.event.impl.MotionEvent;
 import net.minecraft.client.Minecraft;
@@ -712,6 +713,8 @@ public class EntityPlayerSP extends AbstractClientPlayer
     {
         this.mc.effectRenderer.emitParticleAtEntity(entityHit, EnumParticleTypes.CRIT_MAGIC);
     }
+
+    public AnimationEvent animationEvent;
 
     /**
      * Returns if this entity is sneaking.
