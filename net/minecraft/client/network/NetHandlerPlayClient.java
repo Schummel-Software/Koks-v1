@@ -14,6 +14,7 @@ import java.util.Random;
 import java.util.UUID;
 import java.util.Map.Entry;
 
+import koks.Koks;
 import koks.event.impl.PacketEvent;
 import net.minecraft.block.Block;
 import net.minecraft.client.ClientBrandRetriever;
@@ -816,6 +817,7 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
     public void addToSendQueue(Packet p_147297_1_)
     {
         PacketEvent packetEvent = new PacketEvent(PacketEvent.Type.SEND, p_147297_1_);
+        Koks.getKoks().eventManager.onEvent(packetEvent);
         if(packetEvent.isCanceled())return;
         this.netManager.sendPacket(p_147297_1_);
     }
