@@ -54,8 +54,8 @@ public class Killaura extends Module {
         }
 
         if (event instanceof EventUpdate) {
-            mineplex = false;
-            range = 4.0F;
+            mineplex = true;
+            range = 3.8F;
             getEntity();
         }
     }

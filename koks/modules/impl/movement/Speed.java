@@ -4,6 +4,9 @@ import koks.event.Event;
 import koks.event.impl.EventUpdate;
 import koks.modules.Module;
 import koks.utilities.MovementUtil;
+import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
+import net.minecraft.util.BlockPos;
 
 /**
  * @author avox | lmao | kroko
@@ -19,11 +22,13 @@ public class Speed extends Module {
     @Override
     public void onEvent(Event event) {
         if (event instanceof EventUpdate) {
-            if (mc.thePlayer.moveForward != 0 && !mc.gameSettings.keyBindBack.isKeyDown()) {
+            if (mc.thePlayer.moveForward != 0 && !mc.gameSettings.keyBindJump.isKeyDown()) {
                 if (mc.thePlayer.onGround) {
                     mc.thePlayer.motionY = 0.42;
                 } else {
-                    MovementUtil.setSpeed(0.4);
+                    MovementUtil.setSpeed(0.4743); // Absolute Maximum
+                    mc.thePlayer.jumpMovementFactor = 0.025F; // About Maximum
+                    // Timer and Motion will flag after about 50 blocks
                 }
             }
         }
@@ -31,12 +36,12 @@ public class Speed extends Module {
 
     @Override
     public void onEnable() {
-
+        mc.timer.timerSpeed = 1.0;
     }
 
     @Override
     public void onDisable() {
-
+        mc.timer.timerSpeed = 1.0;
     }
 
 }
