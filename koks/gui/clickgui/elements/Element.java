@@ -1,5 +1,6 @@
 package koks.gui.clickgui.elements;
 
+import koks.modules.Module;
 import koks.utilities.RenderUtils;
 import koks.utilities.value.Value;
 import net.minecraft.client.Minecraft;
@@ -16,9 +17,15 @@ public abstract class Element {
     private final FontRenderer fontRenderer = Minecraft.getMinecraft().fontRendererObj;
     private Value value;
     private final RenderUtils renderUtils = new RenderUtils();
+    private boolean extended;
+    private Module module;
 
     public Element(Value value) {
         this.value = value;
+    }
+
+    public Element(Module module) {
+        this.module = module;
     }
 
     public void setPosition(float x, float y, float width, float height){
@@ -66,6 +73,22 @@ public abstract class Element {
 
     public void setValue(Value value) {
         this.value = value;
+    }
+
+    public boolean isExtended() {
+        return extended;
+    }
+
+    public Module getModule() {
+        return module;
+    }
+
+    public void setModule(Module module) {
+        this.module = module;
+    }
+
+    public void setExtended(boolean extended) {
+        this.extended = extended;
     }
 
     public RenderUtils getRenderUtils() {

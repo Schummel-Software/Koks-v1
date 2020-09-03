@@ -1,5 +1,6 @@
 package koks.utilities.value.values;
 
+import koks.modules.Module;
 import koks.utilities.value.Value;
 
 /**
@@ -12,10 +13,12 @@ public class NumberValue <T extends Number> extends Value <T> {
     private T maxValue;
     private T minValue;
 
-    public NumberValue(String name, T defaultValue, T maxValue, T minValue) {
+    public NumberValue(String name, T defaultValue, T maxValue, T minValue, Module module) {
+        setName(name);
         this.defaultValue = defaultValue;
         this.maxValue = maxValue;
         this.minValue = minValue;
+        this.setModule(module);
     }
 
     public T getDefaultValue() {

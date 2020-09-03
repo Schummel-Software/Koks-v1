@@ -21,7 +21,7 @@ public class CategoryButton {
     private float x, y, width, height;
     private final RenderUtils renderUtils = new RenderUtils();
 
-    private final List<ModuleButton> MODULE_BUTTONS = new ArrayList<>();
+    public final List<ModuleButton> MODULE_BUTTONS = new ArrayList<>();
 
     public CategoryButton(Module.Category category) {
         this.category = category;

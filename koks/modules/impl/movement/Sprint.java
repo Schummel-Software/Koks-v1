@@ -8,6 +8,7 @@ import koks.modules.Module;
 import koks.modules.impl.visuals.Animations;
 import koks.utilities.value.Value;
 import koks.utilities.value.values.BooleanValue;
+import koks.utilities.value.values.ModeValue;
 import koks.utilities.value.values.NumberValue;
 import net.minecraft.client.Minecraft;
 
@@ -18,16 +19,29 @@ import net.minecraft.client.Minecraft;
 public class Sprint extends Module {
 
     public BooleanValue<Boolean> b = new BooleanValue<>("BooleanTest", true, this);
+    public ModeValue<String> b2 = new ModeValue<>("BooleanTest", "AAC", new String[]{"AAC", "NCP"}, this);
+
+    public NumberValue<Float> vFloat = new NumberValue<>("BooleanTest", 10F, 100F, 0F, this);
+    public NumberValue<Double> vDouble = new NumberValue<>("BooleanTest", 10D, 100D, 0D, this);
+    public NumberValue<Integer> vInteger = new NumberValue<>("BooleanTest", 10, 100, 0, this);
+    public NumberValue<Long> vLong = new NumberValue<>("BooleanTest", 10L, 100L, 0L, this);
 
     public Sprint() {
         super("Sprint", Category.MOVEMENT);
         Koks.getKoks().valueManager.addValue(b);
+        Koks.getKoks().valueManager.addValue(b2);
+
+        Koks.getKoks().valueManager.addValue(vFloat);
+        Koks.getKoks().valueManager.addValue(vDouble);
+        Koks.getKoks().valueManager.addValue(vInteger);
+        Koks.getKoks().valueManager.addValue(vLong);
+
     }
 
     @Override
     public void onEvent(Event event) {
 
-        if(event instanceof AnimationEvent && Koks.getKoks().moduleManager.getModule(Animations.class).isToggled() && mc.thePlayer.isSprinting()) {
+        if (event instanceof AnimationEvent && Koks.getKoks().moduleManager.getModule(Animations.class).isToggled()) {
             AnimationEvent a = (AnimationEvent) event;
 
             a.setBody(0.4F, 0, 0);
