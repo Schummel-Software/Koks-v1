@@ -1,6 +1,7 @@
 package koks.modules.impl.visuals;
 
 import koks.event.Event;
+import koks.event.impl.FOVEvent;
 import koks.modules.Module;
 
 /**
@@ -15,7 +16,10 @@ public class NoFov extends Module {
 
     @Override
     public void onEvent(Event event) {
-
+        if(event instanceof FOVEvent) {
+            ((FOVEvent) event).setCanceled(true);
+            ((FOVEvent) event).setModifierHand(1.0F);
+        }
     }
 
     @Override

@@ -1,6 +1,7 @@
 package koks.modules.impl.visuals;
 
 import koks.event.Event;
+import koks.event.impl.HurtCameraEvent;
 import koks.modules.Module;
 
 /**
@@ -15,7 +16,9 @@ public class NoHurtcam extends Module {
 
     @Override
     public void onEvent(Event event) {
-
+        if(event instanceof HurtCameraEvent) {
+            event.setCanceled(true);
+        }
     }
 
     @Override

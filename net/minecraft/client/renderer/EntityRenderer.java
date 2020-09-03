@@ -12,7 +12,11 @@ import java.util.Random;
 import java.util.concurrent.Callable;
 
 import koks.Koks;
+import koks.event.EventManager;
+import koks.event.impl.EventBobbing;
 import koks.event.impl.EventRender3D;
+import koks.event.impl.FOVEvent;
+import koks.event.impl.HurtCameraEvent;
 import koks.modules.impl.visuals.NoBob;
 import koks.modules.impl.visuals.NoFov;
 import koks.modules.impl.visuals.NoHurtcam;
@@ -573,6 +577,10 @@ public class EntityRenderer implements IResourceManagerReloadListener
     {
         float f = 1.0F;
 
+        FOVEvent fovEvent = new FOVEvent(this.fovModifierHand);
+        Koks.getKoks().eventManager.onEvent(fovEvent);
+        this.fovModifierHand = fovEvent.getModifierHand();
+        if(fovEvent.isCanceled())return;
         if (this.mc.getRenderViewEntity() instanceof AbstractClientPlayer)
         {
             AbstractClientPlayer abstractclientplayer = (AbstractClientPlayer)this.mc.getRenderViewEntity();
@@ -670,7 +678,9 @@ public class EntityRenderer implements IResourceManagerReloadListener
     {
         if (this.mc.getRenderViewEntity() instanceof EntityLivingBase)
         {
-            if (Koks.getKoks().moduleManager.getModule(NoHurtcam.class).isToggled())
+            HurtCameraEvent hurtCameraEvent = new HurtCameraEvent();
+            Koks.getKoks().eventManager.onEvent(hurtCameraEvent);
+            if (hurtCameraEvent.isCanceled())
                 return;
             EntityLivingBase entitylivingbase = (EntityLivingBase)this.mc.getRenderViewEntity();
             float f = (float)entitylivingbase.hurtTime - partialTicks;
@@ -702,8 +712,9 @@ public class EntityRenderer implements IResourceManagerReloadListener
     {
         if (this.mc.getRenderViewEntity() instanceof EntityPlayer)
         {
-            if (Koks.getKoks().moduleManager.getModule(NoBob.class).isToggled())
-                mc.thePlayer.distanceWalkedModified = 0.0F;
+            EventBobbing eventBobbing = new EventBobbing(mc.thePlayer.distanceWalkedModified);
+            Koks.getKoks().eventManager.onEvent(eventBobbing);
+                mc.thePlayer.distanceWalkedModified = eventBobbing.getDistanceWalkedModified();
             EntityPlayer entityplayer = (EntityPlayer)this.mc.getRenderViewEntity();
             float f = entityplayer.distanceWalkedModified - entityplayer.prevDistanceWalkedModified;
             float f1 = -(entityplayer.distanceWalkedModified + f * partialTicks);

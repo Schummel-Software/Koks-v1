@@ -1,6 +1,7 @@
 package koks.modules.impl.visuals;
 
 import koks.event.Event;
+import koks.event.impl.EventBobbing;
 import koks.modules.Module;
 
 /**
@@ -15,7 +16,10 @@ public class NoBob extends Module {
 
     @Override
     public void onEvent(Event event) {
-
+        if(event instanceof EventBobbing) {
+            EventBobbing eventBobbing = (EventBobbing) event;
+            eventBobbing.setDistanceWalkedModified(0.0F);
+        }
     }
 
     @Override
