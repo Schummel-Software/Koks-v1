@@ -3,11 +3,11 @@ package koks.modules.impl.movement;
 import koks.Koks;
 import koks.event.Event;
 import koks.event.impl.EventUpdate;
-import koks.gui.clickgui.ClickGUI;
 import koks.modules.Module;
-import koks.utilities.MovementUtil;
+import koks.utilities.value.Value;
+import koks.utilities.value.values.BooleanValue;
+import koks.utilities.value.values.NumberValue;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiMainMenu;
 
 /**
  * @author avox | lmao | kroko
@@ -15,8 +15,11 @@ import net.minecraft.client.gui.GuiMainMenu;
  */
 public class Sprint extends Module {
 
+    public BooleanValue<Boolean> b = new BooleanValue<>("BooleanTest", true, this);
+
     public Sprint() {
         super("Sprint", Category.MOVEMENT);
+        Koks.getKoks().valueManager.addValue(b);
     }
 
     @Override

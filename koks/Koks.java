@@ -5,8 +5,11 @@ import koks.event.EventManager;
 import koks.gui.clickgui.ClickGUI;
 import koks.hud.ScreenManager;
 import koks.modules.ModuleManager;
+import koks.utilities.value.ValueManager;
 import net.minecraft.client.Minecraft;
 import org.lwjgl.opengl.Display;
+
+import java.awt.*;
 
 /**
  * @author avox | lmao | kroko
@@ -28,8 +31,10 @@ public class Koks {
     public final String[] CLIENT_DEVELOPER = new String[] {"avox", "lmao", "Kroko"};
     public final String CLIENT_VERSION = "1.0.0";
     public final String PREFIX = "§c" + CLIENT_NAME + " §7>> §f";
+    public Color client_color = Color.PINK;
 
     public ModuleManager moduleManager;
+    public ValueManager valueManager;
     public ClickGUI clickGUI;
     public EventManager eventManager;
     public CommandManager commandManager;
@@ -39,6 +44,7 @@ public class Koks {
 
         Display.setTitle(CLIENT_NAME + " v" + CLIENT_VERSION + " by " + CLIENT_DEVELOPER[0] + " | " + CLIENT_DEVELOPER[1] + " | " + CLIENT_DEVELOPER[2]);
 
+        valueManager = new ValueManager();
         moduleManager = new ModuleManager();
         clickGUI = new ClickGUI();
         commandManager = new CommandManager();

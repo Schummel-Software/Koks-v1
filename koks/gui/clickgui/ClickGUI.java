@@ -20,7 +20,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class ClickGUI extends GuiScreen {
 
     public List<CategoryButton> panelList = new ArrayList<>();
-    public int x, y, width, height, dragX, dragY;
+    private int x, y, width, height, dragX, dragY;
     private boolean dragging;
     private final RenderUtils renderUtils = new RenderUtils();
 
@@ -42,7 +42,7 @@ public class ClickGUI extends GuiScreen {
             this.y = dragY + mouseY;
         }
 
-        Gui.drawRect(x, y, x + 80, y + height, new Color(12, 12, 12, 255).getRGB());
+        Gui.drawRect(x, y, x + 50, y + height, new Color(12, 12, 12, 255).getRGB());
         Gui.drawRect(x + 50, y, x + 51, y + height, new Color(40, 39, 42, 255).getRGB());
         Gui.drawRect(x + 51, y, x + width, y + height, new Color(22, 22, 22, 255).getRGB());
 
@@ -81,4 +81,15 @@ public class ClickGUI extends GuiScreen {
         super.keyTyped(typedChar, keyCode);
     }
 
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public int getWidth() {
+        return width;
+    }
 }
