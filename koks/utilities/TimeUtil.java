@@ -12,8 +12,8 @@ public class TimeUtil {
         lastMS = System.currentTimeMillis();
     }
 
-    public boolean isDelayComplete(long time) {
-        return System.currentTimeMillis() - time >= lastMS;
+    public boolean hasReached(long time) {
+        return System.currentTimeMillis() - lastMS >= time;
     }
 
 }

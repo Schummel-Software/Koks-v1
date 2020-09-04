@@ -5,7 +5,7 @@ import koks.event.Event;
 import koks.event.impl.MotionEvent;
 import koks.event.impl.SafeWalkEvent;
 import koks.modules.Module;
-import koks.utilities.Randomutil;
+import koks.utilities.RandomUtil;
 import koks.utilities.TimeUtil;
 import koks.utilities.value.values.BooleanValue;
 import koks.utilities.value.values.NumberValue;
@@ -35,7 +35,7 @@ public class ScaffoldWalk extends Module {
     private BlockPos blockPos;
 
     private final TimeUtil timeUtil = new TimeUtil();
-    private final Randomutil randomutil = new Randomutil();
+    private final RandomUtil randomutil = new RandomUtil();
 
     private final NumberValue<Long> delay = new NumberValue<>("Delay", 1L, 100L, 1000L, 1L, this);
 
@@ -143,7 +143,7 @@ public class ScaffoldWalk extends Module {
         }
 
         if (mc.theWorld.getBlockState(new BlockPos(mc.thePlayer.posX, mc.thePlayer.posY - 1.0D, mc.thePlayer.posZ)).getBlock() instanceof net.minecraft.block.BlockAir && !blackList.contains(block)) {
-            if (timeUtil.isDelayComplete(mc.thePlayer.onGround ? (randomutil.randomLong(delay.getMinDefaultValue(), delay.getDefaultValue())) : 0L)) {
+            if (timeUtil.hasReached(mc.thePlayer.onGround ? (randomutil.randomLong(delay.getMinDefaultValue(), delay.getDefaultValue())) : 0L)) {
                 if (swingItem.isToggled())
                     mc.thePlayer.swingItem();
                 else

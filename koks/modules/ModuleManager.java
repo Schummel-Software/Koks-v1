@@ -1,18 +1,11 @@
 package koks.modules;
 
-import koks.modules.impl.combat.Killaura;
-import koks.modules.impl.combat.Velocity;
-import koks.modules.impl.movement.Jesus;
-import koks.modules.impl.movement.NoCobweb;
-import koks.modules.impl.movement.Speed;
-import koks.modules.impl.movement.Sprint;
-import koks.modules.impl.player.AntiFire;
-import koks.modules.impl.player.FastConsume;
-import koks.modules.impl.player.NoFall;
-import koks.modules.impl.player.SetBack;
-import koks.modules.impl.utilities.ClickGUI;
+import koks.modules.impl.combat.*;
+import koks.modules.impl.movement.*;
+import koks.modules.impl.player.*;
+import koks.modules.impl.utilities.*;
 import koks.modules.impl.visuals.*;
-import koks.modules.impl.world.ScaffoldWalk;
+import koks.modules.impl.world.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +28,7 @@ public class ModuleManager {
         addModule(new NoFall());
         addModule(new AntiFire());
         addModule(new FastConsume());
-        addModule(new Killaura());
+        addModule(new KillAura());
         addModule(new Velocity());
         addModule(new NameTags());
         addModule(new PlayerESP());
@@ -47,6 +40,7 @@ public class ModuleManager {
         addModule(new NoCobweb());
         addModule(new ScaffoldWalk());
         addModule(new SetBack());
+        addModule(new AntiBots());
     }
 
     public void addModule(Module module) {

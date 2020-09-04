@@ -7,7 +7,7 @@ import java.util.concurrent.ThreadLocalRandom;
  * @author avox | lmao | kroko
  * @created on 04.09.2020 : 10:24
  */
-public class Randomutil {
+public class RandomUtil {
 
     private final Random random = new Random();
 
@@ -27,8 +27,8 @@ public class Randomutil {
         return ThreadLocalRandom.current().nextDouble(min, max);
     }
 
-    public double randomGaussian(double range, double average) {
-        return random.nextGaussian() * range + average;
+    public double randomGaussian(double range) {
+        return random.nextGaussian() * range;
     }
 
 }
