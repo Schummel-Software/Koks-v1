@@ -6,6 +6,7 @@ import koks.event.impl.AnimationEvent;
 import koks.event.impl.EventUpdate;
 import koks.modules.Module;
 import koks.modules.impl.visuals.Animations;
+import koks.utilities.TimeUtil;
 import koks.utilities.value.Value;
 import koks.utilities.value.values.BooleanValue;
 import koks.utilities.value.values.ModeValue;
@@ -21,10 +22,12 @@ public class Sprint extends Module {
     public BooleanValue<Boolean> b = new BooleanValue<>("BooleanTest", true, this);
     public ModeValue<String> b2 = new ModeValue<>("BooleanTest", "AAC", new String[]{"AAC", "NCP"}, this);
 
-    public NumberValue<Float> vFloat = new NumberValue<>("BooleanTest", 10F, 100F, 0F, this);
+    public NumberValue<Float> vFloat = new NumberValue<>("BooleanTest", 10F, 1000F, 0F, this);
     public NumberValue<Double> vDouble = new NumberValue<>("BooleanTest", 10D, 100D, 0D, this);
     public NumberValue<Integer> vInteger = new NumberValue<>("BooleanTest", 10, 100, 0, this);
-    public NumberValue<Long> vLong = new NumberValue<>("BooleanTest", 10L, 100L, 0L, this);
+    public NumberValue<Long> vLong = new NumberValue<>("BooleanTest", 10L, 1000L, 0L, this);
+
+    TimeUtil timeUtil = new TimeUtil();
 
     public Sprint() {
         super("Sprint", Category.MOVEMENT);
@@ -35,7 +38,6 @@ public class Sprint extends Module {
         Koks.getKoks().valueManager.addValue(vDouble);
         Koks.getKoks().valueManager.addValue(vInteger);
         Koks.getKoks().valueManager.addValue(vLong);
-
     }
 
     @Override
@@ -58,6 +60,10 @@ public class Sprint extends Module {
         if (event instanceof EventUpdate) {
             if (mc.thePlayer.moveForward != 0 && !mc.gameSettings.keyBindBack.isKeyDown() && canSprint()) {
                 mc.thePlayer.setSprinting(true);
+            }
+            if (timeUtil.isDelayComplete(vLong.getDefaultValue())) {
+                System.out.println("1Sek");
+                timeUtil.reset();
             }
         }
     }
