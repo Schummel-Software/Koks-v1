@@ -1,5 +1,6 @@
 package koks.gui.clickgui;
 
+import koks.gui.clickgui.commonvalue.CommonPanel;
 import koks.gui.clickgui.elements.ElementKeyBind;
 import koks.modules.Module;
 import koks.utilities.ColorUtil;
@@ -27,6 +28,7 @@ public class ClickGUI extends GuiScreen {
     private int x, y, width, height, dragX, dragY;
     private boolean dragging;
     private final RenderUtils renderUtils = new RenderUtils();
+    public final CommonPanel commonPanel;
 
     public Module.Category category = Module.Category.COMBAT;
     public final ColorUtil cl = new ColorUtil();
@@ -36,6 +38,7 @@ public class ClickGUI extends GuiScreen {
         this.y = 50;
         this.width = 350;
         this.height = 300;
+        this.commonPanel = new CommonPanel(x + width + 50, y, 140, 20);
         Arrays.stream(Module.Category.values()).forEach(category -> panelList.add(new CategoryButton(category)));
     }
 
@@ -76,6 +79,7 @@ public class ClickGUI extends GuiScreen {
         GL11.glPopMatrix();
 
         renderUtils.drawOutlineRect(x, this.y - 5, x + width, this.y + height, 2, new Color(40, 39, 42, 255));
+        this.commonPanel.drawScreen(mouseX, mouseY);
         super.drawScreen(mouseX, mouseY, partialTicks);
     }
 
@@ -87,6 +91,8 @@ public class ClickGUI extends GuiScreen {
             this.dragY = y - mouseY;
         }
         panelList.forEach(panelButton -> panelButton.mouseClicked(mouseX, mouseY, mouseButton));
+        this.commonPanel.mouseClicked(mouseX, mouseY, mouseButton);
+
         super.mouseClicked(mouseX, mouseY, mouseButton);
     }
 
@@ -94,6 +100,7 @@ public class ClickGUI extends GuiScreen {
     protected void mouseReleased(int mouseX, int mouseY, int state) {
         dragging = false;
         panelList.forEach(CategoryButton::mouseReleased);
+        this.commonPanel.mouseRelease();
         super.mouseReleased(mouseX, mouseY, state);
     }
 

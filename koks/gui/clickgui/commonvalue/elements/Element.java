@@ -1,10 +1,7 @@
 package koks.gui.clickgui.commonvalue.elements;
 
-import entresto.hud.clickgui.commonsettings.CommonSetting;
-import entresto.main.Main;
-import entresto.module.Module;
-import entresto.module.modules.visuals.ClickGUI;
-import entresto.setting.Setting;
+import koks.gui.clickgui.commonvalue.CommonValue;
+import koks.utilities.RenderUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 
@@ -15,7 +12,8 @@ public class Element {
     public final Minecraft mc = Minecraft.getMinecraft();
     public final FontRenderer fr = mc.fontRendererObj;
     public int x, y, width, height;
-    public CommonSetting setting;
+    public CommonValue setting;
+    private final RenderUtils renderUtils = new RenderUtils();
 
     public void updateValues(int x, int y, int width, int height) {
         this.x = x;
@@ -34,6 +32,10 @@ public class Element {
 
     public boolean isHovered(int mouseX, int mouseY) {
         return mouseX >= this.x && mouseX <= this.x + this.width && mouseY >= this.y && mouseY <= this.y + this.height;
+    }
+
+    public RenderUtils getRenderUtils() {
+        return renderUtils;
     }
 
     public void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {

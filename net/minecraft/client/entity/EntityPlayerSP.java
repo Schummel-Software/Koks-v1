@@ -190,6 +190,7 @@ public class EntityPlayerSP extends AbstractClientPlayer {
 
         SetVisibility setVisibility = new SetVisibility();
         setVisibility.setVisibility();
+        Koks.getKoks().clickGUI.commonPanel.onEvent(eventUpdate);
 
         if (this.worldObj.isBlockLoaded(new BlockPos(this.posX, 0.0D, this.posZ))) {
             super.onUpdate();

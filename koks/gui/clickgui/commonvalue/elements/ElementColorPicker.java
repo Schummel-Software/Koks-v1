@@ -1,9 +1,7 @@
 package koks.gui.clickgui.commonvalue.elements;
 
-import entresto.hud.clickgui.commonsettings.CommonSetting;
-import entresto.hud.clickgui.commonsettings.elements.Element;
-import entresto.utilities.render.ColorPicker;
-import net.minecraft.client.gui.Gui;
+import koks.gui.clickgui.commonvalue.CommonValue;
+import koks.utilities.value.ColorPicker;
 
 import java.awt.*;
 import java.io.IOException;
@@ -17,7 +15,7 @@ public class ElementColorPicker extends Element {
     public ColorPicker colorPicker = new ColorPicker();
     public boolean visibleColorPicker = false;
 
-    public ElementColorPicker(CommonSetting setting) {
+    public ElementColorPicker(CommonValue setting) {
         this.setting = setting;
     }
 
@@ -41,11 +39,6 @@ public class ElementColorPicker extends Element {
     @Override
     public void mouseReleased(int mouseX, int mouseY, int state) {
         super.mouseReleased(mouseX, mouseY, state);
-    }
-
-    public int HSBtoRGB(float hue, float saturation, float brightness) {
-        float hue2 = 1.0F - hue / 360.0F;
-        return Color.HSBtoRGB(hue2, saturation, brightness);
     }
 
 }
