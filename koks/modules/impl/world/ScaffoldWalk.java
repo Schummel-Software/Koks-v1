@@ -12,9 +12,12 @@ import koks.utilities.value.values.BooleanValue;
 import koks.utilities.value.values.NumberValue;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
+import net.minecraft.item.ItemStack;
+import net.minecraft.network.play.client.C09PacketHeldItemChange;
 import net.minecraft.network.play.client.C0APacketAnimation;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
@@ -33,12 +36,12 @@ public class ScaffoldWalk extends Module {
 
     private final List blackList;
 
-    private BlockPos blockPos;
+    public BlockPos finalPos;
 
     private final TimeUtil timeUtil = new TimeUtil();
     private final RandomUtil randomutil = new RandomUtil();
 
-    private final NumberValue<Long> delay = new NumberValue<>("Delay", 1L, 100L, 1000L, 1L, this);
+    private final NumberValue<Long> delay = new NumberValue<>("Delay", 1L, 100L, 500L, 0L, this);
 
     private final BooleanValue<Boolean> swingItem = new BooleanValue<>("Swing Item", true, this);
     private final BooleanValue<Boolean> safeWalk = new BooleanValue<>("SafeWalk", true, this);
@@ -47,9 +50,8 @@ public class ScaffoldWalk extends Module {
 
     public final BooleanValue<Boolean> simpleRotations = new BooleanValue<>("Simple Rotations", false, this);
 
-    private float yaw, pitch;
-
-    private int currentInventorySlot;
+    public float pitch;
+    public float yaw;
 
     public ScaffoldWalk() {
         super("ScaffoldWalk", Category.WORLD);
@@ -65,25 +67,47 @@ public class ScaffoldWalk extends Module {
     @Override
     public void onEvent(Event event) {
 
-        if (event instanceof SafeWalkEvent && safeWalk.isToggled())
-            ((SafeWalkEvent) event).setSafe(mc.thePlayer.onGround);
-
+        if (event instanceof SafeWalkEvent) {
+            if (safeWalk.isToggled() && mc.thePlayer.onGround)
+                ((SafeWalkEvent) event).setSafe(true);
+        }
         if (event instanceof MotionEvent) {
-            BlockPos position = new BlockPos(mc.thePlayer.posX, (mc.thePlayer.getEntityBoundingBox()).minY - 1.0D, mc.thePlayer.posZ);
             if (((MotionEvent) event).getType() == MotionEvent.Type.PRE) {
-                this.currentInventorySlot = mc.thePlayer.inventory.currentItem;
                 ((MotionEvent) event).setYaw(yaw);
                 ((MotionEvent) event).setPitch(pitch);
-            } else if (((MotionEvent) event).getType() == MotionEvent.Type.POST) {
-                getBlockPosToPlaceOn(position);
             }
         }
+
         if (event instanceof EventUpdate) {
-            setRotations();
+            BlockPos pos = new BlockPos(mc.thePlayer.posX, (mc.thePlayer.getEntityBoundingBox()).minY - 1.0D, mc.thePlayer.posZ);
+
+            getBlockPosToPlaceOn(pos);
+
+            pitch = getPitch(360);
+
+            if (simpleRotations.isToggled()) {
+                setYawSimple();
+            } else {
+                setYaw();
+            }
+
+            if (sprint.isToggled()) {
+                mc.thePlayer.setSprinting(true);
+            } else {
+                mc.gameSettings.keyBindSprint.pressed = false;
+                mc.thePlayer.setSprinting(false);
+            }
         }
     }
 
-    public void yawSimple() {
+
+    public void setYaw() {
+        float[] rotations = getFaceDirectionToBlockPos(finalPos, yaw, pitch, 360);
+        yaw = rotations[0];
+    }
+
+
+    public void setYawSimple() {
         boolean forward = mc.gameSettings.keyBindForward.isKeyDown();
         boolean left = mc.gameSettings.keyBindLeft.isKeyDown();
         boolean right = mc.gameSettings.keyBindRight.isKeyDown();
@@ -115,59 +139,66 @@ public class ScaffoldWalk extends Module {
         this.yaw = mc.thePlayer.rotationYaw + yaw;
     }
 
-    public void setRotations() {
-        if (simpleRotations.isToggled()) {
-            yawSimple();
-            pitch = getFaceDirectionToBlockPos(blockPos, yaw, pitch, 360)[1];
-        } else {
-            float[] rotations = getFaceDirectionToBlockPos(blockPos, yaw, pitch, 360);
-            yaw = rotations[0];
-            pitch = rotations[1];
-        }
+    public float getPitch(int speed) {
+        return getFaceDirectionToBlockPos(finalPos, yaw, pitch, speed)[1];
     }
 
     public void placeBlock(BlockPos pos, EnumFacing face) {
-        blockPos = pos;
-
-        for (int i = 0; i < 9; i++) {
-            if (mc.thePlayer.inventory.getStackInSlot(i) != null && mc.thePlayer.inventory.getStackInSlot(i).getItem() instanceof net.minecraft.item.ItemBlock) {
-                ItemBlock block = (ItemBlock) mc.thePlayer.inventory.getStackInSlot(i).getItem();
-                if (!(blackList.contains(block.getBlock()))) {
-                    mc.thePlayer.inventory.currentItem = i;
+        finalPos = pos;
+        ItemStack silentItemStack = null;
+        if (mc.thePlayer.getCurrentEquippedItem() == null || (!(mc.thePlayer.getCurrentEquippedItem().getItem() instanceof net.minecraft.item.ItemBlock))) {
+            for (int i = 0; i < 9; i++) {
+                if (mc.thePlayer.inventory.getStackInSlot(i) != null && mc.thePlayer.inventory.getStackInSlot(i).getItem() instanceof net.minecraft.item.ItemBlock) {
+                    ItemBlock itemBlock = (ItemBlock) mc.thePlayer.inventory.getStackInSlot(i).getItem();
+                    if (this.blackList.contains(itemBlock.getBlock()))
+                        continue;
+                    mc.thePlayer.sendQueue.addToSendQueue(new C09PacketHeldItemChange(i));
+                    silentItemStack = mc.thePlayer.inventory.getStackInSlot(i);
+                    if (mc.theWorld.getBlockState(new BlockPos(mc.thePlayer.posX, mc.thePlayer.posY - 1.0D, mc.thePlayer.posZ)).getBlock() instanceof net.minecraft.block.BlockAir) {
+                        if (swingItem.isToggled())
+                            mc.thePlayer.swingItem();
+                        else
+                            mc.thePlayer.sendQueue.addToSendQueue(new C0APacketAnimation());
+                    }
                     break;
                 }
             }
+        } else {
+            silentItemStack = (mc.thePlayer.getCurrentEquippedItem().getItem() instanceof net.minecraft.item.ItemBlock) ? mc.thePlayer.getCurrentEquippedItem() : null;
+            if (mc.theWorld.getBlockState(new BlockPos(mc.thePlayer.posX, mc.thePlayer.posY - 1.0D, mc.thePlayer.posZ)).getBlock() instanceof net.minecraft.block.BlockAir) {
+                if (blackList.contains(((ItemBlock) silentItemStack.getItem()).getBlock()))
+                    return;
+                mc.thePlayer.swingItem();
+            }
         }
 
-        ItemBlock block = (ItemBlock) mc.thePlayer.inventory.getCurrentItem().getItem();
-        if (this.blackList.contains(block.getBlock())) {
-            mc.thePlayer.inventory.currentItem = currentInventorySlot;
-            return;
-        }
+        if (mc.theWorld.getBlockState(new BlockPos(mc.thePlayer.posX, mc.thePlayer.posY - 1.0D, mc.thePlayer.posZ)).getBlock() instanceof net.minecraft.block.BlockAir) {
 
-        if (mc.theWorld.getBlockState(new BlockPos(mc.thePlayer.posX, mc.thePlayer.posY - 1.0D, mc.thePlayer.posZ)).getBlock() instanceof net.minecraft.block.BlockAir && !blackList.contains(block)) {
-            if (timeUtil.hasReached(mc.thePlayer.onGround ? (randomutil.randomLong(delay.getMinDefaultValue(), delay.getDefaultValue())) : 0L)) {
-                if (swingItem.isToggled())
-                    mc.thePlayer.swingItem();
-                else
-                    mc.getNetHandler().addToSendQueue(new C0APacketAnimation());
-                mc.playerController.onPlayerRightClick(mc.thePlayer, mc.theWorld, Minecraft.getMinecraft().thePlayer.inventory.getCurrentItem(), pos, face, new Vec3(pos.getX() + (randomHit.isToggled() ? 0 : randomutil.randomDouble(0, 1)), pos.getY() + (randomHit.isToggled() ? 0 : randomutil.randomDouble(0, 1)), pos.getZ() + (randomHit.isToggled() ? 0 : randomutil.randomDouble(0, 1))));
+            if (!simpleRotations.isToggled())
+                setYaw();
+
+            if (timeUtil.hasReached(mc.thePlayer.onGround ? (randomutil.randomLong(delay.getMinDefaultValue(), delay.getDefaultValue())) : 20L)) {
+                if (blackList.contains(((ItemBlock) silentItemStack.getItem()).getBlock()))
+                    return;
+                    mc.playerController.onPlayerRightClick(mc.thePlayer, mc.theWorld, silentItemStack, pos, face, new Vec3(pos.getX() + (this.randomHit.isToggled() ? randomutil.randomDouble(0, 0.7) : 0), pos.getY() + (this.randomHit.isToggled() ? randomutil.randomDouble(0, 0.7) : 0), pos.getZ() + (this.randomHit.isToggled() ? randomutil.randomDouble(0, 0.7) : 0)));
+                timeUtil.reset();
             }
         } else {
+            mc.gameSettings.keyBindSneak.pressed = false;
             timeUtil.reset();
+            if (!simpleRotations.isToggled())
+                setYaw();
         }
     }
 
     @Override
     public void onEnable() {
-        setRotations();
     }
 
     @Override
     public void onDisable() {
-yaw = 0;
-pitch = 0;
-blockPos = null;
+        yaw = 0;
+        pitch = 0;
     }
 
     public void getBlockPosToPlaceOn(BlockPos pos) {
@@ -229,9 +260,9 @@ blockPos = null;
     }
 
     public float[] getFaceDirectionToBlockPos(BlockPos pos, float currentYaw, float currentPitch, float speed) {
-        double x = (pos.getX() + 0.0F) - mc.thePlayer.posX;
+        double x = (pos.getX() + 0.5F) - mc.thePlayer.posX;
         double y = (pos.getY() - 3.0F) - (mc.thePlayer.posY + mc.thePlayer.getEyeHeight());
-        double z = (pos.getZ() + 0.0F) - mc.thePlayer.posZ;
+        double z = (pos.getZ() + 0.5F) - mc.thePlayer.posZ;
 
         double calculate = MathHelper.sqrt_double(x * x + z * z);
         float calcYaw = (float) (MathHelper.func_181159_b(z, x) * 180.0D / Math.PI) - 90.0F;

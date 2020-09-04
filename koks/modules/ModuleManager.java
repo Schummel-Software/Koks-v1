@@ -43,6 +43,7 @@ public class ModuleManager {
         addModule(new KillAura());
         addModule(new ClearTag());
         addModule(new HUD());
+        addModule(new Disabler());
     }
 
     public void addModule(Module module) {

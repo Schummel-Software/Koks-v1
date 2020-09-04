@@ -4,6 +4,7 @@ import koks.Koks;
 import koks.event.Event;
 import koks.event.impl.AnimationEvent;
 import koks.event.impl.EventUpdate;
+import koks.event.impl.PacketEvent;
 import koks.modules.Module;
 import koks.modules.impl.visuals.Animations;
 import koks.modules.impl.world.ScaffoldWalk;
@@ -14,6 +15,7 @@ import koks.utilities.value.values.ModeValue;
 import koks.utilities.value.values.NumberValue;
 import koks.utilities.value.values.TitleValue;
 import net.minecraft.client.Minecraft;
+import net.minecraft.network.play.server.S32PacketConfirmTransaction;
 
 /**
  * @author avox | lmao | kroko
@@ -81,7 +83,7 @@ public class Sprint extends Module {
         if (event instanceof EventUpdate) {
             if (mc.thePlayer.moveForward != 0 && !mc.gameSettings.keyBindBack.isKeyDown() && canSprint()) {
                 mc.thePlayer.setSprinting(true);
-            }else{
+            } else {
                 mc.thePlayer.setSprinting(false);
             }
         }
@@ -89,7 +91,7 @@ public class Sprint extends Module {
 
     public boolean canSprint() {
         ScaffoldWalk scaffoldWalk = Koks.getKoks().moduleManager.getModule(ScaffoldWalk.class);
-        if(scaffoldWalk.isToggled() && scaffoldWalk.sprint.isToggled())
+        if (scaffoldWalk.isToggled() && !(scaffoldWalk.sprint.isToggled()))
             return false;
         return true;
     }

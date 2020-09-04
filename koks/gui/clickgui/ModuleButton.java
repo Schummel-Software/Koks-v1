@@ -55,7 +55,7 @@ public class ModuleButton {
                         this.elementList.add(new ElementModeCheckBox((ModeValue) value));
                     }
                 }
-                if(value instanceof TitleValue){
+                if (value instanceof TitleValue) {
                     this.elementList.add(new ElementTitle((TitleValue) value));
                 }
             }
@@ -64,13 +64,12 @@ public class ModuleButton {
 
     public void drawScreen(int mouseX, int mouseY) {
         if (extended) {
-            float[] yTest = {0};
 
+            int[] yHeight = {0};
             this.elementList.forEach(element -> {
-                int[] yHeight = {0};
                 if (element.getValue() != null) {
                     if (element.getValue().isVisible()) {
-                        element.setPosition(x + 3, this.y + height + yTest[0], width - 6, height - 2);
+                        element.setPosition(x + 3, this.y + height + yHeight[0], width - 6, height - 2);
                         element.drawScreen(mouseX, mouseY);
 
                         if (element instanceof ElementMode) {
@@ -88,29 +87,16 @@ public class ModuleButton {
                             });
                         }
 
-                        yTest[0] += height + yHeight[0];
-                        yMaxElements = yTest[0] + yHeight[0];
+                        yHeight[0] += height;
+                        yMaxElements = yHeight[0];
                     }
                 } else {
-                    element.setPosition(x + 3, this.y + height + yTest[0], width - 6, height - 2);
+                    element.setPosition(x + 3, this.y + height + yHeight[0], width - 6, height - 2);
                     element.drawScreen(mouseX, mouseY);
 
-                    if (element instanceof ElementMode) {
-                        Arrays.stream(((ElementMode) element).modeValue.getModes()).forEach(module -> {
-                            if (element.isExtended())
-                                yHeight[0] += height - 2;
-                        });
-                    }
 
-                    if (element instanceof ElementModeCheckBox) {
-                        Arrays.stream(((ElementModeCheckBox) element).modeValue.getObjects()).forEach(module -> {
-                            if (element.isExtended())
-                                yHeight[0] += height - 2;
-                        });
-                    }
-
-                    yTest[0] += height + yHeight[0];
-                    yMaxElements = yTest[0] + yHeight[0];
+                    yHeight[0] += height;
+                    yMaxElements = yHeight[0];
                 }
             });
         } else {

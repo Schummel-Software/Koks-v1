@@ -98,7 +98,7 @@ public class CategoryButton {
             }
 
             if (mouseWheel < 0) {
-                if (scrolling < biggerNumber(yScrolling, yScrolling2) - Koks.getKoks().clickGUI.getHeight() + (MODULE_BUTTONS.size() * 25) / 2 - 5 && biggerNumber(yScrolling, yScrolling2) + (MODULE_BUTTONS.size() * 25) / 2 > Koks.getKoks().clickGUI.getHeight())
+                if (scrolling < biggerNumber(yScrolling, yScrolling2) - Koks.getKoks().clickGUI.getHeight() + (MODULE_BUTTONS.size() * 25) / 2 - 5 && biggerNumber(yScrolling, yScrolling2) + (MODULE_BUTTONS.size() * 25)  > Koks.getKoks().clickGUI.getHeight())
                     scrolling += 10;
             }
 
@@ -113,7 +113,7 @@ public class CategoryButton {
         }
         if (Koks.getKoks().clickGUI.category == this.category) {
             this.MODULE_BUTTONS.forEach(moduleButton -> {
-                if (moduleButton.getY() > Koks.getKoks().clickGUI.getY() && moduleButton.getY() < Koks.getKoks().clickGUI.getY() + Koks.getKoks().clickGUI.getHeight()) {
+                if (moduleButton.getY() + moduleButton.getHeight() + moduleButton.yMaxElements > Koks.getKoks().clickGUI.getY() && moduleButton.getY() < Koks.getKoks().clickGUI.getY() + Koks.getKoks().clickGUI.getHeight()) {
                     moduleButton.mouseClicked(mouseX, mouseY, mouseButton);
                 }
             });
@@ -163,6 +163,8 @@ public class CategoryButton {
             return number1;
         else if (number2 > number1)
             return number2;
+        if(number1 == number2)
+            return number1;
         return 0;
     }
 

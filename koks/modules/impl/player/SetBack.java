@@ -18,7 +18,7 @@ public class SetBack extends Module {
 
     public double deathX, deathY, deathZ;
 
-    public ModeValue<String> mode = new ModeValue<String>("Mode", "Intave",new String[] {"Intave","AAC3.0.1"},this);
+    public ModeValue<String> mode = new ModeValue<>("Mode", "Intave", new String[]{"Intave", "AAC3.0.1"}, this);
 
     public SetBack() {
         super("SetBack", Category.PLAYER);
@@ -70,7 +70,7 @@ public class SetBack extends Module {
 
     @Override
     public void onEvent(Event event) {
-        if(event instanceof EventUpdate) {
+        if (event instanceof EventUpdate) {
 
             setDisplayName(this.getModuleName() + " §7" + mode.getSelectedMode());
 
