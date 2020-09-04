@@ -56,6 +56,7 @@ public class KillAura extends Module {
     public TitleValue generalSettings = new TitleValue("General", true, new Value[]{range, preAim, preAimRange, cps, smoothRotation, failingChance, legitMovement, stopSprinting}, this);
 
     public BooleanValue<Boolean> needNaNHealth = new BooleanValue<>("NaN Health", false, this);
+    public BooleanValue<Boolean> checkName = new BooleanValue<>("Check Name", true, this);
     public NumberValue<Integer> ticksExisting = new NumberValue<>("Ticks Existing", 25, 100, 0, this);
     public TitleValue antiBotSettings = new TitleValue("AntiBot Settings", false, new Value[]{needNaNHealth, ticksExisting}, this);
 
@@ -88,6 +89,7 @@ public class KillAura extends Module {
         Koks.getKoks().valueManager.addValue(antiBotSettings);
 
         Koks.getKoks().valueManager.addValue(needNaNHealth);
+        Koks.getKoks().valueManager.addValue(checkName);
         Koks.getKoks().valueManager.addValue(ticksExisting);
     }
 
@@ -216,7 +218,7 @@ public class KillAura extends Module {
     public boolean isValidEntity(Entity entity) {
         if (!(entity instanceof EntityLivingBase))
             return false;
-        if (entity instanceof EntityPlayer && !isValidEntityName(entity))
+        if (checkName.isToggled() && entity instanceof EntityPlayer && !isValidEntityName(entity))
             return false;
         if (entity instanceof EntityPlayer && entity == mc.thePlayer)
             return false;

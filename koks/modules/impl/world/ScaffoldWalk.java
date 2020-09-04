@@ -7,6 +7,7 @@ import koks.event.impl.MotionEvent;
 import koks.event.impl.SafeWalkEvent;
 import koks.modules.Module;
 import koks.utilities.RandomUtil;
+import koks.utilities.RotationUtil;
 import koks.utilities.TimeUtil;
 import koks.utilities.value.values.BooleanValue;
 import koks.utilities.value.values.NumberValue;
@@ -38,6 +39,7 @@ public class ScaffoldWalk extends Module {
 
     public BlockPos finalPos;
 
+    private final RotationUtil rotationUtil = new RotationUtil();
     private final TimeUtil timeUtil = new TimeUtil();
     private final RandomUtil randomutil = new RandomUtil();
 
@@ -100,7 +102,7 @@ public class ScaffoldWalk extends Module {
 
 
     public void setYaw() {
-        float[] rotations = getFaceDirectionToBlockPos(finalPos, yaw, pitch, 360);
+        float[] rotations = rotationUtil.faceBlock(finalPos, true, yaw, pitch, 360);
         yaw = rotations[0];
     }
 
@@ -138,7 +140,7 @@ public class ScaffoldWalk extends Module {
     }
 
     public float getPitch(int speed) {
-        return getFaceDirectionToBlockPos(finalPos, yaw, pitch, speed)[1];
+        return rotationUtil.faceBlock(finalPos, true, yaw, pitch, speed)[1];
     }
 
     public void placeBlock(BlockPos pos, EnumFacing face) {
@@ -255,37 +257,6 @@ public class ScaffoldWalk extends Module {
         } else if (mc.theWorld.getBlockState(blockPos4.add(0, 0, 1)).getBlock() != Blocks.air) {
             placeBlock(blockPos4.add(0, 0, 1), EnumFacing.NORTH);
         }
-    }
-
-    public float[] getFaceDirectionToBlockPos(BlockPos pos, float currentYaw, float currentPitch, float speed) {
-        double x = (pos.getX() + 0.5F) - mc.thePlayer.posX;
-        double y = (pos.getY() - 3.0F) - (mc.thePlayer.posY + mc.thePlayer.getEyeHeight());
-        double z = (pos.getZ() + 0.5F) - mc.thePlayer.posZ;
-
-        double calculate = MathHelper.sqrt_double(x * x + z * z);
-        float calcYaw = (float) (MathHelper.func_181159_b(z, x) * 180.0D / Math.PI) - 90.0F;
-        float calcPitch = (float) -(MathHelper.func_181159_b(y, calculate) * 180.0D / Math.PI);
-        float finalPitch = calcPitch >= 90 ? 90 : calcPitch;
-
-        float f = mc.gameSettings.mouseSensitivity * 0.9F;
-        float gcd = f * f * f * 1.13F;
-
-        float yaw = updateRotation(currentYaw, calcYaw, speed);
-        float pitch = updateRotation(currentPitch, finalPitch, speed);
-
-        yaw -= yaw % gcd;
-        pitch -= pitch % gcd;
-
-        return new float[]{yaw, pitch};
-    }
-
-    public float updateRotation(float current, float intended, float speed) {
-        float f = MathHelper.wrapAngleTo180_float(intended - current);
-        if (f > speed)
-            f = speed;
-        if (f < -speed)
-            f = -speed;
-        return current + f;
     }
 
 }
