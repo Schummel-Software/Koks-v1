@@ -19,30 +19,41 @@ public class ModuleManager {
     private final List<Module> MODULES = new ArrayList<>();
 
     public ModuleManager() {
-        addModule(new Animations());
-        addModule(new Sprint());
+        // Combat
+        addModule(new KillAura());
+        addModule(new Velocity());
+
+        // Movement
+        addModule(new InvMove());
+        addModule(new Jesus());
+        addModule(new NoCobweb());
         addModule(new Speed());
+        addModule(new Sprint());
+
+        // Player
+        addModule(new AntiFire());
+        addModule(new FastConsume());
+        addModule(new NoFall());
+        addModule(new SetBack());
+
+        // Utilities
+        addModule(new ClickGUI());
+        addModule(new HUD());
+
+        // Visuals
+        addModule(new Animations());
+        addModule(new ChestESP());
+        addModule(new ClearTag());
+        addModule(new CustomEnchant());
+        addModule(new ItemESP());
+        addModule(new NameTags());
         addModule(new NoBob());
         addModule(new NoFov());
         addModule(new NoHurtcam());
-        addModule(new NoFall());
-        addModule(new AntiFire());
-        addModule(new FastConsume());
-        addModule(new Velocity());
-        addModule(new NameTags());
         addModule(new PlayerESP());
-        addModule(new ChestESP());
-        addModule(new ItemESP());
-        addModule(new ClickGUI());
-        addModule(new CustomEnchant());
-        addModule(new Jesus());
-        addModule(new NoCobweb());
+
+        // World
         addModule(new ScaffoldWalk());
-        addModule(new SetBack());
-        addModule(new AntiBots());
-        addModule(new KillAura());
-        addModule(new ClearTag());
-        addModule(new HUD());
     }
 
     public void addModule(Module module) {
