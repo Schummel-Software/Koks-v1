@@ -45,8 +45,8 @@ public class Koks {
     public CommandManager commandManager;
     public ScreenManager screenManager;
     public FileManager fileManager;
-    public ConfigManager configManager;
     public ConfigScreen configScreen;
+    public ConfigManager configManager;
 
     public void initClient() {
 
@@ -59,8 +59,8 @@ public class Koks {
         eventManager = new EventManager();
         screenManager = new ScreenManager();
         fileManager = new FileManager();
-        configScreen = new ConfigScreen();
         configManager = new ConfigManager();
+        configScreen = new ConfigScreen();
         fileManager.createFiles();
     }
 
