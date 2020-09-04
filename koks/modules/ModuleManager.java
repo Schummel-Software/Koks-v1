@@ -24,6 +24,7 @@ public class ModuleManager {
         addModule(new Velocity());
 
         // Movement
+        addModule(new InvMove());
         addModule(new Jesus());
         addModule(new NoCobweb());
         addModule(new Speed());

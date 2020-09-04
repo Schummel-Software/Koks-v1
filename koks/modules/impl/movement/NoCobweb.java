@@ -3,6 +3,7 @@ package koks.modules.impl.movement;
 import koks.event.Event;
 import koks.event.impl.EventUpdate;
 import koks.modules.Module;
+import koks.utilities.value.values.ModeValue;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.BlockPos;
 
@@ -12,18 +13,24 @@ import net.minecraft.util.BlockPos;
  */
 public class NoCobweb extends Module {
 
+    public ModeValue<String> mode = new ModeValue<String>("Mode", "Intave", new String[]{"Intave"}, this);
+
     public NoCobweb() {
         super("NoCobweb", Category.MOVEMENT);
     }
 
     @Override
     public void onEvent(Event event) {
-        if(event instanceof EventUpdate) {
-            BlockPos bPos = new BlockPos(mc.thePlayer.getPosition());
+        if (event instanceof EventUpdate) {
+            switch (mode.getSelectedMode()) {
+                case "Intave":
+                    BlockPos bPos = new BlockPos(mc.thePlayer.getPosition());
 
-            if(mc.theWorld.getBlockState(new BlockPos(mc.thePlayer.posX,mc.thePlayer.posY - 0.1,mc.thePlayer.posZ)).getBlock() == Blocks.web) {
+                    if (mc.theWorld.getBlockState(new BlockPos(mc.thePlayer.posX, mc.thePlayer.posY - 0.1, mc.thePlayer.posZ)).getBlock() == Blocks.web) {
 
-                mc.thePlayer.motionY = 0.06;
+                        mc.thePlayer.motionY = 0.06;
+                    }
+                    break;
             }
         }
     }

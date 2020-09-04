@@ -4,6 +4,7 @@ import koks.event.Event;
 import koks.event.impl.EventUpdate;
 import koks.modules.Module;
 import koks.utilities.MovementUtil;
+import koks.utilities.value.values.ModeValue;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.BlockPos;
@@ -14,6 +15,8 @@ import net.minecraft.util.BlockPos;
  */
 public class Speed extends Module {
 
+    public ModeValue<String> mode = new ModeValue<String>("Mode", "Mineplex",new String[] {"Mineplex"},this);
+
     public Speed() {
         super("Speed", Category.MOVEMENT);
     }
@@ -22,15 +25,19 @@ public class Speed extends Module {
     @Override
     public void onEvent(Event event) {
         if (event instanceof EventUpdate) {
-            if (mc.thePlayer.moveForward != 0 && !mc.gameSettings.keyBindJump.isKeyDown()) {
-                if (mc.thePlayer.onGround) {
-                    mc.thePlayer.motionY = 0.42;
-                } else {
-                    MovementUtil movementUtil = new MovementUtil();
-                    movementUtil.setSpeed(0.4743); // Absolute Maximum
-                    mc.thePlayer.jumpMovementFactor = 0.025F; // About Maximum
-                    // Timer and Motion will flag after about 50 blocks
+            switch(mode.getSelectedMode()) {
+                case "Mineplex":
+                if (mc.thePlayer.moveForward != 0 && !mc.gameSettings.keyBindJump.isKeyDown()) {
+                    if (mc.thePlayer.onGround) {
+                        mc.thePlayer.motionY = 0.42;
+                    } else {
+                        MovementUtil movementUtil = new MovementUtil();
+                        movementUtil.setSpeed(0.4743); // Absolute Maximum
+                        mc.thePlayer.jumpMovementFactor = 0.025F; // About Maximum
+                        // Timer and Motion will flag after about 50 blocks
+                    }
                 }
+                break;
             }
         }
     }

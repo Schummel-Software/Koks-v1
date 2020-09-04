@@ -46,11 +46,12 @@ public class KillAura extends Module {
     public NumberValue<Double> range = new NumberValue<>("Hit Range", 4.0D, 6.0D, 3.4D, this);
     public BooleanValue<Boolean> preAim = new BooleanValue<>("Pre Aiming", false, this);
     public NumberValue<Double> preAimRange = new NumberValue<>("Aiming Range", 0.0D, 1.0D, 0.0D, this);
+    public NumberValue<Integer> cps = new NumberValue<Integer>("CPS", 7,12,20,1, this);
     public BooleanValue<Boolean> smoothRotation = new BooleanValue<>("Smooth Rotation", false, this);
     public NumberValue<Integer> failingChance = new NumberValue<>("FailHit Percent", 0, 20, 0, this);
     public BooleanValue<Boolean> legitMovement = new BooleanValue<>("Legit Movement", false, this);
     public BooleanValue<Boolean> stopSprinting = new BooleanValue<>("Stop Sprinting", false, this);
-    public TitleValue generalSettings = new TitleValue("General", true, new Value[]{targetMode, preferTarget, range, preAim, preAimRange, smoothRotation, failingChance, legitMovement, stopSprinting}, this);
+    public TitleValue generalSettings = new TitleValue("General", true, new Value[]{targetMode, preferTarget, range, preAim, preAimRange, cps, smoothRotation, failingChance, legitMovement, stopSprinting}, this);
 
     public BooleanValue<Boolean> needNaNHealth = new BooleanValue<>("NaN Health", false, this);
     public NumberValue<Integer> ticksExisting = new NumberValue<>("Ticks Existing", 25, 100, 0, this);
@@ -75,6 +76,7 @@ public class KillAura extends Module {
         Koks.getKoks().valueManager.addValue(range);
         Koks.getKoks().valueManager.addValue(preAim);
         Koks.getKoks().valueManager.addValue(preAimRange);
+        Koks.getKoks().valueManager.addValue(cps);
         Koks.getKoks().valueManager.addValue(smoothRotation);
         Koks.getKoks().valueManager.addValue(failingChance);
         Koks.getKoks().valueManager.addValue(legitMovement);
@@ -142,7 +144,9 @@ public class KillAura extends Module {
     }
 
     public void attackEntity() {
-        if (timeUtil.hasReached(randomUtil.randomLong(80, 150))) {
+
+        double cps = this.cps.getMinValue().equals(this.cps.getMaxValue()) ? this.cps.getMaxValue() : randomUtil.randomInt(this.cps.getMinValue(),this.cps.getMaxValue());
+        if (timeUtil.hasReached((long) (1000 / (cps + (cps > 10 ? 5 : 0))))) {
 
             Entity rayCast = auraUtil.getRayCastedEntity(range.getDefaultValue(), yaw, pitch);
 

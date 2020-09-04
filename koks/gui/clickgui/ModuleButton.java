@@ -10,6 +10,7 @@ import koks.utilities.value.values.ModeValue;
 import koks.utilities.value.values.NumberValue;
 import koks.utilities.value.values.TitleValue;
 import net.minecraft.client.Minecraft;
+import org.lwjgl.input.Keyboard;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -131,7 +132,11 @@ public class ModuleButton {
 
     public void mouseClicked(int mouseX, int mouseY, int mouseButton) {
         if (isHovering(mouseX, mouseY) && mouseButton == 0) {
-            this.extended = !this.extended;
+            if(Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) && Keyboard.isKeyDown(Keyboard.KEY_LCONTROL)) {
+             module.setBypassed(!module.isBypassed());
+            }else {
+                this.extended = !this.extended;
+            }
         }
         this.elementList.forEach(element -> {
             element.mouseClicked(mouseX, mouseY, mouseButton);
