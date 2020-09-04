@@ -53,7 +53,7 @@ public class EntityFireworkRocket extends Entity
 
             if (nbttagcompound1 != null)
             {
-                i += nbttagcompound1.getByte("Flight");
+                i += nbttagcompound1.getByte("Fly");
             }
         }
 

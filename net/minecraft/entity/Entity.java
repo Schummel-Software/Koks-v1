@@ -590,6 +590,7 @@ public abstract class Entity implements ICommandSender
     /**
      * Tries to moves the entity by the passed in displacement. Args: x, y, z
      */
+
     public void moveEntity(double x, double y, double z)
     {
         if (this.noClip)

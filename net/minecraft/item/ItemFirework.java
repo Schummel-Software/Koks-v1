@@ -47,9 +47,9 @@ public class ItemFirework extends Item
 
             if (nbttagcompound != null)
             {
-                if (nbttagcompound.hasKey("Flight", 99))
+                if (nbttagcompound.hasKey("Fly", 99))
                 {
-                    tooltip.add(StatCollector.translateToLocal("item.fireworks.flight") + " " + nbttagcompound.getByte("Flight"));
+                    tooltip.add(StatCollector.translateToLocal("item.fireworks.flight") + " " + nbttagcompound.getByte("Fly"));
                 }
 
                 NBTTagList nbttaglist = nbttagcompound.getTagList("Explosions", 10);
