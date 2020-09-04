@@ -5,6 +5,7 @@ import koks.event.EventManager;
 import koks.files.FileManager;
 import koks.gui.clickgui.ClickGUI;
 import koks.hud.ScreenManager;
+import koks.manager.ConfigManager;
 import koks.modules.ModuleManager;
 import koks.utilities.value.ValueManager;
 import net.minecraft.client.Minecraft;
@@ -41,6 +42,7 @@ public class Koks {
     public CommandManager commandManager;
     public ScreenManager screenManager;
     public FileManager fileManager;
+    public ConfigManager configManager;
 
     public void initClient() {
 
@@ -53,6 +55,7 @@ public class Koks {
         screenManager = new ScreenManager();
         fileManager = new FileManager();
         fileManager.createFiles();
+        configManager = new ConfigManager();
     }
 
     public void shutdownClient() {
