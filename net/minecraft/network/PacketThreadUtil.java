@@ -10,11 +10,6 @@ public class PacketThreadUtil
     {
         if (!p_180031_2_.isCallingFromMinecraftThread())
         {
-            PacketEvent event = new PacketEvent(PacketEvent.Type.RECIVE,p_180031_0_);
-            Koks.getKoks().eventManager.onEvent(event);
-
-            if(event.isCanceled())return;
-
             p_180031_2_.addScheduledTask(new Runnable()
             {
                 public void run()
