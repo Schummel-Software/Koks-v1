@@ -10,9 +10,11 @@ public class CommandManager {
     public ArrayList<Command> commands = new ArrayList<>();
 
     public CommandManager() {
-        addCommand(new Toggle());
         addCommand(new Bind());
+        addCommand(new config());
+        addCommand(new Toggle());
     }
+
 
     public void addCommand(Command cmd) {
         commands.add(cmd);
