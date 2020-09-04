@@ -25,9 +25,8 @@ public class Sprint extends Module {
     public NumberValue<Float> vFloat = new NumberValue<>("BooleanTest", 10F, 1000F, 0F, this);
     public NumberValue<Double> vDouble = new NumberValue<>("BooleanTest", 10D, 100D, 0D, this);
     public NumberValue<Integer> vInteger = new NumberValue<>("BooleanTest", 10, 100, 0, this);
-    public NumberValue<Long> vLong = new NumberValue<>("BooleanTest", 10L, 1000L, 0L, this);
+    public NumberValue<Long> vLong = new NumberValue<>("BooleanTest", 10L, 100000L, 0L, this);
 
-    TimeUtil timeUtil = new TimeUtil();
 
     public Sprint() {
         super("Sprint", Category.MOVEMENT);
@@ -39,6 +38,8 @@ public class Sprint extends Module {
         Koks.getKoks().valueManager.addValue(vInteger);
         Koks.getKoks().valueManager.addValue(vLong);
     }
+
+    TimeUtil timeUtil = new TimeUtil();
 
     @Override
     public void onEvent(Event event) {
@@ -62,8 +63,18 @@ public class Sprint extends Module {
                 mc.thePlayer.setSprinting(true);
             }
             if (timeUtil.isDelayComplete(vLong.getDefaultValue())) {
-                System.out.println("1Sek");
+                System.out.println("INTEGER:" + vInteger.getDefaultValue());
+                System.out.println("FLOAT:" + vFloat.getDefaultValue());
+                System.out.println("LONG:" + vLong.getDefaultValue());
+                System.out.println("DOUBLE:" + vDouble.getDefaultValue());
+
+
+                long secs = vLong.getDefaultValue() / 1000;
+                long mins = secs / 60;
+                long restsecs = secs % 60;
+                System.out.printf("Time " + "%02d:%02d", mins, restsecs);
                 timeUtil.reset();
+
             }
         }
     }
