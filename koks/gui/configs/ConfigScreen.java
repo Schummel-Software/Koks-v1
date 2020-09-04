@@ -2,6 +2,7 @@ package koks.gui.configs;
 
 import koks.Koks;
 import koks.files.Files;
+import koks.gui.configs.elements.DrawConfigs;
 import koks.utilities.RenderUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -23,7 +24,7 @@ public class ConfigScreen extends GuiScreen {
     private final Minecraft mc = Minecraft.getMinecraft();
     private final FontRenderer fr = Minecraft.getMinecraft().fontRendererObj;
     private final RenderUtils renderUtils = new RenderUtils();
-    private ArrayList<File> configs = new ArrayList<>();
+    private ArrayList<DrawConfigs> configs = new ArrayList<>();
     public int x, y, width, height, configHeight, panelHeight, dragX, dragY;
     private ScaledResolution sr;
     public boolean dragging;
@@ -37,7 +38,9 @@ public class ConfigScreen extends GuiScreen {
         this.configHeight = 20;
         this.panelHeight = 20;
 
-        configs.addAll(Koks.getKoks().configManager.getConfigs());
+        for (File file : Koks.getKoks().configManager.getConfigs()) {
+            configs.add(new DrawConfigs(file));
+        }
     }
 
     @Override
@@ -55,16 +58,20 @@ public class ConfigScreen extends GuiScreen {
         renderUtils.drawOutlineRect(x - 0.5F, y - 1, x + width + 1, y + height + 0.5F, 1, Color.BLACK);
         fr.drawString("Config Manager", x + width / 2 - fr.getStringWidth("Config Manager") / 2, y + panelHeight / 2 - fr.FONT_HEIGHT / 2, 0xFFFFFFFF);
 
-        int y  = this.y + panelHeight;
-        for (File file : configs) {
-            fr.drawString(file.getName(), x + width / 2 - fr.getStringWidth(file.getName()) / 2, y + panelHeight / 2 - fr.FONT_HEIGHT / 2, 0xFFFFFFFF);
-            y += configHeight;
+        int y = this.y + panelHeight;
+        for (DrawConfigs drawConfigs : configs) {
+            drawConfigs.updateValues(x, y, width, configHeight);
+            drawConfigs.drawScreen(mouseX, mouseY, partialTicks);
+            y += configHeight + 2;
         }
         super.drawScreen(mouseX, mouseY, partialTicks);
     }
 
     @Override
     protected void keyTyped(char typedChar, int keyCode) throws IOException {
+        for (DrawConfigs drawConfigs : configs) {
+            drawConfigs.keyTyped(typedChar, keyCode);
+        }
         super.keyTyped(typedChar, keyCode);
     }
 
@@ -75,12 +82,20 @@ public class ConfigScreen extends GuiScreen {
             dragY = y - mouseY;
             dragging = true;
         }
+
+        for (DrawConfigs drawConfigs : configs) {
+            drawConfigs.mouseClicked(mouseX, mouseY, mouseButton);
+        }
         super.mouseClicked(mouseX, mouseY, mouseButton);
     }
 
     @Override
     protected void mouseReleased(int mouseX, int mouseY, int state) {
         dragging = false;
+
+        for (DrawConfigs drawConfigs : configs) {
+            drawConfigs.mouseReleased(mouseX, mouseY, state);
+        }
         super.mouseReleased(mouseX, mouseY, state);
     }
 
