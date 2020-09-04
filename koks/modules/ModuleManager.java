@@ -39,6 +39,7 @@ public class ModuleManager {
         // Utilities
         addModule(new ClickGUI());
         addModule(new HUD());
+        addModule(new Debug());
         addModule(new Disabler());
 
         // Visuals
