@@ -3,13 +3,12 @@ package koks.gui.clickgui;
 import koks.Koks;
 import koks.gui.clickgui.elements.*;
 import koks.modules.Module;
-import koks.utilities.ColorUtil;
 import koks.utilities.RenderUtils;
 import koks.utilities.value.values.BooleanValue;
 import koks.utilities.value.values.ModeValue;
 import koks.utilities.value.values.NumberValue;
+import koks.utilities.value.values.TitleValue;
 import net.minecraft.client.Minecraft;
-import org.lwjgl.input.Keyboard;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -42,10 +41,21 @@ public class ModuleButton {
                     this.elementList.add(new ElementBoolean((BooleanValue) value));
                 }
                 if (value instanceof NumberValue) {
-                    this.elementList.add(new ElementSlider((NumberValue) value));
+                    if (((NumberValue) value).getMinDefaultValue() == null) {
+                        this.elementList.add(new ElementSlider((NumberValue) value));
+                    } else {
+                        this.elementList.add(new ElementSliderBetween((NumberValue) value));
+                    }
                 }
                 if (value instanceof ModeValue) {
-                    this.elementList.add(new ElementMode((ModeValue) value));
+                    if (((ModeValue) value).getObjects() == null) {
+                        this.elementList.add(new ElementMode((ModeValue) value));
+                    } else {
+                        this.elementList.add(new ElementModeCheckBox((ModeValue) value));
+                    }
+                }
+                if(value instanceof TitleValue){
+                    this.elementList.add(new ElementTitle((TitleValue) value));
                 }
             }
         });
@@ -54,26 +64,60 @@ public class ModuleButton {
     public void drawScreen(int mouseX, int mouseY) {
         if (extended) {
             float[] yTest = {0};
-            this.elementList.forEach(element -> {
-                int yHeight[] = {0};
-                element.setPosition(x + 3, this.y + height + yTest[0], width - 6, height - 2);
-                element.drawScreen(mouseX, mouseY);
 
-                if (element instanceof ElementMode) {
-                    Arrays.stream(((ElementMode) element).modeValue.getModes()).forEach(module -> {
-                        if (element.isExtended())
-                            yHeight[0] += height - 2;
-                    });
+            this.elementList.forEach(element -> {
+                int[] yHeight = {0};
+                if (element.getValue() != null) {
+                    if (element.getValue().isVisible()) {
+                        element.setPosition(x + 3, this.y + height + yTest[0], width - 6, height - 2);
+                        element.drawScreen(mouseX, mouseY);
+
+                        if (element instanceof ElementMode) {
+                            Arrays.stream(((ElementMode) element).modeValue.getModes()).forEach(module -> {
+                                if (element.isExtended())
+                                    yHeight[0] += height - 2;
+                            });
+                        }
+
+                        if (element instanceof ElementModeCheckBox) {
+                            Arrays.stream(((ElementModeCheckBox) element).modeValue.getObjects()).forEach(module -> {
+                                if (element.isExtended())
+                                    if (module.isVisible())
+                                        yHeight[0] += height - 2;
+                            });
+                        }
+
+                        yTest[0] += height + yHeight[0];
+                        yMaxElements = yTest[0] + yHeight[0];
+                    }
+                } else {
+                    element.setPosition(x + 3, this.y + height + yTest[0], width - 6, height - 2);
+                    element.drawScreen(mouseX, mouseY);
+
+                    if (element instanceof ElementMode) {
+                        Arrays.stream(((ElementMode) element).modeValue.getModes()).forEach(module -> {
+                            if (element.isExtended())
+                                yHeight[0] += height - 2;
+                        });
+                    }
+
+                    if (element instanceof ElementModeCheckBox) {
+                        Arrays.stream(((ElementModeCheckBox) element).modeValue.getObjects()).forEach(module -> {
+                            if (element.isExtended())
+                                yHeight[0] += height - 2;
+                        });
+                    }
+
+                    yTest[0] += height + yHeight[0];
+                    yMaxElements = yTest[0] + yHeight[0];
                 }
-                yTest[0] += height + yHeight[0];
-                yMaxElements = yTest[0] + yHeight[0];
             });
         } else {
             yMaxElements = 0F;
         }
-        ColorUtil colorUtil = new ColorUtil();
-        renderUtils.drawOutlineRect(x, y, x + width, y + height + yMaxElements, 1, this.module.isBypassed() ? new Color(colorUtil.rainbow(3000, 1F, 0.5F)) : new Color(40, 39, 42, 255));
-        Minecraft.getMinecraft().fontRendererObj.drawStringWithShadow(module.getModuleName(), x + 3F, y - 2, this.module.isToggled() ? -1 : Color.gray.getRGB());
+
+        renderUtils.drawOutlineRect(x, y, x + width, y + height + yMaxElements, 1, new Color(40, 39, 42, 255));
+        Minecraft.getMinecraft().fontRendererObj.drawStringWithShadow(module.getModuleName(), x + 3F, y - 2, -1);
     }
 
     public void mouseReleased() {
@@ -86,11 +130,7 @@ public class ModuleButton {
 
     public void mouseClicked(int mouseX, int mouseY, int mouseButton) {
         if (isHovering(mouseX, mouseY) && mouseButton == 0) {
-            if(Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) && Keyboard.isKeyDown(Keyboard.KEY_LCONTROL)) {
-                this.module.setBypassed(!this.module.isBypassed());
-            }else {
-                this.extended = !this.extended;
-            }
+            this.extended = !this.extended;
         }
         this.elementList.forEach(element -> {
             element.mouseClicked(mouseX, mouseY, mouseButton);

@@ -22,8 +22,11 @@ public class ElementSlider extends Element {
     public ElementSlider(NumberValue value) {
         super(value);
         this.numberValue = value;
+
         if (numberValue.getDefaultValue() instanceof Long) {
-            type = "ms";
+            if (numberValue.getMaxValue().longValue() > 999)
+                type = "seconds";
+            else type = "ms";
             this.numberType = NumberType.LONG;
         } else if (numberValue.getDefaultValue() instanceof Integer) {
             type = "";
@@ -49,28 +52,33 @@ public class ElementSlider extends Element {
         GL11.glPushMatrix();
         GL11.glTranslated(getX() + 9, getY() + getHeight() / 2 - getFontRenderer().FONT_HEIGHT / 2 + 1.5F, 0);
         GL11.glScaled(0.75, 0.75, 0.75);
-        getFontRenderer().drawStringWithShadow(numberValue.getName() + " " + this.numberValue.getDefaultValue() + " " + type, 0, 0, -1);
+        getFontRenderer().drawStringWithShadow(numberValue.getName() + " " + (type.equalsIgnoreCase("seconds") ? this.numberValue.getDefaultValue().doubleValue() / 1000 + " " + type : this.numberValue.getDefaultValue() + " " + type), 0, 0, -1);
         GL11.glPopMatrix();
         updateValueSlider(mouseX);
     }
 
     public void updateValueSlider(double x) {
         if (this.dragging) {
-            double newValue = (Math.round(Math.max(Math.min((x - this.getX()) / this.getWidth() * (this.numberValue.getMaxValue().doubleValue() - this.numberValue.getMinValue().doubleValue()) + this.numberValue.getMinValue().doubleValue(), this.numberValue.getMaxValue().doubleValue()), this.numberValue.getMinValue().doubleValue()) * 100.0D) / 100.0D);
 
             switch (numberType) {
                 case INTEGER:
+                    int intValue = (int) Math.round(Math.max(Math.min((x - this.getX()) / this.getWidth() * (this.numberValue.getMaxValue().intValue() - this.numberValue.getMinValue().intValue()) + this.numberValue.getMinValue().intValue(), this.numberValue.getMaxValue().intValue()), this.numberValue.getMinValue().intValue()));
+                    this.numberValue.setDefaultValue(intValue);
+                    break;
                 case LONG:
-                    newValue = (int) newValue;
+                    long longValue = (Math.round(Math.max(Math.min((x - this.getX()) / this.getWidth() * (this.numberValue.getMaxValue().longValue() - this.numberValue.getMinValue().longValue()) + this.numberValue.getMinValue().longValue(), this.numberValue.getMaxValue().longValue()), this.numberValue.getMinValue().longValue()) * 100) / 100);
+                    this.numberValue.setDefaultValue(longValue);
                     break;
                 case DOUBLE:
+                    double doubleValue = (Math.round(Math.max(Math.min((x - this.getX()) / this.getWidth() * (this.numberValue.getMaxValue().doubleValue() - this.numberValue.getMinValue().doubleValue()) + this.numberValue.getMinValue().doubleValue(), this.numberValue.getMaxValue().doubleValue()), this.numberValue.getMinValue().doubleValue()) * 100.0D) / 100.0D);
+                    this.numberValue.setDefaultValue(doubleValue);
                     break;
                 case FLOAT:
-                    newValue = (float) Math.round(newValue * 100.0) / 100.0;
+                    float floatValue = (Math.round(Math.max(Math.min((x - this.getX()) / this.getWidth() * (this.numberValue.getMaxValue().floatValue() - this.numberValue.getMinValue().floatValue()) + this.numberValue.getMinValue().floatValue(), this.numberValue.getMaxValue().floatValue()), this.numberValue.getMinValue().floatValue()) * 100.0F) / 100.0F);
+                    this.numberValue.setDefaultValue(floatValue);
                     break;
             }
 
-            this.numberValue.setDefaultValue(newValue);
         }
     }
 

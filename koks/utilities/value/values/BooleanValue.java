@@ -7,14 +7,14 @@ import koks.utilities.value.Value;
  * @author avox | lmao | kroko
  * @created on 03.09.2020 : 09:22
  */
-public class BooleanValue<T extends Boolean> extends Value<T> {
+public class BooleanValue<T extends Boolean> extends Value {
 
     private boolean toggled;
 
     public BooleanValue(String name, boolean toggled, Module module) {
         setName(name);
         this.toggled = toggled;
-        this.setModule(module);
+        setModule(module);
     }
 
     public boolean isToggled() {

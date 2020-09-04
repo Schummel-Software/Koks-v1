@@ -7,16 +7,27 @@ import koks.utilities.value.Value;
  * @author avox | lmao | kroko
  * @created on 03.09.2020 : 18:24
  */
-public class ModeValue<T extends String> extends Value<T> {
+public class ModeValue<T extends String> extends Value {
 
     private String selectedMode;
     private String[] modes;
+    private BooleanValue[] objects;
 
     public ModeValue(String name, String selectedMode, String[] modes, Module module) {
         setName(name);
         this.selectedMode = selectedMode;
         this.modes = modes;
         setModule(module);
+    }
+
+    public ModeValue(String name, BooleanValue[] objects, Module module) {
+        setName(name);
+        this.objects = objects;
+        setModule(module);
+    }
+
+    public BooleanValue[] getObjects() {
+        return objects;
     }
 
     public String getSelectedMode() {

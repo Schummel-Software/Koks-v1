@@ -621,6 +621,7 @@ public abstract class Entity implements ICommandSender
             boolean flag = this.onGround && this.isSneaking() && this instanceof EntityPlayer;
 
             SafeWalkEvent safeWalkEvent = new SafeWalkEvent(flag);
+            Koks.getKoks().eventManager.onEvent(safeWalkEvent);
 
             if (flag || safeWalkEvent.isSafe())
             {
