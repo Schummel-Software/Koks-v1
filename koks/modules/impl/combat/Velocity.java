@@ -1,5 +1,6 @@
 package koks.modules.impl.combat;
 
+import koks.Koks;
 import koks.event.Event;
 import koks.event.impl.EventUpdate;
 import koks.event.impl.PacketEvent;
@@ -35,8 +36,22 @@ public class Velocity extends Module {
             setDisplayName(getModuleName() + " §7" + mode.getSelectedMode());
             switch (mode.getSelectedMode()) {
                 case "Legit":
-                    if (mc.thePlayer.hurtTime == 10 && mc.thePlayer.onGround)
-                        mc.thePlayer.jump();
+/*                    if (mc.thePlayer.hurtTime == 10 && mc.thePlayer.onGround)
+                        mc.thePlayer.jump();*/
+
+                    KillAura killaura = Koks.getKoks().moduleManager.getModule(KillAura.class);
+                    if (mc.thePlayer.hurtTime == 9 || mc.thePlayer.hurtTime == 10) {
+                        if (mc.thePlayer.onGround)
+                            mc.thePlayer.jump();
+                    }
+                    if (mc.thePlayer.hurtTime == 5 || mc.thePlayer.hurtTime == 6 && killaura.isToggled() && killaura.finalEntity != null) {
+                        double yaw = Math.toRadians(killaura.yaw);
+                        double x = -Math.sin(yaw) * 0.12;
+                        double z = Math.cos(yaw) * 0.12;
+                        mc.thePlayer.setSprinting(false);
+                        mc.thePlayer.motionX = x;
+                        mc.thePlayer.motionZ = z;
+                    }
                     break;
                 case "AAC4":
                     if(mc.thePlayer.hurtTime > 0) {

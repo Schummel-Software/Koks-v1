@@ -4,9 +4,15 @@ import koks.Koks;
 import koks.event.Event;
 import koks.event.impl.EventRender3D;
 import koks.modules.Module;
+import koks.utilities.BoxUtil;
 import koks.utilities.CornerESPUtil;
+import koks.utilities.value.values.BooleanValue;
+import koks.utilities.value.values.ModeValue;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.AxisAlignedBB;
+
+import java.awt.*;
 
 /**
  * @author avox | lmao | kroko
@@ -14,15 +20,20 @@ import net.minecraft.entity.player.EntityPlayer;
  */
 public class PlayerESP extends Module {
 
+    public ModeValue<String> theme = new ModeValue<>("Theme", "Box", new String[]{"2D", "Box"}, this);
+    public BoxUtil boxUtil = new BoxUtil();
     public CornerESPUtil cornerESPUtil = new CornerESPUtil();
 
     public PlayerESP() {
         super("PlayerESP", Category.VISUALS);
+
+        Koks.getKoks().valueManager.addValue(theme);
     }
 
     @Override
     public void onEvent(Event event) {
         if (event instanceof EventRender3D) {
+            setDisplayName(getModuleName() + " §7" + theme.getSelectedMode());
             float partialTicks = ((EventRender3D) event).getPartialTicks();
             for (Entity entity : mc.theWorld.loadedEntityList) {
                 if (Koks.getKoks().moduleManager.getModule(NameTags.class).isValid(entity)) {
@@ -30,7 +41,28 @@ public class PlayerESP extends Module {
                     double y = (entity.lastTickPosY + (entity.posY - entity.lastTickPosY) * partialTicks) - mc.getRenderManager().renderPosY;
                     double z = (entity.lastTickPosZ + (entity.posZ - entity.lastTickPosZ) * partialTicks) - mc.getRenderManager().renderPosZ;
 
-                    cornerESPUtil.drawCorners(x, y + 0.9, z, 20, 40, 40, 0.7F);
+                    if (theme.getSelectedMode().equals("2D")) {
+                        cornerESPUtil.drawCorners(x, y + 0.9, z, 20, 40, 40, 0.7F);
+                    }
+
+                    if (theme.getSelectedMode().equals("Box")) {
+                        float width = 0.16F;
+
+                        AxisAlignedBB axisalignedbb = entity.getEntityBoundingBox();
+
+                        for (int i = 0; i < width; i += 0.01) {
+
+                            AxisAlignedBB axisalignedbb1 = new AxisAlignedBB(
+                                    axisalignedbb.minX - entity.posX + x - width,
+                                    axisalignedbb.minY - entity.posY + y + 0.01,
+                                    axisalignedbb.minZ - entity.posZ + z - width,
+                                    axisalignedbb.maxX - entity.posX + x + width,
+                                    axisalignedbb.maxY - entity.posY + y + 0.19 - (entity.isSneaking() ? 0.25 : 0),
+                                    axisalignedbb.maxZ - entity.posZ + z + width);
+
+                            boxUtil.renderOutline(axisalignedbb1);
+                        }
+                    }
                 }
             }
         }

@@ -19,6 +19,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.passive.EntityAnimal;
+import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemSword;
 import net.minecraft.network.play.client.C02PacketUseEntity;
@@ -46,7 +47,7 @@ public class KillAura extends Module {
     public NumberValue<Double> range = new NumberValue<>("Hit Range", 4.0D, 6.0D, 3.4D, this);
     public BooleanValue<Boolean> preAim = new BooleanValue<>("Pre Aiming", false, this);
     public NumberValue<Double> preAimRange = new NumberValue<>("Aiming Range", 0.0D, 1.0D, 0.0D, this);
-    public NumberValue<Integer> cps = new NumberValue<Integer>("CPS", 7,12,20,1, this);
+    public NumberValue<Integer> cps = new NumberValue<>("CPS", 7,12,20,1, this);
     public BooleanValue<Boolean> smoothRotation = new BooleanValue<>("Smooth Rotation", false, this);
     public NumberValue<Integer> failingChance = new NumberValue<>("FailHit Percent", 0, 20, 0, this);
     public BooleanValue<Boolean> legitMovement = new BooleanValue<>("Legit Movement", false, this);
@@ -155,6 +156,7 @@ public class KillAura extends Module {
             Entity rayCast = auraUtil.getRayCastedEntity(range.getDefaultValue(), yaw, pitch);
 
             if (!isFailing && rayCast != null) {
+
                 mc.thePlayer.swingItem();
                 if (stopSprinting.isToggled())
                     mc.playerController.attackEntity(mc.thePlayer, rayCast);
@@ -223,6 +225,8 @@ public class KillAura extends Module {
         if (!player.isToggled() && entity instanceof EntityPlayer)
             return false;
         if (!animals.isToggled() && entity instanceof EntityAnimal)
+            return false;
+        if (!animals.isToggled() && entity instanceof EntityVillager)
             return false;
         if (!mobs.isToggled() && entity instanceof EntityMob)
             return false;
