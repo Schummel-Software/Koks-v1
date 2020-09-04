@@ -29,6 +29,7 @@ public class ConfigManager {
         return file.exists();
     }
 
+
     public void loadConfig(String name) {
 
         for(Module module : Koks.getKoks().moduleManager.getModules()) {

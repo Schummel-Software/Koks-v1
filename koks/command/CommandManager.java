@@ -15,6 +15,7 @@ public class CommandManager {
         addCommand(new Toggle());
     }
 
+
     public void addCommand(Command cmd) {
         commands.add(cmd);
     }

@@ -13,6 +13,7 @@ public class config extends Command {
         super("config", "configs");
     }
 
+
     @Override
     public void execute(String[] args) {
         if(args.length >= 2) {
