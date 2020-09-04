@@ -19,12 +19,14 @@ public class Speed extends Module {
 
     public Speed() {
         super("Speed", Category.MOVEMENT);
+        addValue(mode);
     }
 
 
     @Override
     public void onEvent(Event event) {
         if (event instanceof EventUpdate) {
+            setDisplayName(getModuleName() + " §7" + mode.getSelectedMode());
             switch(mode.getSelectedMode()) {
                 case "Mineplex":
                 if (mc.thePlayer.moveForward != 0 && !mc.gameSettings.keyBindJump.isKeyDown()) {

@@ -23,10 +23,11 @@ import net.minecraft.network.play.server.S32PacketConfirmTransaction;
  */
 public class Sprint extends Module {
 
-    public ModeValue<String> mode = new ModeValue<String>("Mode", "Intave",new String[] {"Intave","Legit"},this);
+    public ModeValue<String> mode = new ModeValue<String>("Mode", "Intave", new String[]{"Intave", "Legit"}, this);
 
     public Sprint() {
         super("Sprint", Category.MOVEMENT);
+        addValue(mode);
     }
 
     @Override
@@ -47,10 +48,19 @@ public class Sprint extends Module {
         }
 
         if (event instanceof EventUpdate) {
-            if (mc.thePlayer.moveForward != 0 && !mc.gameSettings.keyBindBack.isKeyDown() && (mode.getSelectedMode().equalsIgnoreCase("Intave") || canSprint())) {
-                mc.thePlayer.setSprinting(true);
-            } else {
-                mc.thePlayer.setSprinting(false);
+            setDisplayName(getModuleName() + " §7" + mode.getSelectedMode());
+            switch (mode.getSelectedMode()) {
+                case "Legit":
+
+                    if (mc.thePlayer.moveForward != 0 && !mc.gameSettings.keyBindBack.isKeyDown() && canSprint()) {
+                        mc.thePlayer.setSprinting(true);
+                    } else {
+                        mc.thePlayer.setSprinting(false);
+                    }
+                    break;
+                case "Intave":
+                    mc.thePlayer.setSprinting(true);
+                    break;
             }
         }
     }
