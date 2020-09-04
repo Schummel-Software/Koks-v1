@@ -106,7 +106,7 @@ public class RecipeFireworks implements IRecipe
                     }
 
                     nbttagcompound3.setTag("Explosions", nbttaglist);
-                    nbttagcompound3.setByte("Flight", (byte)j);
+                    nbttagcompound3.setByte("Fly", (byte)j);
                     nbttagcompound1.setTag("Fireworks", nbttagcompound3);
                     this.field_92102_a.setTagCompound(nbttagcompound1);
                 }

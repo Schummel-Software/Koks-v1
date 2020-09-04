@@ -10,13 +10,13 @@ import koks.utilities.value.values.ModeValue;
  * @author avox | lmao | kroko
  * @created on 04.09.2020 : 18:14
  */
-public class Flight extends Module {
+public class Fly extends Module {
 
     private final HypixelFly hypixelFly = new HypixelFly();
     public final ModeValue<String> modeValue = new ModeValue<>("Mode", "Hypixel", new String[]{"Hypixel"}, this);
 
-    public Flight() {
-        super("Flight", Category.MOVEMENT);
+    public Fly() {
+        super("Fly", Category.MOVEMENT);
         Koks.getKoks().valueManager.addValue(modeValue);
     }
 

@@ -17,6 +17,7 @@ import koks.event.impl.EventBobbing;
 import koks.event.impl.EventRender3D;
 import koks.event.impl.FOVEvent;
 import koks.event.impl.HurtCameraEvent;
+import koks.modules.impl.movement.modes.HypixelFly;
 import koks.modules.impl.visuals.NoBob;
 import koks.modules.impl.visuals.NoFov;
 import koks.modules.impl.visuals.NoHurtcam;
@@ -605,6 +606,9 @@ public class EntityRenderer implements IResourceManagerReloadListener
     /**
      * Changes the field of view of the player depending on if they are underwater or not
      */
+
+    public float animationZOOOOOOOOOOOOM = 1F;
+
     private float getFOVModifier(float partialTicks, boolean p_78481_2_)
     {
         if (this.debugView)
@@ -632,6 +636,22 @@ public class EntityRenderer implements IResourceManagerReloadListener
             {
                 GameSettings gamesettings = this.mc.gameSettings;
                 flag = GameSettings.isKeyDown(this.mc.gameSettings.ofKeyBindZoom);
+            }
+
+            if (HypixelFly.zoom) {
+                if (animationZOOOOOOOOOOOOM < 4.0F) {
+                    this.animationZOOOOOOOOOOOOM += 1;
+                    f /= animationZOOOOOOOOOOOOM;
+                    this.mc.gameSettings.smoothCamera = true;
+                }
+                if (animationZOOOOOOOOOOOOM > 3.9F)
+                    HypixelFly.zoom= false;
+            } else {
+                if (animationZOOOOOOOOOOOOM > 1.0F) {
+                    animationZOOOOOOOOOOOOM -= 0.06;
+                    f /= animationZOOOOOOOOOOOOM ;
+                    this.mc.gameSettings.smoothCamera = false;
+                }
             }
 
             if (flag)

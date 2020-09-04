@@ -29,6 +29,7 @@ public class ModuleManager {
         addModule(new NoCobweb());
         addModule(new Speed());
         addModule(new Sprint());
+        addModule(new Fly());
 
         // Player
         addModule(new AntiFire());
