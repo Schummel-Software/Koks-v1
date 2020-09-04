@@ -4,8 +4,11 @@ import koks.gui.clickgui.elements.ElementKeyBind;
 import koks.modules.Module;
 import koks.utilities.ColorUtil;
 import koks.utilities.RenderUtils;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.ScaledResolution;
+import org.lwjgl.opengl.GL11;
 
 import java.awt.*;
 import java.io.IOException;
@@ -54,12 +57,18 @@ public class ClickGUI extends GuiScreen {
             testRainbow += 1;
         }
 
+        GL11.glPushMatrix();
+        renderUtils.scissor(getX(), getY(), getX() + getWidth(), getY() + getHeight());
+        GL11.glEnable(GL11.GL_SCISSOR_TEST);
+
         final float[] y = {this.y + 2.5F};
         panelList.forEach(panelButton -> {
             panelButton.setInformation(x + 3, y[0], 45, 45);
             panelButton.drawScreen(mouseX, mouseY);
             y[0] += 50;
         });
+        GL11.glDisable(GL11.GL_SCISSOR_TEST);
+        GL11.glPopMatrix();
 
         renderUtils.drawOutlineRect(x, this.y - 5, x + width, this.y + height, 2, new Color(40, 39, 42, 255));
         super.drawScreen(mouseX, mouseY, partialTicks);
@@ -105,6 +114,10 @@ public class ClickGUI extends GuiScreen {
 
     public int getY() {
         return y;
+    }
+
+    public int getHeight() {
+        return height;
     }
 
     @Override

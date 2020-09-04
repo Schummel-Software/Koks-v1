@@ -12,6 +12,7 @@ import koks.modules.impl.player.NoFall;
 import koks.modules.impl.player.SetBack;
 import koks.modules.impl.utilities.ClickGUI;
 import koks.modules.impl.visuals.*;
+import koks.modules.impl.world.ScaffoldWalk;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,6 +45,7 @@ public class ModuleManager {
         addModule(new CustomEnchant());
         addModule(new Jesus());
         addModule(new NoCobweb());
+        addModule(new ScaffoldWalk());
         addModule(new SetBack());
     }
 

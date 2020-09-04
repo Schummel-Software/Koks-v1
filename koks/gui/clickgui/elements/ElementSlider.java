@@ -22,8 +22,11 @@ public class ElementSlider extends Element {
     public ElementSlider(NumberValue value) {
         super(value);
         this.numberValue = value;
+
         if (numberValue.getDefaultValue() instanceof Long) {
-            type = "ms";
+            if (numberValue.getMaxValue().longValue() > 999)
+                type = "seconds";
+            else type = "ms";
             this.numberType = NumberType.LONG;
         } else if (numberValue.getDefaultValue() instanceof Integer) {
             type = "";
@@ -49,7 +52,7 @@ public class ElementSlider extends Element {
         GL11.glPushMatrix();
         GL11.glTranslated(getX() + 9, getY() + getHeight() / 2 - getFontRenderer().FONT_HEIGHT / 2 + 1.5F, 0);
         GL11.glScaled(0.75, 0.75, 0.75);
-        getFontRenderer().drawStringWithShadow(numberValue.getName() + " " + this.numberValue.getDefaultValue() + " " + type, 0, 0, -1);
+        getFontRenderer().drawStringWithShadow(numberValue.getName() + " " + (type.equalsIgnoreCase("seconds") ? this.numberValue.getDefaultValue().doubleValue() / 1000 + " " + type : this.numberValue.getDefaultValue() + " " + type), 0, 0, -1);
         GL11.glPopMatrix();
         updateValueSlider(mouseX);
     }

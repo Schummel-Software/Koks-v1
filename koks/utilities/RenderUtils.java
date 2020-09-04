@@ -2,6 +2,7 @@ package koks.utilities;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
@@ -51,6 +52,12 @@ public class RenderUtils {
         tessellator.draw();
         GlStateManager.enableTexture2D();
         GlStateManager.disableBlend();
+    }
+
+    public void scissor (final double x, final double y, final double x2, final double y2) {
+        final ScaledResolution scaledResolution = new ScaledResolution(Minecraft.getMinecraft());
+        final int factor = scaledResolution.getScaleFactor();
+        GL11.glScissor((int) (x * factor), (int) ((scaledResolution.getScaledHeight() - y2) * factor), (int) ((x2 - x) * factor), (int) ((y2 - y) * factor));
     }
 
     public void drawImage(ResourceLocation resourceLocation, float x, float y, int pictureWidth, int pictureHeight, boolean grayedOut) {
