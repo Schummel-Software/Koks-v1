@@ -60,6 +60,7 @@ public class Koks {
         screenManager = new ScreenManager();
         fileManager = new FileManager();
         configManager = new ConfigManager();
+        if(!configManager.DIR.exists())configManager.DIR.mkdirs();
         configScreen = new ConfigScreen();
         fileManager.createFiles();
     }
