@@ -20,7 +20,6 @@ import java.util.Map;
 public class BoxUtil {
 
     private final Map<Integer, Boolean> glCapMap = new HashMap<>();
-    private final ColorUtil colorUtil = new ColorUtil();
 
     public void renderOutline(AxisAlignedBB axisalignedbb) {
 

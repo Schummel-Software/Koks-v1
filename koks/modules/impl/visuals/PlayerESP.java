@@ -49,19 +49,15 @@ public class PlayerESP extends Module {
                         float width = 0.16F;
 
                         AxisAlignedBB axisalignedbb = entity.getEntityBoundingBox();
+                        AxisAlignedBB axisalignedbb1 = new AxisAlignedBB(
+                                axisalignedbb.minX - entity.posX + x - width,
+                                axisalignedbb.minY - entity.posY + y + 0.01,
+                                axisalignedbb.minZ - entity.posZ + z - width,
+                                axisalignedbb.maxX - entity.posX + x + width,
+                                axisalignedbb.maxY - entity.posY + y + 0.19 - (entity.isSneaking() ? 0.25 : 0),
+                                axisalignedbb.maxZ - entity.posZ + z + width);
 
-                        for (int i = 0; i < width; i += 0.01) {
-
-                            AxisAlignedBB axisalignedbb1 = new AxisAlignedBB(
-                                    axisalignedbb.minX - entity.posX + x - width,
-                                    axisalignedbb.minY - entity.posY + y + 0.01,
-                                    axisalignedbb.minZ - entity.posZ + z - width,
-                                    axisalignedbb.maxX - entity.posX + x + width,
-                                    axisalignedbb.maxY - entity.posY + y + 0.19 - (entity.isSneaking() ? 0.25 : 0),
-                                    axisalignedbb.maxZ - entity.posZ + z + width);
-
-                            boxUtil.renderOutline(axisalignedbb1);
-                        }
+                        boxUtil.renderOutline(axisalignedbb1);
                     }
                 }
             }
