@@ -74,7 +74,11 @@ public class ScaffoldWalk extends Module {
         if (event instanceof MotionEvent) {
             if (((MotionEvent) event).getType() == MotionEvent.Type.PRE) {
                 ((MotionEvent) event).setYaw(yaw);
-                ((MotionEvent) event).setPitch(pitch);
+                if (Minecraft.getMinecraft().getCurrentServerData().serverIP.contains("hypixel") && Minecraft.getMinecraft().theWorld != null && Minecraft.getMinecraft().thePlayer != null) {
+                    ((MotionEvent) event).setPitch(79.444F);
+                } else {
+                    ((MotionEvent) event).setPitch(pitch);
+                }
             }
         }
 
@@ -91,12 +95,6 @@ public class ScaffoldWalk extends Module {
                 setYaw();
             }
 
-            if (sprint.isToggled()) {
-                mc.thePlayer.setSprinting(true);
-            } else {
-                mc.gameSettings.keyBindSprint.pressed = false;
-                mc.thePlayer.setSprinting(false);
-            }
         }
     }
 
@@ -180,7 +178,7 @@ public class ScaffoldWalk extends Module {
             if (timeUtil.hasReached(mc.thePlayer.onGround ? (randomutil.randomLong(delay.getMinDefaultValue(), delay.getDefaultValue())) : 20L)) {
                 if (blackList.contains(((ItemBlock) silentItemStack.getItem()).getBlock()))
                     return;
-                    mc.playerController.onPlayerRightClick(mc.thePlayer, mc.theWorld, silentItemStack, pos, face, new Vec3(pos.getX() + (this.randomHit.isToggled() ? randomutil.randomDouble(0, 0.7) : 0), pos.getY() + (this.randomHit.isToggled() ? randomutil.randomDouble(0, 0.7) : 0), pos.getZ() + (this.randomHit.isToggled() ? randomutil.randomDouble(0, 0.7) : 0)));
+                mc.playerController.onPlayerRightClick(mc.thePlayer, mc.theWorld, silentItemStack, pos, face, new Vec3(pos.getX() + (this.randomHit.isToggled() ? randomutil.randomDouble(0, 0.7) : 0), pos.getY() + (this.randomHit.isToggled() ? randomutil.randomDouble(0, 0.7) : 0), pos.getZ() + (this.randomHit.isToggled() ? randomutil.randomDouble(0, 0.7) : 0)));
                 timeUtil.reset();
             }
         } else {

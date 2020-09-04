@@ -124,7 +124,6 @@ public class ModuleButton {
             }
         }
         this.elementList.forEach(element -> {
-            if(element.getValue().isVisible())
             element.mouseClicked(mouseX, mouseY, mouseButton);
         });
     }
