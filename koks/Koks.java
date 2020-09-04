@@ -4,6 +4,7 @@ import koks.command.CommandManager;
 import koks.event.EventManager;
 import koks.files.FileManager;
 import koks.gui.clickgui.ClickGUI;
+import koks.gui.clickgui.commonvalue.CommonValueManager;
 import koks.hud.ScreenManager;
 import koks.manager.ConfigManager;
 import koks.modules.ModuleManager;
@@ -37,6 +38,7 @@ public class Koks {
 
     public ModuleManager moduleManager;
     public ValueManager valueManager;
+    public CommonValueManager commonValueManager;
     public ClickGUI clickGUI;
     public EventManager eventManager;
     public CommandManager commandManager;
@@ -48,6 +50,7 @@ public class Koks {
 
         Display.setTitle(CLIENT_NAME + " v" + CLIENT_VERSION + " by " + CLIENT_DEVELOPER[0] + " | " + CLIENT_DEVELOPER[1] + " | " + CLIENT_DEVELOPER[2]);
         valueManager = new ValueManager();
+        commonValueManager = new CommonValueManager();
         moduleManager = new ModuleManager();
         clickGUI = new ClickGUI();
         commandManager = new CommandManager();

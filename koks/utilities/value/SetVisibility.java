@@ -15,6 +15,8 @@ public class SetVisibility {
             if (module instanceof KillAura) {
                 ((KillAura) module).preAimRange.setVisible(((KillAura) module).preAim.isToggled());
                 ((KillAura) module).preferTarget.setVisible(!((KillAura) module).targetMode.getSelectedMode().equals("Switch"));
+                ((KillAura) module).serverSideSwing.setVisible(((KillAura) module).silentSwing.isToggled());
+                ((KillAura) module).swingChance.setVisible(((KillAura) module).silentSwing.isToggled());
             }
         }
     }

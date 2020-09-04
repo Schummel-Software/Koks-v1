@@ -6,6 +6,8 @@ import koks.event.impl.EventUpdate;
 import koks.event.impl.MotionEvent;
 import koks.event.impl.PacketEvent;
 import koks.utilities.MovementUtil;
+import koks.utilities.RandomUtil;
+import koks.utilities.TimeUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.network.NetHandlerPlayClient;
 import net.minecraft.entity.player.PlayerCapabilities;
@@ -29,7 +31,10 @@ public class HypixelFly {
 
     private final List<Packet> blinkPackets = new ArrayList<>();
     public static boolean zoom = false;
+
+    private final RandomUtil randomUtil = new RandomUtil();
     private final MovementUtil movementUtil = new MovementUtil();
+    private final TimeUtil timeUtil = new TimeUtil();
 
     public void onEvent(Event event) {
 
@@ -43,31 +48,41 @@ public class HypixelFly {
         }
 
         if (event instanceof EventMove) {
+            if (mc.thePlayer.ticksExisted % 30 == 0) {
+                ((EventMove) event).setY(mc.thePlayer.motionY = randomUtil.randomDouble(0.0000000005, 0.000000001));
+            }
             switch (this.stage) {
+                case 0:
+                    this.moveSpeed = 0.5F;
+                    break;
                 case 1:
                     if (mc.thePlayer.onGround && mc.thePlayer.isCollidedVertically)
                         ((EventMove) event).setY(mc.thePlayer.motionY = 0.3994D);
                     this.moveSpeed *= 2D;
                     break;
                 case 2:
-                    this.moveSpeed = 1.3D;
                     break;
                 default:
-                    this.moveSpeed = this.moveSpeed - this.moveSpeed / 30;
+                    this.moveSpeed = this.moveSpeed - this.moveSpeed / 75;
             }
             if (mc.thePlayer.moveForward != 0 || mc.thePlayer.moveStrafing != 0)
-                movementUtil.setSpeed(Math.max(this.moveSpeed, 0.285));
+                movementUtil.setSpeed(Math.max(this.moveSpeed, 0.285D));
             this.stage++;
         }
 
         if (event instanceof MotionEvent) {
             if (((MotionEvent) event).getType() == MotionEvent.Type.PRE) {
 
+                if (stage > 2 && timeUtil.hasReached(100)) {
+                    mc.timer.timerSpeed = 1F;
+                } else {
+                    mc.timer.timerSpeed = 2F;
+                }
 
                 if (this.stage > 2) {
                     mc.thePlayer.motionY = 0.0D;
                 }
-                mc.thePlayer.cameraYaw = 0.105F;
+                mc.thePlayer.cameraYaw = 0.025F;
 
                 if (mc.thePlayer.ticksExisted % 30 == 0) {
                     PlayerCapabilities playerCapabilities = new PlayerCapabilities();
@@ -79,7 +94,8 @@ public class HypixelFly {
     }
 
     public void onEnable() {
-        this.moveSpeed = 0.5D;
+        zoom = false;
+        this.moveSpeed = 0.0D;
         this.stage = 0;
         mc.thePlayer.motionX = 0F;
         mc.thePlayer.motionZ = 0F;
