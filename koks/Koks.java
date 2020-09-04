@@ -5,6 +5,7 @@ import koks.event.EventManager;
 import koks.files.FileManager;
 import koks.gui.clickgui.ClickGUI;
 import koks.gui.clickgui.commonvalue.CommonValueManager;
+import koks.gui.configs.ConfigScreen;
 import koks.hud.ScreenManager;
 import koks.modules.ModuleManager;
 import koks.utilities.value.ValueManager;
@@ -43,6 +44,7 @@ public class Koks {
     public CommandManager commandManager;
     public ScreenManager screenManager;
     public FileManager fileManager;
+    public ConfigScreen configScreen;
 
     public void initClient() {
 
@@ -55,6 +57,7 @@ public class Koks {
         eventManager = new EventManager();
         screenManager = new ScreenManager();
         fileManager = new FileManager();
+        configScreen = new ConfigScreen();
         fileManager.createFiles();
     }
 
