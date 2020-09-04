@@ -3,6 +3,7 @@ package koks.modules;
 import koks.Koks;
 import koks.event.Event;
 import koks.files.impl.KeyBindFile;
+import koks.utilities.value.Value;
 import net.minecraft.client.Minecraft;
 import org.lwjgl.input.Keyboard;
 
@@ -35,6 +36,10 @@ public abstract class Module {
     public abstract void onEvent(Event event);
     public abstract void onEnable(); //Fixxen das es richtig funktioniert
     public abstract void onDisable();
+
+    public void addValue(Value value) {
+        Koks.getKoks().valueManager.addValue(value);
+    }
 
     public void toggle() {
         if (enabled) {

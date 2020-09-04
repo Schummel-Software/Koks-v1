@@ -17,11 +17,13 @@ public class Jesus extends Module {
 
     public Jesus() {
         super("Jesus" , Category.MOVEMENT);
+        addValue(mode);
     }
 
     @Override
     public void onEvent(Event event) {
         if(event instanceof EventUpdate) {//INTAVE
+            setDisplayName(getModuleName() + " §7" + mode.getSelectedMode());
             switch(mode.getSelectedMode()) {
                 case "Intave":
                     BlockPos bPos = new BlockPos(mc.thePlayer.posX, mc.thePlayer.posY, mc.thePlayer.posZ);

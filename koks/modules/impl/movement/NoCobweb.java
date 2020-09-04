@@ -17,11 +17,13 @@ public class NoCobweb extends Module {
 
     public NoCobweb() {
         super("NoCobweb", Category.MOVEMENT);
+        addValue(mode);
     }
 
     @Override
     public void onEvent(Event event) {
         if (event instanceof EventUpdate) {
+            setDisplayName(getModuleName() + " §7" + mode.getSelectedMode());
             switch (mode.getSelectedMode()) {
                 case "Intave":
                     BlockPos bPos = new BlockPos(mc.thePlayer.getPosition());
