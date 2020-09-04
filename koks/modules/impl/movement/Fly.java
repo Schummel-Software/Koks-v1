@@ -8,6 +8,7 @@ import koks.modules.Module;
 import koks.modules.impl.movement.modes.HypixelFly;
 import koks.modules.impl.visuals.Animations;
 import koks.utilities.value.values.ModeValue;
+import koks.utilities.value.values.NumberValue;
 
 /**
  * @author avox | lmao | kroko
@@ -16,10 +17,12 @@ import koks.utilities.value.values.ModeValue;
 public class Fly extends Module {
 
     private final HypixelFly hypixelFly = new HypixelFly();
-    public final ModeValue<String> modeValue = new ModeValue<>("Mode", "Hypixel", new String[]{"Hypixel"}, this);
+    public final ModeValue<String> modeValue = new ModeValue<>("Mode", "Hypixel", new String[]{"Hypixel","AAC3.2.2"}, this);
+    public final NumberValue<Integer> aac322boost = new NumberValue<Integer>("AAC3.2.2-Boost",9,10,5,this);
 
     public Fly() {
         super("Fly", Category.MOVEMENT);
+        addValue(aac322boost);
         Koks.getKoks().valueManager.addValue(modeValue);
     }
 
@@ -33,6 +36,11 @@ public class Fly extends Module {
 
         if(event instanceof EventUpdate) {
             setDisplayName(getModuleName() + " §7" + modeValue.getSelectedMode());
+            switch (modeValue.getSelectedMode()) {
+                case "AAC3.2.2":
+                    aac322();
+                    break;
+            }
         }
 
         if(event instanceof AnimationEvent && Koks.getKoks().moduleManager.getModule(Animations.class).isToggled()) {
@@ -50,6 +58,19 @@ public class Fly extends Module {
         }
     }
 
+    public void aac322() {
+        if(mc.thePlayer.posY <= -70) {
+            mc.thePlayer.motionY = aac322boost.getDefaultValue();
+        }
+        if(mc.gameSettings.keyBindSprint.pressed && !mc.thePlayer.onGround) {
+            mc.timer.timerSpeed = 0.1F;
+            mc.rightClickDelayTimer = 0;
+        }else{
+            mc.timer.timerSpeed = 1F;
+            mc.rightClickDelayTimer = 6;
+        }
+    }
+
     @Override
     public void onEnable() {
         switch (modeValue.getSelectedMode()) {
@@ -64,6 +85,10 @@ public class Fly extends Module {
         switch (modeValue.getSelectedMode()) {
             case "Hypixel":
                 hypixelFly.onDisable();
+                break;
+            case "AAC3.2.2":
+                mc.timer.timerSpeed = 1F;
+                mc.rightClickDelayTimer = 6;
                 break;
         }
     }

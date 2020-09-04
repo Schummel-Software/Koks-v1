@@ -3,6 +3,7 @@ package koks.utilities.value;
 import koks.Koks;
 import koks.modules.Module;
 import koks.modules.impl.combat.KillAura;
+import koks.modules.impl.movement.Fly;
 
 /**
  * @author avox | lmao | kroko
@@ -17,6 +18,9 @@ public class SetVisibility {
                 ((KillAura) module).preferTarget.setVisible(!((KillAura) module).targetMode.getSelectedMode().equals("Switch"));
                 ((KillAura) module).serverSideSwing.setVisible(((KillAura) module).silentSwing.isToggled());
                 ((KillAura) module).swingChance.setVisible(((KillAura) module).silentSwing.isToggled());
+            }
+            if(module instanceof Fly) {
+                ((Fly) module).aac322boost.setVisible(((Fly) module).modeValue.getSelectedMode().equalsIgnoreCase("AAC3.2.2"));
             }
         }
     }
