@@ -37,6 +37,7 @@ public class ModuleManager {
         addModule(new FastConsume());
         addModule(new NoFall());
         addModule(new SetBack());
+        addModule(new AutoArmor());
 
         // Utilities
         addModule(new ClickGUI());
