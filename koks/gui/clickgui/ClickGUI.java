@@ -37,6 +37,11 @@ public class ClickGUI extends GuiScreen {
     }
 
     @Override
+    public boolean doesGuiPauseGame() {
+        return false;
+    }
+
+    @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
 
         if (dragging) {

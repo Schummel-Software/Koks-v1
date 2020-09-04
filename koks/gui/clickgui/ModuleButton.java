@@ -3,11 +3,13 @@ package koks.gui.clickgui;
 import koks.Koks;
 import koks.gui.clickgui.elements.*;
 import koks.modules.Module;
+import koks.utilities.ColorUtil;
 import koks.utilities.RenderUtils;
 import koks.utilities.value.values.BooleanValue;
 import koks.utilities.value.values.ModeValue;
 import koks.utilities.value.values.NumberValue;
 import net.minecraft.client.Minecraft;
+import org.lwjgl.input.Keyboard;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -69,8 +71,9 @@ public class ModuleButton {
         } else {
             yMaxElements = 0F;
         }
-        renderUtils.drawOutlineRect(x, y, x + width, y + height + yMaxElements, 1, new Color(40, 39, 42, 255));
-        Minecraft.getMinecraft().fontRendererObj.drawStringWithShadow(module.getModuleName(), x + 3F, y - 2, -1);
+        ColorUtil colorUtil = new ColorUtil();
+        renderUtils.drawOutlineRect(x, y, x + width, y + height + yMaxElements, 1, this.module.isBypassed() ? new Color(colorUtil.rainbow(3000, 1F, 0.5F)) : new Color(40, 39, 42, 255));
+        Minecraft.getMinecraft().fontRendererObj.drawStringWithShadow(module.getModuleName(), x + 3F, y - 2, this.module.isToggled() ? -1 : Color.gray.getRGB());
     }
 
     public void mouseReleased() {
@@ -83,7 +86,11 @@ public class ModuleButton {
 
     public void mouseClicked(int mouseX, int mouseY, int mouseButton) {
         if (isHovering(mouseX, mouseY) && mouseButton == 0) {
-            this.extended = !this.extended;
+            if(Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) && Keyboard.isKeyDown(Keyboard.KEY_LCONTROL)) {
+                this.module.setBypassed(!this.module.isBypassed());
+            }else {
+                this.extended = !this.extended;
+            }
         }
         this.elementList.forEach(element -> {
             element.mouseClicked(mouseX, mouseY, mouseButton);

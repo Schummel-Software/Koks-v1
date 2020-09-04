@@ -11,6 +11,7 @@ import koks.modules.impl.player.FastConsume;
 import koks.modules.impl.player.NoFall;
 import koks.modules.impl.player.SetBack;
 import koks.modules.impl.utilities.ClickGUI;
+import koks.modules.impl.utilities.HUD;
 import koks.modules.impl.visuals.*;
 
 import java.util.ArrayList;
@@ -45,6 +46,8 @@ public class ModuleManager {
         addModule(new Jesus());
         addModule(new NoCobweb());
         addModule(new SetBack());
+        addModule(new HUD());
+        addModule(new ClearTag());
     }
 
     public void addModule(Module module) {

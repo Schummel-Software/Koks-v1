@@ -41,7 +41,7 @@ public class Sprint extends Module {
     @Override
     public void onEvent(Event event) {
 
-        if (event instanceof AnimationEvent && Koks.getKoks().moduleManager.getModule(Animations.class).isToggled()) {
+        if (event instanceof AnimationEvent && Koks.getKoks().moduleManager.getModule(Animations.class).isToggled() && mc.thePlayer.isSprinting()) {
             AnimationEvent a = (AnimationEvent) event;
 
             a.setBody(0.4F, 0, 0);

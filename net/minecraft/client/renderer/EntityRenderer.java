@@ -577,10 +577,6 @@ public class EntityRenderer implements IResourceManagerReloadListener
     {
         float f = 1.0F;
 
-        FOVEvent fovEvent = new FOVEvent(this.fovModifierHand);
-        Koks.getKoks().eventManager.onEvent(fovEvent);
-        this.fovModifierHand = fovEvent.getModifierHand();
-        if(fovEvent.isCanceled())return;
         if (this.mc.getRenderViewEntity() instanceof AbstractClientPlayer)
         {
             AbstractClientPlayer abstractclientplayer = (AbstractClientPlayer)this.mc.getRenderViewEntity();
@@ -601,6 +597,9 @@ public class EntityRenderer implements IResourceManagerReloadListener
                 this.fovModifierHand = 0.1F;
             }
         }
+        FOVEvent fovEvent = new FOVEvent(this.fovModifierHand);
+        Koks.getKoks().eventManager.onEvent(fovEvent);
+        this.fovModifierHand = fovEvent.getModifierHand();
     }
 
     /**
@@ -680,6 +679,7 @@ public class EntityRenderer implements IResourceManagerReloadListener
         {
             HurtCameraEvent hurtCameraEvent = new HurtCameraEvent();
             Koks.getKoks().eventManager.onEvent(hurtCameraEvent);
+
             if (hurtCameraEvent.isCanceled())
                 return;
             EntityLivingBase entitylivingbase = (EntityLivingBase)this.mc.getRenderViewEntity();

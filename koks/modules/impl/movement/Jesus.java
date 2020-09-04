@@ -18,7 +18,7 @@ public class Jesus extends Module {
 
     @Override
     public void onEvent(Event event) {
-        if(event instanceof EventUpdate) { //INTAVE
+        if(event instanceof EventUpdate) {//INTAVE
             BlockPos bPos = new BlockPos(mc.thePlayer.posX,mc.thePlayer.posY,mc.thePlayer.posZ);
             if(mc.theWorld.getBlockState(bPos).getBlock() == Blocks.water || mc.theWorld.getBlockState(bPos).getBlock() == Blocks.flowing_water || mc.theWorld.getBlockState(bPos).getBlock() == Blocks.lava || mc.theWorld.getBlockState(bPos).getBlock() == Blocks.flowing_lava) {
 
