@@ -34,7 +34,7 @@ public class Speed extends Module {
                         mc.thePlayer.motionY = 0.42;
                     } else {
                         MovementUtil movementUtil = new MovementUtil();
-                        movementUtil.setSpeed(0.41); // Absolute Maximum
+                        movementUtil.setSpeed(0.4743); // Absolute Maximum
                         mc.thePlayer.jumpMovementFactor = 0.025F;
                     }
                 }

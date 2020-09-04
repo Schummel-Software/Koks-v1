@@ -38,6 +38,8 @@ public class ModuleManager {
         addModule(new NoFall());
         addModule(new SetBack());
         addModule(new AutoArmor());
+        addModule(new InventoryManager());
+        addModule(new ChestStealer());
 
         // Utilities
         addModule(new ClickGUI());

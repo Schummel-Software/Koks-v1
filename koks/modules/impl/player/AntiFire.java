@@ -19,7 +19,7 @@ public class AntiFire extends Module {
     public void onEvent(Event event) {
         if (event instanceof EventUpdate) {
             if (mc.thePlayer.isBurning()) {
-                for (int i = 0; i < 15; i++) {
+                for (int i = 0; i < 10; i++) {
                     mc.thePlayer.sendQueue.addToSendQueue(new C03PacketPlayer(true));
                 }
             }
