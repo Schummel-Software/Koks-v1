@@ -46,6 +46,7 @@ public class ModuleManager {
 
         // Visuals
         addModule(new Animations());
+        addModule(new BlockESP());
         addModule(new ChestESP());
         addModule(new ClearTag());
         addModule(new CustomEnchant());

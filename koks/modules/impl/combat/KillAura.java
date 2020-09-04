@@ -58,7 +58,7 @@ public class KillAura extends Module {
     public BooleanValue<Boolean> needNaNHealth = new BooleanValue<>("NaN Health", false, this);
     public BooleanValue<Boolean> checkName = new BooleanValue<>("Check Name", true, this);
     public NumberValue<Integer> ticksExisting = new NumberValue<>("Ticks Existing", 25, 100, 0, this);
-    public TitleValue antiBotSettings = new TitleValue("AntiBot Settings", false, new Value[]{needNaNHealth, ticksExisting}, this);
+    public TitleValue antiBotSettings = new TitleValue("AntiBot Settings", false, new Value[]{needNaNHealth, checkName, ticksExisting}, this);
 
     public List<Entity> entities = new ArrayList<>();
     public RandomUtil randomUtil = new RandomUtil();
