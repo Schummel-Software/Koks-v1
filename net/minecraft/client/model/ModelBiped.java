@@ -123,15 +123,13 @@ public class ModelBiped extends ModelBase {
         float[] bodyPos = new float[] { this.bipedBody.offsetX, this.bipedBody.offsetY, this.bipedBody.offsetZ };
         float[] headPos = new float[] { this.bipedHead.offsetX, this.bipedHead.offsetY, this.bipedHead.offsetZ };
 
-        if(entityIn instanceof  EntityPlayerSP) {
-
         AnimationEvent animationEvent = new AnimationEvent(leftleg, rightleg, body, leftarm, rightarm, head,
                 leftlegPos, rightlegPos, bodyPos, leftarmPos, rightarmPos, headPos);
         animationEvent.resetOffset();
         Koks.getKoks().eventManager.onEvent(animationEvent);
         Minecraft.getMinecraft().thePlayer.animationEvent = animationEvent;
 
-
+        if(entityIn == Minecraft.getMinecraft().thePlayer) {
 
             this.bipedLeftLeg.rotateAngleX = animationEvent.getLeftLeg()[0];
             this.bipedLeftLeg.rotateAngleY = animationEvent.getLeftLeg()[1];
@@ -188,7 +186,38 @@ public class ModelBiped extends ModelBase {
             this.bipedHeadwear.offsetX = animationEvent.getHeadPos()[0];
             this.bipedHeadwear.offsetY = animationEvent.getHeadPos()[1];
             this.bipedHeadwear.offsetZ = animationEvent.getHeadPos()[2];
+
+
+        }else{
+            this.bipedLeftLeg.offsetX = 0;
+            this.bipedLeftLeg.offsetY = 0;
+            this.bipedLeftLeg.offsetZ = 0;
+
+            this.bipedRightLeg.offsetX = 0;
+            this.bipedRightLeg.offsetY = 0;
+            this.bipedRightLeg.offsetZ = 0;
+
+            this.bipedBody.offsetX = 0;
+            this.bipedBody.offsetY = 0;
+            this.bipedBody.offsetZ = 0;
+
+            this.bipedLeftArm.offsetX = 0;
+            this.bipedLeftArm.offsetY = 0;
+            this.bipedLeftArm.offsetZ = 0;
+
+            this.bipedRightArm.offsetX = animationEvent.getRightArmPos()[0];
+            this.bipedRightArm.offsetY = animationEvent.getRightArmPos()[1];
+            this.bipedRightArm.offsetZ = animationEvent.getRightArmPos()[2];
+
+            this.bipedHead.offsetX = animationEvent.getHeadPos()[0];
+            this.bipedHead.offsetY = animationEvent.getHeadPos()[1];
+            this.bipedHead.offsetZ = animationEvent.getHeadPos()[2];
+
+            this.bipedHeadwear.offsetX = animationEvent.getHeadPos()[0];
+            this.bipedHeadwear.offsetY = animationEvent.getHeadPos()[1];
+            this.bipedHeadwear.offsetZ = animationEvent.getHeadPos()[2];
         }
+
         if (this.isChild) {
             float f = 2.0F;
             GlStateManager.scale(1.5F / f, 1.5F / f, 1.5F / f);

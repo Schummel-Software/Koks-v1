@@ -84,7 +84,7 @@ public class ModelPlayer extends ModelBiped
         if(entityIn instanceof EntityPlayerSP && Minecraft.getMinecraft().thePlayer.animationEvent != null) {
 
             AnimationEvent animationEvent = Minecraft.getMinecraft().thePlayer.animationEvent;
-
+            animationEvent.resetOffset();
 
 
             this.bipedLeftLegwear.rotateAngleX = animationEvent.getLeftLeg()[0];

@@ -2,8 +2,11 @@ package koks.modules.impl.movement;
 
 import koks.Koks;
 import koks.event.Event;
+import koks.event.impl.AnimationEvent;
+import koks.event.impl.EventUpdate;
 import koks.modules.Module;
 import koks.modules.impl.movement.modes.HypixelFly;
+import koks.modules.impl.visuals.Animations;
 import koks.utilities.value.values.ModeValue;
 
 /**
@@ -26,6 +29,24 @@ public class Fly extends Module {
             case "Hypixel":
                 hypixelFly.onEvent(event);
                 break;
+        }
+
+        if(event instanceof EventUpdate) {
+            setDisplayName(getModuleName() + " §7" + modeValue.getSelectedMode());
+        }
+
+        if(event instanceof AnimationEvent && Koks.getKoks().moduleManager.getModule(Animations.class).isToggled()) {
+            AnimationEvent animationEvent = (AnimationEvent) event;
+            animationEvent.setRightLeg(1.5F,0F,0F);
+            animationEvent.setLeftLeg(1.5F,0F,0F);
+            animationEvent.setBody(1.5F,0F,0F);
+            animationEvent.setBodyPos(0, 0.7F ,-0.5F);
+            animationEvent.setHead(0.6F,0F,0F);
+            animationEvent.setLeftArm(-1.5F,0F,0F);
+            animationEvent.setRightArm(-1.5F,0F,0F);
+            animationEvent.setRightArmPos(0, 0.7F ,-0.5F);
+            animationEvent.setLeftArmPos(0, 0.7F ,-0.5F);
+            animationEvent.setHeadPos(0, 0.7F ,-0.5F);
         }
     }
 
