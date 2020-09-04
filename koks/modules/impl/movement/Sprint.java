@@ -62,20 +62,6 @@ public class Sprint extends Module {
             if (mc.thePlayer.moveForward != 0 && !mc.gameSettings.keyBindBack.isKeyDown() && canSprint()) {
                 mc.thePlayer.setSprinting(true);
             }
-            if (timeUtil.isDelayComplete(vLong.getDefaultValue())) {
-                System.out.println("INTEGER:" + vInteger.getDefaultValue());
-                System.out.println("FLOAT:" + vFloat.getDefaultValue());
-                System.out.println("LONG:" + vLong.getDefaultValue());
-                System.out.println("DOUBLE:" + vDouble.getDefaultValue());
-
-
-                long secs = vLong.getDefaultValue() / 1000;
-                long mins = secs / 60;
-                long restsecs = secs % 60;
-                System.out.printf("Time " + "%02d:%02d", mins, restsecs);
-                timeUtil.reset();
-
-            }
         }
     }
 
