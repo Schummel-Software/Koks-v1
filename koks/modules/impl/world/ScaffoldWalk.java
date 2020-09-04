@@ -199,6 +199,7 @@ public class ScaffoldWalk extends Module {
     public void onDisable() {
         yaw = 0;
         pitch = 0;
+        mc.thePlayer.sendQueue.addToSendQueue(new C09PacketHeldItemChange(mc.thePlayer.inventory.currentItem));
     }
 
     public void getBlockPosToPlaceOn(BlockPos pos) {
