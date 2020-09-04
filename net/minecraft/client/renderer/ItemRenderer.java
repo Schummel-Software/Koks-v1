@@ -1,5 +1,7 @@
 package net.minecraft.client.renderer;
 
+import koks.Koks;
+import koks.modules.impl.combat.KillAura;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -371,8 +373,14 @@ public class ItemRenderer
             }
             else
             {
-                this.func_178105_d(f1);
-                this.transformFirstPersonItem(f, f1);
+                KillAura killAura = Koks.getKoks().moduleManager.getModule(KillAura.class);
+                if (killAura.isToggled() && killAura.finalEntity != null && killAura.fakeBlocking.isToggled()) {
+                    this.transformFirstPersonItem(f - 0.1F, f1);
+                    this.func_178103_d();
+                } else {
+                    this.func_178105_d(f1);
+                    this.transformFirstPersonItem(f, f1);
+                }
             }
 
             this.renderItem(entityplayersp, this.itemToRender, ItemCameraTransforms.TransformType.FIRST_PERSON);
