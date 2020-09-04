@@ -37,6 +37,7 @@ import java.util.concurrent.FutureTask;
 import javax.imageio.ImageIO;
 
 import koks.Koks;
+import koks.event.impl.EventTick;
 import koks.modules.Module;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -1721,6 +1722,8 @@ public class Minecraft implements IThreadListener, IPlayerUsage
      */
     public void runTick() throws IOException
     {
+        EventTick eventTick = new EventTick();
+        Koks.getKoks().eventManager.onEvent(eventTick);
         if (this.rightClickDelayTimer > 0)
         {
             --this.rightClickDelayTimer;

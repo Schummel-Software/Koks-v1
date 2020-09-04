@@ -9,28 +9,19 @@ import net.minecraft.util.MathHelper;
  */
 public class MovementUtil {
 
-    public static void setSpeed(double speed) {
+    public final Minecraft mc = Minecraft.getMinecraft();
 
-        double strafeSpeed = speed;
-        float forward = Minecraft.getMinecraft().thePlayer.movementInput.moveForward;
-        float strafe = Minecraft.getMinecraft().thePlayer.movementInput.moveStrafe;
+    public double getDirection(float rotationYaw) {
+        float left = mc.gameSettings.keyBindLeft.pressed ? mc.gameSettings.keyBindBack.pressed ? 45 : -45 : 0;
+        float right = mc.gameSettings.keyBindRight.pressed ? mc.gameSettings.keyBindBack.pressed ? -45 :  45 : 0;
+        float back = mc.gameSettings.keyBindBack.pressed ? 180 : 0;
+        float yaw = back + right + left;
+        return rotationYaw + yaw;
+    }
 
-        if (forward > 0 && strafe > 0) {
-            forward = 1;
-            if(strafe > 0)
-                strafeSpeed = speed / 2;
-        } else {
-            Minecraft.getMinecraft().thePlayer.motionX = 0;
-            Minecraft.getMinecraft().thePlayer.motionZ = 0;
-        }
-
-        float f1 = MathHelper.sin(Minecraft.getMinecraft().thePlayer.rotationYaw * (float) Math.PI / 180.0F);
-        float f2 = MathHelper.cos(Minecraft.getMinecraft().thePlayer.rotationYaw * (float) Math.PI / 180.0F);
-
-        //Minecraft.getMinecraft().thePlayer.motionX = (double) (strafe * strafeSpeed * f2 - forward * speed * f1);
-        //Minecraft.getMinecraft().thePlayer.motionZ = (double) (forward * speed * f2 + strafe * strafeSpeed * f1);
-        Minecraft.getMinecraft().thePlayer.motionX = (double)((strafe * strafeSpeed)* f2 - forward * f1);
-        Minecraft.getMinecraft().thePlayer.motionZ = (double)((forward * speed)* f2 + strafe * f1);
+    public void setSpeed(double speed) {
+        mc.thePlayer.motionX = -Math.sin(Math.toRadians(getDirection(mc.thePlayer.rotationYaw))) * speed;
+        mc.thePlayer.motionZ = Math.cos(Math.toRadians(getDirection(mc.thePlayer.rotationYaw))) * speed;
     }
 
 }

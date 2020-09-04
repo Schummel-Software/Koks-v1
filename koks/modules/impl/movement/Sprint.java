@@ -64,7 +64,7 @@ public class Sprint extends Module {
     @Override
     public void onEvent(Event event) {
 
-        if (event instanceof AnimationEvent && Koks.getKoks().moduleManager.getModule(Animations.class).isToggled()) {
+        if (event instanceof AnimationEvent && Koks.getKoks().moduleManager.getModule(Animations.class).isToggled() && mc.thePlayer.isSprinting()) {
             AnimationEvent a = (AnimationEvent) event;
 
             a.setBody(0.4F, 0, 0);
@@ -89,7 +89,9 @@ public class Sprint extends Module {
 
     public boolean canSprint() {
         ScaffoldWalk scaffoldWalk = Koks.getKoks().moduleManager.getModule(ScaffoldWalk.class);
-        return !(scaffoldWalk.isToggled() && scaffoldWalk.sprint.isToggled());
+        if(scaffoldWalk.isToggled() && scaffoldWalk.sprint.isToggled())
+            return false;
+        return true;
     }
 
     @Override

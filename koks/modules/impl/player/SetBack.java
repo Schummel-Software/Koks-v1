@@ -1,8 +1,10 @@
 package koks.modules.impl.player;
 
+import koks.Koks;
 import koks.event.Event;
 import koks.event.impl.EventUpdate;
 import koks.modules.Module;
+import koks.utilities.value.values.ModeValue;
 import net.minecraft.client.gui.GuiGameOver;
 import net.minecraft.network.play.client.C03PacketPlayer;
 
@@ -16,8 +18,11 @@ public class SetBack extends Module {
 
     public double deathX, deathY, deathZ;
 
+    public ModeValue<String> mode = new ModeValue<String>("Mode", "Intave",new String[] {"Intave","AAC3.0.1"},this);
+
     public SetBack() {
         super("SetBack", Category.PLAYER);
+        Koks.getKoks().valueManager.addValue(mode);
     }
 
     public void aac301() {
@@ -67,6 +72,16 @@ public class SetBack extends Module {
     public void onEvent(Event event) {
         if(event instanceof EventUpdate) {
 
+            setDisplayName(this.getModuleName() + " §7" + mode.getSelectedMode());
+
+            switch (mode.getSelectedMode()) {
+                case "Intave":
+                    intave();
+                    break;
+                case "AAC3.0.1":
+                    aac301();
+                    break;
+            }
         }
     }
 

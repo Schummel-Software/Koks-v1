@@ -16,7 +16,7 @@ public abstract class Module {
 
     public Minecraft mc = Minecraft.getMinecraft();
 
-    private String moduleName;
+    private String moduleName, displayName;
     private Category moduleCategory;
     private String moduleInfo;
     private boolean visible = true, enabled, bypassed;
@@ -25,6 +25,7 @@ public abstract class Module {
     public Module(String moduleName, Category moduleCategory) {
         this.moduleName = moduleName;
         this.moduleCategory = moduleCategory;
+        this.displayName = moduleName;
     }
 
     public enum Category {
@@ -106,5 +107,13 @@ public abstract class Module {
 
     public void setKeyBind(int keyBind) {
         this.keyBind = keyBind;
+    }
+
+    public String getDisplayName() {
+        return displayName;
+    }
+
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
     }
 }

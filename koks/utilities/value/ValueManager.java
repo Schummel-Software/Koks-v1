@@ -1,5 +1,7 @@
 package koks.utilities.value;
 
+import koks.modules.Module;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,4 +24,12 @@ public class ValueManager {
         this.values.add(value);
     }
 
+    public Value getValue(Module module, String name) {
+        for(Value value : getValues()) {
+            if(value.getName().equalsIgnoreCase(name) && value.getModule() == module) {
+                return value;
+            }
+        }
+        return null;
+    }
 }

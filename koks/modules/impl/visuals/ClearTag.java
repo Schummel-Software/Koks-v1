@@ -1,24 +1,21 @@
 package koks.modules.impl.visuals;
 
 import koks.event.Event;
-import koks.event.impl.FOVEvent;
 import koks.modules.Module;
 
 /**
  * @author avox | lmao | kroko
- * @created on 02.09.2020 : 22:21
+ * @created on 03.09.2020 : 22:44
  */
-public class NoFov extends Module {
+public class ClearTag extends Module {
 
-    public NoFov() {
-        super("NoFov", Category.VISUALS);
+    public ClearTag() {
+        super("ClearTag", Category.VISUALS);
     }
 
     @Override
     public void onEvent(Event event) {
-        if(event instanceof FOVEvent) {
-            ((FOVEvent) event).setModifierHand(1.0F);
-        }
+
     }
 
     @Override
@@ -30,5 +27,4 @@ public class NoFov extends Module {
     public void onDisable() {
 
     }
-
 }

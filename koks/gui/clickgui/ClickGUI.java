@@ -40,6 +40,11 @@ public class ClickGUI extends GuiScreen {
     }
 
     @Override
+    public boolean doesGuiPauseGame() {
+        return false;
+    }
+
+    @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
 
         if (dragging) {
@@ -118,11 +123,6 @@ public class ClickGUI extends GuiScreen {
 
     public int getHeight() {
         return height;
-    }
-
-    @Override
-    public boolean doesGuiPauseGame() {
-        return false;
     }
 
     public int getWidth() {

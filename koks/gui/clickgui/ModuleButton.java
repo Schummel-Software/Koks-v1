@@ -3,6 +3,7 @@ package koks.gui.clickgui;
 import koks.Koks;
 import koks.gui.clickgui.elements.*;
 import koks.modules.Module;
+import koks.utilities.ColorUtil;
 import koks.utilities.RenderUtils;
 import koks.utilities.value.values.BooleanValue;
 import koks.utilities.value.values.ModeValue;
@@ -115,9 +116,9 @@ public class ModuleButton {
         } else {
             yMaxElements = 0F;
         }
-
-        renderUtils.drawOutlineRect(x, y, x + width, y + height + yMaxElements, 1, new Color(40, 39, 42, 255));
-        Minecraft.getMinecraft().fontRendererObj.drawStringWithShadow(module.getModuleName(), x + 3F, y - 2, -1);
+        ColorUtil colorUtil = new ColorUtil();
+        renderUtils.drawOutlineRect(x, y, x + width, y + height + yMaxElements, 1, this.module.isBypassed() ? new Color(colorUtil.rainbow(3000, 1F, 0.5F)) : new Color(40, 39, 42, 255));
+        Minecraft.getMinecraft().fontRendererObj.drawStringWithShadow(module.getModuleName(), x + 3F, y - 2, this.module.isToggled() ? -1 : Color.gray.getRGB());
     }
 
     public void mouseReleased() {

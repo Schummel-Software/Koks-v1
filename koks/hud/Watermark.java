@@ -1,6 +1,7 @@
 package koks.hud;
 
 import koks.Koks;
+import koks.modules.impl.utilities.HUD;
 import koks.utilities.ColorUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -22,22 +23,22 @@ public class Watermark {
 
     public void drawWatermark() {
         ScaledResolution sr = new ScaledResolution(mc);
+        if(Koks.getKoks().moduleManager.getModule(HUD.class).isToggled()) {
+            String name = Koks.getKoks().CLIENT_NAME;
+            String version = Koks.getKoks().CLIENT_VERSION;
+            colorUtil = new ColorUtil();
+            GL11.glPushMatrix();
+            GL11.glScaled(3.4, 3.4, 3.4);
+            fr.drawString(name.substring(0, 1), 2, 2, colorUtil.rainbow(3000, 1F, 1F));
+            GL11.glPopMatrix();
 
-        String name = Koks.getKoks().CLIENT_NAME;
-        String version = Koks.getKoks().CLIENT_VERSION;
-        colorUtil = new ColorUtil();
-        GL11.glPushMatrix();
-        GL11.glScaled(3.4, 3.4, 3.4);
-        fr.drawString(name.substring(0, 1), 2, 2, colorUtil.rainbow(3000,1F, 1F));
-        GL11.glPopMatrix();
+            GL11.glPushMatrix();
+            GL11.glScaled(2, 2, 2);
+            fr.drawString(name.substring(1), 13, 8, colorUtil.rainbow(3000, 1F, 1F));
+            GL11.glPopMatrix();
 
-        GL11.glPushMatrix();
-        GL11.glScaled(2, 2, 2);
-        fr.drawString(name.substring(1), 13, 8, colorUtil.rainbow(3000,1F, 1F));
-        GL11.glPopMatrix();
-
-        //fr.drawStringWithShadow("v" + version, 20, 20, 0xFFFFFFFF);
-
+            //fr.drawStringWithShadow("v" + version, 20, 20, 0xFFFFFFFF);
+        }
     }
 
 }
