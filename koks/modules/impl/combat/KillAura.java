@@ -23,6 +23,7 @@ import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemSword;
 import net.minecraft.network.play.client.C02PacketUseEntity;
+import net.minecraft.network.play.client.C0APacketAnimation;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.MathHelper;
 
@@ -60,12 +61,18 @@ public class KillAura extends Module {
     public NumberValue<Integer> ticksExisting = new NumberValue<>("Ticks Existing", 25, 100, 0, this);
     public TitleValue antiBotSettings = new TitleValue("AntiBot Settings", false, new Value[]{needNaNHealth, checkName, ticksExisting}, this);
 
+    public BooleanValue<Boolean> fakeBlocking = new BooleanValue<>("Fake Blocking", true, this);
+    public BooleanValue<Boolean> silentSwing = new BooleanValue<>("Silent Swing", true, this);
+    public BooleanValue<Boolean> serverSideSwing = new BooleanValue<>("Send SwingPacket", true, this);
+    public NumberValue<Integer> swingChance = new NumberValue<>("ClientSide SwingChance", 100, 100, 0, this);
+    public TitleValue visualSettings = new TitleValue("Visual Settings", false, new Value[]{fakeBlocking, silentSwing, serverSideSwing, swingChance}, this);
+
     public List<Entity> entities = new ArrayList<>();
     public RandomUtil randomUtil = new RandomUtil();
     public AuraUtil auraUtil = new AuraUtil();
     public TimeUtil timeUtil = new TimeUtil();
     public Entity finalEntity;
-    public boolean isFailing;
+    public boolean isFailing, canSwing;
     public float yaw, pitch;
     public int listCount;
 
@@ -91,6 +98,12 @@ public class KillAura extends Module {
         Koks.getKoks().valueManager.addValue(needNaNHealth);
         Koks.getKoks().valueManager.addValue(checkName);
         Koks.getKoks().valueManager.addValue(ticksExisting);
+
+        Koks.getKoks().valueManager.addValue(visualSettings);
+        Koks.getKoks().valueManager.addValue(fakeBlocking);
+        Koks.getKoks().valueManager.addValue(silentSwing);
+        Koks.getKoks().valueManager.addValue(serverSideSwing);
+        Koks.getKoks().valueManager.addValue(swingChance);
     }
 
     @Override
@@ -120,6 +133,7 @@ public class KillAura extends Module {
             setRotations(finalEntity);
 
             isFailing = new Random().nextInt(100) <= failingChance.getDefaultValue();
+            canSwing = new Random().nextInt(100) <= swingChance.getDefaultValue();
 
             if (stopSprinting.isToggled() && mc.thePlayer.rotationYaw != yaw && finalEntity != null) {
                 mc.gameSettings.keyBindSprint.pressed = false;
@@ -159,7 +173,16 @@ public class KillAura extends Module {
 
             if (!isFailing && rayCast != null) {
 
-                mc.thePlayer.swingItem();
+                if (silentSwing.isToggled()) {
+                    if (canSwing) {
+                        mc.thePlayer.swingItem();
+                    } else {
+                        if (serverSideSwing.isToggled())
+                            mc.thePlayer.sendQueue.addToSendQueue(new C0APacketAnimation());
+                    }
+                } else
+                    mc.thePlayer.swingItem();
+
                 if (stopSprinting.isToggled())
                     mc.playerController.attackEntity(mc.thePlayer, rayCast);
                 else

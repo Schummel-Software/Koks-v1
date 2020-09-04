@@ -35,7 +35,7 @@ public class BlockESP extends Module {
         if (event instanceof EventUpdate) {
             int range = renderRange.getDefaultValue();
             for (int y = range * -1; y < range; y++) {
-            for (int x = range * -1; x < range; x++) {
+                for (int x = range * -1; x < range; x++) {
                     for (int z = range * -1; z < range; z++) {
                         BlockPos blockPos = mc.thePlayer.playerLocation.add(x, y, z);
                         if (mc.theWorld.getBlockState(blockPos).getBlock() == Blocks.emerald_block || mc.theWorld.getBlockState(blockPos).getBlock() == Blocks.redstone_block) {
