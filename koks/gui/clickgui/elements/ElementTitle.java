@@ -24,6 +24,7 @@ public class ElementTitle extends Element {
         if (titleValue.isExpanded()) {
             Arrays.stream(this.titleValue.getObjects()).forEach(objects -> {
                 objects.setVisible(true);
+                objects.setVisible(objects.isVisible());
             });
         } else {
             Arrays.stream(this.titleValue.getObjects()).forEach(objects -> {

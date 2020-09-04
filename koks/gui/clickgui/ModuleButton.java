@@ -3,6 +3,7 @@ package koks.gui.clickgui;
 import koks.Koks;
 import koks.gui.clickgui.elements.*;
 import koks.modules.Module;
+import koks.modules.impl.combat.KillAura;
 import koks.utilities.ColorUtil;
 import koks.utilities.RenderUtils;
 import koks.utilities.value.values.BooleanValue;
@@ -69,6 +70,7 @@ public class ModuleButton {
             int[] yHeight = {0};
             this.elementList.forEach(element -> {
                 if (element.getValue() != null) {
+
                     if (element.getValue().isVisible()) {
                         element.setPosition(x + 3, this.y + height + yHeight[0], width - 6, height - 2);
                         element.drawScreen(mouseX, mouseY);
@@ -117,9 +119,9 @@ public class ModuleButton {
 
     public void mouseClicked(int mouseX, int mouseY, int mouseButton) {
         if (isHovering(mouseX, mouseY) && mouseButton == 0) {
-            if(Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) && Keyboard.isKeyDown(Keyboard.KEY_LCONTROL)) {
-             module.setBypassed(!module.isBypassed());
-            }else {
+            if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) && Keyboard.isKeyDown(Keyboard.KEY_LCONTROL)) {
+                module.setBypassed(!module.isBypassed());
+            } else {
                 this.extended = !this.extended;
             }
         }

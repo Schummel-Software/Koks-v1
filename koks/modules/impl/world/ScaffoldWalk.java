@@ -41,7 +41,7 @@ public class ScaffoldWalk extends Module {
     private final TimeUtil timeUtil = new TimeUtil();
     private final RandomUtil randomutil = new RandomUtil();
 
-    private final NumberValue<Long> delay = new NumberValue<>("Delay", 1L, 100L, 500L, 0L, this);
+    private final NumberValue<Long> delay = new NumberValue<>("Delay", 1L, 50L, 100L, 0L, this);
 
     private final BooleanValue<Boolean> swingItem = new BooleanValue<>("Swing Item", true, this);
     private final BooleanValue<Boolean> safeWalk = new BooleanValue<>("SafeWalk", true, this);
