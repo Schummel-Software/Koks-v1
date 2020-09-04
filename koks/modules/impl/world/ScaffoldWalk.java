@@ -2,6 +2,7 @@ package koks.modules.impl.world;
 
 import koks.Koks;
 import koks.event.Event;
+import koks.event.impl.EventUpdate;
 import koks.event.impl.MotionEvent;
 import koks.event.impl.SafeWalkEvent;
 import koks.modules.Module;
@@ -52,7 +53,7 @@ public class ScaffoldWalk extends Module {
 
     public ScaffoldWalk() {
         super("ScaffoldWalk", Category.WORLD);
-        this.blackList = Arrays.asList(Blocks.crafting_table, Blocks.enchanting_table, Blocks.anvil, Blocks.sand, Blocks.gravel, Blocks.glass_pane, Blocks.stained_glass_pane, Blocks.ice, Blocks.packed_ice, Blocks.cobblestone_wall, Blocks.water, Blocks.lava, Blocks.web, Blocks.sapling, Blocks.rail, Blocks.golden_rail, Blocks.activator_rail, Blocks.detector_rail, Blocks.tnt, Blocks.red_flower, Blocks.yellow_flower, Blocks.flower_pot, Blocks.tallgrass, Blocks.red_mushroom, Blocks.brown_mushroom, Blocks.ladder, Blocks.torch, Blocks.stone_button, Blocks.wooden_button, Blocks.redstone_torch, Blocks.redstone_wire, Blocks.furnace, Blocks.cactus, Blocks.oak_fence, Blocks.acacia_fence, Blocks.nether_brick_fence, Blocks.birch_fence, Blocks.dark_oak_fence, Blocks.jungle_fence, Blocks.oak_fence, Blocks.acacia_fence_gate, Blocks.snow_layer, Blocks.trapdoor, Blocks.ender_chest, Blocks.beacon, Blocks.hopper, Blocks.daylight_detector, Blocks.daylight_detector_inverted, Blocks.carpet);
+        this.blackList = Arrays.asList(Blocks.crafting_table, Blocks.chest, Blocks.enchanting_table, Blocks.anvil, Blocks.sand, Blocks.gravel, Blocks.glass_pane, Blocks.stained_glass_pane, Blocks.ice, Blocks.packed_ice, Blocks.cobblestone_wall, Blocks.water, Blocks.lava, Blocks.web, Blocks.sapling, Blocks.rail, Blocks.golden_rail, Blocks.activator_rail, Blocks.detector_rail, Blocks.tnt, Blocks.red_flower, Blocks.yellow_flower, Blocks.flower_pot, Blocks.tallgrass, Blocks.red_mushroom, Blocks.brown_mushroom, Blocks.ladder, Blocks.torch, Blocks.stone_button, Blocks.wooden_button, Blocks.redstone_torch, Blocks.redstone_wire, Blocks.furnace, Blocks.cactus, Blocks.oak_fence, Blocks.acacia_fence, Blocks.nether_brick_fence, Blocks.birch_fence, Blocks.dark_oak_fence, Blocks.jungle_fence, Blocks.oak_fence, Blocks.acacia_fence_gate, Blocks.snow_layer, Blocks.trapdoor, Blocks.ender_chest, Blocks.beacon, Blocks.hopper, Blocks.daylight_detector, Blocks.daylight_detector_inverted, Blocks.carpet);
         Koks.getKoks().valueManager.addValue(delay);
         Koks.getKoks().valueManager.addValue(swingItem);
         Koks.getKoks().valueManager.addValue(safeWalk);
@@ -71,12 +72,14 @@ public class ScaffoldWalk extends Module {
             BlockPos position = new BlockPos(mc.thePlayer.posX, (mc.thePlayer.getEntityBoundingBox()).minY - 1.0D, mc.thePlayer.posZ);
             if (((MotionEvent) event).getType() == MotionEvent.Type.PRE) {
                 this.currentInventorySlot = mc.thePlayer.inventory.currentItem;
-                setRotations();
                 ((MotionEvent) event).setYaw(yaw);
                 ((MotionEvent) event).setPitch(pitch);
             } else if (((MotionEvent) event).getType() == MotionEvent.Type.POST) {
                 getBlockPosToPlaceOn(position);
             }
+        }
+        if (event instanceof EventUpdate) {
+            setRotations();
         }
     }
 
@@ -153,19 +156,18 @@ public class ScaffoldWalk extends Module {
         } else {
             timeUtil.reset();
         }
-        mc.thePlayer.inventory.currentItem = currentInventorySlot;
     }
 
     @Override
     public void onEnable() {
-        pitch = 0;
-        yaw = 0;
-        blockPos = null;
+        setRotations();
     }
 
     @Override
     public void onDisable() {
-
+yaw = 0;
+pitch = 0;
+blockPos = null;
     }
 
     public void getBlockPosToPlaceOn(BlockPos pos) {

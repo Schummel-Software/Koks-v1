@@ -89,7 +89,9 @@ public class Sprint extends Module {
 
     public boolean canSprint() {
         ScaffoldWalk scaffoldWalk = Koks.getKoks().moduleManager.getModule(ScaffoldWalk.class);
-        return !(scaffoldWalk.isToggled() && scaffoldWalk.sprint.isToggled());
+        if(scaffoldWalk.isToggled() && scaffoldWalk.sprint.isToggled())
+            return false;
+        return true;
     }
 
     @Override
