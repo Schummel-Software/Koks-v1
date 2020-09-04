@@ -28,7 +28,6 @@ public class ModuleManager {
         addModule(new NoFall());
         addModule(new AntiFire());
         addModule(new FastConsume());
-        addModule(new KillAura());
         addModule(new Velocity());
         addModule(new NameTags());
         addModule(new PlayerESP());
@@ -41,6 +40,7 @@ public class ModuleManager {
         addModule(new ScaffoldWalk());
         addModule(new SetBack());
         addModule(new AntiBots());
+        addModule(new KillAura());
     }
 
     public void addModule(Module module) {
