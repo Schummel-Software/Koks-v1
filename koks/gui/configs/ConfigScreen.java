@@ -28,6 +28,7 @@ public class ConfigScreen extends GuiScreen {
     private ScaledResolution sr;
     public boolean dragging;
 
+
     public ConfigScreen() {
         this.x = 100;
         this.y = 100;
