@@ -1,5 +1,6 @@
 package koks.gui.clickgui;
 
+import koks.Koks;
 import koks.gui.clickgui.commonvalue.CommonPanel;
 import koks.gui.clickgui.elements.ElementKeyBind;
 import koks.modules.Module;
@@ -89,6 +90,9 @@ public class ClickGUI extends GuiScreen {
             this.dragging = true;
             this.dragX = x - mouseX;
             this.dragY = y - mouseY;
+        }
+        if (mouseX > 0 && mouseX < 70 && mouseY > 0 && mouseY < 50 && mouseButton == 0) {
+            mc.displayGuiScreen(Koks.getKoks().configScreen);
         }
         panelList.forEach(panelButton -> panelButton.mouseClicked(mouseX, mouseY, mouseButton));
         this.commonPanel.mouseClicked(mouseX, mouseY, mouseButton);

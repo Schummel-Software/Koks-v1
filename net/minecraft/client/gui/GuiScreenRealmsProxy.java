@@ -56,9 +56,9 @@ public class GuiScreenRealmsProxy extends GuiScreen
      * Draws a rectangle with a vertical gradient between the specified colors (ARGB format). Args : x1, y1, x2, y2,
      * topColor, bottomColor
      */
-    public void drawGradientRect(int left, int top, int right, int bottom, int startColor, int endColor)
+    public static void drawGradientRect(int left, int top, int right, int bottom, int startColor, int endColor)
     {
-        super.drawGradientRect(left, top, right, bottom, startColor, endColor);
+        drawGradientRect(left, top, right, bottom, startColor, endColor);
     }
 
     /**
