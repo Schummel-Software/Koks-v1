@@ -32,7 +32,7 @@ public class ConfigManager {
 
     public ArrayList<File> getConfigs() {
         ArrayList<File> files = new ArrayList<>();
-        for (File file : Objects.requireNonNull(DIR.listFiles())) {
+        for (File file : DIR.listFiles()) {
             if (!files.contains(file)) {
                 files.add(file);
             }
@@ -85,7 +85,7 @@ public class ConfigManager {
         }
 
         public void deleteAllConfigs () {
-            for (File file : Objects.requireNonNull(DIR.listFiles())) {
+            for (File file : DIR.listFiles()) {
                 file.delete();
             }
         }

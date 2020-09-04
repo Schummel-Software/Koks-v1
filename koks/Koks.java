@@ -64,7 +64,6 @@ public class Koks {
         fileManager.createFiles();
     }
 
-
     public void shutdownClient() {
         fileManager.writeToAllFiles();
     }
