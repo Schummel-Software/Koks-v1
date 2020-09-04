@@ -21,7 +21,7 @@ public class Velocity extends Module {
         addValue(mode);
     }
 
-    public ModeValue<String> mode = new ModeValue<String>("Mode", "Legit", new String[]{"AAC4", "Legit", "Simple"}, this);
+    public ModeValue<String> mode = new ModeValue<String>("Mode", "Legit", new String[]{"AAC4", "Legit", "Simple", "Intave"}, this);
 
     @Override
     public void onEvent(Event event) {
@@ -42,9 +42,18 @@ public class Velocity extends Module {
             setDisplayName(getModuleName() + " §7" + mode.getSelectedMode());
             switch (mode.getSelectedMode()) {
                 case "Legit":
-/*                    if (mc.thePlayer.hurtTime == 10 && mc.thePlayer.onGround)
-                        mc.thePlayer.jump();*/
+                    if (mc.thePlayer.hurtTime == 10 && mc.thePlayer.onGround)
+                        mc.thePlayer.jump();
+                    break;
+                case "AAC4":
+                    if (mc.thePlayer.hurtTime > 0) {
+                        mc.thePlayer.motionX *= 0.6;
+                        mc.thePlayer.motionZ *= 0.6;
+                        mc.thePlayer.motionY *= 1;
 
+                    }
+                    break;
+                case "Intave":
                     KillAura killaura = Koks.getKoks().moduleManager.getModule(KillAura.class);
                     if (mc.thePlayer.hurtTime == 9 || mc.thePlayer.hurtTime == 10) {
                         if (mc.thePlayer.onGround)
@@ -57,14 +66,6 @@ public class Velocity extends Module {
                         mc.thePlayer.setSprinting(false);
                         mc.thePlayer.motionX = x;
                         mc.thePlayer.motionZ = z;
-                    }
-                    break;
-                case "AAC4":
-                    if (mc.thePlayer.hurtTime > 0) {
-                        mc.thePlayer.motionX *= 0.6;
-                        mc.thePlayer.motionZ *= 0.6;
-                        mc.thePlayer.motionY *= 1;
-
                     }
                     break;
             }
