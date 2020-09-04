@@ -50,6 +50,7 @@ public class KillAura extends Module {
     public NumberValue<Integer> failingChance = new NumberValue<>("FailHit Percent", 0, 20, 0, this);
     public BooleanValue<Boolean> legitMovement = new BooleanValue<>("Legit Movement", false, this);
     public BooleanValue<Boolean> stopSprinting = new BooleanValue<>("Stop Sprinting", false, this);
+    public TitleValue generalSettings = new TitleValue("General", true, new Value[]{targetMode, preferTarget, range, preAim, preAimRange, smoothRotation, failingChance, legitMovement, stopSprinting}, this);
 
     public BooleanValue<Boolean> needNaNHealth = new BooleanValue<>("NaN Health", false, this);
     public NumberValue<Integer> ticksExisting = new NumberValue<>("Ticks Existing", 25, 100, 0, this);
@@ -70,6 +71,7 @@ public class KillAura extends Module {
         Koks.getKoks().valueManager.addValue(targets);
         Koks.getKoks().valueManager.addValue(targetMode);
         Koks.getKoks().valueManager.addValue(preferTarget);
+        Koks.getKoks().valueManager.addValue(generalSettings);
         Koks.getKoks().valueManager.addValue(range);
         Koks.getKoks().valueManager.addValue(preAim);
         Koks.getKoks().valueManager.addValue(preAimRange);
