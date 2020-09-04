@@ -41,6 +41,8 @@ public class ModuleManager {
         addModule(new SetBack());
         addModule(new AntiBots());
         addModule(new KillAura());
+        addModule(new ClearTag());
+        addModule(new HUD());
     }
 
     public void addModule(Module module) {
