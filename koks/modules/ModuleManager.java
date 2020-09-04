@@ -32,6 +32,7 @@ public class ModuleManager {
 
         // Player
         addModule(new AntiFire());
+        addModule(new BedFucker());
         addModule(new FastConsume());
         addModule(new NoFall());
         addModule(new SetBack());
