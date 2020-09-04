@@ -10,9 +10,11 @@ import koks.modules.Module;
 import koks.utilities.AuraUtil;
 import koks.utilities.RandomUtil;
 import koks.utilities.TimeUtil;
+import koks.utilities.value.Value;
 import koks.utilities.value.values.BooleanValue;
 import koks.utilities.value.values.ModeValue;
 import koks.utilities.value.values.NumberValue;
+import koks.utilities.value.values.TitleValue;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityMob;
@@ -33,22 +35,32 @@ import java.util.Random;
  */
 public class KillAura extends Module {
 
+    public BooleanValue<Boolean> player = new BooleanValue<>("Player", true, this);
+    public BooleanValue<Boolean> animals = new BooleanValue<>("Animals", false, this);
+    public BooleanValue<Boolean> mobs = new BooleanValue<>("Mobs", false, this);
+    public BooleanValue<Boolean> invisible = new BooleanValue<>("Invisible", false, this);
+    public ModeValue<String> targets = new ModeValue<>("Targets", new BooleanValue[]{player, animals, mobs, invisible}, this);
+
     public ModeValue<String> targetMode = new ModeValue<>("Target Mode", "Hybrid", new String[]{"Single", "Switch", "Hybrid"}, this);
     public ModeValue<String> preferTarget = new ModeValue<>("Prefer Check", "Distance", new String[]{"Distance", "Health"}, this);
-    public NumberValue<Double> range = new NumberValue<>("Hit Range", 3.8D, 6.0D, 3.4D, this);
-    public BooleanValue<Boolean> preAim = new BooleanValue<>("Pre Aiming", true, this);
+    public NumberValue<Double> range = new NumberValue<>("Hit Range", 4.0D, 6.0D, 3.4D, this);
+    public BooleanValue<Boolean> preAim = new BooleanValue<>("Pre Aiming", false, this);
     public NumberValue<Double> preAimRange = new NumberValue<>("Aiming Range", 0.0D, 1.0D, 0.0D, this);
-    public BooleanValue<Boolean> smoothRotation = new BooleanValue<>("Smooth Rotation", true, this);
+    public BooleanValue<Boolean> smoothRotation = new BooleanValue<>("Smooth Rotation", false, this);
     public NumberValue<Integer> failingChance = new NumberValue<>("FailHit Percent", 0, 20, 0, this);
-    public BooleanValue<Boolean> legitMovement = new BooleanValue<>("Legit Movement", true, this);
-    public BooleanValue<Boolean> stopSprinting = new BooleanValue<>("Stop Sprinting", true, this);
+    public BooleanValue<Boolean> legitMovement = new BooleanValue<>("Legit Movement", false, this);
+    public BooleanValue<Boolean> stopSprinting = new BooleanValue<>("Stop Sprinting", false, this);
+    public TitleValue generalSettings = new TitleValue("General", true, new Value[]{targetMode, preferTarget, range, preAim, preAimRange, smoothRotation, failingChance, legitMovement, stopSprinting}, this);
+
+    public BooleanValue<Boolean> needNaNHealth = new BooleanValue<>("NaN Health", false, this);
+    public NumberValue<Integer> ticksExisting = new NumberValue<>("Ticks Existing", 25, 100, 0, this);
+    public TitleValue antiBotSettings = new TitleValue("AntiBot Settings", false, new Value[]{needNaNHealth, ticksExisting}, this);
 
     public List<Entity> entities = new ArrayList<>();
     public RandomUtil randomUtil = new RandomUtil();
     public AuraUtil auraUtil = new AuraUtil();
     public TimeUtil timeUtil = new TimeUtil();
     public Entity finalEntity;
-    public AntiBots antiBots;
     public boolean isFailing;
     public float yaw, pitch;
     public int listCount;
@@ -56,8 +68,10 @@ public class KillAura extends Module {
     public KillAura() {
         super("KillAura", Category.COMBAT);
 
+        Koks.getKoks().valueManager.addValue(targets);
         Koks.getKoks().valueManager.addValue(targetMode);
         Koks.getKoks().valueManager.addValue(preferTarget);
+        Koks.getKoks().valueManager.addValue(generalSettings);
         Koks.getKoks().valueManager.addValue(range);
         Koks.getKoks().valueManager.addValue(preAim);
         Koks.getKoks().valueManager.addValue(preAimRange);
@@ -65,6 +79,9 @@ public class KillAura extends Module {
         Koks.getKoks().valueManager.addValue(failingChance);
         Koks.getKoks().valueManager.addValue(legitMovement);
         Koks.getKoks().valueManager.addValue(stopSprinting);
+        Koks.getKoks().valueManager.addValue(antiBotSettings);
+        Koks.getKoks().valueManager.addValue(needNaNHealth);
+        Koks.getKoks().valueManager.addValue(ticksExisting);
     }
 
     @Override
@@ -195,15 +212,15 @@ public class KillAura extends Module {
             return false;
         if (entity.isDead)
             return false;
-        if (!antiBots.player.isToggled() && entity instanceof EntityPlayer)
+        if (!player.isToggled() && entity instanceof EntityPlayer)
             return false;
-        if (!antiBots.animals.isToggled() && entity instanceof EntityAnimal)
+        if (!animals.isToggled() && entity instanceof EntityAnimal)
             return false;
-        if (!antiBots.mobs.isToggled() && entity instanceof EntityMob)
+        if (!mobs.isToggled() && entity instanceof EntityMob)
             return false;
-        if (antiBots.ignoreInvisible.isToggled() && entity.isInvisible())
+        if (!invisible.isToggled() && entity.isInvisible())
             return false;
-        if (entity.ticksExisted < antiBots.ticksExisting.getDefaultValue())
+        if (entity.ticksExisted < ticksExisting.getDefaultValue())
             return false;
         if (mc.thePlayer.getDistanceToEntity(entity) > range.getDefaultValue() + (preAim.isToggled() ? 0 : preAimRange.getDefaultValue()))
             return false;
@@ -223,7 +240,6 @@ public class KillAura extends Module {
     public void onEnable() {
         listCount = 0;
         timeUtil.reset();
-        antiBots = new AntiBots();
         yaw = mc.thePlayer.rotationYaw;
         pitch = mc.thePlayer.rotationPitch;
     }

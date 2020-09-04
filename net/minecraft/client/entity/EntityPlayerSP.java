@@ -5,6 +5,7 @@ import koks.command.Command;
 import koks.event.impl.AnimationEvent;
 import koks.event.impl.EventUpdate;
 import koks.event.impl.MotionEvent;
+import koks.utilities.value.SetVisibility;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.MovingSoundMinecartRiding;
 import net.minecraft.client.audio.PositionedSoundRecord;
@@ -182,6 +183,9 @@ public class EntityPlayerSP extends AbstractClientPlayer
         MotionEvent motionEvent = new MotionEvent(MotionEvent.Type.PRE, rotationYaw, rotationPitch);
         Koks.getKoks().eventManager.onEvent(motionEvent);
         this.motionEvent = motionEvent;
+
+        SetVisibility setVisibility = new SetVisibility();
+        setVisibility.setVisibility();
 
         if (this.worldObj.isBlockLoaded(new BlockPos(this.posX, 0.0D, this.posZ)))
         {

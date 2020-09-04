@@ -32,12 +32,14 @@ public class Sprint extends Module {
 
     public ModeValue<String> boxCheckBox = new ModeValue<>("BooleanTest", new BooleanValue[]{b1, b2, b3, b4}, this);
 
+    // IGNORE
     public ModeValue<String> box = new ModeValue<>("BooleanTest", "AAC", new String[]{"AAC", "NCP"}, this);
 
     public NumberValue<Float> vFloat = new NumberValue<>("BooleanTest", 10F, 1000F, 0F, this);
     public NumberValue<Double> vDouble = new NumberValue<>("BooleanTest", 10D, 100D, 0D, this);
     public NumberValue<Integer> vInteger = new NumberValue<>("BooleanTest", 10, 100, 0, this);
     public NumberValue<Long> vLong = new NumberValue<>("BooleanTest", 10L, 100000L, 0L, this);
+    // IGNORE
 
     public NumberValue<Integer> cps = new NumberValue<>("BooleanTest", 1, 10, 20, 1, this);
     public NumberValue<Float> cpsF = new NumberValue<>("BooleanTest", 1F, 10F, 20F, 1F, this);
