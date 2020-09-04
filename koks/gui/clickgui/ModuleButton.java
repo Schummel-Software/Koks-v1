@@ -95,7 +95,6 @@ public class ModuleButton {
                     element.setPosition(x + 3, this.y + height + yHeight[0], width - 6, height - 2);
                     element.drawScreen(mouseX, mouseY);
 
-
                     yHeight[0] += height;
                     yMaxElements = yHeight[0];
                 }
@@ -125,6 +124,7 @@ public class ModuleButton {
             }
         }
         this.elementList.forEach(element -> {
+            if(element.getValue().isVisible())
             element.mouseClicked(mouseX, mouseY, mouseButton);
         });
     }
