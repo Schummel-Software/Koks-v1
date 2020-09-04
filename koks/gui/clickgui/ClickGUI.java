@@ -125,11 +125,6 @@ public class ClickGUI extends GuiScreen {
         return height;
     }
 
-    @Override
-    public boolean doesGuiPauseGame() {
-        return false;
-    }
-
     public int getWidth() {
         return width;
     }
