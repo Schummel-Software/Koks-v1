@@ -1032,6 +1032,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage
      */
     public void shutdownMinecraftApplet()
     {
+        Koks.getKoks().shutdownClient();
         try
         {
             this.stream.shutdownStream();

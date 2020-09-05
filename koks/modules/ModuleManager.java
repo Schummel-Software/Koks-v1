@@ -38,6 +38,7 @@ public class ModuleManager {
         addModule(new BedFucker());
         addModule(new FastConsume());
         addModule(new NoFall());
+        addModule(new Phase());
         addModule(new SetBack());
         addModule(new AutoArmor());
         addModule(new InventoryManager());

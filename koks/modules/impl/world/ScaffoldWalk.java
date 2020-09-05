@@ -45,7 +45,8 @@ public class ScaffoldWalk extends Module {
     private final RandomUtil randomutil = new RandomUtil();
     private final RayCastUtil rayCastUtil = new RayCastUtil();
 
-    private final NumberValue<Long> delay = new NumberValue<>("Delay", 1L, 50L, 100L, 0L, this);
+    private final NumberValue<Long> delay = new NumberValue<Long>("Delay", 1L, 50L, 100L, 0L, this);
+    private final NumberValue<Float> Motion = new NumberValue<Float>("Motion", 1F, 1F, 0F, this);
 
     private final BooleanValue<Boolean> swingItem = new BooleanValue<>("Swing Item", true, this);
     private final BooleanValue<Boolean> safeWalk = new BooleanValue<>("SafeWalk", true, this);
@@ -56,6 +57,7 @@ public class ScaffoldWalk extends Module {
 
     public final BooleanValue<Boolean> simpleRotations = new BooleanValue<>("Simple Rotations", false, this);
     public final BooleanValue<Boolean> Hypixel = new BooleanValue<>("Hypixel", false, this);
+    public final BooleanValue<Boolean> AlwaysLook = new BooleanValue<>("AlwaysLook", true, this);
 
     public float pitch;
     public float yaw;
@@ -63,14 +65,16 @@ public class ScaffoldWalk extends Module {
     public ScaffoldWalk() {
         super("ScaffoldWalk", Category.WORLD);
         this.blackList = Arrays.asList(Blocks.crafting_table, Blocks.chest, Blocks.enchanting_table, Blocks.anvil, Blocks.sand, Blocks.gravel, Blocks.glass_pane, Blocks.stained_glass_pane, Blocks.ice, Blocks.packed_ice, Blocks.cobblestone_wall, Blocks.water, Blocks.lava, Blocks.web, Blocks.sapling, Blocks.rail, Blocks.golden_rail, Blocks.activator_rail, Blocks.detector_rail, Blocks.tnt, Blocks.red_flower, Blocks.yellow_flower, Blocks.flower_pot, Blocks.tallgrass, Blocks.red_mushroom, Blocks.brown_mushroom, Blocks.ladder, Blocks.torch, Blocks.stone_button, Blocks.wooden_button, Blocks.redstone_torch, Blocks.redstone_wire, Blocks.furnace, Blocks.cactus, Blocks.oak_fence, Blocks.acacia_fence, Blocks.nether_brick_fence, Blocks.birch_fence, Blocks.dark_oak_fence, Blocks.jungle_fence, Blocks.oak_fence, Blocks.acacia_fence_gate, Blocks.snow_layer, Blocks.trapdoor, Blocks.ender_chest, Blocks.beacon, Blocks.hopper, Blocks.daylight_detector, Blocks.daylight_detector_inverted, Blocks.carpet);
-        Koks.getKoks().valueManager.addValue(delay);
-        Koks.getKoks().valueManager.addValue(swingItem);
-        Koks.getKoks().valueManager.addValue(safeWalk);
-        Koks.getKoks().valueManager.addValue(randomHit);
-        Koks.getKoks().valueManager.addValue(sprint);
-        Koks.getKoks().valueManager.addValue(rayCast);
-        Koks.getKoks().valueManager.addValue(simpleRotations);
-        Koks.getKoks().valueManager.addValue(Hypixel);
+        addValue(delay);
+        addValue(Motion);
+        addValue(swingItem);
+        addValue(safeWalk);
+        addValue(randomHit);
+        addValue(sprint);
+        addValue(rayCast);
+        addValue(simpleRotations);
+        addValue(Hypixel);
+        addValue(AlwaysLook);
     }
 
     @Override
@@ -82,16 +86,21 @@ public class ScaffoldWalk extends Module {
         }
         if (event instanceof MotionEvent) {
             if (((MotionEvent) event).getType() == MotionEvent.Type.PRE) {
-                ((MotionEvent) event).setYaw(yaw);
+                if(AlwaysLook.isToggled() || finalPos != null) {
 
-                if (Hypixel.isToggled() && Minecraft.getMinecraft().theWorld != null && Minecraft.getMinecraft().thePlayer != null) pitch = 79.444F;
-                ((MotionEvent) event).setPitch(pitch);
+                    ((MotionEvent) event).setYaw(yaw);
+
+                    if (Hypixel.isToggled() && Minecraft.getMinecraft().theWorld != null && Minecraft.getMinecraft().thePlayer != null)
+                        pitch = 79.444F;
+                    ((MotionEvent) event).setPitch(pitch);
+                }
             }
         }
 
         if (event instanceof EventUpdate) {
 
             BlockPos pos = new BlockPos(mc.thePlayer.posX, (mc.thePlayer.getEntityBoundingBox()).minY - 1.0D, mc.thePlayer.posZ);
+
                 getBlockPosToPlaceOn(pos);
             pitch = getPitch(360);
 
@@ -187,9 +196,14 @@ public class ScaffoldWalk extends Module {
                     if (blackList.contains(((ItemBlock) silentItemStack.getItem()).getBlock()))
                         return;
                     mc.playerController.onPlayerRightClick(mc.thePlayer, mc.theWorld, silentItemStack, pos, face, new Vec3(pos.getX() + (this.randomHit.isToggled() ? randomutil.randomDouble(0, 0.7) : 0), pos.getY() + (this.randomHit.isToggled() ? randomutil.randomDouble(0, 0.7) : 0), pos.getZ() + (this.randomHit.isToggled() ? randomutil.randomDouble(0, 0.7) : 0)));
+                    finalPos = null;
+                    mc.thePlayer.motionX *= Motion.getDefaultValue();
+                    mc.thePlayer.motionZ *= Motion.getDefaultValue();
+
                     timeUtil.reset();
                 }
             } else {
+                finalPos = null;
                 timeUtil.reset();
             }
         } else {
