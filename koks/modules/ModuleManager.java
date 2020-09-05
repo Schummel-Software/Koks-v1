@@ -66,6 +66,7 @@ public class ModuleManager {
 
         // World
         addModule(new ScaffoldWalk());
+        addModule(new NewScaffold());
         getModules().sort(Comparator.comparing(Module::getModuleName));
     }
 

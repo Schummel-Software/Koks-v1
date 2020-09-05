@@ -64,7 +64,7 @@ public class RotationUtil {
 
     public float[] faceBlock(BlockPos pos, boolean scaffoldFix, float currentYaw, float currentPitch, float speed) {
         double x = (pos.getX() + (scaffoldFix ? 0.5F : 0.0F)) - mc.thePlayer.posX;
-        double y = (pos.getY() - (scaffoldFix ? 3.0F : 0.0F)) - (mc.thePlayer.posY + mc.thePlayer.getEyeHeight());
+        double y = (pos.getY() - (scaffoldFix ? 2.0F : 0.0F)) - (mc.thePlayer.posY + mc.thePlayer.getEyeHeight());
         double z = (pos.getZ() + (scaffoldFix ? 0.5F : 0.0F)) - mc.thePlayer.posZ;
 
         double calculate = MathHelper.sqrt_double(x * x + z * z);
