@@ -57,6 +57,7 @@ public class NewScaffold extends Module {
         addValue(timerSpeed);
         addValue(rayTrace);
         addValue(randomVec);
+        addValue(randomRotation);
         addValue(rotateAlways);
         addValue(sneak);
         addValue(sprint);
