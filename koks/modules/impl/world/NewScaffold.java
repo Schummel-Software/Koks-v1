@@ -43,7 +43,7 @@ public class NewScaffold extends Module {
     public NumberValue<Double> timerSpeed = new NumberValue<>("Timer Speed", 1D, 2D, 1D, this);
     public BooleanValue<Boolean> rayTrace = new BooleanValue<>("RayTrace", true, this);
     public BooleanValue<Boolean> randomVec = new BooleanValue<>("Random Vec", true, this);
-    public NumberValue<Float> randomRotation = new NumberValue<>("Rotation Random Center", 0L, 1L, 0L, this);
+    public NumberValue<Float> randomRotation = new NumberValue<>("Rotation Random Center", 0F, 1F, 0F, this);
     public BooleanValue<Boolean> rotateAlways = new BooleanValue<>("Rotate Always", true, this);
     public BooleanValue<Boolean> sneak = new BooleanValue<>("Sneak", true, this);
     public BooleanValue<Boolean> sprint = new BooleanValue<>("Sprint", true, this);
