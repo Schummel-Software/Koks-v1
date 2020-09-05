@@ -3,6 +3,7 @@ package koks.modules.impl.movement;
 import koks.event.Event;
 import koks.event.impl.EventUpdate;
 import koks.modules.Module;
+import net.minecraft.client.gui.GuiChat;
 import org.lwjgl.input.Keyboard;
 
 /**
@@ -18,6 +19,7 @@ public class InvMove extends Module {
     @Override
     public void onEvent(Event event) {
         if(event instanceof EventUpdate) {
+            if(mc.currentScreen instanceof GuiChat)return;
             mc.gameSettings.keyBindForward.pressed = Keyboard.isKeyDown(mc.gameSettings.keyBindForward.getKeyCode());
             mc.gameSettings.keyBindRight.pressed = Keyboard.isKeyDown(mc.gameSettings.keyBindRight.getKeyCode());
             mc.gameSettings.keyBindLeft.pressed = Keyboard.isKeyDown(mc.gameSettings.keyBindLeft.getKeyCode());

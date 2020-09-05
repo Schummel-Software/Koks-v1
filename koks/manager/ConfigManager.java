@@ -9,6 +9,7 @@ import koks.utilities.value.values.BooleanValue;
 import koks.utilities.value.values.ModeValue;
 import koks.utilities.value.values.NumberValue;
 import net.minecraft.client.Minecraft;
+import org.lwjgl.input.Keyboard;
 
 import java.io.*;
 import java.text.NumberFormat;
@@ -69,10 +70,10 @@ public class ConfigManager {
                             ((ModeValue) value).setSelectedMode(args[3]);
                         } else if (value instanceof NumberValue) {
                             if (((NumberValue) value).getMinDefaultValue() != null) {
-                                ((NumberValue) value).setMinDefaultValue(NumberFormat.getInstance().parse(args[3]));
-                                ((NumberValue) value).setDefaultValue(NumberFormat.getInstance().parse(args[4]));
+                                ((NumberValue) value).setMinDefaultValue(Float.parseFloat(args[3]));
+                                ((NumberValue) value).setDefaultValue(Float.parseFloat(args[4]));
                             } else {
-                                ((NumberValue) value).setDefaultValue(NumberFormat.getInstance().parse(args[3]));
+                                ((NumberValue) value).setDefaultValue(Float.parseFloat(args[3]));
                             }
                         }
                     }
@@ -104,8 +105,9 @@ public class ConfigManager {
                 FileWriter fileWriter = new FileWriter(file);
 
                 for (Module module : Koks.getKoks().moduleManager.getModules()) {
-                    if (module.isToggled() || module.isBypassed()) {
-                        fileWriter.write("Module:" + module.getModuleName() + ":" + module.isToggled() + ":" + module.isBypassed() + "\n");
+                    if (module.isToggled() || module.isBypassed() || module.getKeyBind() != Keyboard.KEY_NONE) {
+                        boolean bypassed = module.isBypassed() || module.isToggled() || module.getKeyBind() != Keyboard.KEY_NONE;
+                        fileWriter.write("Module:" + module.getModuleName() + ":" + module.isToggled() + ":" + bypassed + "\n");
                     }
                 }
 
