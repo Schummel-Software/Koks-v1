@@ -7,9 +7,7 @@ import koks.event.impl.JumpEvent;
 import koks.event.impl.MotionEvent;
 import koks.event.impl.MoveFlyingEvent;
 import koks.modules.Module;
-import koks.utilities.AuraUtil;
-import koks.utilities.RandomUtil;
-import koks.utilities.TimeUtil;
+import koks.utilities.*;
 import koks.utilities.value.Value;
 import koks.utilities.value.values.BooleanValue;
 import koks.utilities.value.values.ModeValue;
@@ -71,6 +69,8 @@ public class KillAura extends Module {
     public RandomUtil randomUtil = new RandomUtil();
     public AuraUtil auraUtil = new AuraUtil();
     public TimeUtil timeUtil = new TimeUtil();
+    public RayCastUtil rayCastUtil = new RayCastUtil();
+    public RotationUtil rotationUtil = new RotationUtil();
     public Entity finalEntity;
     public boolean isFailing, canSwing;
     public float yaw, pitch;
@@ -173,7 +173,7 @@ public class KillAura extends Module {
         double cps = this.cps.getMinValue().equals(this.cps.getMaxValue()) ? this.cps.getMaxValue() : randomUtil.randomInt(this.cps.getMinValue(),this.cps.getMaxValue());
         if (timeUtil.hasReached((long) (1000 / (cps + (cps > 10 ? 5 : 0))))) {
 
-            Entity rayCast = auraUtil.getRayCastedEntity(range.getDefaultValue(), yaw, pitch);
+            Entity rayCast = rayCastUtil.getRayCastedEntity(range.getDefaultValue(), yaw, pitch);
 
             if (!isFailing && rayCast != null) {
 
@@ -205,7 +205,7 @@ public class KillAura extends Module {
     }
 
     public void setRotations(Entity entity) {
-        float[] rotations = auraUtil.faceEntity(entity, yaw, pitch, smoothRotation.isToggled());
+        float[] rotations = rotationUtil.faceEntity(entity, yaw, pitch, smoothRotation.isToggled());
         yaw = rotations[0];
         pitch = rotations[1];
     }

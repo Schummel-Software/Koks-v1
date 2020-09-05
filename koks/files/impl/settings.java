@@ -55,10 +55,29 @@ public class settings extends Files {
                 ((ModeValue) value).setSelectedMode(args[2]);
             }else if(value instanceof NumberValue) {
                 if(((NumberValue) value).getMinDefaultValue() != null) {
-                    ((NumberValue) value).setMinDefaultValue(Float.parseFloat(args[2]));
-                    ((NumberValue) value).setDefaultValue(Float.parseFloat(args[3]));
+                    if(((NumberValue) value).getDefaultValue() instanceof  Float) {
+                        ((NumberValue) value).setMinDefaultValue(Float.parseFloat(args[2]));
+                        ((NumberValue) value).setDefaultValue(Float.parseFloat(args[3]));
+                    }else if(((NumberValue) value).getDefaultValue() instanceof  Long) {
+                        ((NumberValue) value).setMinDefaultValue(Long.parseLong(args[2]));
+                        ((NumberValue) value).setDefaultValue(Long.parseLong(args[3]));
+                    }else if(((NumberValue) value).getDefaultValue() instanceof  Integer) {
+                        ((NumberValue) value).setMinDefaultValue(Integer.parseInt(args[2]));
+                        ((NumberValue) value).setDefaultValue(Integer.parseInt(args[3]));
+                    }else if(((NumberValue) value).getDefaultValue() instanceof  Double) {
+                        ((NumberValue) value).setMinDefaultValue(Double.parseDouble(args[2]));
+                        ((NumberValue) value).setDefaultValue(Double.parseDouble(args[3]));
+                    }
                 }else{
-                    ((NumberValue) value).setDefaultValue(Float.parseFloat(args[2]));
+                    if(((NumberValue) value).getDefaultValue() instanceof  Float) {
+                        ((NumberValue) value).setDefaultValue(Float.parseFloat(args[2]));
+                    }else if(((NumberValue) value).getDefaultValue() instanceof  Long) {
+                        ((NumberValue) value).setDefaultValue(Long.parseLong(args[2]));
+                    }else if(((NumberValue) value).getDefaultValue() instanceof  Integer) {
+                        ((NumberValue) value).setDefaultValue(Integer.parseInt(args[2]));
+                    }else if(((NumberValue) value).getDefaultValue() instanceof  Double) {
+                        ((NumberValue) value).setDefaultValue(Double.parseDouble(args[2]));
+                    }
                 }
             }
         }

@@ -7,6 +7,7 @@ import koks.event.impl.MotionEvent;
 import koks.event.impl.SafeWalkEvent;
 import koks.modules.Module;
 import koks.utilities.RandomUtil;
+import koks.utilities.RayCastUtil;
 import koks.utilities.RotationUtil;
 import koks.utilities.TimeUtil;
 import koks.utilities.value.values.BooleanValue;
@@ -42,6 +43,7 @@ public class ScaffoldWalk extends Module {
     private final RotationUtil rotationUtil = new RotationUtil();
     private final TimeUtil timeUtil = new TimeUtil();
     private final RandomUtil randomutil = new RandomUtil();
+    private final RayCastUtil rayCastUtil = new RayCastUtil();
 
     private final NumberValue<Long> delay = new NumberValue<>("Delay", 1L, 50L, 100L, 0L, this);
 
@@ -49,6 +51,8 @@ public class ScaffoldWalk extends Module {
     private final BooleanValue<Boolean> safeWalk = new BooleanValue<>("SafeWalk", true, this);
     private final BooleanValue<Boolean> randomHit = new BooleanValue<>("Random Hit", true, this);
     public final BooleanValue<Boolean> sprint = new BooleanValue<>("Sprint", true, this);
+
+    public final BooleanValue<Boolean> rayCast = new BooleanValue<>("RayCast", true, this);
 
     public final BooleanValue<Boolean> simpleRotations = new BooleanValue<>("Simple Rotations", false, this);
     public final BooleanValue<Boolean> Hypixel = new BooleanValue<>("Hypixel", false, this);
@@ -64,6 +68,7 @@ public class ScaffoldWalk extends Module {
         Koks.getKoks().valueManager.addValue(safeWalk);
         Koks.getKoks().valueManager.addValue(randomHit);
         Koks.getKoks().valueManager.addValue(sprint);
+        Koks.getKoks().valueManager.addValue(rayCast);
         Koks.getKoks().valueManager.addValue(simpleRotations);
         Koks.getKoks().valueManager.addValue(Hypixel);
     }
@@ -87,9 +92,7 @@ public class ScaffoldWalk extends Module {
         if (event instanceof EventUpdate) {
 
             BlockPos pos = new BlockPos(mc.thePlayer.posX, (mc.thePlayer.getEntityBoundingBox()).minY - 1.0D, mc.thePlayer.posZ);
-
-            getBlockPosToPlaceOn(pos);
-
+                getBlockPosToPlaceOn(pos);
             pitch = getPitch(360);
 
             if (simpleRotations.isToggled()) {
@@ -147,6 +150,7 @@ public class ScaffoldWalk extends Module {
     public void placeBlock(BlockPos pos, EnumFacing face) {
         finalPos = pos;
         ItemStack silentItemStack = null;
+
         if (mc.thePlayer.getCurrentEquippedItem() == null || (!(mc.thePlayer.getCurrentEquippedItem().getItem() instanceof net.minecraft.item.ItemBlock))) {
             for (int i = 0; i < 9; i++) {
                 if (mc.thePlayer.inventory.getStackInSlot(i) != null && mc.thePlayer.inventory.getStackInSlot(i).getItem() instanceof net.minecraft.item.ItemBlock) {
@@ -177,8 +181,8 @@ public class ScaffoldWalk extends Module {
 
             if (!simpleRotations.isToggled())
                 setYaw();
-
-            if (timeUtil.hasReached(mc.thePlayer.onGround ? (randomutil.randomLong(delay.getMinDefaultValue(), delay.getDefaultValue())) : 20L)) {
+            boolean rayCasted = !rayCast.isToggled() || rayCastUtil.isRayCastBlock(pos, yaw, pitch);
+            if (rayCasted && timeUtil.hasReached(mc.thePlayer.onGround ? (randomutil.randomLong(delay.getMinDefaultValue(), delay.getDefaultValue())) : 20L)) {
                 if (blackList.contains(((ItemBlock) silentItemStack.getItem()).getBlock()))
                     return;
                 mc.playerController.onPlayerRightClick(mc.thePlayer, mc.theWorld, silentItemStack, pos, face, new Vec3(pos.getX() + (this.randomHit.isToggled() ? randomutil.randomDouble(0, 0.7) : 0), pos.getY() + (this.randomHit.isToggled() ? randomutil.randomDouble(0, 0.7) : 0), pos.getZ() + (this.randomHit.isToggled() ? randomutil.randomDouble(0, 0.7) : 0)));

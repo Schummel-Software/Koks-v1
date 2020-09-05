@@ -2,6 +2,9 @@ package koks.files.impl;
 
 import koks.Koks;
 import koks.files.Files;
+import koks.gui.clickgui.commonvalue.CommonValue;
+import koks.gui.clickgui.commonvalue.elements.ElementColorPicker;
+import koks.utilities.value.ColorPicker;
 
 import java.awt.*;
 import java.io.BufferedReader;
@@ -19,7 +22,12 @@ public class client extends Files {
 
     @Override
     public void writeToFile(FileWriter fileWriter) throws Exception {
-        fileWriter.write("clientcolor:" + Koks.getKoks().client_color.getRed() + ":" + Koks.getKoks().client_color.getGreen() + ":" + Koks.getKoks().client_color.getBlue());
+        int hue = 0;
+        for(CommonValue value : Koks.getKoks().commonValueManager.COMMON_SETTINGS) {
+            hue = value.getHue();
+        }
+            fileWriter.write("clientcolor:" + Koks.getKoks().client_color.getRed() + ":" + Koks.getKoks().client_color.getGreen() + ":" + Koks.getKoks().client_color.getBlue() + ":" + hue + "\n");
+       
         fileWriter.close();
     }
 
@@ -30,6 +38,10 @@ public class client extends Files {
             String[] args = line.split(":");
             if(args[0].equalsIgnoreCase("clientcolor")) {
                 Koks.getKoks().client_color = new Color(Integer.parseInt(args[1]),Integer.parseInt(args[2]), Integer.parseInt(args[3]));
+                for(CommonValue value : Koks.getKoks().commonValueManager.COMMON_SETTINGS){
+                    value.setColor(new Color(Integer.parseInt(args[1]),Integer.parseInt(args[2]), Integer.parseInt(args[3])));
+                    value.setHue(Integer.parseInt(args[4]));
+                }
             }
         }
         fileReader.close();
