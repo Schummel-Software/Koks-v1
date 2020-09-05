@@ -39,7 +39,9 @@ public class KillAura extends Module {
     public BooleanValue<Boolean> animals = new BooleanValue<>("Animals", false, this);
     public BooleanValue<Boolean> mobs = new BooleanValue<>("Mobs", false, this);
     public BooleanValue<Boolean> invisible = new BooleanValue<>("Invisible", false, this);
-    public ModeValue<String> targets = new ModeValue<>("Targets", new BooleanValue[]{player, animals, mobs, invisible}, this);
+    public BooleanValue<Boolean> ignoreTeam = new BooleanValue<>("Ignore Team", true, this);
+    public BooleanValue<Boolean> ignoreFriend = new BooleanValue<>("Ignore Friends", true, this);
+    public ModeValue<String> targets = new ModeValue<>("Targets", new BooleanValue[]{player, animals, mobs, invisible, ignoreTeam, ignoreFriend}, this);
 
     public ModeValue<String> targetMode = new ModeValue<>("Target Mode", "Hybrid", new String[]{"Single", "Switch", "Hybrid"}, this);
     public ModeValue<String> preferTarget = new ModeValue<>("Prefer Check", "Distance", new String[]{"Distance", "Health"}, this);
@@ -71,6 +73,7 @@ public class KillAura extends Module {
     public TimeUtil timeUtil = new TimeUtil();
     public RayCastUtil rayCastUtil = new RayCastUtil();
     public RotationUtil rotationUtil = new RotationUtil();
+    public EntityUtil entityUtil = new EntityUtil();
     public Entity finalEntity;
     public boolean isFailing, canSwing;
     public float yaw, pitch;
@@ -152,9 +155,8 @@ public class KillAura extends Module {
         if (legitMovement.isToggled() && finalEntity != null) {
             if (event instanceof MoveFlyingEvent) {
                 MoveFlyingEvent e = (MoveFlyingEvent) event;
-                float difference = MathHelper.wrapAngleTo180_float(Math.abs(mc.thePlayer.rotationYaw - yaw));
-                // Ist nen leichter Silent der aber manchmal buggt
-/*                if (difference > 90) {
+/*                float difference = MathHelper.wrapAngleTo180_float(Math.abs(mc.thePlayer.rotationYaw - yaw));
+                if (difference > 90) {
                     e.setForward(-e.getForward());
                     e.setStrafe(-e.getStrafe());
                 }*/
@@ -265,8 +267,9 @@ public class KillAura extends Module {
             return false;
         if (entity.ticksExisted < ticksExisting.getDefaultValue())
             return false;
-        //TRUE TRUE
         if(!Float.isNaN(((EntityLivingBase) entity).getHealth()) && needNaNHealth.isToggled())
+            return false;
+        if (!ignoreTeam.isToggled() && entityUtil.isTeam(mc.thePlayer, (EntityPlayer) entity))
             return false;
         if (mc.thePlayer.getDistanceToEntity(entity) > range.getDefaultValue() + (preAim.isToggled() ? 0 : preAimRange.getDefaultValue()))
             return false;

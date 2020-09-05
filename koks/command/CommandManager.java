@@ -13,6 +13,7 @@ public class CommandManager {
         addCommand(new Bind());
         addCommand(new config());
         addCommand(new Toggle());
+        addCommand(new VClip());
     }
 
 

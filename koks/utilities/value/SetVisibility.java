@@ -18,6 +18,8 @@ public class SetVisibility {
                 ((KillAura) module).preferTarget.setVisible(!((KillAura) module).targetMode.getSelectedMode().equals("Switch"));
                 ((KillAura) module).serverSideSwing.setVisible(((KillAura) module).silentSwing.isToggled());
                 ((KillAura) module).swingChance.setVisible(((KillAura) module).silentSwing.isToggled());
+                ((KillAura) module).ignoreTeam.setVisible(((KillAura) module).player.isToggled());
+                ((KillAura) module).ignoreFriend.setVisible(((KillAura) module).player.isToggled());
             }
             if(module instanceof Fly) {
                 ((Fly) module).aac322boost.setVisible(((Fly) module).modeValue.getSelectedMode().equalsIgnoreCase("AAC3.2.2"));
