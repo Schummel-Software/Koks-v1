@@ -26,6 +26,7 @@ public class ModuleManager {
         addModule(new Velocity());
 
         // Movement
+        addModule(new BoatFly());
         addModule(new InvMove());
         addModule(new Jesus());
         addModule(new NoCobweb());
@@ -57,6 +58,7 @@ public class ModuleManager {
         addModule(new ChestESP());
         addModule(new ClearTag());
         addModule(new CustomEnchant());
+        addModule(new FoodStep());
         addModule(new ItemESP());
         addModule(new NameTags());
         addModule(new NoBob());
