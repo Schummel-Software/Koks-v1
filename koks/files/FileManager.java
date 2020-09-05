@@ -25,7 +25,9 @@ public class FileManager {
     public FileManager() {
         addFile(new KeyBindFile());
         addFile(new Toggled());
+/*
         addFile(new settings());
+*/
         addFile(new client());
     }
 
