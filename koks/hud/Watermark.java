@@ -29,12 +29,12 @@ public class Watermark {
             colorUtil = new ColorUtil();
             GL11.glPushMatrix();
             GL11.glScaled(3.4, 3.4, 3.4);
-            fr.drawString(name.substring(0, 1), 2, 2, colorUtil.rainbow(3000, 1F, 1F));
+            fr.drawString(name.substring(0, 1), 2, 2, Koks.getKoks().client_color.getRGB());
             GL11.glPopMatrix();
 
             GL11.glPushMatrix();
             GL11.glScaled(2, 2, 2);
-            fr.drawString(name.substring(1), 13, 8, colorUtil.rainbow(3000, 1F, 1F));
+            fr.drawString(name.substring(1), 13, 8, Koks.getKoks().client_color.getRGB());
             GL11.glPopMatrix();
 
             //fr.drawStringWithShadow("v" + version, 20, 20, 0xFFFFFFFF);
