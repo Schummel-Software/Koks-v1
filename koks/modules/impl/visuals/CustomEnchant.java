@@ -19,7 +19,7 @@ public class CustomEnchant extends Module {
     public void onEvent(Event event) {
         if(event instanceof EffectTextureEvent) {
             EffectTextureEvent e = (EffectTextureEvent)event;
-            e.setTexture(new ResourceLocation("client/textures/" + "rainbow" + ".png"));
+            e.setTexture(new ResourceLocation("client/textures/enchants/" + "rainbow" + ".png"));
         }
     }
 

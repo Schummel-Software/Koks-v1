@@ -26,14 +26,16 @@ public class ModuleList {
         int[] y = {0};
 
         Koks.getKoks().moduleManager.getModules().stream().filter(Module::isToggled).sorted(Comparator.comparingDouble(module -> -Minecraft.getMinecraft().fontRendererObj.getStringWidth(Koks.getKoks().moduleManager.getModule(ClearTag.class).isToggled() ? module.getModuleName() : module.getDisplayName()))).forEach(module -> {
-            if (Koks.getKoks().moduleManager.getModule(ClearTag.class).isToggled()) {
-                Gui.drawRect(sr.getScaledWidth() - fr.getStringWidth(module.getModuleName()) - 4, y[0], sr.getScaledWidth(), y[0] + fr.FONT_HEIGHT + 1, Integer.MIN_VALUE);
-                fr.drawStringWithShadow(module.getModuleName(), sr.getScaledWidth() - fr.getStringWidth(module.getModuleName()) - 2, y[0] + 1, 0xFFFFFFFF);
-            } else {
-                Gui.drawRect(sr.getScaledWidth() - fr.getStringWidth(module.getDisplayName()) - 4, y[0], sr.getScaledWidth(), y[0] + fr.FONT_HEIGHT + 1, Integer.MIN_VALUE);
-                fr.drawStringWithShadow(module.getDisplayName(), sr.getScaledWidth() - fr.getStringWidth(module.getDisplayName()) - 2, y[0] + 1, 0xFFFFFFFF);
+            if(module.isVisible()) {
+                if (Koks.getKoks().moduleManager.getModule(ClearTag.class).isToggled()) {
+                    Gui.drawRect(sr.getScaledWidth() - fr.getStringWidth(module.getModuleName()) - 4, y[0], sr.getScaledWidth(), y[0] + fr.FONT_HEIGHT + 1, Integer.MIN_VALUE);
+                    fr.drawStringWithShadow(module.getModuleName(), sr.getScaledWidth() - fr.getStringWidth(module.getModuleName()) - 2, y[0] + 1, Koks.getKoks().client_color.getRGB());
+                } else {
+                    Gui.drawRect(sr.getScaledWidth() - fr.getStringWidth(module.getDisplayName()) - 4, y[0], sr.getScaledWidth(), y[0] + fr.FONT_HEIGHT + 1, Integer.MIN_VALUE);
+                    fr.drawStringWithShadow(module.getDisplayName(), sr.getScaledWidth() - fr.getStringWidth(module.getDisplayName()) - 2, y[0] + 1, Koks.getKoks().client_color.getRGB());
+                }
+                y[0] += fr.FONT_HEIGHT + 1;
             }
-            y[0] += fr.FONT_HEIGHT + 1;
         });
     }
 
