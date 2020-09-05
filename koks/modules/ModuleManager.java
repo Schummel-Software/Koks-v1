@@ -8,6 +8,8 @@ import koks.modules.impl.visuals.*;
 import koks.modules.impl.world.*;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -62,6 +64,7 @@ public class ModuleManager {
 
         // World
         addModule(new ScaffoldWalk());
+        getModules().sort(Comparator.comparing(Module::getModuleName));
     }
 
     public void addModule(Module module) {
