@@ -75,6 +75,8 @@ public class InventoryManager extends Module {
             return true;
         if (is.getItem() instanceof ItemBow && is != bestBow())
             return true;
+        if (is.getUnlocalizedName().equals("mushroom") || is.getUnlocalizedName().equals("furnace") || is.getUnlocalizedName().equals("feather"))
+            return true;
         return false;
     }
 
