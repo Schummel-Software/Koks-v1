@@ -4,6 +4,7 @@ import net.minecraft.util.ResourceLocation;
 
 public class PositionedSoundRecord extends PositionedSound
 {
+
     public static PositionedSoundRecord create(ResourceLocation soundResource, float pitch)
     {
         return new PositionedSoundRecord(soundResource, 0.25F, pitch, false, 0, ISound.AttenuationType.NONE, 0.0F, 0.0F, 0.0F);

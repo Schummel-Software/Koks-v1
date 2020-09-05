@@ -5,6 +5,7 @@ import com.google.common.collect.Lists;
 import java.awt.*;
 import java.awt.datatransfer.DataFlavor;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Proxy;
@@ -21,6 +22,9 @@ import com.mojang.authlib.yggdrasil.YggdrasilUserAuthentication;
 import com.thealtening.AltService;
 import koks.account.Account;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.audio.ISound;
+import net.minecraft.client.audio.PositionedSoundRecord;
+import net.minecraft.client.audio.SoundEventAccessorComposite;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
@@ -39,9 +43,14 @@ import net.minecraft.world.storage.WorldInfo;
 import org.apache.commons.io.Charsets;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.lwjgl.Sys;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GLContext;
 import org.lwjgl.util.glu.Project;
+
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 
 public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
     private static final AtomicInteger field_175373_f = new AtomicInteger(0);
@@ -111,6 +120,7 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
     private GuiButton realmsButton;
 
     public GuiMainMenu() {
+
         this.openGLWarning2 = field_96138_a;
         this.splashText = "missingno";
         BufferedReader bufferedreader = null;
@@ -184,7 +194,14 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
      * Adds the buttons (and other controls) to the screen in question. Called when the GUI is displayed and when the
      * window resizes, the buttonList is cleared beforehand.
      */
+    public boolean song = false;
+
     public void initGui() {
+
+        if(!song) {
+            mc.getSoundHandler().playSound(PositionedSoundRecord.create(new ResourceLocation("koks.sound")));
+            song = true;
+        }
         this.viewportTexture = new DynamicTexture(256, 256);
         this.backgroundTexture = this.mc.getTextureManager().getDynamicTextureLocation("background", this.viewportTexture);
         Calendar calendar = Calendar.getInstance();
@@ -256,6 +273,8 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
     private final Account ACCOUNT = new Account();
 
     protected void actionPerformed(GuiButton button) throws IOException {
+        mc.getSoundHandler().stopSounds();
+        song = false;
         if (button.id == 0) {
             this.mc.displayGuiScreen(new GuiOptions(this, this.mc.gameSettings));
         }
@@ -550,6 +569,7 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
                 GuiConfirmOpenLink guiconfirmopenlink = new GuiConfirmOpenLink(this, this.openGLWarningLink, 13, true);
                 guiconfirmopenlink.disableSecurityWarning();
                 this.mc.displayGuiScreen(guiconfirmopenlink);
+
             }
         }
     }

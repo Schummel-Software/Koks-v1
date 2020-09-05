@@ -11,6 +11,10 @@ import koks.manager.ConfigManager;
 import koks.modules.ModuleManager;
 import koks.utilities.value.ValueManager;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.audio.SoundCategory;
+import net.minecraft.client.audio.SoundEventAccessorComposite;
+import net.minecraft.client.audio.SoundRegistry;
+import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.Display;
 
 import java.awt.*;
@@ -63,6 +67,7 @@ public class Koks {
         if(!configManager.DIR.exists())configManager.DIR.mkdirs();
         configScreen = new ConfigScreen();
         fileManager.createFiles();
+
     }
 
     public void shutdownClient() {

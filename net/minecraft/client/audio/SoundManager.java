@@ -353,8 +353,9 @@ public class SoundManager
                 {
                     SoundPoolEntry soundpoolentry = soundeventaccessorcomposite.cloneEntry();
 
-                    if (soundpoolentry == SoundHandler.missing_sound)
+                    if (soundpoolentry == SoundHandler.missing_sound && !sound.getSoundLocation().toString().startsWith("minecraft:client/sounds"))
                     {
+                        System.out.println(sound.getSoundLocation());
                         logger.warn(LOG_MARKER, "Unable to play empty soundEvent: {}", new Object[] {soundeventaccessorcomposite.getSoundEventLocation()});
                     }
                     else
