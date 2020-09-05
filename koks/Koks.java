@@ -11,9 +11,7 @@ import koks.manager.ConfigManager;
 import koks.modules.ModuleManager;
 import koks.utilities.value.ValueManager;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.audio.SoundCategory;
-import net.minecraft.client.audio.SoundEventAccessorComposite;
-import net.minecraft.client.audio.SoundRegistry;
+import net.minecraft.client.audio.*;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.Display;
 
@@ -40,6 +38,8 @@ public class Koks {
     public final String CLIENT_VERSION = "1.0.0";
     public final String PREFIX = "§c" + CLIENT_NAME + " §7>> §f";
     public Color client_color = Color.PINK;
+
+    public ISound koksSound = PositionedSoundRecord.create(new ResourceLocation("koks.sound"));
 
     public ModuleManager moduleManager;
     public ValueManager valueManager;

@@ -20,6 +20,7 @@ import com.mojang.authlib.Agent;
 import com.mojang.authlib.yggdrasil.YggdrasilAuthenticationService;
 import com.mojang.authlib.yggdrasil.YggdrasilUserAuthentication;
 import com.thealtening.AltService;
+import koks.Koks;
 import koks.account.Account;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.ISound;
@@ -198,10 +199,6 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
 
     public void initGui() {
 
-        if(!song) {
-            mc.getSoundHandler().playSound(PositionedSoundRecord.create(new ResourceLocation("koks.sound")));
-            song = true;
-        }
         this.viewportTexture = new DynamicTexture(256, 256);
         this.backgroundTexture = this.mc.getTextureManager().getDynamicTextureLocation("background", this.viewportTexture);
         Calendar calendar = Calendar.getInstance();
@@ -236,6 +233,11 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
             this.field_92021_u = ((GuiButton) this.buttonList.get(0)).yPosition - 24;
             this.field_92020_v = this.field_92022_t + k;
             this.field_92019_w = this.field_92021_u + 24;
+        }
+
+
+        if(!mc.getSoundHandler().isSoundPlaying(Koks.getKoks().koksSound)) {
+            mc.getSoundHandler().playSound(Koks.getKoks().koksSound);
         }
 
         this.mc.func_181537_a(false);
