@@ -1,5 +1,6 @@
 package koks.gui.configs.elements;
 
+import koks.Koks;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
@@ -39,7 +40,7 @@ public class DrawConfigs {
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         String[] name = file.getName().split("\\.");
         Gui.drawRect(x + 4, y, x + width - 4, y + height, new Color(28, 28, 28, 255).getRGB());
-        fr.drawString(name[0], x + width / 2 - fr.getStringWidth(name[0]) / 2, y + height / 2 - fr.FONT_HEIGHT / 2, 0xFFFFFFFF);
+        fr.drawString(name[0], x + width / 2 - fr.getStringWidth(name[0]) / 2, y + height / 2 - fr.FONT_HEIGHT / 2, Koks.getKoks().configManager.currentConfig.equalsIgnoreCase(name[0]) ? Koks.getKoks().client_color.getRGB() : isHovered(mouseX,mouseY) ? 0xFFFFFFFF : new Color(0xFFFFFFFF).darker().getRGB());
 
         if (choosing) {
             for (RightClickScreen rightClickScreen : screens) {
@@ -62,6 +63,10 @@ public class DrawConfigs {
             clickX = mouseX - x;
             clickY = mouseY - y;
             choosing = !choosing;
+        }else if(mouseButton == 0 && isHovered(mouseX, mouseY)) {
+            String[] name = file.getName().split("\\.");
+            Koks.getKoks().configManager.loadConfig(name[0]);
+            mc.thePlayer.addChatMessage(new ChatComponentText(Koks.getKoks().PREFIX + "§aloaded Config §e" + name[0]));
         }
     }
 

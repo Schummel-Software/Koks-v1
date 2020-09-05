@@ -51,6 +51,7 @@ public class ScaffoldWalk extends Module {
     public final BooleanValue<Boolean> sprint = new BooleanValue<>("Sprint", true, this);
 
     public final BooleanValue<Boolean> simpleRotations = new BooleanValue<>("Simple Rotations", false, this);
+    public final BooleanValue<Boolean> Hypixel = new BooleanValue<>("Hypixel", false, this);
 
     public float pitch;
     public float yaw;
@@ -64,6 +65,7 @@ public class ScaffoldWalk extends Module {
         Koks.getKoks().valueManager.addValue(randomHit);
         Koks.getKoks().valueManager.addValue(sprint);
         Koks.getKoks().valueManager.addValue(simpleRotations);
+        Koks.getKoks().valueManager.addValue(Hypixel);
     }
 
     @Override
@@ -76,11 +78,9 @@ public class ScaffoldWalk extends Module {
         if (event instanceof MotionEvent) {
             if (((MotionEvent) event).getType() == MotionEvent.Type.PRE) {
                 ((MotionEvent) event).setYaw(yaw);
-                if (Minecraft.getMinecraft().getCurrentServerData().serverIP.contains("hypixel") && Minecraft.getMinecraft().theWorld != null && Minecraft.getMinecraft().thePlayer != null) {
-                    ((MotionEvent) event).setPitch(79.444F);
-                } else {
-                    ((MotionEvent) event).setPitch(pitch);
-                }
+
+                if (Hypixel.isToggled() && Minecraft.getMinecraft().theWorld != null && Minecraft.getMinecraft().thePlayer != null) pitch = 79.444F;
+                ((MotionEvent) event).setPitch(pitch);
             }
         }
 

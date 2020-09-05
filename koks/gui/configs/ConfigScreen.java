@@ -25,6 +25,7 @@ public class ConfigScreen extends GuiScreen {
     private final FontRenderer fr = Minecraft.getMinecraft().fontRendererObj;
     private final RenderUtils renderUtils = new RenderUtils();
     private ArrayList<DrawConfigs> configs = new ArrayList<>();
+    private ArrayList<File> configAdded = new ArrayList<>();
     public int x, y, width, height, configHeight, panelHeight, dragX, dragY;
     private ScaledResolution sr;
     public boolean dragging;
@@ -37,14 +38,21 @@ public class ConfigScreen extends GuiScreen {
         this.height = 400;
         this.configHeight = 20;
         this.panelHeight = 20;
-
-        for (File file : Koks.getKoks().configManager.getConfigs()) {
-            configs.add(new DrawConfigs(file));
-        }
     }
 
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+
+        configAdded.removeIf(file -> !file.exists());
+        configs.removeIf(drawConfigs -> !drawConfigs.file.exists());
+
+        for (File file : Koks.getKoks().configManager.getConfigs()) {
+            if(!configAdded.contains(file)) {
+                configs.add(new DrawConfigs(file));
+                configAdded.add(file);
+            }
+        }
+
         sr = new ScaledResolution(mc);
 
         if (dragging) {
@@ -95,12 +103,14 @@ public class ConfigScreen extends GuiScreen {
 
         for (DrawConfigs drawConfigs : configs) {
             drawConfigs.mouseReleased(mouseX, mouseY, state);
+
         }
         super.mouseReleased(mouseX, mouseY, state);
     }
 
     @Override
     public void initGui() {
+
         super.initGui();
     }
 

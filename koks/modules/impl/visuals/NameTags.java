@@ -71,6 +71,8 @@ public class NameTags extends Module {
             return false;
         if (entity.getName().contains("-"))
             return false;
+        if(entity.isInvisible())
+            return false;
         return true;
     }
 

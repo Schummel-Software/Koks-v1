@@ -28,7 +28,7 @@ public class Jesus extends Module {
                 case "Intave":
                     BlockPos bPos = new BlockPos(mc.thePlayer.posX, mc.thePlayer.posY, mc.thePlayer.posZ);
                     if (mc.theWorld.getBlockState(bPos).getBlock() == Blocks.water || mc.theWorld.getBlockState(bPos).getBlock() == Blocks.flowing_water || mc.theWorld.getBlockState(bPos).getBlock() == Blocks.lava || mc.theWorld.getBlockState(bPos).getBlock() == Blocks.flowing_lava) {
-
+                        mc.gameSettings.keyBindJump.pressed = false;
                         mc.thePlayer.motionY = 0.005;
 
                         mc.thePlayer.onGround = true;

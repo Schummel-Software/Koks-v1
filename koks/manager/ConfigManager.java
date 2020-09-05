@@ -27,6 +27,8 @@ public class ConfigManager {
     public Minecraft mc = Minecraft.getMinecraft();
     public File DIR = new File(mc.mcDataDir + "/" + Koks.getKoks().CLIENT_NAME + "/Configs");
 
+    public String currentConfig = "";
+
     public boolean configExist(String name) {
         File file = new File(DIR, name + "." + Koks.getKoks().CLIENT_NAME.toLowerCase());
         return file.exists();
@@ -43,7 +45,7 @@ public class ConfigManager {
     }
 
         public void loadConfig (String name){
-
+            currentConfig = name;
             for (Module module : Koks.getKoks().moduleManager.getModules()) {
                 if (module.getModuleCategory() != Module.Category.VISUALS && module != Koks.getKoks().moduleManager.getModule(HUD.class)) {
                     module.setToggled(false);
