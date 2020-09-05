@@ -23,9 +23,11 @@ import net.minecraft.item.ItemSword;
 import net.minecraft.network.play.client.C02PacketUseEntity;
 import net.minecraft.network.play.client.C0APacketAnimation;
 import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.MathHelper;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
@@ -48,7 +50,7 @@ public class KillAura extends Module {
     public NumberValue<Double> range = new NumberValue<>("Hit Range", 4.0D, 6.0D, 3.4D, this);
     public BooleanValue<Boolean> preAim = new BooleanValue<>("Pre Aiming", false, this);
     public NumberValue<Double> preAimRange = new NumberValue<>("Aiming Range", 0.0D, 1.0D, 0.0D, this);
-    public NumberValue<Integer> cps = new NumberValue<>("CPS", 7,12,20,1, this);
+    public NumberValue<Integer> cps = new NumberValue<>("CPS", 7, 12, 20, 1, this);
     public BooleanValue<Boolean> smoothRotation = new BooleanValue<>("Smooth Rotation", false, this);
     public NumberValue<Integer> failingChance = new NumberValue<>("FailHit Percent", 0, 20, 0, this);
     public BooleanValue<Boolean> legitMovement = new BooleanValue<>("Legit Movement", false, this);
@@ -68,6 +70,7 @@ public class KillAura extends Module {
     public TitleValue visualSettings = new TitleValue("Visual Settings", false, new Value[]{fakeBlocking, silentSwing, serverSideSwing, swingChance}, this);
 
     public List<Entity> entities = new ArrayList<>();
+    FriendManager friendManager = new FriendManager();
     public RandomUtil randomUtil = new RandomUtil();
     public AuraUtil auraUtil = new AuraUtil();
     public TimeUtil timeUtil = new TimeUtil();
@@ -140,6 +143,8 @@ public class KillAura extends Module {
 
             setRotations(finalEntity);
 
+            System.out.println(friendManager.friends);
+
             isFailing = new Random().nextInt(100) <= failingChance.getDefaultValue();
             canSwing = new Random().nextInt(100) <= swingChance.getDefaultValue();
 
@@ -172,12 +177,15 @@ public class KillAura extends Module {
     }
 
     public void attackEntity() {
-        double cps = this.cps.getMinValue().equals(this.cps.getMaxValue()) ? this.cps.getMaxValue() : randomUtil.randomInt(this.cps.getMinValue(),this.cps.getMaxValue());
-        if (timeUtil.hasReached((long) (1000 / (cps + (cps > 10 ? 5 : 0))))) {
+        double cps = this.cps.getMinValue().equals(this.cps.getMaxValue()) ? this.cps.getMaxValue() : randomUtil.randomInt(this.cps.getMinValue(), this.cps.getMaxValue());
+        Entity rayCast = rayCastUtil.getRayCastedEntity(range.getDefaultValue(), yaw, pitch);
 
-            Entity rayCast = rayCastUtil.getRayCastedEntity(range.getDefaultValue(), yaw, pitch);
+        if (!isFailing && rayCast != null) {
 
-            if (!isFailing && rayCast != null) {
+            for (int i = 0; i < 2; i++)
+                mc.effectRenderer.emitParticleAtEntity(rayCast, EnumParticleTypes.PORTAL);
+
+            if (timeUtil.hasReached((long) (1000 / (cps + (cps > 10 ? 5 : 0))))) {
 
                 if (silentSwing.isToggled()) {
                     if (canSwing) {
@@ -200,9 +208,9 @@ public class KillAura extends Module {
                     else
                         listCount = 0;
                 }
-            }
 
-            timeUtil.reset();
+                timeUtil.reset();
+            }
         }
     }
 
@@ -267,7 +275,9 @@ public class KillAura extends Module {
             return false;
         if (entity.ticksExisted < ticksExisting.getDefaultValue())
             return false;
-        if(!Float.isNaN(((EntityLivingBase) entity).getHealth()) && needNaNHealth.isToggled())
+        if (friendManager.isFriend(entity.getName()) && !ignoreFriend.isToggled())
+            return false;
+        if (!Float.isNaN(((EntityLivingBase) entity).getHealth()) && needNaNHealth.isToggled())
             return false;
         if (!ignoreTeam.isToggled() && entityUtil.isTeam(mc.thePlayer, (EntityPlayer) entity))
             return false;

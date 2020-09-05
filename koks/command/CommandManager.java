@@ -14,6 +14,8 @@ public class CommandManager {
         addCommand(new config());
         addCommand(new Toggle());
         addCommand(new VClip());
+        addCommand(new Friend());
+        addCommand(new Reload());
     }
 
 

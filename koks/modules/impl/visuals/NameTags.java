@@ -3,6 +3,7 @@ package koks.modules.impl.visuals;
 import koks.event.Event;
 import koks.event.impl.EventRender3D;
 import koks.modules.Module;
+import koks.utilities.FriendManager;
 import koks.utilities.RenderUtils;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
@@ -18,6 +19,8 @@ import java.awt.*;
  * @created on 03.09.2020 : 08:29
  */
 public class NameTags extends Module {
+
+    FriendManager friendManager = new FriendManager();
 
     public NameTags() {
         super("NameTags", Category.VISUALS);
@@ -38,7 +41,7 @@ public class NameTags extends Module {
 
                     double height = (defaultScale + scale) * 75;
 
-                    String name = entity.getDisplayName().getUnformattedText();
+                    String name = friendManager.isFriend(entity.getName()) ? friendManager.getFriend(entity.getName())[1] : entity.getDisplayName().getUnformattedText();
                     float finalHealth = Float.isNaN(((EntityLivingBase) entity).getHealth()) ? -1 : Math.round(((EntityLivingBase) entity).getHealth() * 5);
                     String colorPrefix = finalHealth == -1 ? "" : (finalHealth >= 80 ? "§a" : finalHealth < 80 && finalHealth >= 60 ? "§e" : finalHealth < 60 && finalHealth >= 40 ? "§6" : finalHealth < 40 && finalHealth >= 20 ? "§c" : finalHealth < 20 ? "§4" : "§f");
                     String health = finalHealth == -1 ? "" : " " + colorPrefix + Math.round(finalHealth) + "%";

@@ -16,6 +16,7 @@ import net.minecraft.util.BlockPos;
 public class Speed extends Module {
 
     public ModeValue<String> mode = new ModeValue<>("Mode", "Mineplex", new String[]{"Mineplex", "AAC 3.2.2"}, this);
+    public boolean canSpeed;
 
     public Speed() {
         super("Speed", Category.MOVEMENT);
@@ -43,12 +44,16 @@ public class Speed extends Module {
                     break;
                 case "AAC 3.2.2":
                     if (mc.thePlayer.moveForward != 0 && !mc.gameSettings.keyBindJump.isKeyDown()) {
+                        if (mc.thePlayer.fallDistance > 0.4 && !canSpeed)
+                            canSpeed = true;
                         if (mc.thePlayer.onGround) {
                             mc.thePlayer.jump();
-                        } else {
+                        } else if (canSpeed) {
                             mc.thePlayer.motionY -= 0.0249;
                             mc.thePlayer.jumpMovementFactor = 0.033F;
                         }
+                    } else {
+                        canSpeed = false;
                     }
                     break;
             }
@@ -58,6 +63,7 @@ public class Speed extends Module {
     @Override
     public void onEnable() {
         mc.timer.timerSpeed = 1.0;
+        canSpeed = false;
     }
 
     @Override

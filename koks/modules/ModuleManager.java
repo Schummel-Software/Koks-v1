@@ -49,6 +49,7 @@ public class ModuleManager {
         addModule(new HUD());
         addModule(new Debug());
         addModule(new Disabler());
+        addModule(new Cosmetics());
 
         // Visuals
         addModule(new Animations());
