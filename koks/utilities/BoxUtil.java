@@ -22,24 +22,15 @@ public class BoxUtil {
     private final Map<Integer, Boolean> glCapMap = new HashMap<>();
 
     public void renderOutline(AxisAlignedBB axisalignedbb) {
-
-        float red;
-        float green;
-        float blue;
-
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
         enableGlCap(GL11.GL_BLEND);
         disableGlCap(GL11.GL_TEXTURE_2D, GL11.GL_DEPTH_TEST);
         GL11.glDepthMask(false);
 
-        red = Koks.getKoks().client_color.getRed() / 255F;
-        green = Koks.getKoks().client_color.getGreen() / 255F;
-        blue = Koks.getKoks().client_color.getBlue() / 255F;
-
         GL11.glLineWidth(1F);
-        RenderGlobal.func_181563_a(axisalignedbb, (int) red * 255, (int) green * 255, (int) blue * 255, 255);
+        RenderGlobal.func_181563_a(axisalignedbb, Koks.getKoks().client_color.getRed(), Koks.getKoks().client_color.getGreen(), Koks.getKoks().client_color.getBlue(), 255);
 
-        GL11.glColor4f(red, green, blue, 0.11F);
+        GL11.glColor4f(Koks.getKoks().client_color.getRed() / 255F, Koks.getKoks().client_color.getGreen() / 255F, Koks.getKoks().client_color.getBlue() / 255F, 0.11F);
         drawFilledBox(axisalignedbb);
 
         GlStateManager.resetColor();

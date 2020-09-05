@@ -182,10 +182,14 @@ public class ScaffoldWalk extends Module {
             if (!simpleRotations.isToggled())
                 setYaw();
             boolean rayCasted = !rayCast.isToggled() || rayCastUtil.isRayCastBlock(pos, yaw, pitch);
-            if (rayCasted && timeUtil.hasReached(mc.thePlayer.onGround ? (randomutil.randomLong(delay.getMinDefaultValue(), delay.getDefaultValue())) : 20L)) {
-                if (blackList.contains(((ItemBlock) silentItemStack.getItem()).getBlock()))
-                    return;
-                mc.playerController.onPlayerRightClick(mc.thePlayer, mc.theWorld, silentItemStack, pos, face, new Vec3(pos.getX() + (this.randomHit.isToggled() ? randomutil.randomDouble(0, 0.7) : 0), pos.getY() + (this.randomHit.isToggled() ? randomutil.randomDouble(0, 0.7) : 0), pos.getZ() + (this.randomHit.isToggled() ? randomutil.randomDouble(0, 0.7) : 0)));
+            if (rayCasted) {
+                if (timeUtil.hasReached(mc.thePlayer.onGround ? (randomutil.randomLong(delay.getMinDefaultValue(), delay.getDefaultValue())) : 20L)) {
+                    if (blackList.contains(((ItemBlock) silentItemStack.getItem()).getBlock()))
+                        return;
+                    mc.playerController.onPlayerRightClick(mc.thePlayer, mc.theWorld, silentItemStack, pos, face, new Vec3(pos.getX() + (this.randomHit.isToggled() ? randomutil.randomDouble(0, 0.7) : 0), pos.getY() + (this.randomHit.isToggled() ? randomutil.randomDouble(0, 0.7) : 0), pos.getZ() + (this.randomHit.isToggled() ? randomutil.randomDouble(0, 0.7) : 0)));
+                    timeUtil.reset();
+                }
+            } else {
                 timeUtil.reset();
             }
         } else {

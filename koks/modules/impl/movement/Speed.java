@@ -15,7 +15,7 @@ import net.minecraft.util.BlockPos;
  */
 public class Speed extends Module {
 
-    public ModeValue<String> mode = new ModeValue<String>("Mode", "Mineplex",new String[] {"Mineplex"},this);
+    public ModeValue<String> mode = new ModeValue<>("Mode", "Mineplex", new String[]{"Mineplex", "AAC 3.2.2"}, this);
 
     public Speed() {
         super("Speed", Category.MOVEMENT);
@@ -27,18 +27,28 @@ public class Speed extends Module {
     public void onEvent(Event event) {
         if (event instanceof EventUpdate) {
             setDisplayName(getModuleName() + " §7" + mode.getSelectedMode());
-            switch(mode.getSelectedMode()) {
+            switch (mode.getSelectedMode()) {
                 case "Mineplex":
-                if (mc.thePlayer.moveForward != 0 && !mc.gameSettings.keyBindJump.isKeyDown()) {
-                    if (mc.thePlayer.onGround) {
-                        mc.thePlayer.motionY = 0.42;
-                    } else {
-                        MovementUtil movementUtil = new MovementUtil();
-                        movementUtil.setSpeed(0.4); // Absolute Maximum
-                        mc.thePlayer.jumpMovementFactor = 0.025F;
+                    if (mc.thePlayer.moveForward != 0 && !mc.gameSettings.keyBindJump.isKeyDown()) {
+                        if (mc.thePlayer.onGround) {
+                            mc.thePlayer.motionY = 0.42;
+                        } else {
+                            MovementUtil movementUtil = new MovementUtil();
+                            movementUtil.setSpeed(0.4743); // Absolute Maximum
+                            mc.thePlayer.jumpMovementFactor = 0.025F;
+                        }
                     }
-                }
-                break;
+                    break;
+                case "AAC 3.2.2":
+                    if (mc.thePlayer.moveForward != 0 && !mc.gameSettings.keyBindJump.isKeyDown()) {
+                        if (mc.thePlayer.onGround) {
+                            mc.thePlayer.jump();
+                        } else {
+                            mc.thePlayer.motionY -= 0.0249;
+                            mc.thePlayer.jumpMovementFactor = 0.033F;
+                        }
+                    }
+                    break;
             }
         }
     }
