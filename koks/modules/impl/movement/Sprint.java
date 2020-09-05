@@ -7,6 +7,7 @@ import koks.event.impl.EventUpdate;
 import koks.event.impl.PacketEvent;
 import koks.modules.Module;
 import koks.modules.impl.visuals.Animations;
+import koks.modules.impl.world.NewScaffold;
 import koks.modules.impl.world.ScaffoldWalk;
 import koks.utilities.TimeUtil;
 import koks.utilities.value.Value;
@@ -62,7 +63,8 @@ public class Sprint extends Module {
                     }
                     break;
                 case "Intave":
-                    mc.thePlayer.setSprinting(true);
+                    if (canSprint())
+                        mc.thePlayer.setSprinting(true);
                     break;
             }
         }
@@ -71,6 +73,8 @@ public class Sprint extends Module {
     public boolean canSprint() {
         ScaffoldWalk scaffoldWalk = Koks.getKoks().moduleManager.getModule(ScaffoldWalk.class);
         if (scaffoldWalk.isToggled() && !(scaffoldWalk.sprint.isToggled()))
+            return false;
+        if (Koks.getKoks().moduleManager.getModule(NewScaffold.class).isToggled() && !(Koks.getKoks().moduleManager.getModule(NewScaffold.class).sprint.isToggled()))
             return false;
         return true;
     }
