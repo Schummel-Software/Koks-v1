@@ -236,9 +236,7 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
         }
 
 
-        if(!mc.getSoundHandler().isSoundPlaying(Koks.getKoks().koksSound)) {
-            mc.getSoundHandler().playSound(Koks.getKoks().koksSound);
-        }
+
 
         this.mc.func_181537_a(false);
     }
@@ -509,6 +507,9 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
      * Draws the screen and all the components in it. Args : mouseX, mouseY, renderPartialTicks
      */
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+        if(!mc.getSoundHandler().isSoundPlaying(Koks.getKoks().koksSound)) {
+            mc.getSoundHandler().playSound(Koks.getKoks().koksSound);
+        }
         GlStateManager.disableAlpha();
         this.renderSkybox(mouseX, mouseY, partialTicks);
         GlStateManager.enableAlpha();
