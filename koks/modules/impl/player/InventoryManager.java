@@ -38,7 +38,7 @@ public class InventoryManager extends Module {
 
     @Override
     public void onEvent(Event event) {
-        if(event instanceof EventUpdate) {
+        if (event instanceof EventUpdate) {
             if (mc.currentScreen instanceof GuiInventory) {
                 if (!startTimer.hasReached(startDelay.getDefaultValue())) {
                     throwTimer.reset();
@@ -61,9 +61,9 @@ public class InventoryManager extends Module {
                             mc.playerController.windowClick(mc.thePlayer.inventoryContainer.windowId, i, 1, 2, mc.thePlayer);
                         } else if (isBadStack(is)) {
                             mc.playerController.windowClick(mc.thePlayer.inventoryContainer.windowId, i, 1, 4, mc.thePlayer);
+                            throwTimer.reset();
+                            break;
                         }
-
-                        throwTimer.reset();
                     }
                 }
             }
@@ -87,9 +87,9 @@ public class InventoryManager extends Module {
                 ItemStack is = mc.thePlayer.inventoryContainer.getSlot(i).getStack();
                 if (is.getItem() instanceof ItemSword) {
                     float swordDamage = getSwordDamage(is);
-                    if (swordDamage > itemDamage) {
+                    if (swordDamage >= itemDamage) {
+                        itemDamage = getSwordDamage(is);
                         bestSword = is;
-                        itemDamage = swordDamage;
                     }
                 }
             }
@@ -118,9 +118,9 @@ public class InventoryManager extends Module {
                 ItemStack is = mc.thePlayer.inventoryContainer.getSlot(i).getStack();
                 if (is.getItem() instanceof ItemBow) {
                     float bowDamage = getBowDamage(is);
-                    if (bowDamage > itemDamage) {
+                    if (bowDamage >= itemDamage) {
+                        itemDamage = getBowDamage(is);
                         bestBow = is;
-                        itemDamage = bowDamage;
                     }
                 }
             }

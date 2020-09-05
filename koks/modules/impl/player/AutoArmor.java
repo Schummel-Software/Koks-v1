@@ -20,9 +20,9 @@ import org.lwjgl.Sys;
  */
 public class AutoArmor extends Module {
 
+    public BooleanValue<Boolean> openedInventory = new BooleanValue<>("Opened Inventory", true, this);
     public NumberValue<Long> startDelayValue = new NumberValue<>("Delay Start", 100L, 500L, 0L, this);
     public NumberValue<Long> equipDelay = new NumberValue<>("Equip Delay", 90L, 125L, 150L, 0L, this);
-
     public final RandomUtil randomUtil = new RandomUtil();
     public final TimeUtil timeUtilOpening = new TimeUtil();
     public final TimeUtil timeUtil = new TimeUtil();
@@ -31,23 +31,26 @@ public class AutoArmor extends Module {
 
     public AutoArmor() {
         super("AutoArmor", Category.PLAYER);
-        Koks.getKoks().valueManager.addValue(startDelayValue);
-        Koks.getKoks().valueManager.addValue(equipDelay);
+
+        addValue(openedInventory);
+        addValue(startDelayValue);
+        addValue(equipDelay);
     }
 
     @Override
     public void onEvent(Event event) {
         if (event instanceof MotionEvent) {
             if (((MotionEvent) event).getType() == MotionEvent.Type.PRE) {
-                if (!(mc.currentScreen instanceof GuiInventory)) {
+                if (mc.currentScreen instanceof GuiInventory) {
+                    if (!timeUtilOpening.hasReached(startDelayValue.getDefaultValue())) {
+                        timeUtil.reset();
+                        return;
+                    }
+                } else {
                     timeUtilOpening.reset();
+                    if (openedInventory.isToggled())
+                        return;
                 }
-
-                if (!(mc.currentScreen instanceof GuiInventory))
-                    return;
-
-                if (!timeUtilOpening.hasReached(startDelayValue.getDefaultValue()))
-                    return;
 
                 for (int i = 1; i < 5; i++) {
                     if (mc.thePlayer.inventoryContainer.getSlot(4 + i).getHasStack()) {
