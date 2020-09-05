@@ -39,7 +39,7 @@ public class HypixelFly {
     public void onEvent(Event event) {
 
         if (event instanceof PacketEvent) {
-            if (stage > 2) {
+            if (stage > 4) {
                 if (((PacketEvent) event).getType() == PacketEvent.Type.SEND && ((PacketEvent) event).getPacket() instanceof C03PacketPlayer) {
                     blinkPackets.add(((PacketEvent) event).getPacket());
                     event.setCanceled(true);
@@ -48,14 +48,11 @@ public class HypixelFly {
         }
 
         if (event instanceof EventMove) {
-            if (mc.thePlayer.ticksExisted % 30 == 0) {
-                ((EventMove) event).setY(mc.thePlayer.motionY = randomUtil.randomDouble(0.0000000005, 0.000000001));
-            }
             switch (this.stage) {
                 case 0:
                     this.moveSpeed = 0.5F;
                     break;
-                case 1:
+                case 3:
                     if (mc.thePlayer.onGround && mc.thePlayer.isCollidedVertically)
                         ((EventMove) event).setY(mc.thePlayer.motionY = 0.3994D);
                     this.moveSpeed *= 2D;
@@ -66,14 +63,14 @@ public class HypixelFly {
                     this.moveSpeed = this.moveSpeed - this.moveSpeed / 75;
             }
             if (mc.thePlayer.moveForward != 0 || mc.thePlayer.moveStrafing != 0)
-                movementUtil.setSpeed(Math.max(this.moveSpeed, 0.285D));
+                movementUtil.setSpeed(Math.max(this.moveSpeed, 0.289D));
             this.stage++;
         }
 
         if (event instanceof MotionEvent) {
             if (((MotionEvent) event).getType() == MotionEvent.Type.PRE) {
 
-                if (stage > 2 && timeUtil.hasReached(100)) {
+                if (stage > 4 && timeUtil.hasReached(400)) {
                     mc.timer.timerSpeed = 1F;
                 } else {
                     mc.timer.timerSpeed = 2F;
@@ -99,6 +96,7 @@ public class HypixelFly {
         this.stage = 0;
         mc.thePlayer.motionX = 0F;
         mc.thePlayer.motionZ = 0F;
+        timeUtil.reset();
 
         final double x = mc.thePlayer.posX;
         final double y = mc.thePlayer.posY;
@@ -109,12 +107,16 @@ public class HypixelFly {
         playerCapabilities.isCreativeMode = true;
         netHandler.addToSendQueue(new C13PacketPlayerAbilities(playerCapabilities));
 
-        for (int i = 0; i < mc.thePlayer.getMaxFallHeight() / 0.055 + 1.0; ++i) {
-            netHandler.addToSendQueue(new C03PacketPlayer.C04PacketPlayerPosition(x, y + 0.06, z, false));
-            netHandler.addToSendQueue(new C03PacketPlayer.C04PacketPlayerPosition(x, y + 0.016, z, false));
-            netHandler.addToSendQueue(new C03PacketPlayer.C04PacketPlayerPosition(x, y + 0.0049 + 0.0003, z, false));
+        for (int j = 0; j < 4; j++) {
+            for (int i = 0; i < mc.thePlayer.getMaxFallHeight() / 0.055 + 1.0; ++i) {
+                netHandler.addToSendQueue(new C03PacketPlayer.C04PacketPlayerPosition(x, y + 0.06, z, false));
+                netHandler.addToSendQueue(new C03PacketPlayer.C04PacketPlayerPosition(x, y + 0.016, z, false));
+                netHandler.addToSendQueue(new C03PacketPlayer.C04PacketPlayerPosition(x, y + 0.0049 + 0.0003, z, false));
+            }
+            netHandler.addToSendQueue(new C03PacketPlayer(true));
         }
-        netHandler.addToSendQueue(new C03PacketPlayer(true));
+
+
         zoom = true;
     }
 
