@@ -2,10 +2,7 @@ package koks.modules.impl.combat;
 
 import koks.Koks;
 import koks.event.Event;
-import koks.event.impl.EventUpdate;
-import koks.event.impl.JumpEvent;
-import koks.event.impl.MotionEvent;
-import koks.event.impl.MoveFlyingEvent;
+import koks.event.impl.*;
 import koks.modules.Module;
 import koks.utilities.*;
 import koks.utilities.value.Value;
@@ -22,6 +19,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemSword;
 import net.minecraft.network.play.client.C02PacketUseEntity;
 import net.minecraft.network.play.client.C0APacketAnimation;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.MathHelper;
@@ -135,6 +133,30 @@ public class KillAura extends Module {
 
             }
 
+        }
+
+        if (event instanceof EventRender3D) {
+            float partialTicks = ((EventRender3D) event).getPartialTicks();
+
+            if (finalEntity != null) {
+                double x = (finalEntity.lastTickPosX + (finalEntity.posX - finalEntity.lastTickPosX) * partialTicks) - mc.getRenderManager().renderPosX;
+                double y = (finalEntity.lastTickPosY + (finalEntity.posY - finalEntity.lastTickPosY) * partialTicks) - mc.getRenderManager().renderPosY;
+                double z = (finalEntity.lastTickPosZ + (finalEntity.posZ - finalEntity.lastTickPosZ) * partialTicks) - mc.getRenderManager().renderPosZ;
+
+                float width = 0.16F;
+
+                AxisAlignedBB axisalignedbb = finalEntity.getEntityBoundingBox();
+                AxisAlignedBB axisalignedbb1 = new AxisAlignedBB(
+                        axisalignedbb.minX - finalEntity.posX + x - width,
+                        axisalignedbb.maxY - finalEntity.posY + y + 0.25 - (finalEntity.isSneaking() ? 0.25 : 0),
+                        axisalignedbb.minZ - finalEntity.posZ + z - width,
+                        axisalignedbb.maxX - finalEntity.posX + x + width,
+                        axisalignedbb.maxY - finalEntity.posY + y + 0.30 - (finalEntity.isSneaking() ? 0.25 : 0),
+                        axisalignedbb.maxZ - finalEntity.posZ + z + width);
+
+                BoxUtil boxUtil = new BoxUtil();
+                boxUtil.renderOutline(axisalignedbb1);
+            }
         }
 
         if (event instanceof EventUpdate) {

@@ -92,7 +92,7 @@ public class NewScaffold extends Module {
         mc.thePlayer.setSprinting(sprint.isToggled());
         mc.timer.timerSpeed = timerSpeed.getDefaultValue();
 
-        down = Keyboard.isKeyDown(Keyboard.KEY_CAPITAL);
+        //down = Keyboard.isKeyDown(Keyboard.KEY_CAPITAL);
 
         if (finalPos == null) {
             timeUtil.reset();
@@ -102,14 +102,14 @@ public class NewScaffold extends Module {
             }
         }
 
-        if (rotateAlways.isToggled() || finalPos != null) {
+        if (finalPos != null) {
             setYaw();
             setPitch();
-        }
-
-        if (!rotateAlways.isToggled() && finalPos == null) {
-            yaw = mc.thePlayer.rotationYaw;
-            pitch = mc.thePlayer.rotationPitch;
+        } else {
+            if (!rotateAlways.isToggled()) {
+                yaw = mc.thePlayer.rotationYaw;
+                pitch = mc.thePlayer.rotationPitch;
+            }
         }
     }
 
@@ -134,6 +134,7 @@ public class NewScaffold extends Module {
         if (timeUtil.hasReached(mc.thePlayer.onGround ? randomUtil.randomLong(placeDelay.getMinDefaultValue(), placeDelay.getDefaultValue()) : 1)) {
             mc.thePlayer.motionX *= motionOnPlace.getDefaultValue();
             mc.thePlayer.motionZ *= motionOnPlace.getDefaultValue();
+
             if (rayCastUtil.isRayCastBlock(finalPos, yaw, pitch) || !rayTrace.isToggled()) {
                 mc.thePlayer.swingItem();
                 mc.playerController.onPlayerRightClick(mc.thePlayer, mc.theWorld, silentItemStack, blockPos, enumFacing, vecToPlace);
@@ -143,9 +144,11 @@ public class NewScaffold extends Module {
     }
 
     public void setYaw() {
+        if (finalPos == null)
+            return;
         if (rotationMode.getSelectedMode().equals("Force Block")) {
             float[] rotations = rotationUtil.faceBlock(finalPos, true, yaw, pitch, 360);
-            yaw = (float) (rotations[0] + randomUtil.randomGaussian(randomRotation.getDefaultValue()));
+            yaw = (float) (rotations[0]);
         }
 
         boolean forward = mc.gameSettings.keyBindForward.isKeyDown();
@@ -175,18 +178,20 @@ public class NewScaffold extends Module {
             if (!forward && !left && right && back)
                 yaw = -45;
 
-            this.yaw = (float) (mc.thePlayer.rotationYaw + yaw + randomUtil.randomGaussian(randomRotation.getDefaultValue()));
+            this.yaw = (float) (mc.thePlayer.rotationYaw + yaw);
         }
     }
 
     public void setPitch() {
+        if (finalPos == null)
+            return;
         float calcPitch = rotationUtil.faceBlock(finalPos, true, yaw, pitch, 360)[1];
         if (rotationMode.getSelectedMode().equals("Force Block")) {
-            pitch = (float) (calcPitch + randomUtil.randomGaussian(randomRotation.getDefaultValue()));
+            pitch = (float) (calcPitch);
         }
 
         if (rotationMode.getSelectedMode().equals("Watch Simple")) {
-            pitch = (float) ((mc.thePlayer.onGround ? 82 : calcPitch) + randomUtil.randomGaussian(randomRotation.getDefaultValue()));
+            pitch = (float) ((mc.thePlayer.onGround ? 82 : calcPitch));
         }
     }
 
@@ -195,7 +200,7 @@ public class NewScaffold extends Module {
         BlockPos blockPos2 = pos.add(1, 0, 0);
         BlockPos blockPos3 = pos.add(0, 0, -1);
         BlockPos blockPos4 = pos.add(0, 0, 1);
-        float down = (this.down ? 1 : 0);
+        float down = 0;
         if (mc.theWorld.getBlockState(pos.add(0, -1 - down, 0)).getBlock() != Blocks.air) {
             place(pos.add(0, -1, 0), EnumFacing.UP);
         } else if (mc.theWorld.getBlockState(pos.add(-1, 0 - down, 0)).getBlock() != Blocks.air) {
@@ -251,7 +256,7 @@ public class NewScaffold extends Module {
 
     @Override
     public void onEnable() {
-
+        finalPos = null;
     }
 
     @Override

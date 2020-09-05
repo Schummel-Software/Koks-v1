@@ -103,11 +103,11 @@ public class InventoryManager extends Module {
     public float getSwordDamage(ItemStack itemStack) {
         Item is = itemStack.getItem();
         float damage = (((ItemSword) is).getDamageVsEntity());
-        damage -= ((ItemSword) is).getToolMaterialName().equals("GOLD") ? 0.01 : 0;
+        //damage -= ((ItemSword) is).getToolMaterialName().equals("GOLD") ? 0.01 : 0;
         damage += EnchantmentHelper.getEnchantmentLevel(Enchantment.sharpness.effectId, itemStack) * 1.25F;
         damage += EnchantmentHelper.getEnchantmentLevel(Enchantment.fireAspect.effectId, itemStack) * 0.50F;
         damage += EnchantmentHelper.getEnchantmentLevel(Enchantment.unbreaking.effectId, itemStack) * 0.10F;
-        damage += itemStack.getMaxDamage() - itemStack.getItemDamage() * 0.001F;
+        damage += (itemStack.getMaxDamage() - itemStack.getItemDamage()) * 0.0000001F;
         return damage;
     }
 

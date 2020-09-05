@@ -6,6 +6,7 @@ import koks.event.impl.AnimationEvent;
 import koks.event.impl.EventMove;
 import koks.event.impl.EventUpdate;
 import koks.event.impl.MotionEvent;
+import koks.modules.impl.movement.NoSlowdown;
 import koks.utilities.value.SetVisibility;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.MovingSoundMinecartRiding;
@@ -717,9 +718,13 @@ public class EntityPlayerSP extends AbstractClientPlayer {
         this.movementInput.updatePlayerMoveState();
 
         if (this.isUsingItem() && !this.isRiding()) {
-            this.movementInput.moveStrafe *= 0.2F;
-            this.movementInput.moveForward *= 0.2F;
-            this.sprintToggleTimer = 0;
+            NoSlowdown noSlowdown = Koks.getKoks().moduleManager.getModule(NoSlowdown.class);
+            this.movementInput.moveStrafe *= noSlowdown.isToggled() ? noSlowdown.speedInPercent.getDefaultValue() : 0.2F;
+            this.movementInput.moveForward *= noSlowdown.isToggled() ? noSlowdown.speedInPercent.getDefaultValue() : 0.2F;
+            if (noSlowdown.isToggled())
+                mc.thePlayer.setSprinting(noSlowdown.sprint.isToggled());
+            else
+                this.sprintToggleTimer = 0;
         }
 
         this.pushOutOfBlocks(this.posX - (double) this.width * 0.35D, this.getEntityBoundingBox().minY + 0.5D, this.posZ + (double) this.width * 0.35D);

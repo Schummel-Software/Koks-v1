@@ -83,8 +83,7 @@ public class ScaffoldWalk extends Module {
     public void onEvent(Event event) {
 
         if (event instanceof SafeWalkEvent) {
-            if (!(mc.thePlayer.onGround && !shouldBuildDown))
-                ((SafeWalkEvent) event).setSafe(true);
+            ((SafeWalkEvent) event).setSafe(true);
         }
 
         if (event instanceof MotionEvent) {

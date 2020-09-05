@@ -37,9 +37,9 @@ public class ItemESP extends Module {
             for (Entity entity : mc.theWorld.loadedEntityList) {
                 if (entity instanceof EntityItem) {
                     EntityItem e = (EntityItem) entity;
-                    double x = (e.posX - mc.getRenderManager().renderPosX);
-                    double y = (e.posY - mc.getRenderManager().renderPosY);
-                    double z = (e.posZ - mc.getRenderManager().renderPosZ);
+                    double x = (e.lastTickPosX + (e.posX - e.lastTickPosX) * ((EventRender3D) event).getPartialTicks()) - mc.getRenderManager().renderPosX;
+                    double y = (e.lastTickPosY + (e.posY - e.lastTickPosY) * ((EventRender3D) event).getPartialTicks()) - mc.getRenderManager().renderPosY;
+                    double z = (e.lastTickPosZ + (e.posZ - e.lastTickPosZ) * ((EventRender3D) event).getPartialTicks()) - mc.getRenderManager().renderPosZ;
 
                     if (theme.getSelectedMode().equals("2D")) {
                         cornerESPUtil.drawCorners(x, y + 0.25, z, 5, 5, 5, 0.7F);
