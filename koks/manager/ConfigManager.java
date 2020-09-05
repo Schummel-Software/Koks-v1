@@ -3,6 +3,7 @@ package koks.manager;
 import koks.Koks;
 import koks.files.FileManager;
 import koks.modules.Module;
+import koks.modules.impl.utilities.ClickGUI;
 import koks.modules.impl.utilities.HUD;
 import koks.utilities.value.Value;
 import koks.utilities.value.values.BooleanValue;
@@ -70,10 +71,30 @@ public class ConfigManager {
                             ((ModeValue) value).setSelectedMode(args[3]);
                         } else if (value instanceof NumberValue) {
                             if (((NumberValue) value).getMinDefaultValue() != null) {
-                                ((NumberValue) value).setMinDefaultValue(Float.parseFloat(args[3]));
-                                ((NumberValue) value).setDefaultValue(Float.parseFloat(args[4]));
+                                if(((NumberValue) value).getDefaultValue() instanceof  Float) {
+                                    ((NumberValue) value).setMinDefaultValue(Float.parseFloat(args[3]));
+                                    ((NumberValue) value).setDefaultValue(Float.parseFloat(args[4]));
+                                }else if(((NumberValue) value).getDefaultValue() instanceof  Long) {
+                                    ((NumberValue) value).setMinDefaultValue(Long.parseLong(args[3]));
+                                    ((NumberValue) value).setDefaultValue(Long.parseLong(args[4]));
+                                }else if(((NumberValue) value).getDefaultValue() instanceof  Integer) {
+                                    ((NumberValue) value).setMinDefaultValue(Integer.parseInt(args[3]));
+                                    ((NumberValue) value).setDefaultValue(Integer.parseInt(args[4]));
+                                }else if(((NumberValue) value).getDefaultValue() instanceof  Double) {
+                                    ((NumberValue) value).setMinDefaultValue(Double.parseDouble(args[3]));
+                                    ((NumberValue) value).setDefaultValue(Double.parseDouble(args[4]));
+                                }
+
                             } else {
-                                ((NumberValue) value).setDefaultValue(Float.parseFloat(args[3]));
+                                if(((NumberValue) value).getDefaultValue() instanceof  Float) {
+                                    ((NumberValue) value).setDefaultValue(Float.parseFloat(args[3]));
+                                }else if(((NumberValue) value).getDefaultValue() instanceof  Long) {
+                                    ((NumberValue) value).setDefaultValue(Long.parseLong(args[3]));
+                                }else if(((NumberValue) value).getDefaultValue() instanceof  Integer) {
+                                    ((NumberValue) value).setDefaultValue(Integer.parseInt(args[3]));
+                                }else if(((NumberValue) value).getDefaultValue() instanceof  Double) {
+                                    ((NumberValue) value).setDefaultValue(Double.parseDouble(args[3]));
+                                }
                             }
                         }
                     }
@@ -105,15 +126,17 @@ public class ConfigManager {
                 FileWriter fileWriter = new FileWriter(file);
 
                 for (Module module : Koks.getKoks().moduleManager.getModules()) {
-                    if (module.isToggled() || module.isBypassed() || module.getKeyBind() != Keyboard.KEY_NONE) {
-                        boolean bypassed = module.isBypassed() || module.isToggled() || module.getKeyBind() != Keyboard.KEY_NONE;
+                    boolean bypassed = (module.isBypassed() || module.isToggled()) && module.getModuleCategory() != Module.Category.VISUALS && module != Koks.getKoks().moduleManager.getModule(HUD.class) && module != Koks.getKoks().moduleManager.getModule(ClickGUI.class);
+
+                    if (bypassed) {
                         fileWriter.write("Module:" + module.getModuleName() + ":" + module.isToggled() + ":" + bypassed + "\n");
                     }
                 }
 
                 for (Value value : Koks.getKoks().valueManager.getValues()) {
                     Module module = value.getModule();
-                    if (module.isToggled() || module.isBypassed()) {
+                    boolean bypassed = (module.isBypassed() || module.isToggled()) && module.getModuleCategory() != Module.Category.VISUALS && module != Koks.getKoks().moduleManager.getModule(HUD.class) && module != Koks.getKoks().moduleManager.getModule(ClickGUI.class);
+                    if (bypassed) {
                         if (value instanceof BooleanValue) {
                             fileWriter.write("Setting:" + module.getModuleName() + ":" + value.getName() + ":" + ((BooleanValue) value).isToggled() + "\n");
                         } else if (value instanceof ModeValue) {

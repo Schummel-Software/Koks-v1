@@ -114,9 +114,12 @@ public class KillAura extends Module {
             if (e.getType() == MotionEvent.Type.PRE) {
 
                 if (finalEntity != null) {
+
                     e.setYaw(yaw);
                     e.setPitch(pitch);
+
                     if (mc.thePlayer.getDistanceToEntity(finalEntity) <= range.getDefaultValue())
+
                         attackEntity();
                 }
 
@@ -129,7 +132,9 @@ public class KillAura extends Module {
         }
 
         if (event instanceof EventUpdate) {
+
             manageEntities();
+
             setRotations(finalEntity);
 
             isFailing = new Random().nextInt(100) <= failingChance.getDefaultValue();
@@ -165,7 +170,6 @@ public class KillAura extends Module {
     }
 
     public void attackEntity() {
-
         double cps = this.cps.getMinValue().equals(this.cps.getMaxValue()) ? this.cps.getMaxValue() : randomUtil.randomInt(this.cps.getMinValue(),this.cps.getMaxValue());
         if (timeUtil.hasReached((long) (1000 / (cps + (cps > 10 ? 5 : 0))))) {
 
@@ -207,7 +211,9 @@ public class KillAura extends Module {
     }
 
     public void manageEntities() {
+
         if (!entities.isEmpty()) {
+
             entities.removeIf(entity -> !isValidEntity(entity));
             Entity entityToSet = preferTarget.getSelectedMode().equals("Distance") ? auraUtil.getNearest(entities) : preferTarget.getSelectedMode().equals("Health") ? auraUtil.getLowest(entities) : null;
             switch (targetMode.getSelectedMode()) {
@@ -258,6 +264,9 @@ public class KillAura extends Module {
         if (!invisible.isToggled() && entity.isInvisible())
             return false;
         if (entity.ticksExisted < ticksExisting.getDefaultValue())
+            return false;
+        //TRUE TRUE
+        if(!Float.isNaN(((EntityLivingBase) entity).getHealth()) && needNaNHealth.isToggled())
             return false;
         if (mc.thePlayer.getDistanceToEntity(entity) > range.getDefaultValue() + (preAim.isToggled() ? 0 : preAimRange.getDefaultValue()))
             return false;

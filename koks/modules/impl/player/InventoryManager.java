@@ -1,6 +1,7 @@
 package koks.modules.impl.player;
 
 import koks.event.Event;
+import koks.event.impl.EventUpdate;
 import koks.modules.Module;
 import koks.utilities.RandomUtil;
 import koks.utilities.TimeUtil;
@@ -37,31 +38,33 @@ public class InventoryManager extends Module {
 
     @Override
     public void onEvent(Event event) {
-        if (mc.currentScreen instanceof GuiInventory) {
-            if (!startTimer.hasReached(startDelay.getDefaultValue())) {
-                throwTimer.reset();
-                return;
-            }
-        } else {
-            startTimer.reset();
-            if (openedInventory.isToggled())
-                return;
-        }
-
-        for (int i = 9; i < 45; i++) {
-            if (mc.thePlayer.inventoryContainer.getSlot(i).getHasStack()) {
-                ItemStack is = mc.thePlayer.inventoryContainer.getSlot(i).getStack();
-
-                if (throwTimer.hasReached(randomUtil.randomLong(throwDelay.getMinDefaultValue(), throwDelay.getDefaultValue()))) {
-                    if (is.getItem() instanceof ItemSword && is == bestSword() && mc.thePlayer.inventoryContainer.getInventory().contains(bestSword()) && mc.thePlayer.inventoryContainer.getSlot(36).getStack() != is) {
-                        mc.playerController.windowClick(mc.thePlayer.inventoryContainer.windowId, i, 0, 2, mc.thePlayer);
-                    } else if (is.getItem() instanceof ItemBow && is == bestBow() && mc.thePlayer.inventoryContainer.getInventory().contains(bestBow()) && mc.thePlayer.inventoryContainer.getSlot(37).getStack() != is) {
-                        mc.playerController.windowClick(mc.thePlayer.inventoryContainer.windowId, i, 1, 2, mc.thePlayer);
-                    } else if (isBadStack(is)) {
-                        mc.playerController.windowClick(mc.thePlayer.inventoryContainer.windowId, i, 1, 4, mc.thePlayer);
-                    }
-
+        if(event instanceof EventUpdate) {
+            if (mc.currentScreen instanceof GuiInventory) {
+                if (!startTimer.hasReached(startDelay.getDefaultValue())) {
                     throwTimer.reset();
+                    return;
+                }
+            } else {
+                startTimer.reset();
+                if (openedInventory.isToggled())
+                    return;
+            }
+
+            for (int i = 9; i < 45; i++) {
+                if (mc.thePlayer.inventoryContainer.getSlot(i).getHasStack()) {
+                    ItemStack is = mc.thePlayer.inventoryContainer.getSlot(i).getStack();
+
+                    if (throwTimer.hasReached(randomUtil.randomLong(throwDelay.getMinDefaultValue(), throwDelay.getDefaultValue()))) {
+                        if (is.getItem() instanceof ItemSword && is == bestSword() && mc.thePlayer.inventoryContainer.getInventory().contains(bestSword()) && mc.thePlayer.inventoryContainer.getSlot(36).getStack() != is) {
+                            mc.playerController.windowClick(mc.thePlayer.inventoryContainer.windowId, i, 0, 2, mc.thePlayer);
+                        } else if (is.getItem() instanceof ItemBow && is == bestBow() && mc.thePlayer.inventoryContainer.getInventory().contains(bestBow()) && mc.thePlayer.inventoryContainer.getSlot(37).getStack() != is) {
+                            mc.playerController.windowClick(mc.thePlayer.inventoryContainer.windowId, i, 1, 2, mc.thePlayer);
+                        } else if (isBadStack(is)) {
+                            mc.playerController.windowClick(mc.thePlayer.inventoryContainer.windowId, i, 1, 4, mc.thePlayer);
+                        }
+
+                        throwTimer.reset();
+                    }
                 }
             }
         }

@@ -7,11 +7,11 @@ public class EventManager {
 
     public void onEvent(Event event) {
         for(Module module : Koks.getKoks().moduleManager.getModules()) {
+            try{
             if(module.isToggled()) {
-                try{
                     module.onEvent(event);
-                }catch(Exception e) {
                 }
+            }catch(Exception ignored) {
             }
         }
     }

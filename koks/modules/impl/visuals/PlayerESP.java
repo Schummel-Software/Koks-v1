@@ -4,7 +4,6 @@ import koks.Koks;
 import koks.event.Event;
 import koks.event.impl.EventRender3D;
 import koks.modules.Module;
-import koks.modules.impl.combat.KillAura;
 import koks.utilities.BoxUtil;
 import koks.utilities.CornerESPUtil;
 import koks.utilities.value.values.BooleanValue;
@@ -37,7 +36,7 @@ public class PlayerESP extends Module {
             setDisplayName(getModuleName() + " §7" + theme.getSelectedMode());
             float partialTicks = ((EventRender3D) event).getPartialTicks();
             for (Entity entity : mc.theWorld.loadedEntityList) {
-                if (!entity.isInvisible()) {
+                if (Koks.getKoks().moduleManager.getModule(NameTags.class).isValid(entity)) {
                     double x = (entity.lastTickPosX + (entity.posX - entity.lastTickPosX) * partialTicks) - mc.getRenderManager().renderPosX;
                     double y = (entity.lastTickPosY + (entity.posY - entity.lastTickPosY) * partialTicks) - mc.getRenderManager().renderPosY;
                     double z = (entity.lastTickPosZ + (entity.posZ - entity.lastTickPosZ) * partialTicks) - mc.getRenderManager().renderPosZ;

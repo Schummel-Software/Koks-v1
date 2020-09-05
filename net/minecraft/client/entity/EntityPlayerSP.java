@@ -182,6 +182,7 @@ public class EntityPlayerSP extends AbstractClientPlayer {
      */
     public void onUpdate() {
         EventUpdate eventUpdate = new EventUpdate();
+
         Koks.getKoks().eventManager.onEvent(eventUpdate);
 
         MotionEvent motionEvent = new MotionEvent(MotionEvent.Type.PRE, rotationYaw, rotationPitch);

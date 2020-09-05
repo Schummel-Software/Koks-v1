@@ -85,6 +85,7 @@ public class ScaffoldWalk extends Module {
         }
 
         if (event instanceof EventUpdate) {
+
             BlockPos pos = new BlockPos(mc.thePlayer.posX, (mc.thePlayer.getEntityBoundingBox()).minY - 1.0D, mc.thePlayer.posZ);
 
             getBlockPosToPlaceOn(pos);

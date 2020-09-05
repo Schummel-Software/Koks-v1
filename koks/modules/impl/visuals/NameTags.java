@@ -1,10 +1,8 @@
 package koks.modules.impl.visuals;
 
-import koks.Koks;
 import koks.event.Event;
 import koks.event.impl.EventRender3D;
 import koks.modules.Module;
-import koks.modules.impl.combat.KillAura;
 import koks.utilities.RenderUtils;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
@@ -29,7 +27,7 @@ public class NameTags extends Module {
     public void onEvent(Event event) {
         if (event instanceof EventRender3D) {
             for (Entity entity : mc.theWorld.loadedEntityList) {
-                if (!entity.isInvisible()) {
+                if (isValid(entity)) {
 
                     double x = entity.prevPosX + (entity.posX - entity.prevPosX) * ((EventRender3D) event).getPartialTicks() - mc.getRenderManager().renderPosX;
                     double y = entity.prevPosY + (entity.posY - entity.prevPosY) * ((EventRender3D) event).getPartialTicks() - mc.getRenderManager().renderPosY;
