@@ -5,6 +5,7 @@ import koks.event.Event;
 import koks.event.impl.EventUpdate;
 import koks.event.impl.MotionEvent;
 import koks.modules.Module;
+import koks.utilities.RandomUtil;
 import koks.utilities.TimeUtil;
 import koks.utilities.value.values.BooleanValue;
 import koks.utilities.value.values.NumberValue;
@@ -20,17 +21,18 @@ import org.lwjgl.Sys;
 public class AutoArmor extends Module {
 
     public NumberValue<Long> startDelayValue = new NumberValue<>("Delay Start", 100L, 500L, 0L, this);
-    public NumberValue<Long> throwEquipDelay = new NumberValue<>("Delay Throw/Equip", 100L, 500L, 0L, this);
+    public NumberValue<Long> equipDelay = new NumberValue<>("Equip Delay", 90L, 125L, 150L, 0L, this);
 
-    public TimeUtil timeUtilOpening = new TimeUtil();
-    public TimeUtil timeUtil = new TimeUtil();
+    public final RandomUtil randomUtil = new RandomUtil();
+    public final TimeUtil timeUtilOpening = new TimeUtil();
+    public final TimeUtil timeUtil = new TimeUtil();
 
     public boolean done;
 
     public AutoArmor() {
         super("AutoArmor", Category.PLAYER);
         Koks.getKoks().valueManager.addValue(startDelayValue);
-        Koks.getKoks().valueManager.addValue(throwEquipDelay);
+        Koks.getKoks().valueManager.addValue(equipDelay);
     }
 
     @Override
@@ -53,7 +55,7 @@ public class AutoArmor extends Module {
                         if (isBestArmor(itemStack, i)) {
                             continue;
                         } else {
-                            if (timeUtil.hasReached(throwEquipDelay.getDefaultValue())) {
+                            if (timeUtil.hasReached(randomUtil.randomLong(equipDelay.getMinDefaultValue(), equipDelay.getDefaultValue()))) {
                                 drop(4 + i);
                             }
                         }
@@ -63,7 +65,7 @@ public class AutoArmor extends Module {
                         if (mc.thePlayer.inventoryContainer.getSlot(j).getHasStack()) {
                             ItemStack itemStack = mc.thePlayer.inventoryContainer.getSlot(j).getStack();
                             if (getDamageReduceAmount(itemStack) > 0.0F && isBestArmor(itemStack, i)) {
-                                if (timeUtil.hasReached(throwEquipDelay.getDefaultValue())) {
+                                if (timeUtil.hasReached(randomUtil.randomLong(equipDelay.getMinDefaultValue(), equipDelay.getDefaultValue()))) {
                                     shiftClick(j);
                                     timeUtil.reset();
                                 }

@@ -16,7 +16,7 @@ import net.minecraft.inventory.ContainerChest;
 public class ChestStealer extends Module {
 
     public NumberValue<Long> startDelay = new NumberValue<>("Start Delay", 100L, 500L, 0L, this);
-    public NumberValue<Long> throwDelay = new NumberValue<>("Throw Delay", 90L, 125L, 150L, 0L, this);
+    public NumberValue<Long> throwDelay = new NumberValue<>("Take Delay", 90L, 125L, 150L, 0L, this);
     private final RandomUtil randomUtil = new RandomUtil();
     private final TimeUtil startTimer = new TimeUtil();
     private final TimeUtil throwTimer = new TimeUtil();
