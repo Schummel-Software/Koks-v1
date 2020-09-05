@@ -719,8 +719,8 @@ public class EntityPlayerSP extends AbstractClientPlayer {
 
         if (this.isUsingItem() && !this.isRiding()) {
             NoSlowdown noSlowdown = Koks.getKoks().moduleManager.getModule(NoSlowdown.class);
-            this.movementInput.moveStrafe *= noSlowdown.isToggled() ? noSlowdown.speedInPercent.getDefaultValue() / 100 : 0.2F;
-            this.movementInput.moveForward *= noSlowdown.isToggled() ? noSlowdown.speedInPercent.getDefaultValue() / 100 : 0.2F;
+            this.movementInput.moveStrafe *= noSlowdown.isToggled() ? noSlowdown.speedInPercent.getDefaultValue() / 100F : 0.2F;
+            this.movementInput.moveForward *= noSlowdown.isToggled() ? noSlowdown.speedInPercent.getDefaultValue() / 100F : 0.2F;
             if (noSlowdown.isToggled())
                 mc.thePlayer.setSprinting(noSlowdown.sprint.isToggled());
             else
