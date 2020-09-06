@@ -40,7 +40,7 @@ public class Koks {
     public final String PREFIX = "§c" + CLIENT_NAME + " §7>> §f";
     public Color client_color = Color.PINK;
 
-    public ISound koksSound = PositionedSoundRecord.create(new ResourceLocation("koks.sound"));
+    public ISound koksSound;
 
     public ModuleManager moduleManager;
     public ValueHUDManager valueHUDManager;
@@ -56,7 +56,7 @@ public class Koks {
     public TabGUI tabGUI;
 
     public void initClient() {
-
+        koksSound = PositionedSoundRecord.create(new ResourceLocation("koks.sound"));
         Display.setTitle(CLIENT_NAME + " v" + CLIENT_VERSION + " by " + CLIENT_DEVELOPER[0] + " | " + CLIENT_DEVELOPER[1] + " | " + CLIENT_DEVELOPER[2]);
         valueManager = new ValueManager();
         valueHUDManager = new ValueHUDManager();

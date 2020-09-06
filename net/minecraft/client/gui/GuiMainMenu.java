@@ -508,11 +508,12 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
 
         // TODO FIX SOUND CRASHING
 
-
-    /*   if(!mc.getSoundHandler().isSoundPlaying(Koks.getKoks().koksSound)) {
-            mc.getSoundHandler().playSound(Koks.getKoks().koksSound);
+        try {
+            if (!mc.getSoundHandler().isSoundPlaying(Koks.getKoks().koksSound)) {
+                mc.getSoundHandler().playSound(Koks.getKoks().koksSound);
+            }
+        }catch (IllegalArgumentException ignore) {
         }
-     */
 
         GlStateManager.disableAlpha();
         this.renderSkybox(mouseX, mouseY, partialTicks);
