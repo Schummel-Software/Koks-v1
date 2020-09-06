@@ -10,10 +10,10 @@ import org.lwjgl.input.Keyboard;
  * @author avox | lmao | kroko
  * @created on 04.09.2020 : 15:57
  */
-public class InvMove extends Module {
+public class InventoryMove extends Module {
 
-    public InvMove() {
-        super("InvMove", Category.MOVEMENT);
+    public InventoryMove() {
+        super("InventoryMove", Category.MOVEMENT);
     }
 
     @Override

@@ -41,6 +41,7 @@ public class AutoArmor extends Module {
     public void onEvent(Event event) {
         if (event instanceof MotionEvent) {
             if (((MotionEvent) event).getType() == MotionEvent.Type.PRE) {
+                setModuleInfo(equipDelay.getMinDefaultValue() + ", " + equipDelay.getDefaultValue() + (openedInventory.isToggled() ? ", Opened Inventory" : ""));
                 if (mc.currentScreen instanceof GuiInventory) {
                     if (!timeUtilOpening.hasReached(startDelayValue.getDefaultValue())) {
                         timeUtil.reset();

@@ -26,6 +26,7 @@ public class TriggerBot extends Module {
     @Override
     public void onEvent(Event event) {
         if (event instanceof EventUpdate) {
+            setModuleInfo(cps.getMinDefaultValue() + ", " + cps.getDefaultValue());
             Entity entity = mc.objectMouseOver.entityHit;
             double finalCPS = cps.getMinValue().equals(cps.getMaxValue()) ? cps.getMaxValue() : randomUtil.randomInt(cps.getMinValue(), cps.getMaxValue());
             if (entity != null) {

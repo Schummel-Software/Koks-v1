@@ -16,7 +16,7 @@ import net.minecraft.inventory.ContainerChest;
 public class ChestStealer extends Module {
 
     public NumberValue<Long> startDelay = new NumberValue<>("Start Delay", 100L, 500L, 0L, this);
-    public NumberValue<Long> throwDelay = new NumberValue<>("Take Delay", 90L, 125L, 150L, 0L, this);
+    public NumberValue<Long> takeDelay = new NumberValue<>("Take Delay", 90L, 125L, 150L, 0L, this);
     private final RandomUtil randomUtil = new RandomUtil();
     private final TimeUtil startTimer = new TimeUtil();
     private final TimeUtil throwTimer = new TimeUtil();
@@ -25,12 +25,13 @@ public class ChestStealer extends Module {
         super("ChestStealer", Category.PLAYER);
 
         addValue(startDelay);
-        addValue(throwDelay);
+        addValue(takeDelay);
     }
 
     @Override
     public void onEvent(Event event) {
         if (event instanceof EventUpdate) {
+            setModuleInfo(takeDelay.getMinDefaultValue() + ", " + takeDelay.getDefaultValue());
             if (mc.currentScreen instanceof GuiChest) {
                 if (!startTimer.hasReached(startDelay.getDefaultValue()))
                     return;
@@ -38,7 +39,7 @@ public class ChestStealer extends Module {
                 boolean empty = true;
                 for (int i = 0; i < chest.getLowerChestInventory().getSizeInventory(); i++) {
                     if ((chest.getSlot(i).getHasStack() && chest.getSlot(i).getStack() != null)) {
-                        if (throwTimer.hasReached(randomUtil.randomLong(throwDelay.getMinDefaultValue(), throwDelay.getDefaultValue()))) {
+                        if (throwTimer.hasReached(randomUtil.randomLong(takeDelay.getMinDefaultValue(), takeDelay.getDefaultValue()))) {
                             mc.playerController.windowClick(chest.windowId, i, 0, 1, mc.thePlayer);
                             throwTimer.reset();
                         }

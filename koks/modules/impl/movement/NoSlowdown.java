@@ -1,6 +1,7 @@
 package koks.modules.impl.movement;
 
 import koks.event.Event;
+import koks.event.impl.EventUpdate;
 import koks.modules.Module;
 import koks.utilities.value.values.BooleanValue;
 import koks.utilities.value.values.NumberValue;
@@ -22,7 +23,9 @@ public class NoSlowdown extends Module {
 
     @Override
     public void onEvent(Event event) {
-
+        if (event instanceof EventUpdate) {
+            setModuleInfo(speedInPercent.getDefaultValue().toString() + (sprint.isToggled() ? ", Sprint" : ""));
+        }
     }
 
     @Override

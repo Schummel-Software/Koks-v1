@@ -168,6 +168,7 @@ public class KillAura extends Module {
         }
 
         if (event instanceof EventUpdate) {
+            setModuleInfo(targetMode.getSelectedMode() + (targetMode.getSelectedMode().equals("Switch") ? "" : preferTarget.getSelectedMode()));
             manageEntities();
             setRotations(finalEntity);
             isFailing = new Random().nextInt(100) <= failingChance.getDefaultValue();
