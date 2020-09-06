@@ -33,7 +33,7 @@ public class ChestESP extends Module {
     @Override
     public void onEvent(Event event) {
         if (event instanceof EventRender3D) {
-            setDisplayName(theme.getSelectedMode());
+            setModuleInfo(theme.getSelectedMode());
             for (TileEntity e : mc.theWorld.loadedTileEntityList) {
                 if (e instanceof TileEntityChest) {
                     mc.theWorld.getBlockState(e.getPos()).getBlock();

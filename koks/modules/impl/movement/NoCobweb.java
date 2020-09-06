@@ -23,7 +23,7 @@ public class NoCobweb extends Module {
     @Override
     public void onEvent(Event event) {
         if (event instanceof EventUpdate) {
-            setDisplayName(mode.getSelectedMode());
+            setModuleInfo(mode.getSelectedMode());
             switch (mode.getSelectedMode()) {
                 case "Intave":
                     BlockPos bPos = new BlockPos(mc.thePlayer.getPosition());
