@@ -53,7 +53,7 @@ public class HUD extends Module {
             moduleList.drawList(shadowArrayList.isToggled());
             watermark.drawWatermark();
             if (Koks.getKoks().tabGUI != null && tabGUI.isToggled())
-                Koks.getKoks().tabGUI.drawScreen(2, 40, this.tabGUI_shadow.isToggled(), tabGUI_client_color.isToggled(), tabGUICenteredString.isToggled());
+                Koks.getKoks().tabGUI.drawScreen(2, 20, this.tabGUI_shadow.isToggled(), tabGUI_client_color.isToggled(), tabGUICenteredString.isToggled());
         }
         if (event instanceof KeyPressEvent) {
             if (Koks.getKoks().tabGUI != null && tabGUI.isToggled())

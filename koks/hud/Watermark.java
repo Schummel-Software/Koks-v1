@@ -10,9 +10,15 @@ import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
+import org.apache.logging.log4j.core.helpers.Clock;
+import org.apache.logging.log4j.core.helpers.SystemClock;
 import org.lwjgl.opengl.GL11;
 
 import java.awt.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * @author avox | lmao | kroko
@@ -31,21 +37,11 @@ public class Watermark {
         if (Koks.getKoks().moduleManager.getModule(HUD.class).isToggled()) {
             String name = Koks.getKoks().CLIENT_NAME;
             String version = Koks.getKoks().CLIENT_VERSION;
-            RenderUtils renderUtils = new RenderUtils();
-            Gui.drawRect(2, 2, 65, 35, Integer.MIN_VALUE);
-            renderUtils.drawOutlineRect(2, 2, 65, 35, 1, Koks.getKoks().client_color);
-            colorUtil = new ColorUtil();
-            GL11.glPushMatrix();
-            GL11.glScaled(3.4, 3.4, 3.4);
-            fr.drawString(name.substring(0, 1), 2, 2, Koks.getKoks().client_color.getRGB());
-            GL11.glPopMatrix();
+            DateFormat dateFormat = new SimpleDateFormat("HH:mm");
+            String time = dateFormat.format(Calendar.getInstance().getTime());
 
-            GL11.glPushMatrix();
-            GL11.glScaled(2, 2, 2);
-            fr.drawString(name.substring(1), 13, 8, Koks.getKoks().client_color.getRGB());
-            GL11.glPopMatrix();
-
-            //fr.drawStringWithShadow("v" + version, 20, 20, 0xFFFFFFFF);
+            String render = name + " §7(" + time + ")";
+            fr.drawStringWithShadow(render, 82 / 2 - fr.getStringWidth(render) / 2, 8, Koks.getKoks().client_color.getRGB());
         }
     }
 
