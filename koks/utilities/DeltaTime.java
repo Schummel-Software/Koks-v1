@@ -11,8 +11,8 @@ public class DeltaTime {
 
     public static void setDeltaTime() {
         long systemTime = System.currentTimeMillis();
-        float delta = lastMS - systemTime;
-        lastMS = System.currentTimeMillis();
+        float delta = systemTime - lastMS;
+        lastMS = systemTime;
         if (delta > 1000)
             delta = 16;
         if (delta < 1)

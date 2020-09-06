@@ -13,10 +13,15 @@ public class MovementUtil {
 
     public double getDirection(float rotationYaw) {
         float left = mc.gameSettings.keyBindLeft.pressed ? mc.gameSettings.keyBindBack.pressed ? 45 : -45 : 0;
-        float right = mc.gameSettings.keyBindRight.pressed ? mc.gameSettings.keyBindBack.pressed ? -45 :  45 : 0;
+        float right = mc.gameSettings.keyBindRight.pressed ? mc.gameSettings.keyBindBack.pressed ? -45 : 45 : 0;
         float back = mc.gameSettings.keyBindBack.pressed ? 180 : 0;
         float yaw = back + right + left;
         return rotationYaw + yaw;
+    }
+
+    public float baseSpeed() {
+        
+        return 0.2875F;
     }
 
     public void setSpeed(double speed) {

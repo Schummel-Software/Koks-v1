@@ -36,6 +36,7 @@ public class ModuleManager {
         addModule(new Fly());
         addModule(new NoSlowdown());
         addModule(new Sprint());
+        addModule(new LongJump());
 
         // Player
         addModule(new AntiFire());

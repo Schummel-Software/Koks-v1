@@ -11,6 +11,7 @@ import java.util.Random;
 import koks.Koks;
 import koks.event.impl.EventRender2D;
 import koks.hud.CrossHair;
+import koks.modules.impl.movement.Sprint;
 import koks.modules.impl.utilities.HUD;
 import koks.utilities.DeltaTime;
 import net.minecraft.block.material.Material;
@@ -509,6 +510,8 @@ public class GuiIngame extends Gui {
     }
 
     private void renderScoreboard(ScoreObjective p_180475_1_, ScaledResolution p_180475_2_) {
+        if (Koks.getKoks().moduleManager.getModule(Sprint.class).isToggled())
+            return;
         Scoreboard scoreboard = p_180475_1_.getScoreboard();
         Collection collection = scoreboard.getSortedScores(p_180475_1_);
         ArrayList arraylist = Lists.newArrayList(Iterables.filter(collection, new Predicate() {
