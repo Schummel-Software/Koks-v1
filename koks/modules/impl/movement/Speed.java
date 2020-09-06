@@ -27,7 +27,7 @@ public class Speed extends Module {
     @Override
     public void onEvent(Event event) {
         if (event instanceof EventUpdate) {
-            setModuleInfo(mode.getSelectedMode());
+            setDisplayName(mode.getSelectedMode());
             switch (mode.getSelectedMode()) {
                 case "Hypixel":
                     if (mc.thePlayer.moveForward != 0 && !mc.gameSettings.keyBindJump.isKeyDown()) {

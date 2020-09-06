@@ -39,7 +39,7 @@ public class Velocity extends Module {
         }
 
         if (event instanceof EventUpdate) {
-            setModuleInfo(mode.getSelectedMode());
+            setDisplayName(mode.getSelectedMode());
             switch (mode.getSelectedMode()) {
                 case "Legit":
                     if (mc.thePlayer.hurtTime == 10 && mc.thePlayer.onGround)

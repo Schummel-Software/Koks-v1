@@ -24,7 +24,7 @@ public class NoSlowdown extends Module {
     @Override
     public void onEvent(Event event) {
         if (event instanceof EventUpdate) {
-            setModuleInfo(speedInPercent.getDefaultValue().toString() + (sprint.isToggled() ? ", Sprint" : ""));
+            setDisplayName(speedInPercent.getDefaultValue().toString() + (sprint.isToggled() ? ", Sprint" : ""));
         }
     }
 

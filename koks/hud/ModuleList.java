@@ -30,7 +30,7 @@ public class ModuleList {
         ScaledResolution sr = new ScaledResolution(mc);
         int[] y = {0};
 
-        Koks.getKoks().moduleManager.getModules().stream().filter(Module::isToggled).sorted(Comparator.comparingDouble(module -> -Minecraft.getMinecraft().fontRendererObj.getStringWidth(Koks.getKoks().moduleManager.getModule(ClearTag.class).isToggled() ? module.getModuleName() : module.getNameForArrayList()))).forEach(module -> {
+        Koks.getKoks().moduleManager.getModules().stream().filter(Module::isToggled).sorted(Comparator.comparingDouble(module -> -Minecraft.getMinecraft().fontRendererObj.getStringWidth(Koks.getKoks().moduleManager.getModule(ClearTag.class).isToggled() ? module.getModuleName() : module.getDisplayName()))).forEach(module -> {
             if (module.isVisible()) {
                 if (Koks.getKoks().moduleManager.getModule(ClearTag.class).isToggled()) {
 
@@ -57,15 +57,15 @@ public class ModuleList {
                         GlStateManager.enableBlend();
                         GL11.glEnable(GL11.GL_BLEND);
                         GL11.glColor4f(1, 1, 1, 1);
-                        renderUtils.drawImage(new ResourceLocation("client/shadows/arraylistshadow.png"), sr.getScaledWidth() - fr.getStringWidth(module.getNameForArrayList()) - 4, y[0], fr.getStringWidth(module.getNameForArrayList()), 15, false);
+                        renderUtils.drawImage(new ResourceLocation("client/shadows/arraylistshadow.png"), sr.getScaledWidth() - fr.getStringWidth(module.getDisplayName()) - 4, y[0], fr.getStringWidth(module.getDisplayName()), 15, false);
                         GL11.glDisable(GL11.GL_BLEND);
                         GlStateManager.enableAlpha();
                         GlStateManager.disableBlend();
                         GL11.glPopMatrix();
                     }else{
-                        Gui.drawRect(sr.getScaledWidth() - fr.getStringWidth(module.getNameForArrayList()) - 4, y[0], sr.getScaledWidth(), y[0] + fr.FONT_HEIGHT + 1, Integer.MIN_VALUE);
+                        Gui.drawRect(sr.getScaledWidth() - fr.getStringWidth(module.getDisplayName()) - 4, y[0], sr.getScaledWidth(), y[0] + fr.FONT_HEIGHT + 1, Integer.MIN_VALUE);
                     }
-                    fr.drawStringWithShadow(module.getNameForArrayList(), sr.getScaledWidth() - fr.getStringWidth(module.getNameForArrayList()) - 2, y[0] + 1, Koks.getKoks().client_color.getRGB());
+                    fr.drawStringWithShadow(module.getDisplayName(), sr.getScaledWidth() - fr.getStringWidth(module.getDisplayName()) - 2, y[0] + 1, Koks.getKoks().client_color.getRGB());
                 }
                 y[0] += fr.FONT_HEIGHT + 1;
             }
