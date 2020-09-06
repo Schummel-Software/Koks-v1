@@ -83,7 +83,7 @@ public class ScaffoldWalk extends Module {
     public void onEvent(Event event) {
 
         if (event instanceof SafeWalkEvent) {
-            if (!(mc.thePlayer.onGround && !shouldBuildDown))
+            if (mc.thePlayer.onGround || mc.thePlayer.isAirBorne && !shouldBuildDown)
                 ((SafeWalkEvent) event).setSafe(true);
         }
 
