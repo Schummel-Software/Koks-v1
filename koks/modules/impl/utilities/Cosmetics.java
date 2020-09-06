@@ -31,7 +31,7 @@ public class Cosmetics extends Module {
     @Override
     public void onEvent(Event event) {
         if (event instanceof EventUpdate) {
-            setModuleInfo(particleMode.getSelectedMode());
+            setDisplayName(particleMode.getSelectedMode());
             if (particle.isToggled()) {
                 switch (particleMode.getSelectedMode()) {
                     case "Portal":

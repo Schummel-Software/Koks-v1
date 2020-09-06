@@ -23,7 +23,7 @@ public class Jesus extends Module {
     @Override
     public void onEvent(Event event) {
         if(event instanceof EventUpdate) {//INTAVE
-            setModuleInfo(mode.getSelectedMode());
+            setDisplayName(mode.getSelectedMode());
             switch(mode.getSelectedMode()) {
                 case "Intave":
                     BlockPos bPos = new BlockPos(mc.thePlayer.posX, mc.thePlayer.posY, mc.thePlayer.posZ);

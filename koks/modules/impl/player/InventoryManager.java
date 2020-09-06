@@ -39,7 +39,7 @@ public class InventoryManager extends Module {
     @Override
     public void onEvent(Event event) {
         if (event instanceof EventUpdate) {
-            setModuleInfo(throwDelay.getMinDefaultValue() + ", " + throwDelay.getDefaultValue() + (openedInventory.isToggled() ? ", Opened Inventory" : ""));
+            setDisplayName(throwDelay.getMinDefaultValue() + ", " + throwDelay.getDefaultValue() + (openedInventory.isToggled() ? ", Opened Inventory" : ""));
             if (mc.currentScreen instanceof GuiInventory) {
                 if (!startTimer.hasReached(startDelay.getDefaultValue())) {
                     throwTimer.reset();

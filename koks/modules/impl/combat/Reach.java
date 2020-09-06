@@ -22,7 +22,7 @@ public class Reach extends Module {
     @Override
     public void onEvent(Event event) {
         if (event instanceof EventUpdate) {
-            setModuleInfo(reach.getDefaultValue().toString());
+            setDisplayName(reach.getDefaultValue().toString());
         }
 
         if (event instanceof MouseOverEvent) {

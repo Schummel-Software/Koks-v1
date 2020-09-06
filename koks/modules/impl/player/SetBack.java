@@ -72,7 +72,7 @@ public class SetBack extends Module {
     public void onEvent(Event event) {
         if (event instanceof EventUpdate) {
 
-            setModuleInfo(mode.getSelectedMode());
+            setDisplayName(mode.getSelectedMode());
 
             switch (mode.getSelectedMode()) {
                 case "Intave":

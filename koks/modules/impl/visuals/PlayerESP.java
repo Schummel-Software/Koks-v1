@@ -33,7 +33,7 @@ public class PlayerESP extends Module {
     @Override
     public void onEvent(Event event) {
         if (event instanceof EventRender3D) {
-            setModuleInfo(theme.getSelectedMode());
+            setDisplayName(theme.getSelectedMode());
             float partialTicks = ((EventRender3D) event).getPartialTicks();
             for (Entity entity : mc.theWorld.loadedEntityList) {
                 if (Koks.getKoks().moduleManager.getModule(NameTags.class).isValid(entity)) {

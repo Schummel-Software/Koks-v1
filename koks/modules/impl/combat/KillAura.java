@@ -43,51 +43,32 @@ public class KillAura extends Module {
     public BooleanValue<Boolean> ignoreTeam = new BooleanValue<>("Ignore Team", true, this);
     public BooleanValue<Boolean> ignoreFriend = new BooleanValue<>("Ignore Friends", true, this);
     public ModeValue<String> targets = new ModeValue<>("Targets", new BooleanValue[]{player, animals, mobs, invisible, ignoreTeam, ignoreFriend}, this);
+
     public ModeValue<String> targetMode = new ModeValue<>("Target Mode", "Hybrid", new String[]{"Single", "Switch", "Hybrid"}, this);
     public ModeValue<String> preferTarget = new ModeValue<>("Prefer Check", "Distance", new String[]{"Distance", "Health"}, this);
-
-    public TitleValue targetSettings = new TitleValue("Target Settings", false, new Value[]{targets, targetMode, preferTarget}, this);
-
-
-
     public NumberValue<Double> range = new NumberValue<>("Hit Range", 4.0D, 6.0D, 3.4D, this);
     public BooleanValue<Boolean> preAim = new BooleanValue<>("Pre Aiming", false, this);
     public NumberValue<Double> preAimRange = new NumberValue<>("Aiming Range", 0.0D, 1.0D, 0.0D, this);
     public NumberValue<Integer> cps = new NumberValue<>("CPS", 7, 12, 20, 1, this);
     public BooleanValue<Boolean> smoothRotation = new BooleanValue<>("Smooth Rotation", false, this);
     public NumberValue<Integer> failingChance = new NumberValue<>("FailHit Percent", 0, 20, 0, this);
+    public BooleanValue<Boolean> autoBlock = new BooleanValue<>("AutoBlock", false, this);
     public BooleanValue<Boolean> legitMovement = new BooleanValue<>("Legit Movement", false, this);
     public BooleanValue<Boolean> stopSprinting = new BooleanValue<>("Stop Sprinting", false, this);
     public BooleanValue<Boolean> hitSlow = new BooleanValue<>("Hit Slow", false, this);
 
-    public TitleValue generalSettings = new TitleValue("General", true, new Value[]{range, preAim, preAimRange, cps, smoothRotation, failingChance, legitMovement, stopSprinting, hitSlow}, this);
-
-
-
-    public BooleanValue<Boolean> autoBlock = new BooleanValue<>("AutoBlock", false, this);
-    public ModeValue<String> blockMode = new ModeValue<>("Block Mode", "PlayerController", new String[]{"Packet", "PlayerController"}, this);
-    public BooleanValue<Boolean> blockOnAttack = new BooleanValue<>("Block on Attack", false, this);
-
-    public TitleValue blockSettings = new TitleValue("AutoBlock Settings", false, new Value[]{autoBlock, blockMode, blockOnAttack}, this);
-
-
+    public TitleValue generalSettings = new TitleValue("General", true, new Value[]{range, preAim, preAimRange, cps, smoothRotation, failingChance, autoBlock, legitMovement, stopSprinting, hitSlow}, this);
 
     public BooleanValue<Boolean> needNaNHealth = new BooleanValue<>("NaN Health", false, this);
     public BooleanValue<Boolean> checkName = new BooleanValue<>("Check Name", true, this);
     public NumberValue<Integer> ticksExisting = new NumberValue<>("Ticks Existing", 25, 100, 0, this);
-
     public TitleValue antiBotSettings = new TitleValue("AntiBot Settings", false, new Value[]{needNaNHealth, checkName, ticksExisting}, this);
-
-
 
     public BooleanValue<Boolean> fakeBlocking = new BooleanValue<>("Fake Blocking", false, this);
     public BooleanValue<Boolean> silentSwing = new BooleanValue<>("Silent Swing", false, this);
     public BooleanValue<Boolean> serverSideSwing = new BooleanValue<>("Send SwingPacket", true, this);
     public NumberValue<Integer> swingChance = new NumberValue<>("ClientSide SwingChance", 100, 100, 0, this);
-
     public TitleValue visualSettings = new TitleValue("Visual Settings", false, new Value[]{fakeBlocking, silentSwing, serverSideSwing, swingChance}, this);
-
-
 
     public List<Entity> entities = new ArrayList<>();
     FriendManager friendManager = new FriendManager();
@@ -105,28 +86,24 @@ public class KillAura extends Module {
     public KillAura() {
         super("KillAura", Category.COMBAT);
 
-        addValue(targetSettings);
         addValue(targets);
         addValue(targetMode);
         addValue(preferTarget);
 
         addValue(generalSettings);
+
         addValue(range);
         addValue(preAim);
         addValue(preAimRange);
         addValue(cps);
         addValue(smoothRotation);
         addValue(failingChance);
+        addValue(autoBlock);
         addValue(legitMovement);
         addValue(stopSprinting);
         addValue(hitSlow);
-
-        addValue(blockSettings);
-        addValue(autoBlock);
-        addValue(blockMode);
-        addValue(blockOnAttack);
-
         addValue(antiBotSettings);
+
         addValue(needNaNHealth);
         addValue(checkName);
         addValue(ticksExisting);
@@ -157,12 +134,9 @@ public class KillAura extends Module {
             }
 
             if (e.getType() == MotionEvent.Type.POST) {
-                if (finalEntity != null && autoBlock.isToggled() && !blockOnAttack.isToggled()) {
+                if (finalEntity != null && autoBlock.isToggled()) {
                     if (mc.thePlayer.getCurrentEquippedItem().getItem() != null && mc.thePlayer.getCurrentEquippedItem().getItem() instanceof ItemSword) {
-                        if (blockMode.getSelectedMode().equals("PlayerController"))
-                            mc.playerController.sendUseItem(mc.thePlayer, mc.theWorld, mc.thePlayer.getCurrentEquippedItem());
-                        if (blockMode.getSelectedMode().equals("Packet"))
-                            mc.getNetHandler().addToSendQueue(new C08PacketPlayerBlockPlacement(new BlockPos(-1, -1, -1), 255, mc.thePlayer.inventory.getCurrentItem(), 0.0F, 0.0F, 0.0F));
+                        mc.getNetHandler().addToSendQueue(new C08PacketPlayerBlockPlacement(new BlockPos(-1, -1, -1), 255, mc.thePlayer.inventory.getCurrentItem(), 0.0F, 0.0F, 0.0F));
                     }
                 }
             }
@@ -194,15 +168,14 @@ public class KillAura extends Module {
         }
 
         if (event instanceof EventUpdate) {
-            setModuleInfo(targetMode.getSelectedMode() + (targetMode.getSelectedMode().equals("Switch") ? "" : ", "+ preferTarget.getSelectedMode()));
+            setDisplayName(targetMode.getSelectedMode() + (targetMode.getSelectedMode().equals("Switch") ? "" : ", "+ preferTarget.getSelectedMode()));
             manageEntities();
             setRotations(finalEntity);
             isFailing = new Random().nextInt(100) <= failingChance.getDefaultValue();
             canSwing = new Random().nextInt(100) <= swingChance.getDefaultValue();
 
-            if (autoBlock.isToggled() && !blockOnAttack.isToggled() && finalEntity != null) {
-                if (mc.thePlayer.getCurrentEquippedItem().getItem() != null && mc.thePlayer.getCurrentEquippedItem().getItem() instanceof ItemSword)
-                    mc.thePlayer.getCurrentEquippedItem().useItemRightClick(mc.theWorld, mc.thePlayer);
+            if (autoBlock.isToggled() && finalEntity != null) {
+                mc.thePlayer.getCurrentEquippedItem().useItemRightClick(mc.theWorld, mc.thePlayer);
             }
 
             if (stopSprinting.isToggled() && mc.thePlayer.rotationYaw != yaw && finalEntity != null) {
@@ -260,16 +233,6 @@ public class KillAura extends Module {
                     mc.playerController.attackEntity(mc.thePlayer, rayCast);
                 else
                     mc.thePlayer.sendQueue.addToSendQueue(new C02PacketUseEntity(rayCast, C02PacketUseEntity.Action.ATTACK));
-
-                if (autoBlock.isToggled() && blockOnAttack.isToggled()) {
-                    if (mc.thePlayer.getCurrentEquippedItem().getItem() != null && mc.thePlayer.getCurrentEquippedItem().getItem() instanceof ItemSword) {
-                        mc.thePlayer.getCurrentEquippedItem().useItemRightClick(mc.theWorld, mc.thePlayer);
-                        if (blockMode.getSelectedMode().equals("PlayerController"))
-                            mc.playerController.sendUseItem(mc.thePlayer, mc.theWorld, mc.thePlayer.getCurrentEquippedItem());
-                        if (blockMode.getSelectedMode().equals("Packet"))
-                            mc.getNetHandler().addToSendQueue(new C08PacketPlayerBlockPlacement(new BlockPos(-1, -1, -1), 255, mc.thePlayer.inventory.getCurrentItem(), 0.0F, 0.0F, 0.0F));
-                    }
-                }
 
                 if (!entities.isEmpty()) {
                     if (listCount < entities.size())
