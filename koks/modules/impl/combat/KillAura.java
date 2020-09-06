@@ -55,8 +55,9 @@ public class KillAura extends Module {
     public BooleanValue<Boolean> autoBlock = new BooleanValue<>("AutoBlock", false, this);
     public BooleanValue<Boolean> legitMovement = new BooleanValue<>("Legit Movement", false, this);
     public BooleanValue<Boolean> stopSprinting = new BooleanValue<>("Stop Sprinting", false, this);
+    public BooleanValue<Boolean> hitSlow = new BooleanValue<>("Hit Slow", false, this);
 
-    public TitleValue generalSettings = new TitleValue("General", true, new Value[]{range, preAim, preAimRange, cps, smoothRotation, failingChance, autoBlock, legitMovement, stopSprinting}, this);
+    public TitleValue generalSettings = new TitleValue("General", true, new Value[]{range, preAim, preAimRange, cps, smoothRotation, failingChance, autoBlock, legitMovement, stopSprinting, hitSlow}, this);
 
     public BooleanValue<Boolean> needNaNHealth = new BooleanValue<>("NaN Health", false, this);
     public BooleanValue<Boolean> checkName = new BooleanValue<>("Check Name", true, this);
@@ -100,6 +101,7 @@ public class KillAura extends Module {
         addValue(autoBlock);
         addValue(legitMovement);
         addValue(stopSprinting);
+        addValue(hitSlow);
         addValue(antiBotSettings);
 
         addValue(needNaNHealth);
@@ -226,7 +228,7 @@ public class KillAura extends Module {
                 } else
                     mc.thePlayer.swingItem();
 
-                if (stopSprinting.isToggled())
+                if (hitSlow.isToggled())
                     mc.playerController.attackEntity(mc.thePlayer, rayCast);
                 else
                     mc.thePlayer.sendQueue.addToSendQueue(new C02PacketUseEntity(rayCast, C02PacketUseEntity.Action.ATTACK));

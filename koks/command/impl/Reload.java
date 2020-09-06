@@ -18,7 +18,9 @@ public class Reload extends Command {
         if (args.length != 0)
             return;
 
+        sendmsg("Shutting down Client", true);
         Koks.getKoks().shutdownClient();
+        sendmsg("Initialize Client", true);
         Koks.getKoks().initClient();
     }
 

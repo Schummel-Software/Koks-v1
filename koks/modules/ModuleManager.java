@@ -24,6 +24,8 @@ public class ModuleManager {
         addModule(new KillAura());
         addModule(new SuperHit());
         addModule(new Velocity());
+        addModule(new Reach());
+        addModule(new TriggerBot());
 
         // Movement
         addModule(new BoatFly());
@@ -31,9 +33,9 @@ public class ModuleManager {
         addModule(new Jesus());
         addModule(new NoCobweb());
         addModule(new Speed());
-        addModule(new Sprint());
         addModule(new Fly());
         addModule(new NoSlowdown());
+        addModule(new Sprint());
 
         // Player
         addModule(new AntiFire());
@@ -69,6 +71,9 @@ public class ModuleManager {
 
         // World
         addModule(new ScaffoldWalk());
+        addModule(new FastBridge());
+        addModule(new FastPlace());
+        addModule(new SafeWalk());
         getModules().sort(Comparator.comparing(Module::getModuleName));
     }
 

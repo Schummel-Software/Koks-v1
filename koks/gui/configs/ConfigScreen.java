@@ -35,8 +35,8 @@ public class ConfigScreen extends GuiScreen {
 
 
     public ConfigScreen() {
-        this.x = 100;
-        this.y = 100;
+        this.x = new ScaledResolution(mc).getScaledWidth() / 2 - 150;
+        this.y = 5;
         this.width = 300;
         this.height = 400;
         this.configHeight = 20;
