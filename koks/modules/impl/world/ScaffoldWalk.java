@@ -129,7 +129,7 @@ public class ScaffoldWalk extends Module {
             } else {
                 shouldBuildDown = false;
             }
-            if (!shouldBuildDown && safeWalk.isToggled()) {
+            if (safeWalk.isToggled()) {
                 ((SafeWalkEvent) event).setSafe(true);
             } else {
 

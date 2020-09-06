@@ -26,7 +26,7 @@ public class HUD extends Module {
     private BooleanValue<Boolean> tabGUICenteredString = new BooleanValue<>("Centered String", true, this);
 
     private BooleanValue<Boolean> shadowArrayList = new BooleanValue<>("Shadow", true, this);
-    public BooleanValue<Boolean> marioKART = new BooleanValue<>("Mario Karting", true, this);
+    public ModeValue<String> watermarkStyle = new ModeValue<>("Watermark Style", "Simple", new String[]{"Simple", "Custom with Shadow", "Mario Kart"}, this);
     public BooleanValue<Boolean> customCrossHair = new BooleanValue<>("CrossHair", true, this);
 
     public ModeValue<String> tabGuiSettings = new ModeValue<>("TabGui Settings", new BooleanValue[]{tabGUI, tabGUI_shadow, tabGUI_client_color, tabGUICenteredString}, this);
@@ -36,7 +36,7 @@ public class HUD extends Module {
         super("HUD", Category.UTILITIES);
         addValue(tabGuiSettings);
         addValue(arrayListSettings);
-        addValue(marioKART);
+        addValue(watermarkStyle);
         addValue(customCrossHair);
         this.setToggled(true);
     }
@@ -57,8 +57,12 @@ public class HUD extends Module {
 
             moduleList.drawList(shadowArrayList.isToggled());
             watermark.drawWatermark();
-            if (Koks.getKoks().tabGUI != null && tabGUI.isToggled())
-                Koks.getKoks().tabGUI.drawScreen(2, 20, this.tabGUI_shadow.isToggled(), tabGUI_client_color.isToggled(), tabGUICenteredString.isToggled());
+            if (Koks.getKoks().tabGUI != null && tabGUI.isToggled()) {
+                if (watermarkStyle.getSelectedMode().equals("Custom with Shadow"))
+                    Koks.getKoks().tabGUI.drawScreen(2, 70, this.tabGUI_shadow.isToggled(), tabGUI_client_color.isToggled(), tabGUICenteredString.isToggled());
+                else
+                    Koks.getKoks().tabGUI.drawScreen(2, 20, this.tabGUI_shadow.isToggled(), tabGUI_client_color.isToggled(), tabGUICenteredString.isToggled());
+            }
             if (customCrossHair.isToggled())
                 new CrossHair().drawCrosshair();
         }

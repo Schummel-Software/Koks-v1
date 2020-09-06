@@ -29,7 +29,9 @@ public class Watermark {
 
     private final Minecraft mc = Minecraft.getMinecraft();
     private final FontRenderer fr = Minecraft.getMinecraft().fontRendererObj;
+    private final ResourceLocation resourceLocation = new ResourceLocation("client/generals/watermark.png");
 
+    private final RenderUtils renderUtils = new RenderUtils();
     private ColorUtil colorUtil;
     private float animationX;
     private boolean reverse;
@@ -39,7 +41,7 @@ public class Watermark {
 
         if (Koks.getKoks().moduleManager.getModule(HUD.class).isToggled()) {
 
-            if (Koks.getKoks().moduleManager.getModule(HUD.class).marioKART.isToggled()) {
+            if (Koks.getKoks().moduleManager.getModule(HUD.class).watermarkStyle.getSelectedMode().equals("Mario Kart")) {
                 String name = Koks.getKoks().CLIENT_NAME;
                 DateFormat dateFormat = new SimpleDateFormat("HH:mm");
                 String time = dateFormat.format(Calendar.getInstance().getTime());
@@ -57,13 +59,25 @@ public class Watermark {
                     if (animationX < -fr.getStringWidth(render))
                         reverse = false;
                 }
-            } else {
+            } else if (Koks.getKoks().moduleManager.getModule(HUD.class).watermarkStyle.getSelectedMode().equals("Simple")) {
                 String name = Koks.getKoks().CLIENT_NAME;
                 DateFormat dateFormat = new SimpleDateFormat("HH:mm");
                 String time = dateFormat.format(Calendar.getInstance().getTime());
 
                 String render = name + " §7(" + time + ")";
                 fr.drawStringWithShadow(render, 82 / 2 - fr.getStringWidth(render) / 2, 8, Koks.getKoks().client_color.getRGB());
+            } else if (Koks.getKoks().moduleManager.getModule(HUD.class).watermarkStyle.getSelectedMode().equals("Custom with Shadow")) {
+
+                GL11.glPushMatrix();
+                GlStateManager.disableAlpha();
+                GlStateManager.enableBlend();
+                GL11.glEnable(GL11.GL_BLEND);
+                GL11.glColor4f(1, 1, 1, 1);
+                renderUtils.drawImage(resourceLocation, -3, -5, 80, 80, false);
+                GL11.glDisable(GL11.GL_BLEND);
+                GlStateManager.enableAlpha();
+                GlStateManager.disableBlend();
+                GL11.glPopMatrix();
             }
         }
     }

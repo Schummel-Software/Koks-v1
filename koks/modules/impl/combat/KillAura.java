@@ -295,6 +295,8 @@ public class KillAura extends Module {
             return false;
         if (entity.isDead)
             return false;
+        if (!mc.thePlayer.canEntityBeSeen(entity))
+            return false;
         if (!player.isToggled() && entity instanceof EntityPlayer)
             return false;
         if (!animals.isToggled() && entity instanceof EntityAnimal)
