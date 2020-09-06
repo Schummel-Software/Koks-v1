@@ -16,7 +16,7 @@ import koks.utilities.value.values.NumberValue;
  */
 public class Fly extends Module {
 
-    private final HypixelFly hypixelFly = new HypixelFly();
+    private final HypixelFly hypixelFly;
     public final ModeValue<String> modeValue = new ModeValue<>("Mode", "Hypixel", new String[]{"Hypixel","AAC3.2.2"}, this);
     public final NumberValue<Integer> aac322boost = new NumberValue<Integer>("AAC3.2.2-Boost",9,10,5,this);
 
@@ -24,6 +24,7 @@ public class Fly extends Module {
         super("Fly", Category.MOVEMENT);
         addValue(aac322boost);
         Koks.getKoks().valueManager.addValue(modeValue);
+        hypixelFly = new HypixelFly();
     }
 
     @Override

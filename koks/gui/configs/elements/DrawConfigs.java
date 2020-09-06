@@ -22,10 +22,13 @@ public class DrawConfigs {
     private final ArrayList<RightClickScreen> screens = new ArrayList<>();
     public int x, y, width, height, clickX, clickY;
     public final File file;
+    public String name;
     public boolean choosing;
 
     public DrawConfigs(File file) {
         this.file = file;
+        String[] named = file.getName().split("\\.");
+        this.name = named[0];
     }
 
     public void updateValues(int x, int y, int width, int height) {
@@ -33,7 +36,6 @@ public class DrawConfigs {
         this.y = y;
         this.width = width;
         this.height = height;
-
         screens.add(new RightClickScreen(file));
     }
 
@@ -74,4 +76,7 @@ public class DrawConfigs {
 
     }
 
+    public String getName() {
+        return name;
+    }
 }

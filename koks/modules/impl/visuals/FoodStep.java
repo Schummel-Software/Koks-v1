@@ -7,6 +7,7 @@ import koks.event.impl.EventTick;
 import koks.event.impl.EventUpdate;
 import koks.event.impl.MotionEvent;
 import koks.modules.Module;
+import koks.utilities.value.values.NumberValue;
 import net.minecraft.util.BlockPos;
 import org.lwjgl.opengl.GL11;
 
@@ -18,8 +19,11 @@ import java.util.ArrayList;
  */
 public class FoodStep extends Module {
 
+    public NumberValue<Integer> length = new NumberValue<Integer>("Length", 10, 100,5,this);
+
     public FoodStep() {
         super("FoodStep", Category.VISUALS);
+        addValue(length);
     }
 
     public ArrayList<BlockPos> positions = new ArrayList<>();
@@ -32,7 +36,6 @@ public class FoodStep extends Module {
             GL11.glPushMatrix();
             GL11.glColor4f(Koks.getKoks().client_color.getRed() / 255F, Koks.getKoks().client_color.getGreen() / 255F,Koks.getKoks().client_color.getBlue() / 255F, Koks.getKoks().client_color.getAlpha() / 255F);
             GL11.glDisable(GL11.GL_TEXTURE_2D);
-            GL11.glDisable(GL11.GL_DEPTH_TEST);
             GL11.glLineWidth(2F);
             GL11.glBegin(GL11.GL_LINE_STRIP);
 
@@ -43,14 +46,13 @@ public class FoodStep extends Module {
             }
             GL11.glVertex3f(0,0,0);
             GL11.glEnd();
-            GL11.glEnable(GL11.GL_DEPTH_TEST);
             GL11.glEnable(GL11.GL_TEXTURE_2D);
             GL11.glPopMatrix();
         }
 
         if(event instanceof EventTick) {
-            if(positions.size() > 20) {
-                int toMush = positions.size() - 20;
+            if(positions.size() > length.getDefaultValue()) {
+                int toMush = positions.size() - length.getDefaultValue();
                 for(int i = 0; i < toMush; i++) {
                     positions.remove(i);
                 }

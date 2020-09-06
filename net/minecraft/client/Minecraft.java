@@ -1032,9 +1032,11 @@ public class Minecraft implements IThreadListener, IPlayerUsage
      */
     public void shutdownMinecraftApplet()
     {
-        Koks.getKoks().shutdownClient();
+
         try
         {
+            System.out.println("STOPPPP");
+            Koks.getKoks().shutdownClient();
             this.stream.shutdownStream();
             logger.info("Stopping!");
 
@@ -1428,6 +1430,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage
      */
     public void shutdown()
     {
+        System.out.println("SHUTDOWN BITCH");
         Koks.getKoks().shutdownClient();
         this.running = false;
     }

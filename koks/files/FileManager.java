@@ -62,7 +62,8 @@ public class FileManager {
             try {
                 file.readFromFile(new BufferedReader(new FileReader(file.getFile())));
             }catch(Exception ex){
-                System.out.println("File doesn't exist.");
+                ex.printStackTrace();
+                System.out.println(file.getFile().getName() + " doesn't exist.");
             }
         }
     }

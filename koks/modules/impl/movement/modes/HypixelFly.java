@@ -121,21 +121,22 @@ public class HypixelFly {
     }
 
     public void onDisable() {
-        mc.thePlayer.motionX = 0F;
-        mc.thePlayer.motionZ = 0F;
+            mc.thePlayer.motionX = 0F;
+            mc.thePlayer.motionZ = 0F;
 
-        final NetHandlerPlayClient netHandler = mc.getNetHandler();
-        PlayerCapabilities playerCapabilities = new PlayerCapabilities();
-        playerCapabilities.isCreativeMode = true;
-        netHandler.addToSendQueue(new C13PacketPlayerAbilities(playerCapabilities));
+            final NetHandlerPlayClient netHandler = mc.getNetHandler();
+            PlayerCapabilities playerCapabilities = new PlayerCapabilities();
+            playerCapabilities.isCreativeMode = true;
+            netHandler.addToSendQueue(new C13PacketPlayerAbilities(playerCapabilities));
 
-        mc.thePlayer.setPosition(mc.thePlayer.posX, mc.thePlayer.posY, mc.thePlayer.posZ);
-        blinkPackets.forEach(mc.thePlayer.sendQueue.getNetworkManager()::sendPacket);
+            mc.thePlayer.setPosition(mc.thePlayer.posX, mc.thePlayer.posY, mc.thePlayer.posZ);
+            blinkPackets.forEach(mc.thePlayer.sendQueue.getNetworkManager()::sendPacket);
 
-        zoom = false;
-        mc.timer.timerSpeed = 1F;
+            zoom = false;
+            mc.timer.timerSpeed = 1F;
 
-        this.blinkPackets.clear();
+            this.blinkPackets.clear();
+
     }
 
 }

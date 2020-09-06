@@ -53,10 +53,14 @@ public abstract class Module {
 
     public void setToggled(boolean enabled) {
         if (!enabled) {
-            onDisable();
+            if(mc.thePlayer != null) {
+                onDisable();
+            }
             this.enabled = false;
         } else {
-            onEnable();
+            if(mc.thePlayer != null) {
+                onEnable();
+            }
             this.enabled = true;
         }
 

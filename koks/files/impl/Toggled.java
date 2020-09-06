@@ -31,10 +31,14 @@ public class Toggled extends Files {
         while((line = fileReader.readLine()) != null) {
             String[] args = line.split(":");
             Module module = Koks.getKoks().moduleManager.getModule(args[0]);
-            module.setToggled(Boolean.parseBoolean(args[1]));
-            module.setVisible(Boolean.parseBoolean(args[2]));
-            module.setBypassed(Boolean.parseBoolean(args[3]));
-        }
+            if(module == null)continue;
+                module.setToggled(Boolean.parseBoolean(args[1]));
+                module.setVisible(Boolean.parseBoolean(args[2]));
+                module.setBypassed(Boolean.parseBoolean(args[3]));
+            }
+
+
+
         fileReader.close();
     }
 }

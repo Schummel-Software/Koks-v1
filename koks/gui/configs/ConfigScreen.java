@@ -3,6 +3,8 @@ package koks.gui.configs;
 import koks.Koks;
 import koks.files.Files;
 import koks.gui.configs.elements.DrawConfigs;
+import koks.modules.Module;
+import koks.modules.impl.visuals.ClearTag;
 import koks.utilities.RenderUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -14,6 +16,7 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Comparator;
 
 /**
  * @author avox | lmao | kroko
@@ -43,7 +46,8 @@ public class ConfigScreen extends GuiScreen {
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
 
-        configAdded.removeIf(file -> !file.exists());
+
+            configAdded.removeIf(file -> !file.exists());
         configs.removeIf(drawConfigs -> !drawConfigs.file.exists());
 
         for (File file : Koks.getKoks().configManager.getConfigs()) {
@@ -52,6 +56,10 @@ public class ConfigScreen extends GuiScreen {
                 configAdded.add(file);
             }
         }
+
+        configs.sort(Comparator.comparing(DrawConfigs::getName));
+
+        configAdded.sort(Comparator.comparing(File::getName));
 
         sr = new ScaledResolution(mc);
 
