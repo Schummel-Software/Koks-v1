@@ -2,6 +2,7 @@ package koks.modules.impl.world;
 
 import koks.Koks;
 import koks.event.Event;
+import koks.event.impl.EventMove;
 import koks.event.impl.EventUpdate;
 import koks.event.impl.MotionEvent;
 import koks.event.impl.SafeWalkEvent;
@@ -93,7 +94,18 @@ public class ScaffoldWalk extends Module {
             }
         }
 
+
         if (event instanceof EventUpdate) {
+
+            if (Keyboard.isKeyDown(Keyboard.KEY_SPACE)) {
+                mc.thePlayer.setJumping(false);
+                if (mc.thePlayer.onGround && mc.thePlayer.movementInput.moveForward == 0) {
+                    mc.timer.timerSpeed = 2F;
+                }
+            } else {
+                mc.timer.timerSpeed = 1F;
+            }
+
             if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) {
                 shouldBuildDown = true;
                 mc.gameSettings.keyBindSneak.pressed = false;
@@ -123,7 +135,7 @@ public class ScaffoldWalk extends Module {
             if (!shouldBuildDown && safeWalk.isToggled()) {
                 ((SafeWalkEvent) event).setSafe(true);
             } else {
-                System.out.println("HEY");
+
             }
         }
 
@@ -238,6 +250,7 @@ public class ScaffoldWalk extends Module {
     public void onDisable() {
         yaw = 0;
         pitch = 0;
+        mc.timer.timerSpeed = 1F;
         mc.thePlayer.sendQueue.addToSendQueue(new C09PacketHeldItemChange(mc.thePlayer.inventory.currentItem));
     }
 

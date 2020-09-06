@@ -18,7 +18,7 @@ public class SetBack extends Module {
 
     public double deathX, deathY, deathZ;
 
-    public ModeValue<String> mode = new ModeValue<>("Mode", "Intave", new String[]{"Intave", "AAC3.0.1"}, this);
+    public ModeValue<String> mode = new ModeValue<>("Mode", "Intave", new String[]{"Intave", "AAC3.0.1", "Hypixel"}, this);
 
     public SetBack() {
         super("SetBack", Category.PLAYER);
@@ -80,6 +80,13 @@ public class SetBack extends Module {
                     break;
                 case "AAC3.0.1":
                     aac301();
+                    break;
+                case "Hypixel":
+                    if (mc.thePlayer.fallDistance > 10) {
+                        mc.thePlayer.onGround = true;
+                        mc.thePlayer.setPosition(mc.thePlayer.posX, mc.thePlayer.posY + 10, mc.thePlayer.posZ);
+                        this.mc.thePlayer.fallDistance = 0.0F;
+                    }
                     break;
             }
         }

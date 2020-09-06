@@ -35,8 +35,12 @@ public class HypixelFly {
     private final RandomUtil randomUtil = new RandomUtil();
     private final MovementUtil movementUtil = new MovementUtil();
     private final TimeUtil timeUtil = new TimeUtil();
+    private final TimeUtil timeUtil2 = new TimeUtil();
+
+    private boolean done;
 
     public void onEvent(Event event) {
+
 
         if (event instanceof PacketEvent) {
             if (stage > 2) {
@@ -48,9 +52,26 @@ public class HypixelFly {
         }
 
         if (event instanceof EventMove) {
+            double result = 0.0000000033 + randomUtil.randomDouble(0.0000000149, 0.000000064);
+            if (mc.thePlayer.ticksExisted % 3 == 0) {
+                if (stage > 2)
+                    ((EventMove) event).setY(mc.thePlayer.motionY = result);
+            }
             switch (this.stage) {
                 case 0:
                     this.moveSpeed = 0.5F;
+                    break;
+                case 1:
+                    final double x = mc.thePlayer.posX;
+                    final double y = mc.thePlayer.posY;
+                    final double z = mc.thePlayer.posZ;
+                    final NetHandlerPlayClient netHandler = mc.getNetHandler();
+                    for (int i = 0; i < mc.thePlayer.getMaxFallHeight() / 0.055; ++i) {
+                        netHandler.addToSendQueue(new C03PacketPlayer.C04PacketPlayerPosition(x, y + 0.06, z, false));
+                        netHandler.addToSendQueue(new C03PacketPlayer.C04PacketPlayerPosition(x, y + 0.016, z, false));
+                        netHandler.addToSendQueue(new C03PacketPlayer.C04PacketPlayerPosition(x, y + 0.0049 + 0.0003, z, false));
+                    }
+                    netHandler.addToSendQueue(new C03PacketPlayer(true));
                     break;
                 case 3:
                     if (mc.thePlayer.onGround && mc.thePlayer.isCollidedVertically)
@@ -60,10 +81,14 @@ public class HypixelFly {
                 case 2:
                     break;
                 default:
-                    this.moveSpeed = this.moveSpeed - this.moveSpeed / 75;
+                    if (this.moveSpeed > 0.2875D)
+                        this.moveSpeed = this.moveSpeed - this.moveSpeed / 100;
             }
-            if (mc.thePlayer.moveForward != 0 || mc.thePlayer.moveStrafing != 0)
-                movementUtil.setSpeed(Math.max(this.moveSpeed, 0.289D));
+            if (mc.thePlayer.moveForward != 0 || mc.thePlayer.moveStrafing != 0) {
+                if (this.moveSpeed < 0.2875D)
+                    moveSpeed = 0.2875F;
+                movementUtil.setSpeed(Math.max(this.moveSpeed, 0.2875D));
+            }
             this.stage++;
         }
 
@@ -91,6 +116,9 @@ public class HypixelFly {
     }
 
     public void onEnable() {
+
+        timeUtil2.reset();
+        done = true;
         zoom = false;
         this.moveSpeed = 0.0D;
         this.stage = 0;
@@ -105,36 +133,37 @@ public class HypixelFly {
 
         PlayerCapabilities playerCapabilities = new PlayerCapabilities();
         playerCapabilities.isCreativeMode = true;
+        playerCapabilities.allowFlying = true;
+        playerCapabilities.isFlying = true;
         netHandler.addToSendQueue(new C13PacketPlayerAbilities(playerCapabilities));
 
-            for (int i = 0; i < mc.thePlayer.getMaxFallHeight() / 0.055 + 1.0; ++i) {
-                netHandler.addToSendQueue(new C03PacketPlayer.C04PacketPlayerPosition(x, y + 0.06, z, false));
-                netHandler.addToSendQueue(new C03PacketPlayer.C04PacketPlayerPosition(x, y + 0.016, z, false));
-                netHandler.addToSendQueue(new C03PacketPlayer.C04PacketPlayerPosition(x, y + 0.0049 + 0.0003, z, false));
-            }
-            netHandler.addToSendQueue(new C03PacketPlayer(true));
-
+        for (int i = 0; i < mc.thePlayer.getMaxFallHeight() / 0.055; ++i) {
+            netHandler.addToSendQueue(new C03PacketPlayer.C04PacketPlayerPosition(x, y + 0.06, z, false));
+            netHandler.addToSendQueue(new C03PacketPlayer.C04PacketPlayerPosition(x, y + 0.016, z, false));
+            netHandler.addToSendQueue(new C03PacketPlayer.C04PacketPlayerPosition(x, y + 0.0049 + 0.0003, z, false));
+        }
+        netHandler.addToSendQueue(new C03PacketPlayer(true));
 
 
         zoom = true;
     }
 
     public void onDisable() {
-            mc.thePlayer.motionX = 0F;
-            mc.thePlayer.motionZ = 0F;
+        mc.thePlayer.motionX = 0F;
+        mc.thePlayer.motionZ = 0F;
 
-            final NetHandlerPlayClient netHandler = mc.getNetHandler();
-            PlayerCapabilities playerCapabilities = new PlayerCapabilities();
-            playerCapabilities.isCreativeMode = true;
-            netHandler.addToSendQueue(new C13PacketPlayerAbilities(playerCapabilities));
+        final NetHandlerPlayClient netHandler = mc.getNetHandler();
+        PlayerCapabilities playerCapabilities = new PlayerCapabilities();
+        playerCapabilities.isCreativeMode = true;
+        netHandler.addToSendQueue(new C13PacketPlayerAbilities(playerCapabilities));
 
-            mc.thePlayer.setPosition(mc.thePlayer.posX, mc.thePlayer.posY, mc.thePlayer.posZ);
-            blinkPackets.forEach(mc.thePlayer.sendQueue.getNetworkManager()::sendPacket);
+        mc.thePlayer.setPosition(mc.thePlayer.posX, mc.thePlayer.posY, mc.thePlayer.posZ);
+        blinkPackets.forEach(mc.thePlayer.sendQueue.getNetworkManager()::sendPacket);
 
-            zoom = false;
-            mc.timer.timerSpeed = 1F;
+        zoom = false;
+        mc.timer.timerSpeed = 1F;
 
-            this.blinkPackets.clear();
+        this.blinkPackets.clear();
 
     }
 

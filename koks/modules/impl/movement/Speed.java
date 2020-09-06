@@ -15,7 +15,7 @@ import net.minecraft.util.BlockPos;
  */
 public class Speed extends Module {
 
-    public ModeValue<String> mode = new ModeValue<>("Mode", "Mineplex", new String[]{"Mineplex", "AAC 3.2.2"}, this);
+    public ModeValue<String> mode = new ModeValue<>("Mode", "Mineplex", new String[]{"Mineplex", "AAC 3.2.2", "Hypixel"}, this);
     public boolean canSpeed;
 
     public Speed() {
@@ -29,6 +29,18 @@ public class Speed extends Module {
         if (event instanceof EventUpdate) {
             setModuleInfo(mode.getSelectedMode());
             switch (mode.getSelectedMode()) {
+                case "Hypixel":
+                    if (mc.thePlayer.moveForward != 0 && !mc.gameSettings.keyBindJump.isKeyDown()) {
+                        if (mc.thePlayer.onGround) {
+                           mc.thePlayer.jump();
+                            MovementUtil movementUtil = new MovementUtil();
+                            movementUtil.setSpeed(0.2875D + 0.2);
+                        } else {
+                            MovementUtil movementUtil = new MovementUtil();
+                            movementUtil.setSpeed(0.2975D);
+                        }
+                    }
+                    break;
                 case "Mineplex":
                     if (mc.thePlayer.moveForward != 0 && !mc.gameSettings.keyBindJump.isKeyDown()) {
                         if (mc.thePlayer.onGround) {
