@@ -25,6 +25,7 @@ public class HUD extends Module {
     private BooleanValue<Boolean> tabGUICenteredString = new BooleanValue<>("Centered String", true, this);
 
     private BooleanValue<Boolean> shadowArrayList = new BooleanValue<>("Shadow", true, this);
+    public BooleanValue<Boolean> marioKART = new BooleanValue<>("Mario Karting", true, this);
 
     public ModeValue<String> tabGuiSettings = new ModeValue<>("TabGui Settings", new BooleanValue[]{tabGUI, tabGUI_shadow, tabGUI_client_color, tabGUICenteredString}, this);
     public ModeValue<String> arrayListSettings = new ModeValue<>("Arraylist Settings", new BooleanValue[]{shadowArrayList}, this);
@@ -33,6 +34,7 @@ public class HUD extends Module {
         super("HUD", Category.UTILITIES);
         Koks.getKoks().valueManager.addValue(tabGuiSettings);
         Koks.getKoks().valueManager.addValue(arrayListSettings);
+        Koks.getKoks().valueManager.addValue(marioKART);
         this.setToggled(true);
     }
 
