@@ -52,16 +52,11 @@ public class HypixelFly {
         }
 
         if (event instanceof EventMove) {
-            double result = 0.0000000033 + randomUtil.randomDouble(0.0000000149, 0.000000064);
-            if (mc.thePlayer.ticksExisted % 3 == 0) {
-                if (stage > 2)
-                    ((EventMove) event).setY(mc.thePlayer.motionY = result);
-            }
             switch (this.stage) {
                 case 0:
-                    this.moveSpeed = 0.5F;
                     break;
                 case 1:
+                    this.moveSpeed = 0.5F;
                     final double x = mc.thePlayer.posX;
                     final double y = mc.thePlayer.posY;
                     final double z = mc.thePlayer.posZ;
@@ -159,7 +154,9 @@ public class HypixelFly {
 
         mc.thePlayer.setPosition(mc.thePlayer.posX, mc.thePlayer.posY, mc.thePlayer.posZ);
         blinkPackets.forEach(mc.thePlayer.sendQueue.getNetworkManager()::sendPacket);
-
+        for (int i = 0; i < 10; i++) {
+            mc.thePlayer.setPosition(mc.thePlayer.posX, mc.thePlayer.posY + randomUtil.randomDouble(0.000001, 0.00001), mc.thePlayer.posZ);
+        }
         zoom = false;
         mc.timer.timerSpeed = 1F;
 

@@ -5,8 +5,13 @@ import koks.event.impl.PacketEvent;
 import koks.modules.Module;
 import koks.utilities.value.values.ModeValue;
 import net.minecraft.client.Minecraft;
+import net.minecraft.network.play.client.C00PacketKeepAlive;
 import net.minecraft.network.play.client.C03PacketPlayer;
+import net.minecraft.network.play.client.C0FPacketConfirmTransaction;
 import net.minecraft.network.play.server.S32PacketConfirmTransaction;
+import org.omg.CORBA.INTERNAL;
+
+import java.util.Random;
 
 /**
  * @author avox | lmao | kroko
@@ -27,9 +32,6 @@ public class Disabler extends Module {
             if (mode.getSelectedMode().equalsIgnoreCase("Hypixel")) {
                 if (((PacketEvent) event).getType() == PacketEvent.Type.RECIVE) {
                     if (Minecraft.getMinecraft().getCurrentServerData().serverIP.contains("hypixel") && Minecraft.getMinecraft().theWorld != null && Minecraft.getMinecraft().thePlayer != null) {
-
-                        if (((PacketEvent) event).getPacket() instanceof C03PacketPlayer.C04PacketPlayerPosition || ((PacketEvent) event).getPacket() instanceof C03PacketPlayer.C06PacketPlayerPosLook)
-                            event.setCanceled(true);
 
                         if (((PacketEvent) event).getPacket() instanceof S32PacketConfirmTransaction) {
                             final S32PacketConfirmTransaction s32PacketConfirmTransaction = (S32PacketConfirmTransaction) ((PacketEvent) event).getPacket();
