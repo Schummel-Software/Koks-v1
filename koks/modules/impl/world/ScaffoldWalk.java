@@ -120,7 +120,7 @@ public class ScaffoldWalk extends Module {
             } else {
                 shouldBuildDown = false;
             }
-            if (mc.thePlayer.onGround && !shouldBuildDown && safeWalk.isToggled()) {
+            if (!shouldBuildDown && safeWalk.isToggled()) {
                 ((SafeWalkEvent) event).setSafe(true);
             } else {
                 System.out.println("HEY");
