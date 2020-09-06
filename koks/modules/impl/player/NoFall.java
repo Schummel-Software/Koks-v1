@@ -4,7 +4,10 @@ import koks.event.Event;
 import koks.event.impl.EventUpdate;
 import koks.modules.Module;
 import koks.utilities.value.values.ModeValue;
+import net.minecraft.block.BlockAir;
 import net.minecraft.network.play.client.C03PacketPlayer;
+import net.minecraft.util.BlockPos;
+import org.lwjgl.Sys;
 
 /**
  * @author avox | lmao | kroko
@@ -25,11 +28,11 @@ public class NoFall extends Module {
             setModuleInfo(mode.getSelectedMode());
             switch (mode.getSelectedMode()) {
                 case "Spoof Ground":
-                if (mc.thePlayer.fallDistance > 2) {
-                    mc.thePlayer.sendQueue.addToSendQueue(new C03PacketPlayer(true));
-                    mc.thePlayer.fallDistance = 0;
-                }
-                break;
+                    if (mc.thePlayer.fallDistance > 2) {
+                        mc.thePlayer.sendQueue.addToSendQueue(new C03PacketPlayer(true));
+                        mc.thePlayer.fallDistance = 2;
+                    }
+                    break;
                 case "AAC 3.2.2":
                     if (mc.thePlayer.onGround)
                         mc.thePlayer.motionY -= 999;

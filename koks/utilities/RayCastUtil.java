@@ -34,6 +34,26 @@ public class RayCastUtil {
             return ray.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK && blockPos.equals(ray.getBlockPos());
     }
 
+    public MovingObjectPosition getRayCastBlock(float yaw, float pitch) {
+        float range = mc.playerController.getBlockReachDistance();
+
+        float cosYaw = MathHelper.cos(-yaw * 0.017453292F - (float)Math.PI);
+        float sinYaw = MathHelper.sin(-yaw * 0.017453292F - (float)Math.PI);
+        float cosPitch = -MathHelper.cos(-pitch * 0.017453292F);
+        float sinPitch = MathHelper.sin(-pitch * 0.017453292F);
+
+        Vec3 vec3 = mc.thePlayer.getPositionEyes(1.0F);
+        Vec3 vec31 = new Vec3(sinYaw * cosPitch, sinPitch, cosYaw * cosPitch);
+        Vec3 vec32 = vec3.addVector(vec31.xCoord * range, vec31.yCoord * range, vec31.zCoord * range);
+
+        MovingObjectPosition ray = mc.theWorld.rayTraceBlocks(vec3,vec32,false);
+        if(ray.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
+            return ray;
+        }
+        return null;
+
+    }
+
     public Entity getRayCastedEntity(double range, float yaw, float pitch) {
         float cosYaw = MathHelper.cos(-yaw * 0.017453292F - (float)Math.PI);
         float sinYaw = MathHelper.sin(-yaw * 0.017453292F - (float)Math.PI);

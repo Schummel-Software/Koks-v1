@@ -24,7 +24,7 @@ import java.util.Comparator;
 public class ModuleList {
 
     private final Minecraft mc = Minecraft.getMinecraft();
-    private final CustomFont fr = new CustomFont("fonts/Helvetica45Light_0.ttf",20);
+    private final CustomFont fr = new CustomFont("fonts/Helvetica45Light_0.ttf",18);
     private final RenderUtils renderUtils = new RenderUtils();
 
     public void drawList(boolean shadow) {
@@ -41,7 +41,7 @@ public class ModuleList {
                     GlStateManager.enableBlend();
                     GL11.glEnable(GL11.GL_BLEND);
                     GL11.glColor4f(1, 1, 1, 1);
-                    renderUtils.drawImage(new ResourceLocation("client/shadows/arraylistshadow.png"), sr.getScaledWidth() - fr.getStringWidth(finalText) - 4, y[0] - 5, fr.getStringWidth(finalText), 30, false);
+                    renderUtils.drawImage(new ResourceLocation("client/shadows/arraylistshadow.png"), sr.getScaledWidth() - fr.getStringWidth(finalText) * 1.5F - 4 , y[0] - 5, fr.getStringWidth(finalText)  * 2, 30, false);
                     GL11.glDisable(GL11.GL_BLEND);
                     GlStateManager.enableAlpha();
                     GlStateManager.disableBlend();

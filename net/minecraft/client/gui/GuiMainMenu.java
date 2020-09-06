@@ -513,6 +513,7 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
                 mc.getSoundHandler().playSound(Koks.getKoks().koksSound);
             }
         }catch (IllegalArgumentException ignore) {
+            System.out.println("crash");
         }
 
         GlStateManager.disableAlpha();
