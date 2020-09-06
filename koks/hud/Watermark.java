@@ -3,6 +3,7 @@ package koks.hud;
 import koks.Koks;
 import koks.modules.impl.utilities.HUD;
 import koks.utilities.ColorUtil;
+import koks.utilities.RenderUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
@@ -30,6 +31,9 @@ public class Watermark {
         if (Koks.getKoks().moduleManager.getModule(HUD.class).isToggled()) {
             String name = Koks.getKoks().CLIENT_NAME;
             String version = Koks.getKoks().CLIENT_VERSION;
+            RenderUtils renderUtils = new RenderUtils();
+            Gui.drawRect(2, 2, 65, 35, Integer.MIN_VALUE);
+            renderUtils.drawOutlineRect(2, 2, 65, 35, 1, Koks.getKoks().client_color);
             colorUtil = new ColorUtil();
             GL11.glPushMatrix();
             GL11.glScaled(3.4, 3.4, 3.4);
