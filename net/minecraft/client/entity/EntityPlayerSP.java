@@ -260,6 +260,7 @@ public class EntityPlayerSP extends AbstractClientPlayer {
             mc.thePlayer.rotationYawHead = motionEvent.getYaw();
             mc.thePlayer.rotationPitchHead = motionEvent.getPitch();
 
+
             if (this.ridingEntity == null) {
                 if (flag2 && flag3) {
                     this.sendQueue.addToSendQueue(new C03PacketPlayer.C06PacketPlayerPosLook(this.posX, this.getEntityBoundingBox().minY, this.posZ, motionEvent.getYaw(), motionEvent.getPitch(), this.onGround));

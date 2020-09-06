@@ -89,14 +89,14 @@ public class ScaffoldWalk extends Module {
 
         if (event instanceof MotionEvent) {
             if (((MotionEvent) event).getType() == MotionEvent.Type.PRE) {
-                if (AlwaysLook.isToggled() || finalPos != null) {
+
 
                     ((MotionEvent) event).setYaw(yaw);
 
                     if (Hypixel.isToggled() && Minecraft.getMinecraft().theWorld != null && Minecraft.getMinecraft().thePlayer != null)
                         pitch = 79.444F;
                     ((MotionEvent) event).setPitch(pitch);
-                }
+
             }
         }
 
@@ -166,6 +166,7 @@ public class ScaffoldWalk extends Module {
     }
 
     public float getPitch(int speed) {
+
         return rotationUtil.faceBlock(finalPos, true, yaw, pitch, speed)[1];
     }
 
@@ -208,14 +209,14 @@ public class ScaffoldWalk extends Module {
                     if (blackList.contains(((ItemBlock) silentItemStack.getItem()).getBlock()))
                         return;
                     mc.playerController.onPlayerRightClick(mc.thePlayer, mc.theWorld, silentItemStack, pos, face, new Vec3(pos.getX() + (this.randomHit.isToggled() ? randomutil.randomDouble(0, 0.7) : 0), pos.getY() + (this.randomHit.isToggled() ? randomutil.randomDouble(0, 0.7) : 0), pos.getZ() + (this.randomHit.isToggled() ? randomutil.randomDouble(0, 0.7) : 0)));
-                    finalPos = null;
+
                     mc.thePlayer.motionX *= Motion.getDefaultValue();
                     mc.thePlayer.motionZ *= Motion.getDefaultValue();
 
                     timeUtil.reset();
                 }
             } else {
-                finalPos = null;
+
                 timeUtil.reset();
             }
         } else {
@@ -223,7 +224,7 @@ public class ScaffoldWalk extends Module {
             if (!simpleRotations.isToggled())
                 setYaw();
         }
-        finalPos = null;
+
     }
 
     @Override

@@ -17,12 +17,12 @@ import java.util.ArrayList;
  * @author avox | lmao | kroko
  * @created on 05.09.2020 : 22:46
  */
-public class FoodStep extends Module {
+public class TrailESP extends Module {
 
     public NumberValue<Integer> length = new NumberValue<Integer>("Length", 10, 100,5,this);
 
-    public FoodStep() {
-        super("FoodStep", Category.VISUALS);
+    public TrailESP() {
+        super("TrailESP", Category.VISUALS);
         addValue(length);
     }
 

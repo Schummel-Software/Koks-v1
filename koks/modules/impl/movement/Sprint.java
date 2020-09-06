@@ -4,22 +4,10 @@ import koks.Koks;
 import koks.event.Event;
 import koks.event.impl.AnimationEvent;
 import koks.event.impl.EventUpdate;
-import koks.event.impl.PacketEvent;
 import koks.modules.Module;
 import koks.modules.impl.visuals.Animations;
-import koks.modules.impl.world.NewScaffold;
 import koks.modules.impl.world.ScaffoldWalk;
-import koks.utilities.TimeUtil;
-import koks.utilities.value.Value;
-import koks.utilities.value.values.BooleanValue;
 import koks.utilities.value.values.ModeValue;
-import koks.utilities.value.values.NumberValue;
-import koks.utilities.value.values.TitleValue;
-import net.minecraft.client.Minecraft;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemSword;
-import net.minecraft.network.play.server.S32PacketConfirmTransaction;
-import net.minecraft.util.ChatComponentText;
 
 /**
  * @author avox | lmao | kroko
@@ -73,8 +61,6 @@ public class Sprint extends Module {
     public boolean canSprint() {
         ScaffoldWalk scaffoldWalk = Koks.getKoks().moduleManager.getModule(ScaffoldWalk.class);
         if (scaffoldWalk.isToggled() && !(scaffoldWalk.sprint.isToggled()))
-            return false;
-        if (Koks.getKoks().moduleManager.getModule(NewScaffold.class).isToggled() && !(Koks.getKoks().moduleManager.getModule(NewScaffold.class).sprint.isToggled()))
             return false;
         return true;
     }
