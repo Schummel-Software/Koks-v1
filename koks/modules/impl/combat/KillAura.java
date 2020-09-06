@@ -16,13 +16,14 @@ import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.network.play.client.C02PacketUseEntity;
+import net.minecraft.network.play.client.C07PacketPlayerDigging;
+import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
 import net.minecraft.network.play.client.C0APacketAnimation;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.EnumParticleTypes;
-import net.minecraft.util.MathHelper;
+import net.minecraft.util.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -51,10 +52,11 @@ public class KillAura extends Module {
     public NumberValue<Integer> cps = new NumberValue<>("CPS", 7, 12, 20, 1, this);
     public BooleanValue<Boolean> smoothRotation = new BooleanValue<>("Smooth Rotation", false, this);
     public NumberValue<Integer> failingChance = new NumberValue<>("FailHit Percent", 0, 20, 0, this);
+    public BooleanValue<Boolean> autoBlock = new BooleanValue<>("AutoBlock", false, this);
     public BooleanValue<Boolean> legitMovement = new BooleanValue<>("Legit Movement", false, this);
     public BooleanValue<Boolean> stopSprinting = new BooleanValue<>("Stop Sprinting", false, this);
 
-    public TitleValue generalSettings = new TitleValue("General", true, new Value[]{range, preAim, preAimRange, cps, smoothRotation, failingChance, legitMovement, stopSprinting}, this);
+    public TitleValue generalSettings = new TitleValue("General", true, new Value[]{range, preAim, preAimRange, cps, smoothRotation, failingChance, autoBlock, legitMovement, stopSprinting}, this);
 
     public BooleanValue<Boolean> needNaNHealth = new BooleanValue<>("NaN Health", false, this);
     public BooleanValue<Boolean> checkName = new BooleanValue<>("Check Name", true, this);
@@ -83,31 +85,32 @@ public class KillAura extends Module {
     public KillAura() {
         super("KillAura", Category.COMBAT);
 
-        Koks.getKoks().valueManager.addValue(targets);
-        Koks.getKoks().valueManager.addValue(targetMode);
-        Koks.getKoks().valueManager.addValue(preferTarget);
+        addValue(targets);
+        addValue(targetMode);
+        addValue(preferTarget);
 
-        Koks.getKoks().valueManager.addValue(generalSettings);
+        addValue(generalSettings);
 
-        Koks.getKoks().valueManager.addValue(range);
-        Koks.getKoks().valueManager.addValue(preAim);
-        Koks.getKoks().valueManager.addValue(preAimRange);
-        Koks.getKoks().valueManager.addValue(cps);
-        Koks.getKoks().valueManager.addValue(smoothRotation);
-        Koks.getKoks().valueManager.addValue(failingChance);
-        Koks.getKoks().valueManager.addValue(legitMovement);
-        Koks.getKoks().valueManager.addValue(stopSprinting);
-        Koks.getKoks().valueManager.addValue(antiBotSettings);
+        addValue(range);
+        addValue(preAim);
+        addValue(preAimRange);
+        addValue(cps);
+        addValue(smoothRotation);
+        addValue(failingChance);
+        addValue(autoBlock);
+        addValue(legitMovement);
+        addValue(stopSprinting);
+        addValue(antiBotSettings);
 
-        Koks.getKoks().valueManager.addValue(needNaNHealth);
-        Koks.getKoks().valueManager.addValue(checkName);
-        Koks.getKoks().valueManager.addValue(ticksExisting);
+        addValue(needNaNHealth);
+        addValue(checkName);
+        addValue(ticksExisting);
 
-        Koks.getKoks().valueManager.addValue(visualSettings);
-        Koks.getKoks().valueManager.addValue(fakeBlocking);
-        Koks.getKoks().valueManager.addValue(silentSwing);
-        Koks.getKoks().valueManager.addValue(serverSideSwing);
-        Koks.getKoks().valueManager.addValue(swingChance);
+        addValue(visualSettings);
+        addValue(fakeBlocking);
+        addValue(silentSwing);
+        addValue(serverSideSwing);
+        addValue(swingChance);
     }
 
     @Override
@@ -123,14 +126,17 @@ public class KillAura extends Module {
                     e.setPitch(pitch);
 
                     if (mc.thePlayer.getDistanceToEntity(finalEntity) <= range.getDefaultValue())
-
                         attackEntity();
                 }
 
             }
 
             if (e.getType() == MotionEvent.Type.POST) {
-
+                if (finalEntity != null && autoBlock.isToggled()) {
+                    if (mc.thePlayer.getCurrentEquippedItem().getItem() != null && mc.thePlayer.getCurrentEquippedItem().getItem() instanceof ItemSword) {
+                        mc.getNetHandler().addToSendQueue(new C08PacketPlayerBlockPlacement(new BlockPos(-1, -1, -1), 255, mc.thePlayer.inventory.getCurrentItem(), 0.0F, 0.0F, 0.0F));
+                    }
+                }
             }
 
         }
@@ -148,10 +154,10 @@ public class KillAura extends Module {
                 AxisAlignedBB axisalignedbb = finalEntity.getEntityBoundingBox();
                 AxisAlignedBB axisalignedbb1 = new AxisAlignedBB(
                         axisalignedbb.minX - finalEntity.posX + x - width,
-                        axisalignedbb.maxY - finalEntity.posY + y + 0.25 - (finalEntity.isSneaking() ? 0.25 : 0),
+                        axisalignedbb.maxY - finalEntity.posY + y + 0.30 - (finalEntity.isSneaking() ? 0.25 : 0),
                         axisalignedbb.minZ - finalEntity.posZ + z - width,
                         axisalignedbb.maxX - finalEntity.posX + x + width,
-                        axisalignedbb.maxY - finalEntity.posY + y + 0.30 - (finalEntity.isSneaking() ? 0.25 : 0),
+                        axisalignedbb.maxY - finalEntity.posY + y + 0.35 - (finalEntity.isSneaking() ? 0.25 : 0),
                         axisalignedbb.maxZ - finalEntity.posZ + z + width);
 
                 BoxUtil boxUtil = new BoxUtil();
@@ -160,15 +166,14 @@ public class KillAura extends Module {
         }
 
         if (event instanceof EventUpdate) {
-
             manageEntities();
-
             setRotations(finalEntity);
-
-            System.out.println(friendManager.friends);
-
             isFailing = new Random().nextInt(100) <= failingChance.getDefaultValue();
             canSwing = new Random().nextInt(100) <= swingChance.getDefaultValue();
+
+            if (autoBlock.isToggled() && finalEntity != null) {
+                mc.thePlayer.getCurrentEquippedItem().useItemRightClick(mc.theWorld, mc.thePlayer);
+            }
 
             if (stopSprinting.isToggled() && mc.thePlayer.rotationYaw != yaw && finalEntity != null) {
                 mc.gameSettings.keyBindSprint.pressed = false;
@@ -204,11 +209,13 @@ public class KillAura extends Module {
 
         if (!isFailing && rayCast != null) {
 
+            if (autoBlock.isToggled())
+                mc.getNetHandler().addToSendQueue(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.RELEASE_USE_ITEM, BlockPos.ORIGIN, EnumFacing.DOWN));
+
             for (int i = 0; i < 2; i++)
                 mc.effectRenderer.emitParticleAtEntity(rayCast, EnumParticleTypes.PORTAL);
 
             if (timeUtil.hasReached((long) (1000 / (cps + (cps > 10 ? 5 : 0))))) {
-
                 if (silentSwing.isToggled()) {
                     if (canSwing) {
                         mc.thePlayer.swingItem();
@@ -329,6 +336,7 @@ public class KillAura extends Module {
     public void onDisable() {
         finalEntity = null;
         entities.clear();
+        mc.getNetHandler().addToSendQueue(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.RELEASE_USE_ITEM, BlockPos.ORIGIN, EnumFacing.DOWN));
     }
 
 }
