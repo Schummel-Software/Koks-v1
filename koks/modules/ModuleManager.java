@@ -29,7 +29,7 @@ public class ModuleManager {
 
         // Movement
         addModule(new BoatFly());
-        addModule(new InvMove());
+        addModule(new InventoryMove());
         addModule(new Jesus());
         addModule(new NoCobweb());
         addModule(new Speed());
