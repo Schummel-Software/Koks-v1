@@ -47,6 +47,7 @@ public class TrailESP extends Module {
             GL11.glVertex3f(0,0,0);
             GL11.glEnd();
             GL11.glEnable(GL11.GL_TEXTURE_2D);
+            GL11.glColor4f(1,1,1,1);
             GL11.glPopMatrix();
         }
 

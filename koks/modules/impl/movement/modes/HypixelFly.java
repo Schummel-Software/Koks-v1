@@ -126,6 +126,9 @@ public class HypixelFly {
         final double z = mc.thePlayer.posZ;
         final NetHandlerPlayClient netHandler = mc.getNetHandler();
 
+        netHandler.addToSendQueue(new C03PacketPlayer(false));
+        mc.thePlayer.onGround = false;
+
         PlayerCapabilities playerCapabilities = new PlayerCapabilities();
         playerCapabilities.isCreativeMode = true;
         playerCapabilities.allowFlying = true;
@@ -139,6 +142,8 @@ public class HypixelFly {
         }
         netHandler.addToSendQueue(new C03PacketPlayer(true));
 
+        netHandler.addToSendQueue(new C03PacketPlayer(false));
+        mc.thePlayer.onGround = false;
 
         zoom = true;
     }
@@ -148,15 +153,18 @@ public class HypixelFly {
         mc.thePlayer.motionZ = 0F;
 
         final NetHandlerPlayClient netHandler = mc.getNetHandler();
-        PlayerCapabilities playerCapabilities = new PlayerCapabilities();
-        playerCapabilities.isCreativeMode = true;
-        netHandler.addToSendQueue(new C13PacketPlayerAbilities(playerCapabilities));
+
+
+        netHandler.addToSendQueue(new C03PacketPlayer(false));
+        mc.thePlayer.onGround = false;
 
         mc.thePlayer.setPosition(mc.thePlayer.posX, mc.thePlayer.posY, mc.thePlayer.posZ);
         blinkPackets.forEach(mc.thePlayer.sendQueue.getNetworkManager()::sendPacket);
         for (int i = 0; i < 10; i++) {
             mc.thePlayer.setPosition(mc.thePlayer.posX, mc.thePlayer.posY + randomUtil.randomDouble(0.000001, 0.00001), mc.thePlayer.posZ);
         }
+        netHandler.addToSendQueue(new C03PacketPlayer(false));
+        mc.thePlayer.onGround = false;
         zoom = false;
         mc.timer.timerSpeed = 1F;
 
