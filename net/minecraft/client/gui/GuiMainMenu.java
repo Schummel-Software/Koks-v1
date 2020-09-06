@@ -508,9 +508,12 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
 
         // TODO FIX SOUND CRASHING
 
+        try {
+            if (!mc.getSoundHandler().isSoundPlaying(Koks.getKoks().koksSound)) {
+                mc.getSoundHandler().playSound(Koks.getKoks().koksSound);
+            }
+        }catch (IllegalArgumentException ignore) {
 
-        if(!mc.getSoundHandler().isSoundPlaying(Koks.getKoks().koksSound)) {
-            mc.getSoundHandler().playSound(Koks.getKoks().koksSound);
         }
 
         GlStateManager.disableAlpha();
