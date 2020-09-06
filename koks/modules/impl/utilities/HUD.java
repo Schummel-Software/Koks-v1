@@ -4,6 +4,7 @@ import koks.Koks;
 import koks.event.Event;
 import koks.event.impl.EventRender2D;
 import koks.event.impl.KeyPressEvent;
+import koks.hud.CrossHair;
 import koks.hud.ModuleList;
 import koks.hud.Watermark;
 import koks.modules.Module;
@@ -26,15 +27,17 @@ public class HUD extends Module {
 
     private BooleanValue<Boolean> shadowArrayList = new BooleanValue<>("Shadow", true, this);
     public BooleanValue<Boolean> marioKART = new BooleanValue<>("Mario Karting", true, this);
+    public BooleanValue<Boolean> customCrossHair = new BooleanValue<>("CrossHair", true, this);
 
     public ModeValue<String> tabGuiSettings = new ModeValue<>("TabGui Settings", new BooleanValue[]{tabGUI, tabGUI_shadow, tabGUI_client_color, tabGUICenteredString}, this);
     public ModeValue<String> arrayListSettings = new ModeValue<>("Arraylist Settings", new BooleanValue[]{shadowArrayList}, this);
 
     public HUD() {
         super("HUD", Category.UTILITIES);
-        Koks.getKoks().valueManager.addValue(tabGuiSettings);
-        Koks.getKoks().valueManager.addValue(arrayListSettings);
-        Koks.getKoks().valueManager.addValue(marioKART);
+        addValue(tabGuiSettings);
+        addValue(arrayListSettings);
+        addValue(marioKART);
+        addValue(customCrossHair);
         this.setToggled(true);
     }
 
@@ -56,6 +59,8 @@ public class HUD extends Module {
             watermark.drawWatermark();
             if (Koks.getKoks().tabGUI != null && tabGUI.isToggled())
                 Koks.getKoks().tabGUI.drawScreen(2, 20, this.tabGUI_shadow.isToggled(), tabGUI_client_color.isToggled(), tabGUICenteredString.isToggled());
+            if (customCrossHair.isToggled())
+                new CrossHair().drawCrosshair();
         }
         if (event instanceof KeyPressEvent) {
             if (Koks.getKoks().tabGUI != null && tabGUI.isToggled())

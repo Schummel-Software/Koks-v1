@@ -10,6 +10,8 @@ import java.util.Random;
 
 import koks.Koks;
 import koks.event.impl.EventRender2D;
+import koks.hud.CrossHair;
+import koks.modules.impl.utilities.HUD;
 import koks.utilities.DeltaTime;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
@@ -116,6 +118,10 @@ public class GuiIngame extends Gui {
     private long healthUpdateCounter = 0L;
     private static final String __OBFID = "CL_00000661";
 
+    public HUD hud = new HUD();
+    public CrossHair crossHair = new CrossHair();
+    public static boolean showCrosshair;
+
     public GuiIngame(Minecraft mcIn) {
         this.mc = mcIn;
         this.itemRenderer = mcIn.getRenderItem();
@@ -175,9 +181,15 @@ public class GuiIngame extends Gui {
         GlStateManager.enableBlend();
 
         if (this.showCrosshair() && this.mc.gameSettings.thirdPersonView < 1) {
-            GlStateManager.tryBlendFuncSeparate(775, 769, 1, 0);
-            GlStateManager.enableAlpha();
-            this.drawTexturedModalRect(i / 2 - 7, j / 2 - 7, 0, 0, 16, 16);
+            showCrosshair = true;
+            if (!hud.customCrossHair.isToggled()) {
+                GlStateManager.tryBlendFuncSeparate(775, 769, 1, 0);
+                GlStateManager.enableAlpha();
+                GlStateManager.color(1, 1, 1, 1);
+                this.drawTexturedModalRect(i / 2 - 7, j / 2 - 7, 0, 0, 16, 16);
+            }
+        } else {
+            showCrosshair = false;
         }
 
         GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);

@@ -11,6 +11,7 @@ import net.minecraft.client.gui.inventory.GuiInventory;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.item.*;
+import net.minecraft.util.ChatComponentText;
 
 /**
  * @author avox | lmao | kroko
@@ -106,19 +107,19 @@ public class InventoryManager extends Module {
         } else if (is instanceof ItemPickaxe || is instanceof ItemAxe) {
             switch (((ItemTool) is).getToolMaterialName()) {
                 case "WOOD":
-                    damage = is instanceof ItemPickaxe ? 2 : 3;
+                    damage = (is instanceof ItemPickaxe ? 2 : 3) - 4;
                     break;
                 case "GOLD":
-                    damage = is instanceof ItemPickaxe ? 2 : 3;
+                    damage = (is instanceof ItemPickaxe ? 2 : 3) - 4;
                     break;
                 case "STONE":
-                    damage = is instanceof ItemPickaxe ? 3 : 4;
+                    damage = (is instanceof ItemPickaxe ? 3 : 4) - 4;
                     break;
                 case "IRON":
-                    damage = is instanceof ItemPickaxe ? 4 : 5;
+                    damage = (is instanceof ItemPickaxe ? 4 : 5) - 4;
                     break;
                 case "EMERALD":
-                    damage = is instanceof ItemPickaxe ? 5 : 6;
+                    damage = (is instanceof ItemPickaxe ? 5 : 6) - 4;
                     break;
             }
             damage += EnchantmentHelper.getEnchantmentLevel(Enchantment.sharpness.effectId, itemStack) * 1.25F;
