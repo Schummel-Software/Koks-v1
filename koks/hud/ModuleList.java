@@ -41,7 +41,7 @@ public class ModuleList {
                     GlStateManager.enableBlend();
                     GL11.glEnable(GL11.GL_BLEND);
                     GL11.glColor4f(1, 1, 1, 1);
-                    renderUtils.drawImage(new ResourceLocation("client/shadows/arraylistshadow.png"), sr.getScaledWidth() - fr.getStringWidth(finalText) - 4, y[0], fr.getStringWidth(finalText), 15, false);
+                    renderUtils.drawImage(new ResourceLocation("client/shadows/arraylistshadow.png"), sr.getScaledWidth() - fr.getStringWidth(finalText) - 4, y[0] - 5, fr.getStringWidth(finalText), 30, false);
                     GL11.glDisable(GL11.GL_BLEND);
                     GlStateManager.enableAlpha();
                     GlStateManager.disableBlend();

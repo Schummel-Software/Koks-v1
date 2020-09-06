@@ -42,7 +42,7 @@ public class Speed extends Module {
                     }
                     break;
                 case "Mineplex":
-                    if (mc.thePlayer.moveForward != 0 && !mc.gameSettings.keyBindJump.isKeyDown()) {
+                    if (mc.thePlayer.moveForward != 0 || mc.thePlayer.moveStrafing != 0 && !mc.gameSettings.keyBindJump.isKeyDown()) {
                         if (mc.thePlayer.onGround) {
                             mc.thePlayer.motionY = 0.42;
                         } else {
