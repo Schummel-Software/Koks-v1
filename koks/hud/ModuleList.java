@@ -28,7 +28,7 @@ public class ModuleList {
 
     public void drawList(boolean shadow) {
         ScaledResolution sr = new ScaledResolution(mc);
-        int[] y = {Koks.getKoks().moduleManager.getModule(HUD.class).marioKART.isToggled() ? 9 : 0};
+        int[] y = {0};
 
         Koks.getKoks().moduleManager.getModules().stream().filter(Module::isToggled).sorted(Comparator.comparingDouble(module -> -Minecraft.getMinecraft().fontRendererObj.getStringWidth(Koks.getKoks().moduleManager.getModule(ClearTag.class).isToggled() ? module.getModuleName() : module.getDisplayName()))).forEach(module -> {
             if (module.isVisible()) {
