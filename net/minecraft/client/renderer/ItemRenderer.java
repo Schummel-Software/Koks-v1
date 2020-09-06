@@ -2,6 +2,7 @@ package net.minecraft.client.renderer;
 
 import koks.Koks;
 import koks.modules.impl.combat.KillAura;
+import koks.modules.impl.visuals.HitAnimation;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -378,7 +379,8 @@ public class ItemRenderer
                     this.transformFirstPersonItem(f - 0.1F, f1);
                     this.func_178103_d();
                 } else {
-                    this.func_178105_d(f1);
+                    if (!Koks.getKoks().moduleManager.getModule(HitAnimation.class).isToggled())
+                        this.func_178105_d(f1);
                     this.transformFirstPersonItem(f, f1);
                 }
             }

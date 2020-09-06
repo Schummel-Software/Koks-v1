@@ -10,10 +10,7 @@ import koks.utilities.value.values.NumberValue;
 import net.minecraft.client.gui.inventory.GuiInventory;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemBow;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemSword;
+import net.minecraft.item.*;
 
 /**
  * @author avox | lmao | kroko
@@ -56,7 +53,7 @@ public class InventoryManager extends Module {
                     ItemStack is = mc.thePlayer.inventoryContainer.getSlot(i).getStack();
 
                     if (throwTimer.hasReached(randomUtil.randomLong(throwDelay.getMinDefaultValue(), throwDelay.getDefaultValue()))) {
-                        if (is.getItem() instanceof ItemSword && is == bestSword() && mc.thePlayer.inventoryContainer.getInventory().contains(bestSword()) && mc.thePlayer.inventoryContainer.getSlot(36).getStack() != is) {
+                        if ((is.getItem() instanceof ItemSword || is.getItem() instanceof ItemAxe || is.getItem() instanceof ItemPickaxe) && is == bestWeapon() && mc.thePlayer.inventoryContainer.getInventory().contains(bestWeapon()) && mc.thePlayer.inventoryContainer.getSlot(36).getStack() != is) {
                             mc.playerController.windowClick(mc.thePlayer.inventoryContainer.windowId, i, 0, 2, mc.thePlayer);
                         } else if (is.getItem() instanceof ItemBow && is == bestBow() && mc.thePlayer.inventoryContainer.getInventory().contains(bestBow()) && mc.thePlayer.inventoryContainer.getSlot(37).getStack() != is) {
                             mc.playerController.windowClick(mc.thePlayer.inventoryContainer.windowId, i, 1, 2, mc.thePlayer);
@@ -72,13 +69,66 @@ public class InventoryManager extends Module {
     }
 
     public boolean isBadStack(ItemStack is) {
-        if (is.getItem() instanceof ItemSword && is != bestSword())
+        if ((is.getItem() instanceof ItemSword || is.getItem() instanceof ItemAxe || is.getItem() instanceof ItemPickaxe) && is != bestWeapon())
             return true;
         if (is.getItem() instanceof ItemBow && is != bestBow())
             return true;
         if (is.getUnlocalizedName().equals("mushroom") || is.getUnlocalizedName().equals("furnace") || is.getUnlocalizedName().equals("feather"))
             return true;
         return false;
+    }
+
+    public ItemStack bestWeapon() {
+        ItemStack bestWeapon = null;
+        float itemDamage = -1;
+
+        for (int i = 9; i < 45; i++) {
+            if (mc.thePlayer.inventoryContainer.getSlot(i).getHasStack()) {
+                ItemStack is = mc.thePlayer.inventoryContainer.getSlot(i).getStack();
+                if (is.getItem() instanceof ItemSword || is.getItem() instanceof ItemAxe || is.getItem() instanceof ItemPickaxe) {
+                    float toolDamage = getItemDamage(is);
+                    if (toolDamage >= itemDamage) {
+                        itemDamage = getItemDamage(is);
+                        bestWeapon = is;
+                    }
+                }
+            }
+        }
+
+        return bestWeapon;
+    }
+
+    public float getItemDamage(ItemStack itemStack) {
+        Item is = itemStack.getItem();
+        float damage = 0;
+        if (is instanceof ItemSword) {
+            damage = (((ItemSword) is).getDamageVsEntity());
+        } else if (is instanceof ItemPickaxe || is instanceof ItemAxe) {
+            switch (((ItemTool) is).getToolMaterialName()) {
+                case "WOOD":
+                    damage = is instanceof ItemPickaxe ? 2 : 3;
+                    break;
+                case "GOLD":
+                    damage = is instanceof ItemPickaxe ? 2 : 3;
+                    break;
+                case "STONE":
+                    damage = is instanceof ItemPickaxe ? 3 : 4;
+                    break;
+                case "IRON":
+                    damage = is instanceof ItemPickaxe ? 4 : 5;
+                    break;
+                case "EMERALD":
+                    damage = is instanceof ItemPickaxe ? 5 : 6;
+                    break;
+            }
+            damage += EnchantmentHelper.getEnchantmentLevel(Enchantment.sharpness.effectId, itemStack) * 1.25F;
+            damage += EnchantmentHelper.getEnchantmentLevel(Enchantment.fireAspect.effectId, itemStack) * 0.50F;
+            damage += EnchantmentHelper.getEnchantmentLevel(Enchantment.unbreaking.effectId, itemStack) * 0.10F;
+            damage += (itemStack.getMaxDamage() - itemStack.getItemDamage()) * 0.0000001F;
+        } else {
+            damage = 0;
+        }
+        return damage;
     }
 
     public ItemStack bestSword() {
