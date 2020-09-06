@@ -105,7 +105,7 @@ public class ModuleButton {
             yMaxElements = 0F;
         }
         ColorUtil colorUtil = new ColorUtil();
-        renderUtils.drawOutlineRect(x, y, x + width, y + height + yMaxElements, 1, this.module.isBypassed() ? new Color(colorUtil.rainbow(3000, 1F, 0.5F)) : new Color(40, 39, 42, 255));
+        renderUtils.drawOutlineRect(x, y, x + width, y + height + yMaxElements, 1, this.module.isBypassed() ? Koks.getKoks().client_color.darker() : new Color(40, 39, 42, 255));
         Minecraft.getMinecraft().fontRendererObj.drawStringWithShadow(module.getModuleName(), x + 3F, y - 2, this.module.isToggled() ? -1 : Color.gray.getRGB());
     }
 
