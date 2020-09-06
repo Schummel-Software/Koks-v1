@@ -36,7 +36,6 @@ public class Watermark {
 
         if (Koks.getKoks().moduleManager.getModule(HUD.class).isToggled()) {
             String name = Koks.getKoks().CLIENT_NAME;
-            String version = Koks.getKoks().CLIENT_VERSION;
             DateFormat dateFormat = new SimpleDateFormat("HH:mm");
             String time = dateFormat.format(Calendar.getInstance().getTime());
 
