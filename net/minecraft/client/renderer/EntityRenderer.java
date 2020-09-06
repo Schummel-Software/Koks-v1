@@ -12,11 +12,9 @@ import java.util.Random;
 import java.util.concurrent.Callable;
 
 import koks.Koks;
+import koks.event.Event;
 import koks.event.EventManager;
-import koks.event.impl.EventBobbing;
-import koks.event.impl.EventRender3D;
-import koks.event.impl.FOVEvent;
-import koks.event.impl.HurtCameraEvent;
+import koks.event.impl.*;
 import koks.modules.impl.movement.modes.HypixelFly;
 import koks.modules.impl.visuals.NoBob;
 import koks.modules.impl.visuals.NoFov;
@@ -469,6 +467,7 @@ public class EntityRenderer implements IResourceManagerReloadListener
         {
             this.mc.mcProfiler.startSection("pick");
             this.mc.pointedEntity = null;
+
             double d0 = (double)this.mc.playerController.getBlockReachDistance();
             this.mc.objectMouseOver = entity.rayTrace(d0, partialTicks);
             double d1 = d0;
@@ -490,6 +489,13 @@ public class EntityRenderer implements IResourceManagerReloadListener
 
                 d0 = d0;
             }
+
+            MouseOverEvent mouseOverEvent = new MouseOverEvent(d0,flag);
+            Koks.getKoks().eventManager.onEvent(mouseOverEvent);
+            d0 = mouseOverEvent.getReach();
+            d1 = mouseOverEvent.getReach();
+            flag = mouseOverEvent.isFlag();
+
 
             if (this.mc.objectMouseOver != null)
             {

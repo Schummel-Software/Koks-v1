@@ -23,6 +23,7 @@ public class ModuleManager {
     public ModuleManager() {
         // Combat
         addModule(new KillAura());
+        addModule(new SuperHit());
         addModule(new Velocity());
 
         // Movement
