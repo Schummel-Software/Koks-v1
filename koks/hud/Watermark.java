@@ -3,6 +3,7 @@ package koks.hud;
 import koks.Koks;
 import koks.modules.impl.utilities.HUD;
 import koks.utilities.ColorUtil;
+import koks.utilities.DeltaTime;
 import koks.utilities.RenderUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -30,17 +31,41 @@ public class Watermark {
     private final FontRenderer fr = Minecraft.getMinecraft().fontRendererObj;
 
     private ColorUtil colorUtil;
+    private float animationX;
+    private boolean reverse;
 
     public void drawWatermark() {
         ScaledResolution sr = new ScaledResolution(mc);
 
         if (Koks.getKoks().moduleManager.getModule(HUD.class).isToggled()) {
-            String name = Koks.getKoks().CLIENT_NAME;
-            DateFormat dateFormat = new SimpleDateFormat("HH:mm");
-            String time = dateFormat.format(Calendar.getInstance().getTime());
 
-            String render = name + " §7(" + time + ")";
-            fr.drawStringWithShadow(render, 82 / 2 - fr.getStringWidth(render) / 2, 8, Koks.getKoks().client_color.getRGB());
+            if (Koks.getKoks().moduleManager.getModule(HUD.class).marioKART.isToggled()) {
+
+                if (!reverse && animationX < sr.getScaledWidth()) {
+                    animationX += 0.2 * DeltaTime.getDeltaTime();
+                    if (animationX > sr.getScaledWidth() - 1)
+                        reverse = true;
+                }
+
+                if (reverse && animationX > 0) {
+                    animationX -= 0.2 * DeltaTime.getDeltaTime();
+                    if (animationX < 1)
+                        reverse = false;
+                }
+                String name = Koks.getKoks().CLIENT_NAME;
+                DateFormat dateFormat = new SimpleDateFormat("HH:mm");
+                String time = dateFormat.format(Calendar.getInstance().getTime());
+
+                String render = name + " §7(" + time + ")";
+                fr.drawStringWithShadow(render, animationX, reverse ? sr.getScaledHeight() - 30 : 1, Koks.getKoks().client_color.getRGB());
+            } else {
+                String name = Koks.getKoks().CLIENT_NAME;
+                DateFormat dateFormat = new SimpleDateFormat("HH:mm");
+                String time = dateFormat.format(Calendar.getInstance().getTime());
+
+                String render = name + " §7(" + time + ")";
+                fr.drawStringWithShadow(render, 82 / 2 - fr.getStringWidth(render) / 2, 8, Koks.getKoks().client_color.getRGB());
+            }
         }
     }
 

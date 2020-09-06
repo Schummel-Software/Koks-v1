@@ -72,4 +72,23 @@ public class RenderUtils {
         GL11.glPopMatrix();
     }
 
+    public void drawShadow(float x, float y, double pictureWidth, double pictureHeight, boolean grayedOut) {
+        GL11.glPushMatrix();
+        GlStateManager.disableAlpha();
+        GlStateManager.enableBlend();
+        GL11.glEnable(GL11.GL_BLEND);
+        GL11.glColor4f(1, 1, 1, 1);
+        if(grayedOut)
+            GL11.glColor4f(0.5F,0.5F,0.5F,1);
+        else
+            GL11.glColor4f(1F,1F,1F,1);
+        Minecraft.getMinecraft().getTextureManager().bindTexture(new ResourceLocation("client/shadows/shadow.png"));
+        Gui.drawModalRectWithCustomSizedTexture(x, y, 0, 0, pictureWidth, pictureHeight, pictureWidth, pictureHeight);
+        GlStateManager.color(1,1,1,1);
+        GL11.glDisable(GL11.GL_BLEND);
+        GlStateManager.enableAlpha();
+        GlStateManager.disableBlend();
+        GL11.glPopMatrix();
+    }
+
 }

@@ -10,6 +10,7 @@ import java.util.Random;
 
 import koks.Koks;
 import koks.event.impl.EventRender2D;
+import koks.utilities.DeltaTime;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
@@ -167,6 +168,7 @@ public class GuiIngame extends Gui {
         }
 
         Koks.getKoks().eventManager.onEvent(new EventRender2D());
+        DeltaTime.setDeltaTime();
 
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         this.mc.getTextureManager().bindTexture(icons);
