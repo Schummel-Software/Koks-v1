@@ -48,7 +48,7 @@ public class FontRenderer implements IResourceManagerReloadListener
      * Array of RGB triplets defining the 16 standard chat colors followed by 16 darker version of the same colors for
      * drop shadows.
      */
-    private int[] colorCode = new int[32];
+    protected int[] colorCode = new int[32];
     private ResourceLocation locationFontTexture;
 
     /** The RenderEngine used to load and setup glyph textures. */
@@ -431,7 +431,7 @@ public class FontRenderer implements IResourceManagerReloadListener
     /**
      * Render a single line string at the current (posX,posY) and update posX
      */
-    private void renderStringAtPos(String p_78255_1_, boolean p_78255_2_)
+    protected void renderStringAtPos(String p_78255_1_, boolean p_78255_2_)
     {
         for (int i = 0; i < p_78255_1_.length(); ++i)
         {

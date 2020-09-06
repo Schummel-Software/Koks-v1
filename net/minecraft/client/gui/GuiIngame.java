@@ -181,15 +181,13 @@ public class GuiIngame extends Gui {
         GlStateManager.enableBlend();
 
         if (this.showCrosshair() && this.mc.gameSettings.thirdPersonView < 1) {
-            showCrosshair = true;
-            if (!hud.customCrossHair.isToggled()) {
+            if ( Koks.getKoks().moduleManager.getModule(HUD.class).customCrossHair.isToggled()) {
+
+            } else {
                 GlStateManager.tryBlendFuncSeparate(775, 769, 1, 0);
                 GlStateManager.enableAlpha();
-                GlStateManager.color(1, 1, 1, 1);
                 this.drawTexturedModalRect(i / 2 - 7, j / 2 - 7, 0, 0, 16, 16);
             }
-        } else {
-            showCrosshair = false;
         }
 
         GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
