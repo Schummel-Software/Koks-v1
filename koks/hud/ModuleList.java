@@ -24,7 +24,7 @@ import java.util.Comparator;
 public class ModuleList {
 
     private final Minecraft mc = Minecraft.getMinecraft();
-    private final CustomFont fr = new CustomFont("fonts/Helvetica45Light_0.ttf",20);
+    private final CustomFont fr = new CustomFont("fonts/Helvetica45Light_0.ttf",18);
     private final RenderUtils renderUtils = new RenderUtils();
 
     public void drawList(boolean shadow) {
