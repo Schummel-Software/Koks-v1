@@ -17,8 +17,8 @@ public class WaterMark extends Component {
 
     public ValueHUD white = new ValueHUD("White", false, this);
 
-    public ValueHUD first_letter_size = new ValueHUD("First L Size", 1, 1, 4,false, this);
-    public ValueHUD other_letter_size = new ValueHUD("Other L Size", 1, 1, 4,false, this);
+    public ValueHUD first_letter_size = new ValueHUD("First L Size", 1, 1, 4, false, this);
+    public ValueHUD other_letter_size = new ValueHUD("Other L Size", 1, 1, 4, false, this);
 
     public WaterMark() {
         super(0, 0, 0, 0);
@@ -57,8 +57,6 @@ public class WaterMark extends Component {
 
         setHeight((getMcFontRenderer().FONT_HEIGHT / 1.25F * Math.max(first_letter_size.getCurrent(), other_letter_size.getCurrent())));
         setWidth((getMcFontRenderer().getStringWidth(name.substring(0, 1)) * first_letter_size.getCurrent() + getMcFontRenderer().getStringWidth(name.substring(1)) * other_letter_size.getCurrent()));
-setX(0);
-setY(0);
     }
 
 
