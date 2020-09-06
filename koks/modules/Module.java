@@ -17,15 +17,15 @@ public abstract class Module {
 
     public Minecraft mc = Minecraft.getMinecraft();
 
-    private String moduleName;
+    private String moduleName,displayName;
     private Category moduleCategory;
-    private String moduleInfo = "";
     private boolean visible = true, enabled, bypassed;
     private int keyBind;
 
     public Module(String moduleName, Category moduleCategory) {
         this.moduleName = moduleName;
         this.moduleCategory = moduleCategory;
+        this.displayName = moduleName;
     }
 
     public enum Category {
@@ -89,12 +89,16 @@ public abstract class Module {
         this.moduleCategory = moduleCategory;
     }
 
-    public String getModuleInfo() {
-        return moduleInfo;
+    public String getDisplayName() {
+        return displayName;
     }
 
-    public void setModuleInfo(String moduleInfo) {
-        this.moduleInfo = moduleInfo;
+    public void setDisplayName(String displayName) {
+        this.displayName = getModuleName() + " §7" + displayName;
+    }
+
+    public void setDisplayName(String moduleName, String displayName) {
+        this.displayName = moduleName + " §7" + displayName;
     }
 
     public boolean isVisible() {
@@ -115,9 +119,5 @@ public abstract class Module {
 
     public void setKeyBind(int keyBind) {
         this.keyBind = keyBind;
-    }
-
-    public String getNameForArrayList() {
-        return moduleName + (moduleInfo.equals("") ? "" : " §7" + moduleInfo);
     }
 }
