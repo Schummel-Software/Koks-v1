@@ -36,7 +36,7 @@ public class Fly extends Module {
     private final HypixelFly hypixelFly;
     private final TimeUtil timeUtil = new TimeUtil();
     private final MovementUtil movementUtil = new MovementUtil();
-    public final ModeValue<String> modeValue = new ModeValue<>("Mode", "Hypixel", new String[]{"Hypixel", "AAC3.2.2", "Faithful"}, this);
+    public final ModeValue<String> modeValue = new ModeValue<>("Mode", "Hypixel", new String[]{"Hypixel", "AAC3.2.2", "Faithful","MCCentral"}, this);
     public final NumberValue<Integer> aac322boost = new NumberValue<Integer>("AAC3.2.2-Boost", 9, 10, 5, this);
 
     public Fly() {
@@ -62,6 +62,9 @@ public class Fly extends Module {
                     break;
                 case "Faithful":
                     faithful();
+                    break;
+                case "MCCentral":
+                    mccentral();
                     break;
             }
         }
@@ -106,6 +109,20 @@ public class Fly extends Module {
         }
     }
 
+    public void mccentral() {
+        System.out.println(mc.thePlayer.fallDistance);
+            mc.thePlayer.motionY = 0;
+            mc.thePlayer.onGround = true;
+            MovementUtil movementUtil = new MovementUtil();
+            if(mc.gameSettings.keyBindBack.pressed || mc.gameSettings.keyBindForward.pressed) {
+                movementUtil.setSpeed(1.5F);
+            }
+            if(mc.gameSettings.keyBindSneak.pressed) {
+                mc.thePlayer.motionY -= 0.1;
+
+        }
+    }
+
     public void aac322() {
         if (mc.thePlayer.posY <= -70) {
             mc.thePlayer.motionY = aac322boost.getDefaultValue();
@@ -132,6 +149,9 @@ public class Fly extends Module {
     @Override
     public void onDisable() {
         switch (modeValue.getSelectedMode()) {
+            case "MCCentral":
+                mc.thePlayer.motionX = 0;
+                mc.thePlayer.motionZ = 0;
             case "Hypixel":
                 hypixelFly.onDisable();
                 break;
