@@ -32,7 +32,7 @@ public class TrailESP extends Module {
     public void onEvent(Event event) {
 
 
-        if(event instanceof EventRender3D) {
+        if(event instanceof EventRender3D)  {
             GL11.glPushMatrix();
             GL11.glColor4f(Koks.getKoks().client_color.getRed() / 255F, Koks.getKoks().client_color.getGreen() / 255F,Koks.getKoks().client_color.getBlue() / 255F, Koks.getKoks().client_color.getAlpha() / 255F);
             GL11.glDisable(GL11.GL_TEXTURE_2D);
