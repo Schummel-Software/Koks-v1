@@ -30,7 +30,7 @@ public class ModuleList {
         ScaledResolution sr = new ScaledResolution(mc);
         int[] y = {0};
 
-        Koks.getKoks().moduleManager.getModules().stream().filter(Module::isToggled).sorted(Comparator.comparingDouble(module -> -Minecraft.getMinecraft().fontRendererObj.getStringWidth(Koks.getKoks().moduleManager.getModule(ClearTag.class).isToggled() ? module.getDisplayName() : module.getNameForArrayList()))).forEach(module -> {
+        Koks.getKoks().moduleManager.getModules().stream().filter(Module::isToggled).sorted(Comparator.comparingDouble(module -> -Minecraft.getMinecraft().fontRendererObj.getStringWidth(Koks.getKoks().moduleManager.getModule(ClearTag.class).isToggled() ? module.getModuleName() : module.getNameForArrayList()))).forEach(module -> {
             if (module.isVisible()) {
                 if (Koks.getKoks().moduleManager.getModule(ClearTag.class).isToggled()) {
 
@@ -46,9 +46,9 @@ public class ModuleList {
                         GlStateManager.disableBlend();
                         GL11.glPopMatrix();
                     }else{
-                        Gui.drawRect(sr.getScaledWidth() - fr.getStringWidth(module.getDisplayName()) - 4, y[0], sr.getScaledWidth(), y[0] + fr.FONT_HEIGHT + 1, Integer.MIN_VALUE);
+                        Gui.drawRect(sr.getScaledWidth() - fr.getStringWidth(module.getModuleName()) - 4, y[0], sr.getScaledWidth(), y[0] + fr.FONT_HEIGHT + 1, Integer.MIN_VALUE);
                     }
-                    fr.drawStringWithShadow(module.getDisplayName(), sr.getScaledWidth() - fr.getStringWidth(module.getDisplayName()) - 2, y[0] + 1, Koks.getKoks().client_color.getRGB());
+                    fr.drawStringWithShadow(module.getModuleName(), sr.getScaledWidth() - fr.getStringWidth(module.getModuleName()) - 2, y[0] + 1, Koks.getKoks().client_color.getRGB());
                 } else {
 
                     if(shadow) {

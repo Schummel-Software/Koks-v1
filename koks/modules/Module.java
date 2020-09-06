@@ -130,4 +130,5 @@ public abstract class Module {
     public String getNameForArrayList() {
         return displayName + (moduleInfo.equals("") ? "" : " §7" + moduleInfo);
     }
+
 }
