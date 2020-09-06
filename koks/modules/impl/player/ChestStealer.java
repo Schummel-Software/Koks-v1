@@ -31,7 +31,7 @@ public class ChestStealer extends Module {
     @Override
     public void onEvent(Event event) {
         if (event instanceof EventUpdate) {
-            setDisplayName(takeDelay.getMinDefaultValue() + ", " + takeDelay.getDefaultValue());
+            setModuleInfo(takeDelay.getMinDefaultValue() + ", " + takeDelay.getDefaultValue());
             if (mc.currentScreen instanceof GuiChest) {
                 if (!startTimer.hasReached(startDelay.getDefaultValue()))
                     return;

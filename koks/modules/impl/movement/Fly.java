@@ -36,7 +36,7 @@ public class Fly extends Module {
         }
 
         if(event instanceof EventUpdate) {
-            setDisplayName(modeValue.getSelectedMode());
+            setModuleInfo(modeValue.getSelectedMode());
             switch (modeValue.getSelectedMode()) {
                 case "AAC3.2.2":
                     aac322();
