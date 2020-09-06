@@ -4,6 +4,7 @@ package koks.gui.clickgui.commonvalue;
 import koks.Koks;
 import koks.event.Event;
 import koks.event.impl.EventUpdate;
+import koks.gui.clickgui.ClickGUI;
 import koks.gui.clickgui.commonvalue.elements.Element;
 import koks.gui.clickgui.commonvalue.elements.ElementCheckBox;
 import koks.gui.clickgui.commonvalue.elements.ElementColorPicker;

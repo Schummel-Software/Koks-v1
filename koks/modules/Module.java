@@ -104,7 +104,6 @@ public abstract class Module {
 
     public void setVisible(boolean visible) {
         this.visible = visible;
-        Koks.getKoks().shutdownClient();
     }
 
     public boolean isToggled() {

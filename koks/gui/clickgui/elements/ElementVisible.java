@@ -34,6 +34,7 @@ public class ElementVisible extends Element {
     public void mouseClicked(int mouseX, int mouseY, int mouseButton) {
         if (isHovering(mouseX, mouseY) && mouseButton == 0) {
             this.getModule().setVisible(!this.getModule().isVisible());
+            Koks.getKoks().shutdownClient();
         }
     }
 
