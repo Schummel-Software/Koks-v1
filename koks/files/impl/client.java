@@ -29,8 +29,8 @@ public class client extends Files {
             mouseX = value.getX();
             mouseY = value.getY();
         }
-            fileWriter.write("clientcolor:" + Koks.getKoks().client_color.getRed() + ":" + Koks.getKoks().client_color.getGreen() + ":" + Koks.getKoks().client_color.getBlue() + ":" + hue + ":" + mouseX + ":" + mouseY + "\n");
-       
+        fileWriter.write("clientcolor:" + Koks.getKoks().client_color.getRed() + ":" + Koks.getKoks().client_color.getGreen() + ":" + Koks.getKoks().client_color.getBlue() + ":" + hue + ":" + mouseX + ":" + mouseY + "\n");
+
         fileWriter.close();
     }
 

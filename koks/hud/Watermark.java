@@ -8,6 +8,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
 import java.awt.*;
@@ -25,7 +27,8 @@ public class Watermark {
 
     public void drawWatermark() {
         ScaledResolution sr = new ScaledResolution(mc);
-        if(Koks.getKoks().moduleManager.getModule(HUD.class).isToggled()) {
+
+        if (Koks.getKoks().moduleManager.getModule(HUD.class).isToggled()) {
             String name = Koks.getKoks().CLIENT_NAME;
             String version = Koks.getKoks().CLIENT_VERSION;
             RenderUtils renderUtils = new RenderUtils();

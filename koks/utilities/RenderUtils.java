@@ -60,7 +60,7 @@ public class RenderUtils {
         GL11.glScissor((int) (x * factor), (int) ((scaledResolution.getScaledHeight() - y2) * factor), (int) ((x2 - x) * factor), (int) ((y2 - y) * factor));
     }
 
-    public void drawImage(ResourceLocation resourceLocation, float x, float y, int pictureWidth, int pictureHeight, boolean grayedOut) {
+    public void drawImage(ResourceLocation resourceLocation, float x, float y, double pictureWidth, double pictureHeight, boolean grayedOut) {
         GL11.glPushMatrix();
         if(grayedOut)
         GL11.glColor4f(0.5F,0.5F,0.5F,1);

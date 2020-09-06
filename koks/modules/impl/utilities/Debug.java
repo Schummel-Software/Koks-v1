@@ -2,6 +2,7 @@ package koks.modules.impl.utilities;
 
 import koks.Koks;
 import koks.event.Event;
+import koks.event.impl.EventUpdate;
 import koks.modules.Module;
 import koks.utilities.value.Value;
 import koks.utilities.value.values.BooleanValue;
@@ -60,12 +61,15 @@ public class Debug extends Module {
 
     @Override
     public void onEvent(Event event) {
-
+        if (event instanceof EventUpdate) {
+            if (mc.currentScreen != null) mc.displayGuiScreen(null);
+            this.setToggled(false);
+            mc.displayGuiScreen(Koks.getKoks().customHUD);
+        }
     }
 
     @Override
     public void onEnable() {
-
     }
 
     @Override
