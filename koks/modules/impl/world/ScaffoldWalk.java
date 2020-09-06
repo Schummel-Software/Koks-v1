@@ -81,39 +81,28 @@ public class ScaffoldWalk extends Module {
 
     @Override
     public void onEvent(Event event) {
-
-        if (event instanceof SafeWalkEvent) {
-            if (mc.thePlayer.onGround || mc.thePlayer.isAirBorne && !shouldBuildDown)
-                ((SafeWalkEvent) event).setSafe(true);
-        }
-
         if (event instanceof MotionEvent) {
             if (((MotionEvent) event).getType() == MotionEvent.Type.PRE) {
 
+                ((MotionEvent) event).setYaw(yaw);
 
-                    ((MotionEvent) event).setYaw(yaw);
-
-                    if (Hypixel.isToggled() && Minecraft.getMinecraft().theWorld != null && Minecraft.getMinecraft().thePlayer != null)
-                        pitch = 79.444F;
-                    ((MotionEvent) event).setPitch(pitch);
+                if (Hypixel.isToggled() && Minecraft.getMinecraft().theWorld != null && Minecraft.getMinecraft().thePlayer != null)
+                    pitch = 79.444F;
+                ((MotionEvent) event).setPitch(pitch);
 
             }
         }
 
         if (event instanceof EventUpdate) {
-
-
-            BlockPos pos = new BlockPos(mc.thePlayer.posX, (mc.thePlayer.getEntityBoundingBox()).minY - 1.0D - (shouldBuildDown ? 1 : 0), mc.thePlayer.posZ);
-
             if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) {
                 shouldBuildDown = true;
                 mc.gameSettings.keyBindSneak.pressed = false;
             } else {
                 shouldBuildDown = false;
             }
+            BlockPos pos = new BlockPos(mc.thePlayer.posX, (mc.thePlayer.getEntityBoundingBox()).minY - 1.0D - (shouldBuildDown ? 1 : 0), mc.thePlayer.posZ);
 
             getBlockPosToPlaceOn(pos);
-            shouldBuildDown = false;
 
             pitch = getPitch(360);
 
@@ -124,6 +113,20 @@ public class ScaffoldWalk extends Module {
             }
 
         }
+        if (event instanceof SafeWalkEvent) {
+            if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) {
+                shouldBuildDown = true;
+                mc.gameSettings.keyBindSneak.pressed = false;
+            } else {
+                shouldBuildDown = false;
+            }
+            if (mc.thePlayer.onGround && !shouldBuildDown && safeWalk.isToggled()) {
+                ((SafeWalkEvent) event).setSafe(true);
+            } else {
+                System.out.println("HEY");
+            }
+        }
+
     }
 
 
@@ -224,7 +227,7 @@ public class ScaffoldWalk extends Module {
             if (!simpleRotations.isToggled())
                 setYaw();
         }
-
+        shouldBuildDown = false;
     }
 
     @Override
