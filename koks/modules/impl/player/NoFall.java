@@ -22,6 +22,7 @@ public class NoFall extends Module {
     @Override
     public void onEvent(Event event) {
         if (event instanceof EventUpdate) {
+            setModuleInfo(mode.getSelectedMode());
             switch (mode.getSelectedMode()) {
                 case "Spoof Ground":
                 if (mc.thePlayer.fallDistance > 2) {

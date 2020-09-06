@@ -33,7 +33,7 @@ public class ItemESP extends Module {
     @Override
     public void onEvent(Event event) {
         if (event instanceof EventRender3D) {
-            setDisplayName(getModuleName() + " §7" + theme.getSelectedMode());
+            setModuleInfo(theme.getSelectedMode());
             for (Entity entity : mc.theWorld.loadedEntityList) {
                 if (entity instanceof EntityItem) {
                     EntityItem e = (EntityItem) entity;

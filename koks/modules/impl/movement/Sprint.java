@@ -40,7 +40,7 @@ public class Sprint extends Module {
         }
 
         if (event instanceof EventUpdate) {
-            setDisplayName(getModuleName() + " §7" + mode.getSelectedMode());
+            setModuleInfo(mode.getSelectedMode());
             switch (mode.getSelectedMode()) {
                 case "Legit":
 
