@@ -2,6 +2,8 @@ package koks.hud.tabgui;
 
 import koks.Koks;
 import koks.modules.Module;
+import koks.utilities.CustomFont;
+import koks.utilities.DeltaTime;
 import koks.utilities.RenderUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
@@ -27,6 +29,9 @@ public class CategoryTab {
     private final RenderUtils renderUtils = new RenderUtils();
 
     private int currentModule = 0, currentCategory = 0;
+    private final CustomFont fr = new CustomFont("fonts/Helvetica45Light_0.ttf", 20);
+
+    private float animationX = 3;
 
     public List<ModuleTab> moduleTabs = new ArrayList<>();
 
@@ -47,7 +52,15 @@ public class CategoryTab {
 
         renderUtils.drawRect(7, x, y, x + width, y + height, currentCategory == category.ordinal() ? clientColor ? Koks.getKoks().client_color : new Color(0, 0, 0, 175) : new Color(0, 0, 0, 125));
 
-        Minecraft.getMinecraft().fontRendererObj.drawStringWithShadow(category.name().substring(0, 1).toUpperCase() + category.name().substring(1).toLowerCase(), centeredString ? x + width / 2 - Minecraft.getMinecraft().fontRendererObj.getStringWidth(category.name().substring(0, 1).toUpperCase() + category.name().substring(1).toLowerCase()) / 2 : x + (categoryCurrent == category.ordinal() ? 9 : 3), y + height / 2 - Minecraft.getMinecraft().fontRendererObj.FONT_HEIGHT / 2, -1);
+        if ((categoryCurrent == category.ordinal())) {
+            if (animationX < 9)
+                animationX += 0.025 * DeltaTime.getDeltaTime();
+        } else {
+            if (animationX > 3)
+                animationX -= 0.025 * DeltaTime.getDeltaTime();
+        }
+        fr.drawStringWithShadow(category.name().substring(0, 1).toUpperCase() + category.name().substring(1).toLowerCase(), centeredString ? x + width / 2 - fr.getStringWidth(category.name().substring(0, 1).toUpperCase() + category.name().substring(1).toLowerCase()) / 2 : x + animationX, y + height / 2 - fr.FONT_HEIGHT / 2, -1);
+
         int[] yHeight = {0};
         int[] yHeight2 = {0};
         if (expanded) {

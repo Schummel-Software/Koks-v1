@@ -17,6 +17,8 @@ public class Speed extends Module {
 
     public ModeValue<String> mode = new ModeValue<>("Mode", "Mineplex", new String[]{"Mineplex", "AAC 3.2.2", "Hypixel"}, this);
     public boolean canSpeed;
+    public MovementUtil movementUtil = new MovementUtil();
+
 
     public Speed() {
         super("Speed", Category.MOVEMENT);
@@ -32,12 +34,10 @@ public class Speed extends Module {
                 case "Hypixel":
                     if (mc.thePlayer.moveForward != 0 && !mc.gameSettings.keyBindJump.isKeyDown()) {
                         if (mc.thePlayer.onGround) {
-                           mc.thePlayer.jump();
-                            MovementUtil movementUtil = new MovementUtil();
+                            mc.thePlayer.jump();
                             movementUtil.setSpeed(0.2875D + 0.2);
                         } else {
-                            MovementUtil movementUtil = new MovementUtil();
-                            movementUtil.setSpeed(0.2975D);
+                            movementUtil.setSpeed(0.3175D);
                         }
                     }
                     break;
@@ -46,7 +46,6 @@ public class Speed extends Module {
                         if (mc.thePlayer.onGround) {
                             mc.thePlayer.motionY = 0.42;
                         } else {
-                            MovementUtil movementUtil = new MovementUtil();
                             if (mc.thePlayer.fallDistance < 0.5) {
                                 movementUtil.setSpeed(0.4743);
                                 mc.thePlayer.jumpMovementFactor = 0.024F;
