@@ -98,7 +98,7 @@ public class CategoryButton {
             }
 
             if (mouseWheel < 0) {
-                if (scrolling < biggerNumber(yScrolling, yScrolling2) - Koks.getKoks().clickGUI.getHeight() + (MODULE_BUTTONS.size() * 25) / 2 - 5 && biggerNumber(yScrolling, yScrolling2) + (MODULE_BUTTONS.size() * 25)  > Koks.getKoks().clickGUI.getHeight())
+                if (scrolling < biggerNumber(yScrolling, yScrolling2) - Koks.getKoks().clickGUI.getHeight() + (MODULE_BUTTONS.size() * 20) / 2 + 20 && biggerNumber(yScrolling, yScrolling2) + (MODULE_BUTTONS.size() * 20) / 2 > Koks.getKoks().clickGUI.getHeight())
                     scrolling += 10;
             }
 

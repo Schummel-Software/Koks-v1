@@ -21,7 +21,7 @@ public class ModuleList {
     private final Minecraft mc = Minecraft.getMinecraft();
     private final FontRenderer fr = Minecraft.getMinecraft().fontRendererObj;
 
-    public void drawList() {
+    public void drawList(boolean shadow) {
         ScaledResolution sr = new ScaledResolution(mc);
         int[] y = {0};
 

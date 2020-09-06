@@ -27,7 +27,6 @@ public class ColorPicker {
         if (!firstLoad) {
             setting.setHue(setting.getHue());
             this.currentHue = setting.getHue();
-
             this.mouseSavedX = setting.getX();
             this.mouseSavedY = setting.getY();
             firstLoad = true;
