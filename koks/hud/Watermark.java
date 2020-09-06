@@ -3,6 +3,7 @@ package koks.hud;
 import koks.Koks;
 import koks.modules.impl.utilities.HUD;
 import koks.utilities.ColorUtil;
+import koks.utilities.DeltaTime;
 import koks.utilities.RenderUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -41,18 +42,22 @@ public class Watermark {
             if (Koks.getKoks().moduleManager.getModule(HUD.class).marioKART.isToggled()) {
 
                 if (!reverse && animationX < sr.getScaledWidth()) {
-                    animationX += 0.5F;
+                    animationX += 0.2 * DeltaTime.getDeltaTime();
                     if (animationX > sr.getScaledWidth() - 1)
                         reverse = true;
                 }
 
                 if (reverse && animationX > 0) {
-                    animationX -= 0.5F;
+                    animationX -= 0.2 * DeltaTime.getDeltaTime();
                     if (animationX < 1)
                         reverse = false;
                 }
+                String name = Koks.getKoks().CLIENT_NAME;
+                DateFormat dateFormat = new SimpleDateFormat("HH:mm");
+                String time = dateFormat.format(Calendar.getInstance().getTime());
 
-                fr.drawStringWithShadow("KOKS", animationX, reverse ? sr.getScaledHeight() - 30 : 1, Koks.getKoks().client_color.getRGB());
+                String render = name + " §7(" + time + ")";
+                fr.drawStringWithShadow(render, animationX, reverse ? sr.getScaledHeight() - 30 : 1, Koks.getKoks().client_color.getRGB());
             } else {
                 String name = Koks.getKoks().CLIENT_NAME;
                 DateFormat dateFormat = new SimpleDateFormat("HH:mm");
