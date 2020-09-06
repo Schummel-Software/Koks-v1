@@ -19,14 +19,14 @@ import java.util.ArrayList;
  */
 public class TrailESP extends Module {
 
-    public NumberValue<Integer> length = new NumberValue<Integer>("Length", 10, 100,5,this);
+    public NumberValue<Integer> length = new NumberValue<Integer>("Length", 10, 1000,5,this);
 
     public TrailESP() {
         super("TrailESP", Category.VISUALS);
         addValue(length);
     }
 
-    public ArrayList<BlockPos> positions = new ArrayList<>();
+    public ArrayList<Double[]> positions = new ArrayList<>();
 
     @Override
     public void onEvent(Event event) {
@@ -38,8 +38,8 @@ public class TrailESP extends Module {
             GL11.glDisable(GL11.GL_TEXTURE_2D);
             GL11.glLineWidth(2F);
             GL11.glBegin(GL11.GL_LINE_STRIP);
-            for(BlockPos blockPos : positions) {
-                GL11.glVertex3d(blockPos.getX() - mc.getRenderManager().renderPosX,blockPos.getY() - mc.getRenderManager().renderPosY,blockPos.getZ() - mc.getRenderManager().renderPosZ);
+            for(Double[] blockPos : positions) {
+                GL11.glVertex3d(blockPos[0] - mc.getRenderManager().renderPosX,blockPos[1] - mc.getRenderManager().renderPosY,blockPos[2] - mc.getRenderManager().renderPosZ);
             }
             GL11.glVertex3f(0,0,0);
             GL11.glEnd();
@@ -59,7 +59,7 @@ public class TrailESP extends Module {
 
         if(event instanceof MotionEvent) {
             if(((MotionEvent) event).getType() == MotionEvent.Type.POST) {
-               positions.add(mc.thePlayer.getPosition());
+               positions.add(new Double[] {mc.thePlayer.posX,mc.thePlayer.posY,mc.thePlayer.posZ});
             }
         }
     }
