@@ -34,6 +34,7 @@ public class ElementToggle extends Element {
     public void mouseClicked(int mouseX, int mouseY, int mouseButton) {
         if (isHovering(mouseX, mouseY) && mouseButton == 0) {
             this.getModule().setToggled(!this.getModule().isToggled());
+            Koks.getKoks().shutdownClient();
         }
     }
 

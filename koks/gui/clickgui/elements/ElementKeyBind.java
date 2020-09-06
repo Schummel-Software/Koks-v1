@@ -1,5 +1,6 @@
 package koks.gui.clickgui.elements;
 
+import koks.Koks;
 import koks.modules.Module;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
@@ -50,6 +51,7 @@ public class ElementKeyBind extends Element {
             if (keyCode == Keyboard.KEY_ESCAPE)
                 keyCode = Keyboard.KEY_NONE;
             this.getModule().setKeyBind(keyCode);
+            Koks.getKoks().shutdownClient();
             this.settingKey = false;
         }
     }

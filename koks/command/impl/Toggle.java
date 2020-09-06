@@ -20,6 +20,7 @@ public class Toggle extends Command {
             Module module = Koks.getKoks().moduleManager.getModule(args[0]);
             if(module != null) {
                 module.toggle();
+                Koks.getKoks().shutdownClient();
                 String color = module.isToggled() ? "§a" : "§c";
                 sendmsg(color + "Toggled " + module.getModuleName(), true);
             }else{

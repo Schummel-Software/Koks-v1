@@ -111,6 +111,7 @@ public class CommonPanel {
         if (event instanceof EventUpdate) {
             if (Koks.getKoks().client_color != color.getColor())
                 Koks.getKoks().client_color = color.getColor();
+                Koks.getKoks().shutdownClient();
         }
     }
 

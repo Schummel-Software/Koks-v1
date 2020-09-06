@@ -31,8 +31,9 @@ public class Bind extends Command {
         for (Module module : Koks.getKoks().moduleManager.getModules()) {
             if (module.getModuleName().equalsIgnoreCase(moduleArg)) {
                 module.setKeyBind(KeytoInt(keyArg));
+
                 try {
-                    Koks.getKoks().fileManager.getFiles(KeyBindFile.class).writeToFile(new FileWriter(Koks.getKoks().fileManager.getFiles(KeyBindFile.class).getFile()));
+                    Koks.getKoks().shutdownClient();
                 } catch (Exception e) {
                     System.out.println("Failed save Keybind!");
                 }

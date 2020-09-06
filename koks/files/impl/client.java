@@ -23,10 +23,13 @@ public class client extends Files {
     @Override
     public void writeToFile(FileWriter fileWriter) throws Exception {
         int hue = 0;
+        float mouseX = 0,mouseY = 0;
         for(CommonValue value : Koks.getKoks().commonValueManager.COMMON_SETTINGS) {
             hue = value.getHue();
+            mouseX = value.getX();
+            mouseY = value.getY();
         }
-            fileWriter.write("clientcolor:" + Koks.getKoks().client_color.getRed() + ":" + Koks.getKoks().client_color.getGreen() + ":" + Koks.getKoks().client_color.getBlue() + ":" + hue + "\n");
+            fileWriter.write("clientcolor:" + Koks.getKoks().client_color.getRed() + ":" + Koks.getKoks().client_color.getGreen() + ":" + Koks.getKoks().client_color.getBlue() + ":" + hue + ":" + mouseX + ":" + mouseY + "\n");
        
         fileWriter.close();
     }
@@ -41,6 +44,8 @@ public class client extends Files {
                 for(CommonValue value : Koks.getKoks().commonValueManager.COMMON_SETTINGS){
                     value.setColor(new Color(Integer.parseInt(args[1]),Integer.parseInt(args[2]), Integer.parseInt(args[3])));
                     value.setHue(Integer.parseInt(args[4]));
+                    value.setX(Float.parseFloat(args[5]));
+                    value.setY(Float.parseFloat(args[6]));
                 }
             }
         }

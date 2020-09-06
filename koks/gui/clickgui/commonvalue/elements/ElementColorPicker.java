@@ -1,5 +1,6 @@
 package koks.gui.clickgui.commonvalue.elements;
 
+import koks.Koks;
 import koks.gui.clickgui.commonvalue.CommonValue;
 import koks.utilities.value.ColorPicker;
 
@@ -32,6 +33,7 @@ public class ElementColorPicker extends Element {
     public void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
         if (mouseX > x && mouseX < x + width && mouseY > y && mouseY < y + mc.fontRendererObj.FONT_HEIGHT && mouseButton == 0) {
             this.visibleColorPicker = !this.visibleColorPicker;
+
         }
         super.mouseClicked(mouseX, mouseY, mouseButton);
     }
