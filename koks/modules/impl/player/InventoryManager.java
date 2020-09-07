@@ -10,8 +10,14 @@ import koks.utilities.value.values.NumberValue;
 import net.minecraft.client.gui.inventory.GuiInventory;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.init.Items;
 import net.minecraft.item.*;
 import net.minecraft.util.ChatComponentText;
+
+import java.sql.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * @author avox | lmao | kroko
@@ -19,6 +25,7 @@ import net.minecraft.util.ChatComponentText;
  */
 public class InventoryManager extends Module {
 
+    public List<Item> trashItems;
     public BooleanValue<Boolean> openedInventory = new BooleanValue<>("Opened Inventory", true, this);
     public NumberValue<Long> startDelay = new NumberValue<>("Start Delay", 100L, 500L, 0L, this);
     public NumberValue<Long> throwDelay = new NumberValue<>("Throw Delay", 90L, 125L, 150L, 0L, this);
@@ -36,6 +43,7 @@ public class InventoryManager extends Module {
     public InventoryManager() {
         super("InventoryManager", Category.PLAYER);
 
+        trashItems = Arrays.asList(Items.feather, Items.dye, Items.paper, Items.saddle, Items.string, Items.banner);
         addValue(openedInventory);
         addValue(startDelay);
         addValue(throwDelay);
@@ -86,7 +94,7 @@ public class InventoryManager extends Module {
                         } else if (shovelSlot.getDefaultValue() != 0 && is.getItem() instanceof ItemSpade && is == bestShovel() && is != bestWeapon() && keepTools.isToggled() && mc.thePlayer.inventoryContainer.getInventory().contains(bestShovel()) && mc.thePlayer.inventoryContainer.getSlot(35 + shovelSlot.getDefaultValue()).getStack() != is) {
                             mc.playerController.windowClick(mc.thePlayer.inventoryContainer.windowId, i, shovelSlot.getDefaultValue() - 1, 2, mc.thePlayer);
                             throwTimer.reset();
-                        } else if (isBadStack(is)) {
+                        } else if (trashItems.contains(is.getItem())) {
                             mc.playerController.windowClick(mc.thePlayer.inventoryContainer.windowId, i, 1, 4, mc.thePlayer);
                             throwTimer.reset();
                             break;
@@ -119,8 +127,6 @@ public class InventoryManager extends Module {
             if (is.getItem() instanceof ItemSpade)
                 return true;
         }
-        if (is.getUnlocalizedName().equals("mushroom") || is.getUnlocalizedName().equals("furnace") || is.getUnlocalizedName().equals("feather"))
-            return true;
         return false;
     }
 
