@@ -36,7 +36,8 @@ public class Speed extends Module {
                         if (mc.thePlayer.onGround) {
                             mc.thePlayer.jump();
                         } else {
-                            movementUtil.setSpeed(0.275D);
+                            movementUtil.setSpeed(0.285D);
+                            mc.thePlayer.jumpMovementFactor = 0.025F;
                         }
                     }
                     break;

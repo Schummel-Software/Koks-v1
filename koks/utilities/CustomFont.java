@@ -5,7 +5,6 @@ import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.StringUtils;
 import optifine.Config;
 import optifine.CustomColors;
 import org.lwjgl.opengl.GL11;
@@ -41,7 +40,7 @@ public class CustomFont extends FontRenderer {
         }
     }
 
-    public int renderString(String text, float x, float y, int color, boolean dropShadow) {
+    public float renderString(String text, float x, float y, int color, boolean dropShadow) {
         if (text == null) {
             return 0;
         } else {
@@ -98,17 +97,17 @@ public class CustomFont extends FontRenderer {
             GlStateManager.bindTexture(0);
             GlStateManager.color(0, 0, 0, 0);
             GL11.glPopMatrix();
-            return (int) x;
+            return  x;
         }
     }
 
     @Override
-    public int drawString(String text, int x, int y, int color) {
+    public float drawString(String text, int x, int y, int color) {
         return this.renderString(text, x, y, color, false);
     }
 
     @Override
-    public int drawStringWithShadow(String text, float x, float y, int color) {
+    public float drawStringWithShadow(String text, float x, float y, int color) {
         this.renderString(EnumChatFormatting.getTextWithoutFormattingCodes(text), x + 0.3F, y + 0.3F, Color.BLACK.getRGB(), true);
         return this.renderString(text, x, y, color, true);
     }

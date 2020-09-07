@@ -363,16 +363,18 @@ public class FontRenderer implements IResourceManagerReloadListener
 
     /**
      * Draws the specified string with a shadow.
+     * @return
      */
-    public int drawStringWithShadow(String text, float x, float y, int color)
+    public float drawStringWithShadow(String text, float x, float y, int color)
     {
         return this.drawString(text, x, y, color, true);
     }
 
     /**
      * Draws the specified string.
+     * @return
      */
-    public int drawString(String text, int x, int y, int color)
+    public float drawString(String text, int x, int y, int color)
     {
         return !this.enabled ? 0 : this.drawString(text, (float)x, (float)y, color, false);
     }
