@@ -7,6 +7,7 @@ import koks.utilities.ColorUtil;
 import koks.utilities.CustomFont;
 import koks.utilities.RenderUtils;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.FontRenderer;
 
 /**
  * @author avox | lmao | kroko
@@ -16,12 +17,14 @@ public abstract class Theme {
 
     private final ThemeCategory themeCategory;
 
+    private int hotBarX, hotBarY, hotBarWidth, hotBarHeight, hotBarChooseX, hotBarChooseWidth;
     private boolean tabGuiShadow, longestWidthStringModule;
     private int tabGuiX, tabGuiY, tabGuiWidth, tabGuiHeight;
     private CustomFont tabGuiLengthFont;
     private final RenderUtils renderUtils = new RenderUtils();
     public final ColorUtil colorUtil = new ColorUtil();
     public final Minecraft mc = Minecraft.getMinecraft();
+    public final FontRenderer fr = mc.fontRendererObj;
 
     public Theme(ThemeCategory themeCategory) {
         this.themeCategory = themeCategory;
@@ -36,6 +39,9 @@ public abstract class Theme {
         }
         if (drawArrayList()) {
             arrayListDesign();
+        }
+        if (drawHotBar()) {
+            hotBarDesign(hotBarX, hotBarY, hotBarWidth, hotBarHeight, hotBarChooseX, hotBarChooseWidth);
         }
     }
 
@@ -53,6 +59,15 @@ public abstract class Theme {
 
     public abstract void waterMarkDesign();
 
+    public void hotBarDesign(int x, int y, int width, int height, int chooseX, int chooseWidth) {
+        this.hotBarX = x;
+        this.hotBarY = y;
+        this.hotBarWidth = width;
+        this.hotBarHeight = height;
+        this.hotBarChooseX = chooseX;
+        this.hotBarChooseWidth = chooseWidth;
+    }
+
     public void categoryTabGUI(CategoryTab categoryTab, int x, int y, int width, int height) {
     }
 
@@ -64,6 +79,8 @@ public abstract class Theme {
     public abstract boolean drawWaterMark();
 
     public abstract boolean drawArrayList();
+
+    public abstract boolean drawHotBar();
 
     public boolean isLongestWidthStringModule() {
         return longestWidthStringModule;
@@ -137,4 +154,5 @@ public abstract class Theme {
     public void setTabGuiLengthFont(CustomFont tabGuiLengthFont) {
         this.tabGuiLengthFont = tabGuiLengthFont;
     }
+
 }

@@ -10,6 +10,7 @@ import java.util.Random;
 
 import koks.Koks;
 import koks.event.impl.EventRender2D;
+import koks.event.impl.KeyPressEvent;
 import koks.hud.CrossHair;
 import koks.modules.impl.movement.Sprint;
 import koks.modules.impl.utilities.HUD;
@@ -357,8 +358,18 @@ public class GuiIngame extends Gui {
             int i = sr.getScaledWidth() / 2;
             float f = this.zLevel;
             this.zLevel = -90.0F;
-            this.drawTexturedModalRect(i - 91, sr.getScaledHeight() - 22, 0, 0, 182, 22);
-            this.drawTexturedModalRect(i - 91 - 1 + entityplayer.inventory.currentItem * 20, sr.getScaledHeight() - 22 - 1, 0, 22, 24, 22);
+
+            Koks.getKoks().themeManager.getThemeList().forEach(theme -> {
+                if (theme.getThemeCategory().equals(Koks.getKoks().getThemeCategory())) {
+                    theme.hotBarDesign(i - 91, sr.getScaledHeight() - 22, 182, 22, i - 91 + entityplayer.inventory.currentItem * 20, 22);
+
+                    if (!theme.drawHotBar()) {
+                        this.drawTexturedModalRect(i - 91, sr.getScaledHeight() - 22, 0, 0, 182, 22);
+                        this.drawTexturedModalRect(i - 91 - 1 + entityplayer.inventory.currentItem * 20, sr.getScaledHeight() - 22 - 1, 0, 22, 24, 22);
+                    }
+                }
+            });
+
             this.zLevel = f;
             GlStateManager.enableRescaleNormal();
             GlStateManager.enableBlend();

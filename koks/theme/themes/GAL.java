@@ -3,11 +3,9 @@ package koks.theme.themes;
 import koks.Koks;
 import koks.hud.tabgui.CategoryTab;
 import koks.hud.tabgui.ModuleTab;
-import koks.modules.Module;
 import koks.modules.impl.visuals.ClearTag;
 import koks.theme.Theme;
 import koks.utilities.CustomFont;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
 
@@ -50,14 +48,16 @@ public class GAL extends Theme {
         int y[] = {0};
 
         ScaledResolution sr = new ScaledResolution(mc);
-        Koks.getKoks().moduleManager.getModules().stream().sorted(Comparator.comparingDouble(module -> -bebasNeue22.getStringWidth(Koks.getKoks().moduleManager.getModule(ClearTag.class).isToggled() ? module.getDisplayName() : module.getNameForArrayList()))).forEach(module -> {
+        Koks.getKoks().moduleManager.getModules().stream().sorted(Comparator.comparingDouble(module -> -fr.getStringWidth(Koks.getKoks().moduleManager.getModule(ClearTag.class).isToggled() ? module.getDisplayName() : module.getNameForArrayList()))).forEach(module -> {
             if (module.isToggled() && module.isVisible()) {
                 String finalString = Koks.getKoks().moduleManager.getModule(ClearTag.class).isToggled() ? module.getDisplayName() : module.getNameForArrayList();
-                Gui.drawRect(sr.getScaledWidth() - bebasNeue22.getStringWidth(finalString) - 4, y[0], sr.getScaledWidth(), y[0] + bebasNeue22.FONT_HEIGHT, 0xBB000000);
-                Gui.drawRect(sr.getScaledWidth() - bebasNeue22.getStringWidth(finalString) - 6, y[0], sr.getScaledWidth() - bebasNeue22.getStringWidth(finalString) - 4, y[0] + bebasNeue22.FONT_HEIGHT, colorUtil.rainbow(7000, y[0] * 3, 1.0F));
-                bebasNeue22.drawString(module.getNameForArrayList(), sr.getScaledWidth() - bebasNeue22.getStringWidth(finalString) - 2, y[0] - 0.5F, colorUtil.rainbow(7000, y[0] * 3, 1.0F));
-                y[0] += bebasNeue22.FONT_HEIGHT;
-                module.getAnimationModule().setYAnimation(y[0]);
+                Gui.drawRect(sr.getScaledWidth() - fr.getStringWidth(finalString) - 5, y[0], sr.getScaledWidth(), y[0] + fr.FONT_HEIGHT, 0x99101010);
+                Gui.drawRect(sr.getScaledWidth() - 1, y[0], sr.getScaledWidth(), y[0] + fr.FONT_HEIGHT, colorUtil.rainbow(7000, y[0] * 3, 1.0F));
+                fr.drawString(finalString, sr.getScaledWidth() - fr.getStringWidth(finalString) - 3, y[0] + 0.5F, colorUtil.rainbow(7000, y[0] * 3, 1.0F));
+                y[0] += fr.FONT_HEIGHT;
+                module.getAnimationModule().setYAnimation(fr.FONT_HEIGHT);
+            } else {
+                module.getAnimationModule().setYAnimation(0);
             }
         });
     }
@@ -65,6 +65,16 @@ public class GAL extends Theme {
     @Override
     public void waterMarkDesign() {
         bebasNeue40.drawStringWithShadow(Koks.getKoks().CLIENT_NAME + " §fv" + Koks.getKoks().CLIENT_VERSION, getTabGuiX() + getTabGuiWidth() / 2 - bebasNeue40.getStringWidth(Koks.getKoks().CLIENT_NAME + " v" + Koks.getKoks().CLIENT_VERSION) / 2, 15, Koks.getKoks().client_color.getRGB());
+    }
+
+    @Override
+    public void hotBarDesign(int x, int y, int width, int height, int chooseX, int chooseWidth) {
+
+    }
+
+    @Override
+    public boolean drawHotBar() {
+        return false;
     }
 
     @Override

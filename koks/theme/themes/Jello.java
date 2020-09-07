@@ -118,6 +118,16 @@ public class Jello extends Theme {
     }
 
     @Override
+    public void hotBarDesign(int x, int y, int width, int height, int chooseX, int chooseWidth) {
+
+    }
+
+    @Override
+    public boolean drawHotBar() {
+        return false;
+    }
+
+    @Override
     public boolean drawTabGUI() {
         return true;
     }

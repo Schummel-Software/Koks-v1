@@ -52,7 +52,7 @@ public class Klientus extends Theme {
 
             if (mod.isToggled() && mod.isVisible()) {
                 y[0] += kekz.FONT_HEIGHT;
-                Gui.drawRect(scaledResolution.getScaledWidth() - kekz.getStringWidth(mod.getNameForArrayList("§f")) - 7, y[0] - 8, scaledResolution.getScaledWidth() - 2, y[0] + 4, new Color(43, 47, 54).getRGB());
+                Gui.drawRect(scaledResolution.getScaledWidth() - kekz.getStringWidth(mod.getNameForArrayList("§f")) - 7, y[0] - 8, scaledResolution.getScaledWidth() - 2, y[0] + 4, new Color(47, 47, 47).getRGB());
                 kekz.drawString(mod.getNameForArrayList("§f"), scaledResolution.getScaledWidth() - kekz.getStringWidth(mod.getNameForArrayList("§f")) - 5, (y[0] - 7F), Koks.getKoks().client_color.getRGB());
                 Gui.drawRect(scaledResolution.getScaledWidth() - 2, y[0] - 8, scaledResolution.getScaledWidth(), y[0] + 4, Koks.getKoks().client_color.getRGB());
                 mod.getAnimationModule().setYAnimation(kekz.FONT_HEIGHT);
@@ -97,6 +97,18 @@ public class Klientus extends Theme {
         Gui.drawRect(kekz.getStringWidth("MS: §f" + ms) + kekz.getStringWidth("FPS: §f" + Minecraft.getDebugFPS()) + kekz.getStringWidth("CONFIG: §f" + Koks.getKoks().configManager.currentConfig.toUpperCase()) + 7 + 7 + 7 + 3, scaledResolution.getScaledHeight() - 15, kekz.getStringWidth("MS: §f" + ms) + kekz.getStringWidth("FPS: §f" + Minecraft.getDebugFPS()) + kekz.getStringWidth("CONFIG: §f" + Koks.getKoks().configManager.currentConfig.toUpperCase()) + 9 + 7 + 7 + 3, scaledResolution.getScaledHeight(), Koks.getKoks().client_color.getRGB());
 
 
+    }
+
+    @Override
+    public void hotBarDesign(int x, int y, int width, int height, int chooseX, int chooseWidth) {
+        Color gray = new Color(47, 47, 47);
+        Gui.drawGradientRect(x, y, x + width, y + height, gray.getRGB(), gray.getRGB());
+        Gui.drawGradientRect(chooseX, y, chooseX + chooseWidth, y + height, gray.getRGB(), Koks.getKoks().client_color.getRGB());
+    }
+
+    @Override
+    public boolean drawHotBar() {
+        return true;
     }
 
     @Override
