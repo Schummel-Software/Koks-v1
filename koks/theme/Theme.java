@@ -3,8 +3,10 @@ package koks.theme;
 import koks.Koks;
 import koks.hud.tabgui.CategoryTab;
 import koks.hud.tabgui.ModuleTab;
+import koks.utilities.ColorUtil;
 import koks.utilities.CustomFont;
 import koks.utilities.RenderUtils;
+import net.minecraft.client.Minecraft;
 
 /**
  * @author avox | lmao | kroko
@@ -18,6 +20,8 @@ public abstract class Theme {
     private int tabGuiX, tabGuiY, tabGuiWidth, tabGuiHeight;
     private CustomFont tabGuiLengthFont;
     private final RenderUtils renderUtils = new RenderUtils();
+    public final ColorUtil colorUtil = new ColorUtil();
+    public final Minecraft mc = Minecraft.getMinecraft();
 
     public Theme(ThemeCategory themeCategory) {
         this.themeCategory = themeCategory;
@@ -72,10 +76,64 @@ public abstract class Theme {
     public enum ThemeCategory {
         JELLO,
         MOON,
+        GAL,
+        CLIENTUS,
         NONE;
     }
 
     public ThemeCategory getThemeCategory() {
         return themeCategory;
+    }
+
+    public boolean isTabGuiShadow() {
+        return tabGuiShadow;
+    }
+
+    public void setTabGuiShadow(boolean tabGuiShadow) {
+        this.tabGuiShadow = tabGuiShadow;
+    }
+
+    public void setLongestWidthStringModule(boolean longestWidthStringModule) {
+        this.longestWidthStringModule = longestWidthStringModule;
+    }
+
+    public int getTabGuiX() {
+        return tabGuiX;
+    }
+
+    public void setTabGuiX(int tabGuiX) {
+        this.tabGuiX = tabGuiX;
+    }
+
+    public int getTabGuiY() {
+        return tabGuiY;
+    }
+
+    public void setTabGuiY(int tabGuiY) {
+        this.tabGuiY = tabGuiY;
+    }
+
+    public int getTabGuiWidth() {
+        return tabGuiWidth;
+    }
+
+    public void setTabGuiWidth(int tabGuiWidth) {
+        this.tabGuiWidth = tabGuiWidth;
+    }
+
+    public int getTabGuiHeight() {
+        return tabGuiHeight;
+    }
+
+    public void setTabGuiHeight(int tabGuiHeight) {
+        this.tabGuiHeight = tabGuiHeight;
+    }
+
+    public CustomFont getTabGuiLengthFont() {
+        return tabGuiLengthFont;
+    }
+
+    public void setTabGuiLengthFont(CustomFont tabGuiLengthFont) {
+        this.tabGuiLengthFont = tabGuiLengthFont;
     }
 }

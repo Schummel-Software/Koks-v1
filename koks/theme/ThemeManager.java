@@ -1,5 +1,7 @@
 package koks.theme;
 
+import koks.theme.themes.Clientus;
+import koks.theme.themes.GAL;
 import koks.theme.themes.Jello;
 import koks.theme.themes.Moon;
 
@@ -17,6 +19,8 @@ public class ThemeManager {
     public ThemeManager() {
         addTheme(new Jello());
         addTheme(new Moon());
+        addTheme(new GAL());
+        addTheme(new Clientus());
     }
 
     public void addTheme(Theme theme) {

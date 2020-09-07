@@ -31,7 +31,7 @@ public class HUD extends Module {
 
     private BooleanValue<Boolean> shadowArrayList = new BooleanValue<>("Shadow", true, this);
     public ModeValue<String> watermarkStyle = new ModeValue<>("Watermark Style", "Simple", new String[]{"Simple", "Custom with Shadow", "Mario Kart"}, this);
-    public BooleanValue<Boolean> customCrossHair = new BooleanValue<>("CrossHair", true, this);
+    public BooleanValue<Boolean> customCrossHair = new BooleanValue<>("CrossHair", false, this);
 
     public ModeValue<String> tabGuiSettings = new ModeValue<>("TabGui Settings", new BooleanValue[]{tabGUI, tabGUI_shadow, tabGUI_client_color, tabGUICenteredString}, this);
     public ModeValue<String> arrayListSettings = new ModeValue<>("Arraylist Settings", new BooleanValue[]{shadowArrayList}, this);

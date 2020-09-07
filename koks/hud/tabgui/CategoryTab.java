@@ -155,9 +155,13 @@ public class CategoryTab {
         if ((categoryCurrent == category.ordinal())) {
             if (animationX < 9)
                 animationX += 0.025 * DeltaTime.getDeltaTime();
+            if(animationX > 9)
+                animationX = 9;
         } else {
             if (animationX > 3)
                 animationX -= 0.025 * DeltaTime.getDeltaTime();
+            if(animationX < 3)
+                animationX = 3;
         }
 
         switch (Koks.getKoks().getThemeCategory()) {
