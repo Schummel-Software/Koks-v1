@@ -540,7 +540,7 @@ public class GuiIngame extends Gui {
             i = Math.max(i, this.getFontRenderer().getStringWidth(s));
         }
 
-        int j1 = arraylist1.size() * this.getFontRenderer().FONT_HEIGHT;
+        int j1 = arraylist1.size() * this.getFontRenderer().FONT_HEIGHT + getFontRenderer().FONT_HEIGHT;
 
         double[] y = {0};
 

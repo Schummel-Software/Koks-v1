@@ -28,9 +28,9 @@ public class NoFall extends Module {
             setModuleInfo(mode.getSelectedMode());
             switch (mode.getSelectedMode()) {
                 case "Spoof Ground":
-                    if (mc.thePlayer.fallDistance > 2) {
+                    if (mc.thePlayer.fallDistance > 5) {
                         mc.thePlayer.sendQueue.addToSendQueue(new C03PacketPlayer(true));
-                        mc.thePlayer.fallDistance = 2;
+                        mc.thePlayer.fallDistance = 5;
                     }
                     break;
                 case "AAC 3.2.2":
