@@ -14,7 +14,7 @@ public class AnimationModule {
     public void setUp() {
         setZoomAnimation(0);
         setYAnimation(0);
-        setSlideAnimation(0.5);
+        setSlideAnimation(1);
     }
 
     public void setSlideAnimation(double slideAnimation) {

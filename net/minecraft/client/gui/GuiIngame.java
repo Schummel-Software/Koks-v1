@@ -540,15 +540,17 @@ public class GuiIngame extends Gui {
             i = Math.max(i, this.getFontRenderer().getStringWidth(s));
         }
 
-        int j1 = arraylist1.size() * this.getFontRenderer().FONT_HEIGHT + getFontRenderer().FONT_HEIGHT;
+        float[] y = {9};
+        int j1 = arraylist1.size() * this.getFontRenderer().FONT_HEIGHT;
 
-        double[] y = {0};
-
-        Koks.getKoks().moduleManager.getModules().forEach(module -> {
+        Koks.getKoks().moduleManager.getModules().stream().filter(module -> module.getAnimationModule().getYAnimation() > 0).forEach(module -> {
             y[0] += module.getAnimationModule().getYAnimation();
         });
 
-        double k1 = j1 + y[0] + 9;
+        if(y[0] < 0)
+            y[0] = 0;
+
+        double k1 = j1 + 9 + y[0];
         byte b0 = 3;
         int j = p_180475_2_.getScaledWidth() - i - b0;
         int k = 0;

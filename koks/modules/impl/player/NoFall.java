@@ -28,15 +28,13 @@ public class NoFall extends Module {
         if (event instanceof EventUpdate) {
             setModuleInfo(mode.getSelectedMode());
             switch (mode.getSelectedMode()) {
-
-
                 case "Spoof Ground":
                     double distance = 0;
                     for (int i = 0; i < 256; i++) {
                         BlockPos currentPos = new BlockPos(mc.thePlayer.posX, mc.thePlayer.posY - i, mc.thePlayer.posZ);
-                        if ((this.mc.theWorld.getBlockState(currentPos).getBlock() != Blocks.air) && (this.mc.theWorld.getBlockState(currentPos).getBlock() != Blocks.grass) && (this.mc.theWorld.getBlockState(currentPos).getBlock() != Blocks.tallgrass) && (this.mc.theWorld.getBlockState(currentPos).getBlock() != Blocks.red_flower) && (this.mc.theWorld.getBlockState(currentPos).getBlock() != Blocks.yellow_flower)) {
+                        if(mc.theWorld.getBlockState(currentPos).getBlock() != Blocks.air)
                             distance = mc.thePlayer.posY - currentPos.getY();
-                        }
+
                     }
                     if (mc.thePlayer.fallDistance > 2 && distance != 0) {
                         mc.thePlayer.sendQueue.addToSendQueue(new C03PacketPlayer(true));

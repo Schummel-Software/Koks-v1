@@ -40,9 +40,11 @@ public class Clientus extends Theme {
             if (module.isToggled() && module.isVisible()) {
                 String finalString = Koks.getKoks().moduleManager.getModule(ClearTag.class).isToggled() ? module.getDisplayName() : module.getNameForArrayList();
                 Gui.drawRect(sr.getScaledWidth() - verdanaArray.getStringWidth(finalString) - 7, y[0], sr.getScaledWidth(), y[0] + verdanaArray.FONT_HEIGHT, new Color(0, 0, 0, 100).getRGB());
-                verdanaArray.drawString(module.getNameForArrayList(), sr.getScaledWidth() - verdanaArray.getStringWidth(finalString) - 5, y[0] - 0.5F, -1);
+                verdanaArray.drawString(finalString, sr.getScaledWidth() - verdanaArray.getStringWidth(finalString) - 5, y[0] - 0.5F, -1);
                 y[0] += verdanaArray.FONT_HEIGHT;
-                module.getAnimationModule().setYAnimation(y[0]);
+                module.getAnimationModule().setYAnimation(verdanaArray.FONT_HEIGHT);
+            } else {
+                module.getAnimationModule().setYAnimation(0);
             }
         });
 

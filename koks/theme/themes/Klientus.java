@@ -50,24 +50,27 @@ public class Klientus extends Theme {
         final int[] y = {-4};
         Koks.getKoks().moduleManager.getModules().stream().sorted(Comparator.comparingDouble(mod -> -kekz.getStringWidth(mod.getNameForArrayList("§f")))).forEach(mod -> {
 
-                if (mod.isToggled() && mod.isVisible()) {
-                    y[0] += kekz.FONT_HEIGHT;
-                    Gui.drawRect(scaledResolution.getScaledWidth() - kekz.getStringWidth(mod.getNameForArrayList("§f")) - 7, y[0] -8, scaledResolution.getScaledWidth() - 2, y[0] + 4, new Color(43, 47, 54).getRGB());
-                    kekz.drawString(mod.getNameForArrayList("§f"), scaledResolution.getScaledWidth() - kekz.getStringWidth(mod.getNameForArrayList("§f")) - 5, (y[0] - 7F), Koks.getKoks().client_color.getRGB());
-                    Gui.drawRect(scaledResolution.getScaledWidth() - 2, y[0] - 8, scaledResolution.getScaledWidth(), y[0] + 4, Koks.getKoks().client_color.getRGB());
-                    mod.getAnimationModule().setYAnimation(y[0]);
+            if (mod.isToggled() && mod.isVisible()) {
+                y[0] += kekz.FONT_HEIGHT;
+                Gui.drawRect(scaledResolution.getScaledWidth() - kekz.getStringWidth(mod.getNameForArrayList("§f")) - 7, y[0] - 8, scaledResolution.getScaledWidth() - 2, y[0] + 4, new Color(43, 47, 54).getRGB());
+                kekz.drawString(mod.getNameForArrayList("§f"), scaledResolution.getScaledWidth() - kekz.getStringWidth(mod.getNameForArrayList("§f")) - 5, (y[0] - 7F), Koks.getKoks().client_color.getRGB());
+                Gui.drawRect(scaledResolution.getScaledWidth() - 2, y[0] - 8, scaledResolution.getScaledWidth(), y[0] + 4, Koks.getKoks().client_color.getRGB());
+                mod.getAnimationModule().setYAnimation(kekz.FONT_HEIGHT);
+            } else {
+                mod.getAnimationModule().setYAnimation(0);
+
             }
         });
-        }
+    }
 
 
     @Override
     public void waterMarkDesign() {
-        kek.drawString(Koks.getKoks().CLIENT_NAME.substring(0,1), 5 ,0 ,Koks.getKoks().client_color.getRGB());
-        kek.drawString(Koks.getKoks().CLIENT_NAME.substring(1), 5 + kek.getStringWidth(Koks.getKoks().CLIENT_NAME.substring(0,1)) ,0 ,Color.white.getRGB());
-        Gui.drawRect(6,kek.FONT_HEIGHT - 5 , 4 + kek.getStringWidth(Koks.getKoks().CLIENT_NAME) + 1, kek.FONT_HEIGHT - 1 , Color.white.getRGB());
-        Gui.drawRect(4 + kek.getStringWidth(Koks.getKoks().CLIENT_NAME) + 2,kek.FONT_HEIGHT - 4 , 4 + kek.getStringWidth(Koks.getKoks().CLIENT_NAME) + 1, kek.FONT_HEIGHT - 2, Color.white.getRGB());
-        Gui.drawRect(5,kek.FONT_HEIGHT - 4 , 6, kek.FONT_HEIGHT - 2 , Color.white.getRGB());
+        kek.drawString(Koks.getKoks().CLIENT_NAME.substring(0, 1), 5, 0, Koks.getKoks().client_color.getRGB());
+        kek.drawString(Koks.getKoks().CLIENT_NAME.substring(1), 5 + kek.getStringWidth(Koks.getKoks().CLIENT_NAME.substring(0, 1)), 0, Color.white.getRGB());
+        Gui.drawRect(6, kek.FONT_HEIGHT - 5, 4 + kek.getStringWidth(Koks.getKoks().CLIENT_NAME) + 1, kek.FONT_HEIGHT - 1, Color.white.getRGB());
+        Gui.drawRect(4 + kek.getStringWidth(Koks.getKoks().CLIENT_NAME) + 2, kek.FONT_HEIGHT - 4, 4 + kek.getStringWidth(Koks.getKoks().CLIENT_NAME) + 1, kek.FONT_HEIGHT - 2, Color.white.getRGB());
+        Gui.drawRect(5, kek.FONT_HEIGHT - 4, 6, kek.FONT_HEIGHT - 2, Color.white.getRGB());
         Calendar calendar = Calendar.getInstance();
         String hour = calendar.get(Calendar.HOUR) + "";
         String minute = calendar.get(Calendar.MINUTE) + "";
@@ -79,19 +82,19 @@ public class Klientus extends Theme {
         String formattedSecond = second.length() == 2 ? second : "0" + second;
         String ampm = calendar.get(Calendar.AM_PM) == Calendar.PM ? "PM" : "AM";
 
-        keks.drawString(formattedHour + ":" + formattedMinute + ":" + formattedSecond + " " +  ampm, (keks.getStringWidth(Koks.getKoks().CLIENT_NAME) / 2)  + 4, kek.FONT_HEIGHT -1 , Color.white.getRGB());
+        keks.drawString(formattedHour + ":" + formattedMinute + ":" + formattedSecond + " " + ampm, (keks.getStringWidth(Koks.getKoks().CLIENT_NAME) / 2) + 4, kek.FONT_HEIGHT - 1, Color.white.getRGB());
         String ms = "NONE";
-        if(mc.getCurrentServerData() != null) {
+        if (mc.getCurrentServerData() != null) {
             ms = mc.getCurrentServerData().pingToServer + "";
         }
         ScaledResolution scaledResolution = new ScaledResolution(mc);
-        Gui.drawRect(0,scaledResolution.getScaledHeight() - 15,kekz.getStringWidth("MS: §f" +ms) + kekz.getStringWidth("FPS: §f" + Minecraft.getDebugFPS()) + kekz.getStringWidth("CONFIG: §f" + Koks.getKoks().configManager.currentConfig.toUpperCase()) + 7 + 7 + 7 + 3, scaledResolution.getScaledHeight(),new Color(49, 48, 55).getRGB() );
-        kekz.drawString("MS: §f" +ms, 3, scaledResolution.getScaledHeight() - 12, Koks.getKoks().client_color.getRGB());
-        Gui.drawRect(kekz.getStringWidth("MS: §f" +ms) + 7, scaledResolution.getScaledHeight() - 15,kekz.getStringWidth("MS: §f" +ms) + 9,scaledResolution.getScaledHeight(), Koks.getKoks().client_color.getRGB());
-        kekz.drawString("FPS: §f" + Minecraft.getDebugFPS(), kekz.getStringWidth("MS: §f" +ms) + 11, scaledResolution.getScaledHeight() - 12, Koks.getKoks().client_color.getRGB());
-        Gui.drawRect(kekz.getStringWidth("MS: §f" +ms) + kekz.getStringWidth("FPS: §f" + Minecraft.getDebugFPS()) + 7 + 7, scaledResolution.getScaledHeight() - 15,kekz.getStringWidth("MS: §f" +ms) + kekz.getStringWidth("FPS: §f" + Minecraft.getDebugFPS()) + 9 + 7,scaledResolution.getScaledHeight(), Koks.getKoks().client_color.getRGB());
-        kekz.drawString("CONFIG: §f" + Koks.getKoks().configManager.currentConfig.toUpperCase(), kekz.getStringWidth("MS: §f" +ms) + kekz.getStringWidth("FPS: §f" + Minecraft.getDebugFPS()) + 7 + 7 +7, scaledResolution.getScaledHeight() - 12, Koks.getKoks().client_color.getRGB());
-        Gui.drawRect(kekz.getStringWidth("MS: §f" +ms) + kekz.getStringWidth("FPS: §f" + Minecraft.getDebugFPS()) + kekz.getStringWidth("CONFIG: §f" + Koks.getKoks().configManager.currentConfig.toUpperCase()) + 7 + 7 + 7 + 3, scaledResolution.getScaledHeight() - 15,kekz.getStringWidth("MS: §f" +ms) + kekz.getStringWidth("FPS: §f" + Minecraft.getDebugFPS())  + kekz.getStringWidth("CONFIG: §f" + Koks.getKoks().configManager.currentConfig.toUpperCase())+ 9 + 7 + 7 + 3,scaledResolution.getScaledHeight(), Koks.getKoks().client_color.getRGB());
+        Gui.drawRect(0, scaledResolution.getScaledHeight() - 15, kekz.getStringWidth("MS: §f" + ms) + kekz.getStringWidth("FPS: §f" + Minecraft.getDebugFPS()) + kekz.getStringWidth("CONFIG: §f" + Koks.getKoks().configManager.currentConfig.toUpperCase()) + 7 + 7 + 7 + 3, scaledResolution.getScaledHeight(), new Color(49, 48, 55).getRGB());
+        kekz.drawString("MS: §f" + ms, 3, scaledResolution.getScaledHeight() - 12, Koks.getKoks().client_color.getRGB());
+        Gui.drawRect(kekz.getStringWidth("MS: §f" + ms) + 7, scaledResolution.getScaledHeight() - 15, kekz.getStringWidth("MS: §f" + ms) + 9, scaledResolution.getScaledHeight(), Koks.getKoks().client_color.getRGB());
+        kekz.drawString("FPS: §f" + Minecraft.getDebugFPS(), kekz.getStringWidth("MS: §f" + ms) + 11, scaledResolution.getScaledHeight() - 12, Koks.getKoks().client_color.getRGB());
+        Gui.drawRect(kekz.getStringWidth("MS: §f" + ms) + kekz.getStringWidth("FPS: §f" + Minecraft.getDebugFPS()) + 7 + 7, scaledResolution.getScaledHeight() - 15, kekz.getStringWidth("MS: §f" + ms) + kekz.getStringWidth("FPS: §f" + Minecraft.getDebugFPS()) + 9 + 7, scaledResolution.getScaledHeight(), Koks.getKoks().client_color.getRGB());
+        kekz.drawString("CONFIG: §f" + Koks.getKoks().configManager.currentConfig.toUpperCase(), kekz.getStringWidth("MS: §f" + ms) + kekz.getStringWidth("FPS: §f" + Minecraft.getDebugFPS()) + 7 + 7 + 7, scaledResolution.getScaledHeight() - 12, Koks.getKoks().client_color.getRGB());
+        Gui.drawRect(kekz.getStringWidth("MS: §f" + ms) + kekz.getStringWidth("FPS: §f" + Minecraft.getDebugFPS()) + kekz.getStringWidth("CONFIG: §f" + Koks.getKoks().configManager.currentConfig.toUpperCase()) + 7 + 7 + 7 + 3, scaledResolution.getScaledHeight() - 15, kekz.getStringWidth("MS: §f" + ms) + kekz.getStringWidth("FPS: §f" + Minecraft.getDebugFPS()) + kekz.getStringWidth("CONFIG: §f" + Koks.getKoks().configManager.currentConfig.toUpperCase()) + 9 + 7 + 7 + 3, scaledResolution.getScaledHeight(), Koks.getKoks().client_color.getRGB());
 
 
     }

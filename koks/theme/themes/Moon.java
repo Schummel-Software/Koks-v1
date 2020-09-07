@@ -1,5 +1,6 @@
 package koks.theme.themes;
 
+import com.sun.org.apache.xpath.internal.operations.Mod;
 import koks.Koks;
 import koks.hud.tabgui.CategoryTab;
 import koks.hud.tabgui.ModuleTab;
@@ -14,6 +15,7 @@ import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
+import org.lwjgl.Sys;
 import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.UnicodeFont;
 
@@ -28,11 +30,11 @@ import java.util.stream.Collectors;
  */
 public class Moon extends Theme {
 
-    public CustomFont unicodeFont = new CustomFont("fonts/Comfortaa-SemiBold.ttf", 28);
-    public CustomFont tabGuiFont = new CustomFont("fonts/Comfortaa-SemiBold.ttf", 18);
+    public final CustomFont unicodeFont = new CustomFont("fonts/Comfortaa-SemiBold.ttf", 28);
+    public final CustomFont tabGuiFont = new CustomFont("fonts/Comfortaa-SemiBold.ttf", 18);
 
-    public CustomFont arrayListFont = new CustomFont("fonts/Comfortaa-SemiBold.ttf", 16);
-    public CustomFont moduleFont = new CustomFont("fonts/Comfortaa-SemiBold.ttf", 15);
+    public final CustomFont arrayListFont = new CustomFont("fonts/Comfortaa-SemiBold.ttf", 16);
+    public final CustomFont moduleFont = new CustomFont("fonts/Comfortaa-SemiBold.ttf", 15);
 
     public Moon() {
         super(ThemeCategory.MOON);
@@ -44,7 +46,11 @@ public class Moon extends Theme {
         ScaledResolution scaledResolution = new ScaledResolution(Minecraft.getMinecraft());
         int[] y = {0};
 
-        Koks.getKoks().moduleManager.getModules().stream().filter(Module::isVisible).sorted(Comparator.comparingDouble(module -> -arrayListFont.getStringWidth(Koks.getKoks().moduleManager.getModule(ClearTag.class).isToggled() ? module.getDisplayName() : module.getNameForArrayList()))).forEach(module -> {
+
+        List<Module> list = getSortedArrayList();
+
+        for (int i = 0; i < list.size(); i++) {
+            Module module = list.get(i);
             String finalText = Koks.getKoks().moduleManager.getModule(ClearTag.class).isToggled() ? module.getDisplayName() : module.getNameForArrayList();
 
             if (module.isToggled()) {
@@ -57,7 +63,6 @@ public class Moon extends Theme {
                     module.getAnimationModule().setYAnimation(module.getAnimationModule().getYAnimation() + 0.075 * DeltaTime.getDeltaTime());
                 if (module.getAnimationModule().getYAnimation() > arrayListFont.FONT_HEIGHT)
                     module.getAnimationModule().setYAnimation(arrayListFont.FONT_HEIGHT);
-
             } else {
                 if (module.getAnimationModule().getSlideAnimation() > 0)
                     module.getAnimationModule().setSlideAnimation(module.getAnimationModule().getSlideAnimation() - module.getAnimationModule().getSlideAnimation() / 90 * DeltaTime.getDeltaTime());
@@ -68,8 +73,29 @@ public class Moon extends Theme {
                 if (module.getAnimationModule().getYAnimation() < 0)
                     module.getAnimationModule().setYAnimation(0);
             }
-        });
 
+            if (module.getAnimationModule().getSlideAnimation() > 0.5) {
+
+                Gui.drawRect(scaledResolution.getScaledWidth() - module.getAnimationModule().getSlideAnimation() - 1, y[0], scaledResolution.getScaledWidth(), y[0] + module.getAnimationModule().getYAnimation(), Integer.MIN_VALUE);
+
+                if (i + 1 < list.size() - 2) {
+                    Module nextEnabledModule = returnNextToggledModule(list, i + 1);
+                    double difference = module.getAnimationModule().getSlideAnimation() - nextEnabledModule.getAnimationModule().getSlideAnimation();
+                    Gui.drawRect(scaledResolution.getScaledWidth() - module.getAnimationModule().getSlideAnimation() - 2, y[0] + module.getAnimationModule().getYAnimation() - 1, scaledResolution.getScaledWidth() - module.getAnimationModule().getSlideAnimation() + difference - 1, y[0] + module.getAnimationModule().getYAnimation(), Koks.getKoks().client_color.getRGB());
+                    Gui.drawRect(scaledResolution.getScaledWidth() - module.getAnimationModule().getSlideAnimation() - 2, y[0], scaledResolution.getScaledWidth() - module.getAnimationModule().getSlideAnimation() - 1, y[0] + module.getAnimationModule().getYAnimation(), Koks.getKoks().client_color.getRGB());
+                } else {
+                    Gui.drawRect(scaledResolution.getScaledWidth() - module.getAnimationModule().getSlideAnimation() - 1, y[0] + module.getAnimationModule().getYAnimation() - 1, scaledResolution.getScaledWidth(), y[0] + module.getAnimationModule().getYAnimation(), Koks.getKoks().client_color.getRGB());
+                    Gui.drawRect(scaledResolution.getScaledWidth() - module.getAnimationModule().getSlideAnimation() - 2, y[0], scaledResolution.getScaledWidth() - module.getAnimationModule().getSlideAnimation() - 1, y[0] + module.getAnimationModule().getYAnimation(), Koks.getKoks().client_color.getRGB());
+
+                }
+
+                arrayListFont.drawStringWithShadow(finalText, (float) (scaledResolution.getScaledWidth() - module.getAnimationModule().getSlideAnimation()), y[0], Koks.getKoks().client_color.getRGB());
+                y[0] += module.getAnimationModule().getYAnimation();
+            }
+        }
+
+
+        /*
         for (int i = 0; i < getSortedArrayList().size(); i++) {
             Module module = getSortedArrayList().get(i);
 
@@ -78,25 +104,23 @@ public class Moon extends Theme {
 
             Gui.drawRect(scaledResolution.getScaledWidth() - module.getAnimationModule().getSlideAnimation() - 1, y[0], scaledResolution.getScaledWidth(), y[0] + module.getAnimationModule().getYAnimation(), Integer.MIN_VALUE);
 
-            try {
-                Module nextEnabledModule = getSortedArrayList().get(i + 1);
+            Module nextEnabledModule = null;
+            if (getSortedArrayList().indexOf(module) + 1 < getSortedArrayList().size()) {
+                nextEnabledModule = getSortedArrayList().get(i + 1);
                 double difference = module.getAnimationModule().getSlideAnimation() - nextEnabledModule.getAnimationModule().getSlideAnimation();
                 Gui.drawRect(scaledResolution.getScaledWidth() - module.getAnimationModule().getSlideAnimation() - 1, y[0] + module.getAnimationModule().getYAnimation() - 1, scaledResolution.getScaledWidth() - module.getAnimationModule().getSlideAnimation() + difference - 1, y[0] + module.getAnimationModule().getYAnimation(), Koks.getKoks().client_color.getRGB());
                 Gui.drawRect(scaledResolution.getScaledWidth() - module.getAnimationModule().getSlideAnimation() - 2, y[0], scaledResolution.getScaledWidth() - module.getAnimationModule().getSlideAnimation() - 1, y[0] + module.getAnimationModule().getYAnimation(), Koks.getKoks().client_color.getRGB());
-            } catch (Exception e) {
-                Gui.drawRect(scaledResolution.getScaledWidth() - module.getAnimationModule().getSlideAnimation() - 1, y[0] + module.getAnimationModule().getYAnimation() - 1, scaledResolution.getScaledWidth(), y[0] + module.getAnimationModule().getYAnimation(), Koks.getKoks().client_color.getRGB());
-                Gui.drawRect(scaledResolution.getScaledWidth() - module.getAnimationModule().getSlideAnimation() - 2, y[0], scaledResolution.getScaledWidth() - module.getAnimationModule().getSlideAnimation() - 1, y[0] + module.getAnimationModule().getYAnimation(), Koks.getKoks().client_color.getRGB());
-
             }
 
 
             arrayListFont.drawStringWithShadow(finalText, (float) (scaledResolution.getScaledWidth() - module.getAnimationModule().getSlideAnimation()), y[0], Koks.getKoks().client_color.getRGB());
             y[0] += module.getAnimationModule().getYAnimation();
         }
+        */
     }
 
     public List<Module> getSortedArrayList() {
-        List list = Koks.getKoks().moduleManager.getModules().stream().filter(module -> module.getAnimationModule().getSlideAnimation() > 0.5).sorted(Comparator.comparingDouble(module -> -arrayListFont.getStringWidth(Koks.getKoks().moduleManager.getModule(ClearTag.class).isToggled() ? module.getDisplayName() : module.getNameForArrayList()))).collect(Collectors.toList());
+        List list = Koks.getKoks().moduleManager.getModules().stream().filter(Module::isVisible).sorted(Comparator.comparingDouble(module -> -arrayListFont.getStringWidth(Koks.getKoks().moduleManager.getModule(ClearTag.class).isToggled() ? module.getDisplayName() : module.getNameForArrayList()))).collect(Collectors.toList());
         return list;
     }
 
@@ -142,6 +166,15 @@ public class Moon extends Theme {
         GlStateManager.enableAlpha();
         GlStateManager.disableBlend();
         GL11.glPopMatrix();
+    }
+
+    public Module returnNextToggledModule(List list, int index) {
+        for (int i = index; i < list.size(); i++) {
+            Module module = (Module) list.get(i);
+            if (module.getAnimationModule().getSlideAnimation() > 0.5)
+                return module;
+        }
+        return null;
     }
 
     @Override

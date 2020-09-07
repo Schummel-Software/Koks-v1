@@ -75,7 +75,7 @@ public class HUD extends Module {
                     break;
                 default:
                     Koks.getKoks().themeManager.getThemeList().forEach(theme -> {
-                        if (theme.getThemeCategory().equals(Koks.getKoks().getThemeCategory())) {
+                        if (theme.getThemeCategory()==Koks.getKoks().getThemeCategory()) {
                             theme.drawIngameTheme();
                         }
                     });
