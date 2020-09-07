@@ -65,10 +65,11 @@ public class KillAura extends Module {
     public TitleValue antiBotSettings = new TitleValue("AntiBot Settings", false, new Value[]{needNaNHealth, checkName, ticksExisting}, this);
 
     public BooleanValue<Boolean> fakeBlocking = new BooleanValue<>("Fake Blocking", false, this);
+    public BooleanValue<Boolean> silentBlocking = new BooleanValue<>("Silent Blocking", false, this);
     public BooleanValue<Boolean> silentSwing = new BooleanValue<>("Silent Swing", false, this);
     public BooleanValue<Boolean> serverSideSwing = new BooleanValue<>("Send SwingPacket", true, this);
     public NumberValue<Integer> swingChance = new NumberValue<>("ClientSide SwingChance", 100, 100, 0, this);
-    public TitleValue visualSettings = new TitleValue("Visual Settings", false, new Value[]{fakeBlocking, silentSwing, serverSideSwing, swingChance}, this);
+    public TitleValue visualSettings = new TitleValue("Visual Settings", false, new Value[]{fakeBlocking, silentBlocking, silentSwing, serverSideSwing, swingChance}, this);
 
     public List<Entity> entities = new ArrayList<>();
     FriendManager friendManager = new FriendManager();
@@ -110,6 +111,7 @@ public class KillAura extends Module {
 
         addValue(visualSettings);
         addValue(fakeBlocking);
+        addValue(silentBlocking);
         addValue(silentSwing);
         addValue(serverSideSwing);
         addValue(swingChance);

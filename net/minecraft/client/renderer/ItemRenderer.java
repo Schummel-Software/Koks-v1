@@ -340,6 +340,8 @@ public class ItemRenderer
         GlStateManager.enableRescaleNormal();
         GlStateManager.pushMatrix();
 
+        KillAura killAura = Koks.getKoks().moduleManager.getModule(KillAura.class);
+
         if (this.itemToRender != null)
         {
             if (this.itemToRender.getItem() instanceof ItemMap)
@@ -363,10 +365,13 @@ public class ItemRenderer
                         break;
 
                     case 4:
-                        this.func_178105_d(f1);
-                        this.transformFirstPersonItem(f, f1);
-/*                        this.transformFirstPersonItem(f - 0.1F, f1);
-                        this.func_178103_d();*/
+                        if (killAura.isToggled() && killAura.finalEntity != null && killAura.silentBlocking.isToggled()) {
+                            this.func_178105_d(f1);
+                            this.transformFirstPersonItem(f, f1);
+                        } else {
+                            this.transformFirstPersonItem(f - 0.1F, f1);
+                            this.func_178103_d();
+                        }
                         break;
 
                     case 5:
@@ -376,8 +381,7 @@ public class ItemRenderer
             }
             else
             {
-                KillAura killAura = Koks.getKoks().moduleManager.getModule(KillAura.class);
-                if (killAura.isToggled() && killAura.finalEntity != null && killAura.fakeBlocking.isToggled()) {
+                if (killAura.isToggled() && killAura.finalEntity != null && killAura.fakeBlocking.isToggled() && !killAura.silentBlocking.isToggled()) {
                     this.transformFirstPersonItem(f - 0.1F, f1);
                     this.func_178103_d();
                 } else {
