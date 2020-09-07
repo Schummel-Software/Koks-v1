@@ -183,7 +183,7 @@ public class KillAura extends Module {
                 mc.thePlayer.setSprinting(false);
             }
 
-            if (finalEntity == null)
+            if (finalEntity == null || listCount > entities.size() - 1)
                 listCount = 0;
         }
 
@@ -235,7 +235,7 @@ public class KillAura extends Module {
                     mc.thePlayer.sendQueue.addToSendQueue(new C02PacketUseEntity(rayCast, C02PacketUseEntity.Action.ATTACK));
 
                 if (!entities.isEmpty()) {
-                    if (listCount < entities.size())
+                    if (listCount < entities.size() - 1)
                         listCount++;
                     else
                         listCount = 0;
@@ -276,7 +276,8 @@ public class KillAura extends Module {
 
         for (Entity entity : mc.theWorld.loadedEntityList) {
             if (isValidEntity(entity)) {
-                entities.add(entity);
+                if (!entities.contains(entity))
+                    entities.add(entity);
             } else {
                 entities.remove(entity);
             }
