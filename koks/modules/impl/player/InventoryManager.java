@@ -24,6 +24,11 @@ public class InventoryManager extends Module {
     public NumberValue<Long> throwDelay = new NumberValue<>("Throw Delay", 90L, 125L, 150L, 0L, this);
     public BooleanValue<Boolean> preferSword = new BooleanValue<>("Prefer Sword", true, this);
     public BooleanValue<Boolean> keepTools = new BooleanValue<>("KeepTools", true, this);
+    public NumberValue<Integer> swordSlot = new NumberValue<>("Weapon Slot", 1, 9, 0, this);
+    public NumberValue<Integer> bowSlot = new NumberValue<>("Bow Slot", 2, 9, 0, this);
+    public NumberValue<Integer> pickSlot = new NumberValue<>("Pickaxe Slot", 3, 9, 0, this);
+    public NumberValue<Integer> axeSlot = new NumberValue<>("Axe Slot", 4, 9, 0, this);
+    public NumberValue<Integer> shovelSlot = new NumberValue<>("Shovel Slot", 5, 9, 0, this);
     private final RandomUtil randomUtil = new RandomUtil();
     private final TimeUtil startTimer = new TimeUtil();
     private final TimeUtil throwTimer = new TimeUtil();
@@ -36,6 +41,11 @@ public class InventoryManager extends Module {
         addValue(throwDelay);
         addValue(preferSword);
         addValue(keepTools);
+        addValue(swordSlot);
+        addValue(bowSlot);
+        addValue(pickSlot);
+        addValue(axeSlot);
+        addValue(shovelSlot);
     }
 
     @Override
@@ -58,12 +68,18 @@ public class InventoryManager extends Module {
                     ItemStack is = mc.thePlayer.inventoryContainer.getSlot(i).getStack();
 
                     if (throwTimer.hasReached(randomUtil.randomLong(throwDelay.getMinDefaultValue(), throwDelay.getDefaultValue()))) {
-                        if ((is.getItem() instanceof ItemSword || is.getItem() instanceof ItemAxe || is.getItem() instanceof ItemPickaxe) && is == bestWeapon() && mc.thePlayer.inventoryContainer.getInventory().contains(bestWeapon()) && mc.thePlayer.inventoryContainer.getSlot(36).getStack() != is && !preferSword.isToggled()) {
-                            mc.playerController.windowClick(mc.thePlayer.inventoryContainer.windowId, i, 0, 2, mc.thePlayer);
-                        } else if (is.getItem() instanceof ItemSword && is == bestSword() && mc.thePlayer.inventoryContainer.getInventory().contains(bestSword()) && mc.thePlayer.inventoryContainer.getSlot(36).getStack() != is && preferSword.isToggled()) {
-                            mc.playerController.windowClick(mc.thePlayer.inventoryContainer.windowId, i, 0, 2, mc.thePlayer);
-                        } else if (is.getItem() instanceof ItemBow && is == bestBow() && mc.thePlayer.inventoryContainer.getInventory().contains(bestBow()) && mc.thePlayer.inventoryContainer.getSlot(37).getStack() != is) {
-                            mc.playerController.windowClick(mc.thePlayer.inventoryContainer.windowId, i, 1, 2, mc.thePlayer);
+                        if (swordSlot.getDefaultValue() != 0 && (is.getItem() instanceof ItemSword || is.getItem() instanceof ItemAxe || is.getItem() instanceof ItemPickaxe) && is == bestWeapon() && mc.thePlayer.inventoryContainer.getInventory().contains(bestWeapon()) && mc.thePlayer.inventoryContainer.getSlot(35 + swordSlot.getDefaultValue()).getStack() != is && !preferSword.isToggled()) {
+                            mc.playerController.windowClick(mc.thePlayer.inventoryContainer.windowId, i, swordSlot.getDefaultValue() - 1, 2, mc.thePlayer);
+                        } else if (swordSlot.getDefaultValue() != 0 && is.getItem() instanceof ItemSword && is == bestSword() && mc.thePlayer.inventoryContainer.getInventory().contains(bestSword()) && mc.thePlayer.inventoryContainer.getSlot(35 + swordSlot.getDefaultValue()).getStack() != is && preferSword.isToggled()) {
+                            mc.playerController.windowClick(mc.thePlayer.inventoryContainer.windowId, i, swordSlot.getDefaultValue() - 1, 2, mc.thePlayer);
+                        } else if (bowSlot.getDefaultValue() != 0 && is.getItem() instanceof ItemBow && is == bestBow() && mc.thePlayer.inventoryContainer.getInventory().contains(bestBow()) && mc.thePlayer.inventoryContainer.getSlot(35 + bowSlot.getDefaultValue()).getStack() != is) {
+                            mc.playerController.windowClick(mc.thePlayer.inventoryContainer.windowId, i, bowSlot.getDefaultValue() - 1, 2, mc.thePlayer);
+                        } else if (pickSlot.getDefaultValue() != 0 && is.getItem() instanceof ItemPickaxe && is == bestPick() && is != bestWeapon() && keepTools.isToggled() && mc.thePlayer.inventoryContainer.getInventory().contains(bestPick()) && mc.thePlayer.inventoryContainer.getSlot(35 + pickSlot.getDefaultValue()).getStack() != is) {
+                            mc.playerController.windowClick(mc.thePlayer.inventoryContainer.windowId, i, pickSlot.getDefaultValue() - 1, 2, mc.thePlayer);
+                        } else if (axeSlot.getDefaultValue() != 0 && is.getItem() instanceof ItemAxe && is == bestAxe() && is != bestWeapon() && keepTools.isToggled() && mc.thePlayer.inventoryContainer.getInventory().contains(bestAxe()) && mc.thePlayer.inventoryContainer.getSlot(35 + axeSlot.getDefaultValue()).getStack() != is) {
+                            mc.playerController.windowClick(mc.thePlayer.inventoryContainer.windowId, i, axeSlot.getDefaultValue() - 1, 2, mc.thePlayer);
+                        } else if (shovelSlot.getDefaultValue() != 0 && is.getItem() instanceof ItemSpade && is == bestShovel() && is != bestWeapon() && keepTools.isToggled() && mc.thePlayer.inventoryContainer.getInventory().contains(bestShovel()) && mc.thePlayer.inventoryContainer.getSlot(35 + shovelSlot.getDefaultValue()).getStack() != is) {
+                            mc.playerController.windowClick(mc.thePlayer.inventoryContainer.windowId, i, shovelSlot.getDefaultValue() - 1, 2, mc.thePlayer);
                         } else if (isBadStack(is)) {
                             mc.playerController.windowClick(mc.thePlayer.inventoryContainer.windowId, i, 1, 4, mc.thePlayer);
                             throwTimer.reset();
@@ -223,7 +239,7 @@ public class InventoryManager extends Module {
     }
 
     public float getToolRating(ItemStack itemStack) {
-        float damage = getToolMaterialRating(itemStack);
+        float damage = getToolMaterialRating(itemStack, false);
         damage += EnchantmentHelper.getEnchantmentLevel(Enchantment.efficiency.effectId, itemStack) * 2.00F;
         damage += EnchantmentHelper.getEnchantmentLevel(Enchantment.silkTouch.effectId, itemStack) * 0.50F;
         damage += EnchantmentHelper.getEnchantmentLevel(Enchantment.fortune.effectId, itemStack) * 0.50F;
@@ -233,7 +249,7 @@ public class InventoryManager extends Module {
     }
 
     public float getItemDamage(ItemStack itemStack) {
-        float damage = getToolMaterialRating(itemStack);
+        float damage = getToolMaterialRating(itemStack, true);
         damage += EnchantmentHelper.getEnchantmentLevel(Enchantment.sharpness.effectId, itemStack) * 1.25F;
         damage += EnchantmentHelper.getEnchantmentLevel(Enchantment.fireAspect.effectId, itemStack) * 0.50F;
         damage += EnchantmentHelper.getEnchantmentLevel(Enchantment.unbreaking.effectId, itemStack) * 0.01F;
@@ -254,7 +270,7 @@ public class InventoryManager extends Module {
         return damage;
     }
 
-    public float getToolMaterialRating(ItemStack itemStack) {
+    public float getToolMaterialRating(ItemStack itemStack, boolean checkForDamage) {
         Item is = itemStack.getItem();
         float rating = 0;
 
@@ -288,10 +304,10 @@ public class InventoryManager extends Module {
                     rating = 3;
                     break;
                 case "IRON":
-                    rating = 4;
+                    rating = checkForDamage ? 4 : 40;
                     break;
                 case "EMERALD":
-                    rating = 5;
+                    rating = checkForDamage ? 5 : 50;
                     break;
             }
         } else if (is instanceof ItemAxe) {

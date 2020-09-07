@@ -33,6 +33,7 @@ import java.util.ArrayList;
 public class Fly extends Module {
 
     private final ArrayList<Packet> packets = new ArrayList<>();
+    private int stage;
     private final HypixelFly hypixelFly;
     private final TimeUtil timeUtil = new TimeUtil();
     private final MovementUtil movementUtil = new MovementUtil();
@@ -72,7 +73,7 @@ public class Fly extends Module {
             }
         }
 
-        if (event instanceof PacketEvent && modeValue.getSelectedMode().equals("Faithful")) {
+        if (event instanceof PacketEvent && modeValue.getSelectedMode().equals("MCCentral 2")) {
             if (((PacketEvent) event).getType() == PacketEvent.Type.SEND && ((PacketEvent) event).getPacket() instanceof C03PacketPlayer) {
                 packets.add(((PacketEvent) event).getPacket());
                 //event.setCanceled(true);
@@ -114,14 +115,14 @@ public class Fly extends Module {
 
     public void mccentral() {
         System.out.println(mc.thePlayer.fallDistance);
-            mc.thePlayer.motionY = 0;
-            mc.thePlayer.onGround = true;
-            MovementUtil movementUtil = new MovementUtil();
-            if(mc.gameSettings.keyBindBack.pressed || mc.gameSettings.keyBindForward.pressed) {
-                movementUtil.setSpeed(1.5F);
-            }
-            if(mc.gameSettings.keyBindSneak.pressed) {
-                mc.thePlayer.motionY -= 0.1;
+        mc.thePlayer.motionY = 0;
+        mc.thePlayer.onGround = true;
+        MovementUtil movementUtil = new MovementUtil();
+        if (mc.gameSettings.keyBindBack.pressed || mc.gameSettings.keyBindForward.pressed) {
+            movementUtil.setSpeed(1.5F);
+        }
+        if (mc.gameSettings.keyBindSneak.pressed) {
+            mc.thePlayer.motionY -= 0.1;
 
         }
     }
@@ -159,6 +160,7 @@ public class Fly extends Module {
 
     @Override
     public void onEnable() {
+        stage = 0;
         timeUtil.reset();
         switch (modeValue.getSelectedMode()) {
             case "Hypixel":
