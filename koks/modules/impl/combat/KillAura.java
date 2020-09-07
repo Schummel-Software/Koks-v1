@@ -10,6 +10,7 @@ import koks.utilities.value.values.BooleanValue;
 import koks.utilities.value.values.ModeValue;
 import koks.utilities.value.values.NumberValue;
 import koks.utilities.value.values.TitleValue;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityMob;
@@ -294,7 +295,7 @@ public class KillAura extends Module {
             return false;
         if (checkName.isToggled() && entity instanceof EntityPlayer && !isValidEntityName(entity))
             return false;
-        if(checkName.isToggled() && entity.getName().startsWith("§c"))
+        if(checkName.isToggled() && entity.getName().contains("§c"))
             return false;
         if (entity instanceof EntityPlayer && entity == mc.thePlayer)
             return false;
