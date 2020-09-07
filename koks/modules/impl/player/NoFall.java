@@ -40,7 +40,7 @@ public class NoFall extends Module {
                     }
                     if (mc.thePlayer.fallDistance > 2 && distance != 0) {
                         mc.thePlayer.sendQueue.addToSendQueue(new C03PacketPlayer(true));
-                        mc.thePlayer.fallDistance = 2;
+                        mc.thePlayer.fallDistance = 0;
                     }
                     break;
                 case "AAC 3.2.2":

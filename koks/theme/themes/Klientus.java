@@ -55,7 +55,7 @@ public class Klientus extends Theme {
                     Gui.drawRect(scaledResolution.getScaledWidth() - kekz.getStringWidth(mod.getNameForArrayList("§f")) - 7, y[0] -8, scaledResolution.getScaledWidth() - 2, y[0] + 4, new Color(43, 47, 54).getRGB());
                     kekz.drawString(mod.getNameForArrayList("§f"), scaledResolution.getScaledWidth() - kekz.getStringWidth(mod.getNameForArrayList("§f")) - 5, (y[0] - 7F), Koks.getKoks().client_color.getRGB());
                     Gui.drawRect(scaledResolution.getScaledWidth() - 2, y[0] - 8, scaledResolution.getScaledWidth(), y[0] + 4, Koks.getKoks().client_color.getRGB());
-
+                    mod.getAnimationModule().setYAnimation(y[0]);
             }
         });
         }
