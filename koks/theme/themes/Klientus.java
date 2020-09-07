@@ -76,7 +76,7 @@ public class Klientus extends Theme {
         String minute = calendar.get(Calendar.MINUTE) + "";
         String second = calendar.get(Calendar.SECOND) + "";
 
-        String formattedHour = hour.length() == 0 ? hour : "0" + hour;
+        String formattedHour = hour.length() == 2 ? hour : "0" + hour;
         String formattedMinute = minute.length() == 2 ? minute : "0" + minute;
 
         String formattedSecond = second.length() == 2 ? second : "0" + second;
