@@ -205,17 +205,17 @@ public class ModelBiped extends ModelBase {
             this.bipedLeftArm.offsetY = 0;
             this.bipedLeftArm.offsetZ = 0;
 
-            this.bipedRightArm.offsetX = animationEvent.getRightArmPos()[0];
-            this.bipedRightArm.offsetY = animationEvent.getRightArmPos()[1];
-            this.bipedRightArm.offsetZ = animationEvent.getRightArmPos()[2];
+            this.bipedRightArm.offsetX = 0;
+            this.bipedRightArm.offsetY = 0;
+            this.bipedRightArm.offsetZ = 0;
 
-            this.bipedHead.offsetX = animationEvent.getHeadPos()[0];
-            this.bipedHead.offsetY = animationEvent.getHeadPos()[1];
-            this.bipedHead.offsetZ = animationEvent.getHeadPos()[2];
+            this.bipedHead.offsetX = 0;
+            this.bipedHead.offsetY = 0;
+            this.bipedHead.offsetZ = 0;
 
-            this.bipedHeadwear.offsetX = animationEvent.getHeadPos()[0];
-            this.bipedHeadwear.offsetY = animationEvent.getHeadPos()[1];
-            this.bipedHeadwear.offsetZ = animationEvent.getHeadPos()[2];
+            this.bipedHeadwear.offsetX = 0;
+            this.bipedHeadwear.offsetY = 0;
+            this.bipedHeadwear.offsetZ = 0;
         }
 
         if (this.isChild) {

@@ -41,7 +41,7 @@ public class TrailESP extends Module {
             for(Double[] blockPos : positions) {
                 GL11.glVertex3d(blockPos[0] - mc.getRenderManager().renderPosX,blockPos[1] - mc.getRenderManager().renderPosY,blockPos[2] - mc.getRenderManager().renderPosZ);
             }
-            GL11.glVertex3f(0,0,0);
+            GL11.glVertex3f(0,0.01F,0);
             GL11.glEnd();
             GL11.glEnable(GL11.GL_TEXTURE_2D);
             GL11.glColor4f(1,1,1,1);
@@ -59,7 +59,7 @@ public class TrailESP extends Module {
 
         if(event instanceof MotionEvent) {
             if(((MotionEvent) event).getType() == MotionEvent.Type.POST) {
-               positions.add(new Double[] {mc.thePlayer.posX,mc.thePlayer.posY,mc.thePlayer.posZ});
+               positions.add(new Double[] {mc.thePlayer.posX,mc.thePlayer.posY + 0.01,mc.thePlayer.posZ});
             }
         }
     }
