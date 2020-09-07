@@ -143,4 +143,8 @@ public abstract class Module {
         return displayName + (moduleInfo.equals("") ? "" : " §7" + moduleInfo);
     }
 
+    public String getNameForArrayList(String color) {
+        return displayName + (moduleInfo.equals("") ? "" : " " + color + moduleInfo);
+    }
+
 }
