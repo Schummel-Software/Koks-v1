@@ -8,6 +8,7 @@ import koks.hud.CrossHair;
 import koks.hud.ModuleList;
 import koks.hud.Watermark;
 import koks.modules.Module;
+import koks.theme.Theme;
 import koks.utilities.value.values.BooleanValue;
 import koks.utilities.value.values.ModeValue;
 
@@ -43,6 +44,7 @@ public class HUD extends Module {
 
     @Override
     public void onEvent(Event event) {
+
         if (event instanceof EventRender2D) {
 
             if (tabGUI.isToggled()) {
@@ -55,21 +57,48 @@ public class HUD extends Module {
                 tabGUICenteredString.setVisible(false);
             }
 
-            moduleList.drawList(shadowArrayList.isToggled());
-            watermark.drawWatermark();
-            if (Koks.getKoks().tabGUI != null && tabGUI.isToggled()) {
-                if (watermarkStyle.getSelectedMode().equals("Custom with Shadow"))
-                    Koks.getKoks().tabGUI.drawScreen(2, 70, this.tabGUI_shadow.isToggled(), tabGUI_client_color.isToggled(), tabGUICenteredString.isToggled());
-                else
-                    Koks.getKoks().tabGUI.drawScreen(2, 20, this.tabGUI_shadow.isToggled(), tabGUI_client_color.isToggled(), tabGUICenteredString.isToggled());
+            switch (Koks.getKoks().getThemeCategory()) {
+                case NONE:
+                    moduleList.drawList(shadowArrayList.isToggled());
+                    watermark.drawWatermark();
+                    if (Koks.getKoks().tabGUI != null && tabGUI.isToggled()) {
+                        if (watermarkStyle.getSelectedMode().equals("Custom with Shadow"))
+                            Koks.getKoks().tabGUI.drawScreen(2, 70, 80, 15, this.tabGUI_shadow.isToggled(), tabGUI_client_color.isToggled(), tabGUICenteredString.isToggled());
+                        else
+                            Koks.getKoks().tabGUI.drawScreen(2, 20, 80, 15, this.tabGUI_shadow.isToggled(), tabGUI_client_color.isToggled(), tabGUICenteredString.isToggled());
+                    }
+                    if (customCrossHair.isToggled())
+                        new CrossHair().drawCrosshair();
+                    break;
+                default:
+                    Koks.getKoks().themeManager.getThemeList().forEach(theme -> {
+                        if (theme.getThemeCategory().equals(Koks.getKoks().getThemeCategory())) {
+                            theme.drawIngameTheme();
+                        }
+                    });
+                    break;
             }
-            if (customCrossHair.isToggled())
-                new CrossHair().drawCrosshair();
         }
+
         if (event instanceof KeyPressEvent) {
-            if (Koks.getKoks().tabGUI != null && tabGUI.isToggled())
-                Koks.getKoks().tabGUI.keyPress(((KeyPressEvent) event).getKey());
+            switch (Koks.getKoks().getThemeCategory()) {
+                case NONE:
+                    if (Koks.getKoks().tabGUI != null && tabGUI.isToggled())
+                        Koks.getKoks().tabGUI.keyPress(((KeyPressEvent) event).getKey());
+                    break;
+                default:
+                    Koks.getKoks().themeManager.getThemeList().forEach(theme -> {
+                        if (theme.getThemeCategory().equals(Koks.getKoks().getThemeCategory())) {
+                            if (theme.drawTabGUI()) {
+                                if (Koks.getKoks().tabGUI != null)
+                                    Koks.getKoks().tabGUI.keyPress(((KeyPressEvent) event).getKey());
+                            }
+                        }
+                    });
+                    break;
+            }
         }
+
     }
 
     @Override
