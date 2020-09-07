@@ -7,8 +7,23 @@ package koks.utilities;
 public class AnimationModule {
 
     private double zoomAnimation;
+
+    private double slideAnimation;
     private double yAnimation;
 
+    public void setUp() {
+        setZoomAnimation(0);
+        setYAnimation(0);
+        setSlideAnimation(0.5);
+    }
+
+    public void setSlideAnimation(double slideAnimation) {
+        this.slideAnimation = slideAnimation;
+    }
+
+    public double getSlideAnimation() {
+        return slideAnimation;
+    }
 
     public double getZoomAnimation() {
         return zoomAnimation;

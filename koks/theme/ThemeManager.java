@@ -1,6 +1,7 @@
 package koks.theme;
 
 import koks.theme.themes.Jello;
+import koks.theme.themes.Moon;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +16,7 @@ public class ThemeManager {
 
     public ThemeManager() {
         addTheme(new Jello());
+        addTheme(new Moon());
     }
 
     public void addTheme(Theme theme) {

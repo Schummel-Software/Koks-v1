@@ -114,7 +114,7 @@ public class Jello extends Theme {
         GlStateManager.enableAlpha();
         GlStateManager.disableBlend();
         GL11.glPopMatrix();
-        WATER_MARK_FONT.drawString("Jello", 5, 0, -1);
+        WATER_MARK_FONT.drawString(Koks.getKoks().CLIENT_NAME, 5, 0, -1);
     }
 
     @Override

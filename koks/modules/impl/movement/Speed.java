@@ -32,12 +32,11 @@ public class Speed extends Module {
             setModuleInfo(mode.getSelectedMode());
             switch (mode.getSelectedMode()) {
                 case "Hypixel":
-                    if (mc.thePlayer.moveForward != 0 && !mc.gameSettings.keyBindJump.isKeyDown()) {
+                    if (mc.thePlayer.moveForward != 0 || mc.thePlayer.moveStrafing != 0 && !mc.gameSettings.keyBindJump.isKeyDown()) {
                         if (mc.thePlayer.onGround) {
                             mc.thePlayer.jump();
-                            movementUtil.setSpeed(0.2875D + 0.2);
                         } else {
-                            movementUtil.setSpeed(0.3175D);
+                            movementUtil.setSpeed(0.275D);
                         }
                     }
                     break;

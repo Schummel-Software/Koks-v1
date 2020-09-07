@@ -30,8 +30,7 @@ public abstract class Module {
         this.moduleName = moduleName;
         this.moduleCategory = moduleCategory;
         this.displayName = moduleName;
-        this.animationModule.setZoomAnimation(0);
-        this.animationModule.setYAnimation(0);
+        this.animationModule.setUp();
     }
 
     public enum Category {
@@ -51,8 +50,7 @@ public abstract class Module {
             onDisable();
             enabled = false;
         } else {
-            this.animationModule.setZoomAnimation(0);
-            this.animationModule.setYAnimation(0);
+            this.animationModule.setUp();
             onEnable();
             enabled = true;
         }

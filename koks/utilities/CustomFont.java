@@ -118,6 +118,7 @@ public class CustomFont extends FontRenderer {
         return unicodeFont.getWidth(EnumChatFormatting.getTextWithoutFormattingCodes(Character.toString(character)));
     }
 
+    @Override
     public int getStringWidth(String text) {
         float width = 0.0F;
         String str = EnumChatFormatting.getTextWithoutFormattingCodes(text);
