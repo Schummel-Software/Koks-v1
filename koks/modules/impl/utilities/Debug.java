@@ -9,6 +9,8 @@ import koks.utilities.value.values.BooleanValue;
 import koks.utilities.value.values.ModeValue;
 import koks.utilities.value.values.NumberValue;
 import koks.utilities.value.values.TitleValue;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
 
 /**
  * @author avox | lmao | kroko
@@ -62,9 +64,7 @@ public class Debug extends Module {
     @Override
     public void onEvent(Event event) {
         if (event instanceof EventUpdate) {
-            if (mc.currentScreen != null) mc.displayGuiScreen(null);
-            this.setToggled(false);
-            mc.displayGuiScreen(Koks.getKoks().customHUD);
+
         }
     }
 

@@ -294,6 +294,8 @@ public class KillAura extends Module {
             return false;
         if (checkName.isToggled() && entity instanceof EntityPlayer && !isValidEntityName(entity))
             return false;
+        if(checkName.isToggled() && entity.getName().startsWith("§c"))
+            return false;
         if (entity instanceof EntityPlayer && entity == mc.thePlayer)
             return false;
         if (entity.isDead)

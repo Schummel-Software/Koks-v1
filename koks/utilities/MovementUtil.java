@@ -1,6 +1,9 @@
 package koks.utilities;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
+import net.minecraft.potion.PotionHelper;
 import net.minecraft.util.MathHelper;
 
 /**
@@ -20,8 +23,8 @@ public class MovementUtil {
     }
 
     public float baseSpeed() {
-
-        return 0.2875F;
+        float baseSpeed = 0.2875F;
+        return baseSpeed;
     }
 
     public void setSpeed(double speed) {
