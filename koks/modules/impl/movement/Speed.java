@@ -6,11 +6,6 @@ import koks.event.impl.EventUpdate;
 import koks.modules.Module;
 import koks.utilities.MovementUtil;
 import koks.utilities.value.values.ModeValue;
-import net.minecraft.block.Block;
-import net.minecraft.init.Blocks;
-import net.minecraft.util.BlockPos;
-
-import java.lang.annotation.Target;
 
 /**
  * @author avox | lmao | kroko
@@ -31,16 +26,18 @@ public class Speed extends Module {
 
     @Override
     public void onEvent(Event event) {
-        if (targetStrafe.allowStrafing())
-            targetStrafe.strafe(event);
+        if (targetStrafe.allowStrafing()) {
+            targetStrafe.strafe(event, 0.305D);
+        }
         if (event instanceof EventUpdate) {
             setModuleInfo(mode.getSelectedMode());
             switch (mode.getSelectedMode()) {
                 case "Hypixel":
-                    if (mc.thePlayer.moveForward != 0 || mc.thePlayer.moveStrafing != 0 && !mc.gameSettings.keyBindJump.isKeyDown()) {
+                    if (!mc.gameSettings.keyBindJump.isKeyDown()) {
                         if (mc.thePlayer.onGround) {
                             mc.thePlayer.jump();
                         } else {
+                            if (!targetStrafe.allowStrafing() && mc.thePlayer.movementInput.moveForward != 0 || mc.thePlayer.movementInput.moveStrafe != 0)
                                 movementUtil.setSpeed(0.285D);
                             mc.thePlayer.jumpMovementFactor = 0.035F;
                         }

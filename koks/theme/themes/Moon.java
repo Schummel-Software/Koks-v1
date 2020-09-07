@@ -78,12 +78,12 @@ public class Moon extends Theme {
 
                 Gui.drawRect(scaledResolution.getScaledWidth() - module.getAnimationModule().getSlideAnimation() - 1, y[0], scaledResolution.getScaledWidth(), y[0] + module.getAnimationModule().getYAnimation(), Integer.MIN_VALUE);
 
-                if (i + 1 < list.size() - 2) {
+                try {
                     Module nextEnabledModule = returnNextToggledModule(list, i + 1);
                     double difference = module.getAnimationModule().getSlideAnimation() - nextEnabledModule.getAnimationModule().getSlideAnimation();
                     Gui.drawRect(scaledResolution.getScaledWidth() - module.getAnimationModule().getSlideAnimation() - 2, y[0] + module.getAnimationModule().getYAnimation() - 1, scaledResolution.getScaledWidth() - module.getAnimationModule().getSlideAnimation() + difference - 1, y[0] + module.getAnimationModule().getYAnimation(), Koks.getKoks().client_color.getRGB());
                     Gui.drawRect(scaledResolution.getScaledWidth() - module.getAnimationModule().getSlideAnimation() - 2, y[0], scaledResolution.getScaledWidth() - module.getAnimationModule().getSlideAnimation() - 1, y[0] + module.getAnimationModule().getYAnimation(), Koks.getKoks().client_color.getRGB());
-                } else {
+                } catch (Exception e) {
                     Gui.drawRect(scaledResolution.getScaledWidth() - module.getAnimationModule().getSlideAnimation() - 1, y[0] + module.getAnimationModule().getYAnimation() - 1, scaledResolution.getScaledWidth(), y[0] + module.getAnimationModule().getYAnimation(), Koks.getKoks().client_color.getRGB());
                     Gui.drawRect(scaledResolution.getScaledWidth() - module.getAnimationModule().getSlideAnimation() - 2, y[0], scaledResolution.getScaledWidth() - module.getAnimationModule().getSlideAnimation() - 1, y[0] + module.getAnimationModule().getYAnimation(), Koks.getKoks().client_color.getRGB());
 

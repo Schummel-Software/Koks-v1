@@ -20,10 +20,10 @@ public class TargetStrafe extends Module {
     }
 
     int direction;
+    MovementUtil movementUtil = new MovementUtil();
 
-    public void strafe(Event event) {
+    public void strafe(Event event, double speed) {
 
-        MovementUtil movementUtil = new MovementUtil();
         if (event instanceof MotionEvent) {
             if (((MotionEvent) event).getType() == MotionEvent.Type.PRE) {
                 if (mc.thePlayer.isCollidedHorizontally) {
@@ -36,6 +36,7 @@ public class TargetStrafe extends Module {
                     direction = 0;
                 if (mc.gameSettings.keyBindRight.pressed)
                     direction = 1;
+                System.out.println(direction);
             }
         }
 
@@ -43,13 +44,13 @@ public class TargetStrafe extends Module {
             mc.gameSettings.keyBindForward.pressed = false;
             mc.gameSettings.keyBindBack.pressed = false;
             if (allowStrafing()) {
-                if (mc.thePlayer.getDistanceToEntity(Koks.getKoks().moduleManager.getModule(KillAura.class).finalEntity) <= 2) {
-                    movementUtil.setSpeedEvent(0.285, Koks.getKoks().moduleManager.getModule(KillAura.class).yaw, false, true, direction == 0, direction == 1);
+                if (mc.thePlayer.getDistanceToEntity(Koks.getKoks().moduleManager.getModule(KillAura.class).finalEntity) <= 1) {
+                    movementUtil.setSpeedEvent(speed, Koks.getKoks().moduleManager.getModule(KillAura.class).yaw, false, true, direction == 0, direction == 1);
                 } else {
-                    if (mc.thePlayer.getDistanceToEntity(Koks.getKoks().moduleManager.getModule(KillAura.class).finalEntity) >= 3) {
-                        movementUtil.setSpeedEvent(0.285, Koks.getKoks().moduleManager.getModule(KillAura.class).yaw, true, false, direction == 0, direction == 1);
+                    if (mc.thePlayer.getDistanceToEntity(Koks.getKoks().moduleManager.getModule(KillAura.class).finalEntity) >= 2) {
+                        movementUtil.setSpeedEvent(speed, Koks.getKoks().moduleManager.getModule(KillAura.class).yaw, true, false, direction == 0, direction == 1);
                     } else {
-                        movementUtil.setSpeedEvent(0.285, Koks.getKoks().moduleManager.getModule(KillAura.class).yaw, false, false, direction == 0, direction == 1);
+                        movementUtil.setSpeedEvent(speed, Koks.getKoks().moduleManager.getModule(KillAura.class).yaw, false, false, direction == 0, direction == 1);
                     }
                 }
             }

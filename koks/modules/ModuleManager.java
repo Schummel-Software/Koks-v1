@@ -50,6 +50,7 @@ public class ModuleManager {
         addModule(new NoRotate());
         addModule(new InventoryManager());
         addModule(new ChestStealer());
+        addModule(new AntiVoid());
 
         // Utilities
         addModule(new ClickGUI());
