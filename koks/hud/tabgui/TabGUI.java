@@ -1,6 +1,7 @@
 package koks.hud.tabgui;
 
 import koks.modules.Module;
+import koks.utilities.CustomFont;
 import koks.utilities.RenderUtils;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
@@ -28,7 +29,7 @@ public class TabGUI {
         Arrays.stream(Module.Category.values()).forEach(category -> categoryTabs.add(new CategoryTab(category)));
     }
 
-    public void drawScreen(int x, int y, boolean shadow, boolean clientColor, boolean centeredString) {
+    public void drawScreen(int x, int y, int width, int height, boolean shadow, CustomFont tabGuiLengthFont, boolean clientColor, boolean centeredString) {
         int[] y2 = {0};
         int[] y3 = {0};
 
@@ -37,15 +38,20 @@ public class TabGUI {
          */
 
         if (shadow) {
+
             this.categoryTabs.forEach(categoryTab -> {
-                y3[0] += 15;
+                y3[0] += height;
             });
+
             GL11.glPushMatrix();
             GlStateManager.disableAlpha();
             GlStateManager.enableBlend();
             GL11.glEnable(GL11.GL_BLEND);
             GL11.glColor4f(1, 1, 1, 1);
-            renderUtils.drawImage(new ResourceLocation("client/shadows/shadow.png"), x - 5, y - 5F, 90, y3[0] + 10F, false);
+            renderUtils.drawImage(new ResourceLocation("client/shadows/top.png"), x, y - 3, width, 3, false);
+            renderUtils.drawImage(new ResourceLocation("client/shadows/bottom.png"), x, y + y3[0], width, 6, false);
+            renderUtils.drawImage(new ResourceLocation("client/shadows/left.png"), x - 3, y - 1, 3, y3[0] + 1, false);
+            renderUtils.drawImage(new ResourceLocation("client/shadows/right.png"), x + width, y - 1, 3, y3[0] + 2, false);
             GL11.glDisable(GL11.GL_BLEND);
             GlStateManager.enableAlpha();
             GlStateManager.disableBlend();
@@ -55,11 +61,10 @@ public class TabGUI {
          * SHADOWS END
          */
 
-
         this.categoryTabs.forEach(categoryTab -> {
-            categoryTab.setInformation(x, y + y2[0], 80, 15);
-            categoryTab.drawScreen(currentCat, shadow, clientColor, centeredString);
-            y2[0] += 15;
+            categoryTab.setInformation(x, y + y2[0], width, height);
+            categoryTab.drawScreen(currentCat, shadow, clientColor, centeredString, tabGuiLengthFont);
+            y2[0] += height;
         });
     }
 

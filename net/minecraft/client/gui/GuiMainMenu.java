@@ -22,6 +22,7 @@ import com.mojang.authlib.yggdrasil.YggdrasilUserAuthentication;
 import com.thealtening.AltService;
 import koks.Koks;
 import koks.account.Account;
+import koks.theme.ThemeSelection;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.ISound;
 import net.minecraft.client.audio.PositionedSoundRecord;
@@ -222,6 +223,8 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
         }
 
         this.buttonList.add(new GuiButton(0, this.width / 2 - 100, j + 72 + 12, 98, 20, I18n.format("menu.options", new Object[0])));
+        this.buttonList.add(new GuiButton(12512, this.width / 2 - 100, j + 72 + 36, 98, 20, I18n.format("Theme Selection", new Object[0])));
+
         this.buttonList.add(new GuiButton(4, this.width / 2 + 2, j + 72 + 12, 98, 20, I18n.format("menu.quit", new Object[0])));
         this.buttonList.add(new GuiButtonLanguage(5, this.width / 2 - 124, j + 72 + 12));
 
@@ -275,6 +278,10 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
         song = false;
         if (button.id == 0) {
             this.mc.displayGuiScreen(new GuiOptions(this, this.mc.gameSettings));
+        }
+
+        if (button.id == 12512) {
+            this.mc.displayGuiScreen(new ThemeSelection());
         }
 
         if (button.id == 5) {
@@ -512,7 +519,7 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
             if (!mc.getSoundHandler().isSoundPlaying(Koks.getKoks().koksSound)) {
                 mc.getSoundHandler().playSound(Koks.getKoks().koksSound);
             }
-        }catch (IllegalArgumentException ignore) {
+        } catch (IllegalArgumentException ignore) {
             System.out.println("crash");
         }
 

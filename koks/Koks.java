@@ -11,6 +11,8 @@ import koks.gui.customhud.valuehudsystem.ValueHUDManager;
 import koks.hud.tabgui.TabGUI;
 import koks.manager.ConfigManager;
 import koks.modules.ModuleManager;
+import koks.theme.Theme;
+import koks.theme.ThemeManager;
 import koks.utilities.value.ValueManager;
 import net.minecraft.client.audio.*;
 import net.minecraft.util.ResourceLocation;
@@ -39,6 +41,7 @@ public class Koks {
     public final String CLIENT_VERSION = "1.0.0";
     public final String PREFIX = "§c" + CLIENT_NAME + " §7>> §f";
     public Color client_color = Color.PINK;
+    private Theme.ThemeCategory themeCategory = Theme.ThemeCategory.JELLO;
 
     public ISound koksSound;
 
@@ -46,6 +49,7 @@ public class Koks {
     public ValueHUDManager valueHUDManager;
     public ValueManager valueManager;
     public CommonValueManager commonValueManager;
+    public ThemeManager themeManager;
     public ClickGUI clickGUI;
     public EventManager eventManager;
     public CommandManager commandManager;
@@ -62,6 +66,7 @@ public class Koks {
         valueHUDManager = new ValueHUDManager();
         commonValueManager = new CommonValueManager();
         moduleManager = new ModuleManager();
+        themeManager = new ThemeManager();
         clickGUI = new ClickGUI();
         commandManager = new CommandManager();
         eventManager = new EventManager();
@@ -79,4 +84,11 @@ public class Koks {
         fileManager.writeToAllFiles();
     }
 
+    public void setThemeCategory(Theme.ThemeCategory themeCategory) {
+        this.themeCategory = themeCategory;
+    }
+
+    public Theme.ThemeCategory getThemeCategory() {
+        return themeCategory;
+    }
 }
