@@ -16,6 +16,9 @@ public class CommandManager {
         addCommand(new VClip());
         addCommand(new Friend());
         addCommand(new Reload());
+        addCommand(new InGameName());
+        addCommand(new Register());
+        addCommand(new Login());
     }
 
 

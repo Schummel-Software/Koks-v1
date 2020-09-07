@@ -2,6 +2,7 @@ package koks.command;
 
 import koks.Koks;
 import net.minecraft.client.Minecraft;
+import net.minecraft.network.play.client.C01PacketChatMessage;
 import net.minecraft.util.ChatComponentText;
 import org.lwjgl.input.Keyboard;
 
@@ -56,4 +57,9 @@ public abstract class Command {
         String message = pref + "§c§lERROR §e" + errorType.toUpperCase() + "§7: " + fix;
         mc.thePlayer.addChatMessage(new ChatComponentText(message));
     }
+
+    public void sendServerMessage(String message) {
+        mc.thePlayer.sendQueue.addToSendQueue(new C01PacketChatMessage(message));
+    }
+
 }
