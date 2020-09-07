@@ -58,11 +58,11 @@ public class CustomFont extends FontRenderer {
             boolean blend = GL11.glIsEnabled(GL11.GL_BLEND);
             boolean lighting = GL11.glIsEnabled(GL11.GL_LIGHTING);
             boolean texture = GL11.glIsEnabled(GL11.GL_TEXTURE_2D);
-            if(!blend)
+            if (!blend)
                 GL11.glEnable(GL11.GL_BLEND);
-            if(lighting)
+            if (lighting)
                 GL11.glDisable(GL11.GL_LIGHTING);
-            if(texture)
+            if (texture)
                 GL11.glDisable(GL11.GL_TEXTURE_2D);
 
 
@@ -89,11 +89,11 @@ public class CustomFont extends FontRenderer {
                     x += this.getCharWidth(c0);
                 }
             }
-            if(texture)
+            if (texture)
                 GL11.glEnable(GL11.GL_TEXTURE_2D);
-            if(lighting)
+            if (lighting)
                 GL11.glEnable(GL11.GL_LIGHTING);
-            if(!blend)
+            if (!blend)
                 GL11.glDisable(GL11.GL_BLEND);
             GlStateManager.bindTexture(0);
             GlStateManager.color(0, 0, 0, 0);
@@ -122,8 +122,8 @@ public class CustomFont extends FontRenderer {
     public int getStringWidth(String text) {
         float width = 0.0F;
         String str = EnumChatFormatting.getTextWithoutFormattingCodes(text);
-        for(char c : str.toCharArray()) {
-            width += unicodeFont.getWidth(Character.toString(c)) ;
+        for (char c : str.toCharArray()) {
+            width += unicodeFont.getWidth(Character.toString(c));
         }
         return (int) (width / 2.0F);
     }

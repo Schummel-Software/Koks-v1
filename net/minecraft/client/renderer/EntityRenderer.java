@@ -16,6 +16,7 @@ import koks.event.Event;
 import koks.event.EventManager;
 import koks.event.impl.*;
 import koks.modules.impl.movement.modes.HypixelFly;
+import koks.modules.impl.visuals.CameraClip;
 import koks.modules.impl.visuals.NoBob;
 import koks.modules.impl.visuals.NoFov;
 import koks.modules.impl.visuals.NoHurtcam;
@@ -825,10 +826,18 @@ public class EntityRenderer implements IResourceManagerReloadListener
                     {
                         double d7 = movingobjectposition.hitVec.distanceTo(new Vec3(d0, d1, d2));
 
-                        if (d7 < d3)
-                        {
-                            d3 = d7;
+
+                        if(Koks.getKoks().moduleManager.getModule(CameraClip.class).isToggled()){
+                            if (d7 < d3)
+                            {
+                            }
+                        }else{
+                            if (d7 < d3)
+                            {
+                                d3 = d7;
+                            }
                         }
+
                     }
                 }
 

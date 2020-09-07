@@ -37,7 +37,7 @@ public class Jello extends Theme {
     public void categoryTabGUI(CategoryTab categoryTab, int x, int y, int width, int height) {
         Gui.drawRect(x, y, x + width, y + height, Integer.MIN_VALUE);
         Gui.drawRect(x, y, x + width, y + height, categoryTab.isCurrentCategory() ? new Color(255, 255, 255, 125).getRGB() : new Color(255, 255, 255, 0).getRGB());
-        TABGUI_FONT.drawStringWithShadow(categoryTab.category.name(), x + categoryTab.animationX, y + height / 2 - TABGUI_FONT.FONT_HEIGHT / 2, new Color(255, 255, 255, 255).getRGB());
+        TABGUI_FONT.drawStringWithShadow(categoryTab.category.name().substring(0, 1).toUpperCase() + categoryTab.category.name().substring(1).toLowerCase(), x + categoryTab.animationX, y + height / 2 - TABGUI_FONT.FONT_HEIGHT / 2, new Color(255, 255, 255, 255).getRGB());
     }
 
     @Override

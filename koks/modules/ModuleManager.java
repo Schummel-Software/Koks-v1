@@ -46,6 +46,7 @@ public class ModuleManager {
         addModule(new Phase());
         addModule(new SetBack());
         addModule(new AutoArmor());
+        addModule(new NoRotate());
         addModule(new InventoryManager());
         addModule(new ChestStealer());
 
@@ -68,6 +69,7 @@ public class ModuleManager {
         addModule(new NoBob());
         addModule(new NoFov());
         addModule(new NoHurtcam());
+        addModule(new CameraClip());
         addModule(new PlayerESP());
         addModule(new HitAnimation());
         addModule(new FullBright());
