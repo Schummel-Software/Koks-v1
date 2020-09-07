@@ -102,7 +102,7 @@ public class CustomFont extends FontRenderer {
     }
 
     @Override
-    public float drawString(String text, int x, int y, int color) {
+    public float drawString(String text, float x, float y, int color) {
         return this.renderString(text, x, y, color, false);
     }
 
