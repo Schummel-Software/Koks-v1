@@ -1,6 +1,7 @@
 package koks.hud.tabgui;
 
 import koks.modules.Module;
+import koks.utilities.CustomFont;
 import koks.utilities.RenderUtils;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
@@ -28,7 +29,7 @@ public class TabGUI {
         Arrays.stream(Module.Category.values()).forEach(category -> categoryTabs.add(new CategoryTab(category)));
     }
 
-    public void drawScreen(int x, int y, int width, int height, boolean shadow, boolean clientColor, boolean centeredString) {
+    public void drawScreen(int x, int y, int width, int height, boolean shadow, CustomFont tabGuiLengthFont, boolean clientColor, boolean centeredString) {
         int[] y2 = {0};
         int[] y3 = {0};
 
@@ -62,7 +63,7 @@ public class TabGUI {
 
         this.categoryTabs.forEach(categoryTab -> {
             categoryTab.setInformation(x, y + y2[0], width, height);
-            categoryTab.drawScreen(currentCat, shadow, clientColor, centeredString);
+            categoryTab.drawScreen(currentCat, shadow, clientColor, centeredString, tabGuiLengthFont);
             y2[0] += height;
         });
     }

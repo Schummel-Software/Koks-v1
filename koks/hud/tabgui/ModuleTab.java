@@ -2,6 +2,7 @@ package koks.hud.tabgui;
 
 import koks.Koks;
 import koks.modules.Module;
+import koks.utilities.CustomFont;
 import koks.utilities.RenderUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
@@ -26,7 +27,7 @@ public class ModuleTab {
         this.module = module;
     }
 
-    public void drawScreen(int currentModule, boolean clientColor, boolean centeredString, CategoryTab categoryTab) {
+    public void drawScreen(int currentModule, boolean clientColor, boolean centeredString, CustomFont tabGuiLengthFont, CategoryTab categoryTab) {
         this.currentModule = currentModule;
         this.categoryTab = categoryTab;
         switch (Koks.getKoks().getThemeCategory()) {

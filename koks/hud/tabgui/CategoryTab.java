@@ -31,7 +31,7 @@ public class CategoryTab {
     public int currentModule = 0, currentCategory = 0;
     private final CustomFont fr = new CustomFont("fonts/Helvetica45Light_0.ttf", 20);
 
-    private float animationX = 3;
+    public float animationX = 3;
 
     public List<ModuleTab> moduleTabs = new ArrayList<>();
 
@@ -40,10 +40,17 @@ public class CategoryTab {
         Koks.getKoks().moduleManager.getModules().stream().filter(module -> module.getModuleCategory().equals(this.category)).forEach(module -> moduleTabs.add(new ModuleTab(module)));
     }
 
-    public void drawScreen(int categoryCurrent, boolean shadow, boolean clientColor, boolean centeredString) {
+    public void drawScreen(int categoryCurrent, boolean shadow, boolean clientColor, boolean centeredString, CustomFont tabGuiLengthFont) {
         int[] yHeight = {0};
         int[] yHeight2 = {0};
         int[] longestWidth = {width};
+        if ((categoryCurrent == category.ordinal())) {
+            if (animationX < 9)
+                animationX += 0.025 * DeltaTime.getDeltaTime();
+        } else {
+            if (animationX > 3)
+                animationX -= 0.025 * DeltaTime.getDeltaTime();
+        }
         switch (Koks.getKoks().getThemeCategory()) {
             case NONE:
                 this.longestWidth = false;
@@ -53,13 +60,6 @@ public class CategoryTab {
                 });
                 this.currentCategory = categoryCurrent;
                 renderUtils.drawRect(7, x, y, x + width, y + height, currentCategory == category.ordinal() ? clientColor ? Koks.getKoks().client_color : new Color(0, 0, 0, 175) : new Color(0, 0, 0, 125));
-                if ((categoryCurrent == category.ordinal())) {
-                    if (animationX < 9)
-                        animationX += 0.025 * DeltaTime.getDeltaTime();
-                } else {
-                    if (animationX > 3)
-                        animationX -= 0.025 * DeltaTime.getDeltaTime();
-                }
                 fr.drawStringWithShadow(category.name().substring(0, 1).toUpperCase() + category.name().substring(1).toLowerCase(), centeredString ? x + width / 2 - fr.getStringWidth(category.name().substring(0, 1).toUpperCase() + category.name().substring(1).toLowerCase()) / 2 : x + animationX, y + height / 2 - fr.FONT_HEIGHT / 2, -1);
                 if (expanded) {
                     /*
@@ -88,7 +88,7 @@ public class CategoryTab {
                      */
                     this.moduleTabs.forEach(moduleTab -> {
                         moduleTab.setInformation(x + width + 3, y + yHeight[0], longestWidth[0], height);
-                        moduleTab.drawScreen(currentModule, clientColor, centeredString, this);
+                        moduleTab.drawScreen(currentModule, clientColor, centeredString, tabGuiLengthFont, this);
                         yHeight[0] += height;
                     });
                 }
@@ -103,7 +103,7 @@ public class CategoryTab {
                                     if (Minecraft.getMinecraft().fontRendererObj.getStringWidth(moduleTab.getModule().getModuleName()) > longestWidth[0])
                                         longestWidth[0] = Minecraft.getMinecraft().fontRendererObj.getStringWidth(moduleTab.getModule().getModuleName()) + (centeredString ? 0 : 3);
                                 });
-                            }else{
+                            } else {
                                 longestWidth[0] = width;
                             }
 
@@ -133,7 +133,7 @@ public class CategoryTab {
 
                                 this.moduleTabs.forEach(moduleTab -> {
                                     moduleTab.setInformation(x + width + 3, y + yHeight[0], longestWidth[0], height);
-                                    moduleTab.drawScreen(currentModule, clientColor, centeredString, this);
+                                    moduleTab.drawScreen(currentModule, clientColor, centeredString, tabGuiLengthFont, this);
                                     yHeight[0] += height;
                                 });
                             }

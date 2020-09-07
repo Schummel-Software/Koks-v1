@@ -3,6 +3,8 @@ package koks.theme;
 import koks.Koks;
 import koks.hud.tabgui.CategoryTab;
 import koks.hud.tabgui.ModuleTab;
+import koks.utilities.CustomFont;
+import koks.utilities.RenderUtils;
 
 /**
  * @author avox | lmao | kroko
@@ -12,9 +14,10 @@ public abstract class Theme {
 
     private final ThemeCategory themeCategory;
 
-    private boolean tabGuiCenteredString, tabGuiShadow, tabGuiClientColor,longestWidthStringModule;
+    private boolean tabGuiShadow, longestWidthStringModule;
     private int tabGuiX, tabGuiY, tabGuiWidth, tabGuiHeight;
-
+    private CustomFont tabGuiLengthFont;
+    private final RenderUtils renderUtils = new RenderUtils();
 
     public Theme(ThemeCategory themeCategory) {
         this.themeCategory = themeCategory;
@@ -22,7 +25,7 @@ public abstract class Theme {
 
     public void drawIngameTheme() {
         if (drawTabGUI()) {
-            Koks.getKoks().tabGUI.drawScreen(tabGuiX, tabGuiY, tabGuiWidth, tabGuiHeight, tabGuiShadow, tabGuiClientColor, tabGuiCenteredString);
+            Koks.getKoks().tabGUI.drawScreen(tabGuiX, tabGuiY, tabGuiWidth, tabGuiHeight, tabGuiShadow, tabGuiLengthFont, false, false);
         }
         if (drawWaterMark()) {
             waterMarkDesign();
@@ -32,15 +35,14 @@ public abstract class Theme {
         }
     }
 
-    public void setUpTabGUI(int x, int y, int width, int height, boolean tabGuiShadow, boolean tabGuiClientColor, boolean tabGuiCenteredString, boolean longestWidthStringModule) {
+    public void setUpTabGUI(int x, int y, int width, int height, boolean tabGuiShadow, boolean longestWidthStringModule, CustomFont tabGuiLengthFont) {
         this.tabGuiX = x;
         this.tabGuiY = y;
         this.tabGuiWidth = width;
         this.tabGuiHeight = height;
         this.tabGuiShadow = tabGuiShadow;
-        this.tabGuiClientColor = tabGuiClientColor;
-        this.tabGuiCenteredString = tabGuiCenteredString;
         this.longestWidthStringModule = longestWidthStringModule;
+        this.tabGuiLengthFont = tabGuiLengthFont;
     }
 
     public abstract void arrayListDesign();
@@ -61,6 +63,10 @@ public abstract class Theme {
 
     public boolean isLongestWidthStringModule() {
         return longestWidthStringModule;
+    }
+
+    public RenderUtils getRenderUtils() {
+        return renderUtils;
     }
 
     public enum ThemeCategory {
