@@ -68,6 +68,45 @@ public class TabGUI {
         });
     }
 
+    public void drawScreen(int x, int y, int width, int height, boolean shadow, boolean clientColor, boolean centeredString) {
+        int[] y2 = {0};
+        int[] y3 = {0};
+
+        /*
+         *  SHADOWS
+         */
+
+        if (shadow) {
+
+            this.categoryTabs.forEach(categoryTab -> {
+                y3[0] += height;
+            });
+
+            GL11.glPushMatrix();
+            GlStateManager.disableAlpha();
+            GlStateManager.enableBlend();
+            GL11.glEnable(GL11.GL_BLEND);
+            GL11.glColor4f(1, 1, 1, 1);
+            renderUtils.drawImage(new ResourceLocation("client/shadows/top.png"), x, y - 3, width, 3, false);
+            renderUtils.drawImage(new ResourceLocation("client/shadows/bottom.png"), x, y + y3[0], width, 6, false);
+            renderUtils.drawImage(new ResourceLocation("client/shadows/left.png"), x - 3, y - 1, 3, y3[0] + 1, false);
+            renderUtils.drawImage(new ResourceLocation("client/shadows/right.png"), x + width, y - 1, 3, y3[0] + 2, false);
+            GL11.glDisable(GL11.GL_BLEND);
+            GlStateManager.enableAlpha();
+            GlStateManager.disableBlend();
+            GL11.glPopMatrix();
+        }
+        /*
+         * SHADOWS END
+         */
+
+        this.categoryTabs.forEach(categoryTab -> {
+            categoryTab.setInformation(x, y + y2[0], width, height);
+            categoryTab.drawScreen(currentCat, shadow, clientColor, centeredString);
+            y2[0] += height;
+        });
+    }
+
     public void keyPress(int key) {
         AtomicBoolean open = new AtomicBoolean(false);
         this.categoryTabs.forEach(categoryTab -> {

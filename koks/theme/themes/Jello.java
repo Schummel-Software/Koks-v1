@@ -52,12 +52,7 @@ public class Jello extends Theme {
         ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
         int[] y = {0};
 
-        Koks.getKoks().moduleManager.getModules().stream().sorted(Comparator.comparingDouble(module -> -ARRAY_LIST_FONT.getStringWidth(module.getDisplayName()))).forEach(module -> {
-
-         /*   if (module.getAnimationModule().getZoomAnimation() < this.ARRAY_LIST_FONT.FONT_HEIGHT)
-                module.yAnimation += 0.075F * DeltaTime.deltaTime;
-            if (module.getAnimationModule().getZoomAnimation() > glyphPageFontRenderer.getFontHeight())
-                module.yAnimation = glyphPageFontRenderer.getFontHeight();*/
+        Koks.getKoks().moduleManager.getModules().stream().sorted(Comparator.comparingDouble(module -> -ARRAY_LIST_FONT.getStringWidth(Koks.getKoks().moduleManager.getModule(ClearTag.class).isToggled() ? module.getDisplayName() : module.getNameForArrayList()))).forEach(module -> {
 
             if (module.isToggled()) {
 
@@ -84,20 +79,17 @@ public class Jello extends Theme {
             }
 
             if (module.isVisible() && module.getAnimationModule().getYAnimation() > 0F) {
-                String finalText = module.getDisplayName();
-
+                String finalText = Koks.getKoks().moduleManager.getModule(ClearTag.class).isToggled() ? module.getDisplayName() : module.getNameForArrayList();
                 GL11.glPushMatrix();
-                GL11.glTranslatef(sr.getScaledWidth() - ARRAY_LIST_FONT.getStringWidth(finalText) / 2, (float) (y[0] + module.getAnimationModule().getYAnimation() / 2), 0);
+                GL11.glTranslated(sr.getScaledWidth() - ARRAY_LIST_FONT.getStringWidth(finalText) / 2, (float) (y[0] + module.getAnimationModule().getYAnimation() / 2), 0);
                 GL11.glScalef((float) module.getAnimationModule().getZoomAnimation(), (float) module.getAnimationModule().getZoomAnimation(), 0);
-                GL11.glTranslatef(-(sr.getScaledWidth() - ARRAY_LIST_FONT.getStringWidth(finalText) / 2), -(float) (y[0] + module.getAnimationModule().getYAnimation() / 2), 0);
-
-
+                GL11.glTranslated(-(sr.getScaledWidth() - ARRAY_LIST_FONT.getStringWidth(finalText) / 2), -(float) (y[0] + module.getAnimationModule().getYAnimation() / 2), 0);
 
                 GlStateManager.disableAlpha();
                 GlStateManager.enableBlend();
                 GL11.glEnable(GL11.GL_BLEND);
                 GL11.glColor4f(1, 1, 1, 1);
-                getRenderUtils().drawImage(new ResourceLocation("client/shadows/arraylistshadow.png"), sr.getScaledWidth() - ARRAY_LIST_FONT.getStringWidth(finalText) * 1.7F - 4, y[0] - 5, ARRAY_LIST_FONT.getStringWidth(finalText) * 4, 30, false);
+                getRenderUtils().drawImage(new ResourceLocation("client/shadows/arraylistshadow.png"), sr.getScaledWidth() - ARRAY_LIST_FONT.getStringWidth(finalText) * 1.5F, y[0] - 5, ARRAY_LIST_FONT.getStringWidth(finalText) * 4, 30, false);
                 GL11.glDisable(GL11.GL_BLEND);
 
                 ARRAY_LIST_FONT.drawString(finalText, sr.getScaledWidth() - ARRAY_LIST_FONT.getStringWidth(finalText) - 2, y[0], -1);

@@ -44,6 +44,7 @@ public class CategoryTab {
         int[] yHeight = {0};
         int[] yHeight2 = {0};
         int[] longestWidth = {width};
+
         if ((categoryCurrent == category.ordinal())) {
             if (animationX < 9)
                 animationX += 0.025 * DeltaTime.getDeltaTime();
@@ -51,6 +52,7 @@ public class CategoryTab {
             if (animationX > 3)
                 animationX -= 0.025 * DeltaTime.getDeltaTime();
         }
+
         switch (Koks.getKoks().getThemeCategory()) {
             case NONE:
                 this.longestWidth = false;
@@ -141,6 +143,64 @@ public class CategoryTab {
                         }
                     }
                 });
+                break;
+        }
+    }
+
+    public void drawScreen(int categoryCurrent, boolean shadow, boolean clientColor, boolean centeredString) {
+        int[] yHeight = {0};
+        int[] yHeight2 = {0};
+        int[] longestWidth = {width};
+
+        if ((categoryCurrent == category.ordinal())) {
+            if (animationX < 9)
+                animationX += 0.025 * DeltaTime.getDeltaTime();
+        } else {
+            if (animationX > 3)
+                animationX -= 0.025 * DeltaTime.getDeltaTime();
+        }
+
+        switch (Koks.getKoks().getThemeCategory()) {
+            case NONE:
+                this.longestWidth = false;
+                this.moduleTabs.forEach(moduleTab -> {
+                    if (Minecraft.getMinecraft().fontRendererObj.getStringWidth(moduleTab.getModule().getModuleName()) > longestWidth[0])
+                        longestWidth[0] = Minecraft.getMinecraft().fontRendererObj.getStringWidth(moduleTab.getModule().getModuleName()) + (centeredString ? 0 : 3);
+                });
+                this.currentCategory = categoryCurrent;
+                renderUtils.drawRect(7, x, y, x + width, y + height, currentCategory == category.ordinal() ? clientColor ? Koks.getKoks().client_color : new Color(0, 0, 0, 175) : new Color(0, 0, 0, 125));
+                fr.drawStringWithShadow(category.name().substring(0, 1).toUpperCase() + category.name().substring(1).toLowerCase(), centeredString ? x + width / 2 - fr.getStringWidth(category.name().substring(0, 1).toUpperCase() + category.name().substring(1).toLowerCase()) / 2 : x + animationX, y + height / 2 - fr.FONT_HEIGHT / 2, -1);
+                if (expanded) {
+                    /*
+                     *  SHADOWS
+                     */
+                    if (shadow) {
+                        this.moduleTabs.forEach(moduleTab -> {
+                            yHeight2[0] += height;
+                        });
+                        GL11.glPushMatrix();
+                        GlStateManager.disableAlpha();
+                        GlStateManager.enableBlend();
+                        GL11.glEnable(GL11.GL_BLEND);
+                        GL11.glColor4f(1, 1, 1, 1);
+                        renderUtils.drawImage(new ResourceLocation("client/shadows/top.png"), x + width + 3, y - 3, longestWidth[0], 3, false);
+                        renderUtils.drawImage(new ResourceLocation("client/shadows/bottom.png"), x + width + 2, y + yHeight2[0], longestWidth[0] + 1, 6, false);
+                        renderUtils.drawImage(new ResourceLocation("client/shadows/left.png"), x + width, y - 1, 3, yHeight2[0] + 1, false);
+                        renderUtils.drawImage(new ResourceLocation("client/shadows/right.png"), x + width + longestWidth[0] + 3, y - 1, 3, yHeight2[0] + 2, false);
+                        GL11.glDisable(GL11.GL_BLEND);
+                        GlStateManager.enableAlpha();
+                        GlStateManager.disableBlend();
+                        GL11.glPopMatrix();
+                    }
+                    /*
+                     * SHADOWS END
+                     */
+                    this.moduleTabs.forEach(moduleTab -> {
+                        moduleTab.setInformation(x + width + 3, y + yHeight[0], longestWidth[0], height);
+                        moduleTab.drawScreen(currentModule, clientColor, centeredString, this);
+                        yHeight[0] += height;
+                    });
+                }
                 break;
         }
     }
