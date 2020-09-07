@@ -182,7 +182,7 @@ public class GuiIngame extends Gui {
         GlStateManager.enableBlend();
 
         if (this.showCrosshair() && this.mc.gameSettings.thirdPersonView < 1) {
-            if ( Koks.getKoks().moduleManager.getModule(HUD.class).customCrossHair.isToggled()) {
+            if (Koks.getKoks().moduleManager.getModule(HUD.class).customCrossHair.isToggled()) {
 
             } else {
                 GlStateManager.tryBlendFuncSeparate(775, 769, 1, 0);
@@ -510,8 +510,7 @@ public class GuiIngame extends Gui {
     }
 
     private void renderScoreboard(ScoreObjective p_180475_1_, ScaledResolution p_180475_2_) {
-        if (Koks.getKoks().moduleManager.getModule(Sprint.class).isToggled())
-            return;
+
         Scoreboard scoreboard = p_180475_1_.getScoreboard();
         Collection collection = scoreboard.getSortedScores(p_180475_1_);
         ArrayList arraylist = Lists.newArrayList(Iterables.filter(collection, new Predicate() {
@@ -542,7 +541,14 @@ public class GuiIngame extends Gui {
         }
 
         int j1 = arraylist1.size() * this.getFontRenderer().FONT_HEIGHT;
-        int k1 = p_180475_2_.getScaledHeight() / 2 + j1 / 3;
+
+        double[] y = {0};
+
+        Koks.getKoks().moduleManager.getModules().forEach(module -> {
+            y[0] += module.getAnimationModule().getYAnimation();
+        });
+
+        double k1 = j1 + y[0] + 9;
         byte b0 = 3;
         int j = p_180475_2_.getScaledWidth() - i - b0;
         int k = 0;
@@ -552,17 +558,17 @@ public class GuiIngame extends Gui {
             ScorePlayerTeam scoreplayerteam1 = scoreboard.getPlayersTeam(((Score) score1).getPlayerName());
             String s1 = ScorePlayerTeam.formatPlayerName(scoreplayerteam1, ((Score) score1).getPlayerName());
             String s2 = EnumChatFormatting.RED + "" + ((Score) score1).getScorePoints();
-            int l = k1 - k * this.getFontRenderer().FONT_HEIGHT;
+            double l = k1 - k * this.getFontRenderer().FONT_HEIGHT;
             int i1 = p_180475_2_.getScaledWidth() - b0 + 2;
             drawRect(j - 2, l, i1, l + this.getFontRenderer().FONT_HEIGHT, 1342177280);
-            this.getFontRenderer().drawString(s1, j, l, 553648127);
-            this.getFontRenderer().drawString(s2, i1 - this.getFontRenderer().getStringWidth(s2), l, 553648127);
+            this.getFontRenderer().drawString(s1, j, (int) l, 553648127);
+            this.getFontRenderer().drawString(s2, i1 - this.getFontRenderer().getStringWidth(s2), (int) l, 553648127);
 
             if (k == arraylist1.size()) {
                 String s3 = p_180475_1_.getDisplayName();
                 drawRect(j - 2, l - this.getFontRenderer().FONT_HEIGHT - 1, i1, l - 1, 1610612736);
                 drawRect(j - 2, l - 1, i1, l, 1342177280);
-                this.getFontRenderer().drawString(s3, j + i / 2 - this.getFontRenderer().getStringWidth(s3) / 2, l - this.getFontRenderer().FONT_HEIGHT, 553648127);
+                this.getFontRenderer().drawString(s3, j + i / 2 - this.getFontRenderer().getStringWidth(s3) / 2, (int) (l - this.getFontRenderer().FONT_HEIGHT), 553648127);
             }
         }
     }
