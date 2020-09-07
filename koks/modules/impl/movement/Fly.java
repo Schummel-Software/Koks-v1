@@ -36,7 +36,7 @@ public class Fly extends Module {
     private final HypixelFly hypixelFly;
     private final TimeUtil timeUtil = new TimeUtil();
     private final MovementUtil movementUtil = new MovementUtil();
-    public final ModeValue<String> modeValue = new ModeValue<>("Mode", "Hypixel", new String[]{"Hypixel", "AAC3.2.2", "Faithful","MCCentral"}, this);
+    public final ModeValue<String> modeValue = new ModeValue<>("Mode", "Hypixel", new String[]{"Hypixel", "AAC3.2.2", "Faithful", "MCCentral", "MCCentral 2"}, this);
     public final NumberValue<Integer> aac322boost = new NumberValue<Integer>("AAC3.2.2-Boost", 9, 10, 5, this);
 
     public Fly() {
@@ -65,6 +65,9 @@ public class Fly extends Module {
                     break;
                 case "MCCentral":
                     mccentral();
+                    break;
+                case "MCCentral 2":
+                    mccentral2();
                     break;
             }
         }
@@ -123,6 +126,24 @@ public class Fly extends Module {
         }
     }
 
+    public void mccentral2() {
+        if (mc.gameSettings.keyBindJump.isKeyDown())
+            mc.thePlayer.motionY = 0.5;
+        else if (mc.gameSettings.keyBindSneak.isKeyDown())
+            mc.thePlayer.motionY = -0.5;
+        else
+            mc.thePlayer.motionY = 0;
+
+        mc.thePlayer.setSneaking(false);
+        movementUtil.setSpeed(0.4);
+        if (mc.gameSettings.keyBindSprint.isKeyDown())
+            mc.thePlayer.speedInAir = 2.0F;
+        else
+            mc.thePlayer.speedInAir = 0.2F;
+
+        mc.thePlayer.motionY += new RandomUtil().randomDouble(-0.05, 0.10);
+    }
+
     public void aac322() {
         if (mc.thePlayer.posY <= -70) {
             mc.thePlayer.motionY = aac322boost.getDefaultValue();
@@ -170,6 +191,12 @@ public class Fly extends Module {
                     mc.thePlayer.sendQueue.addToSendQueue(new C03PacketPlayer(true));
 /*                packets.forEach(mc.thePlayer.sendQueue.getNetworkManager()::sendPacket);
                 packets.clear();*/
+                break;
+            case "MCCentral 2":
+                mc.thePlayer.speedInAir = 0.02F;
+                mc.timer.timerSpeed = 1.0;
+                mc.thePlayer.motionX = 0;
+                mc.thePlayer.motionZ = 0;
                 break;
         }
     }

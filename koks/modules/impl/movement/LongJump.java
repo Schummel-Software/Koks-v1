@@ -12,7 +12,7 @@ import koks.utilities.value.values.ModeValue;
  */
 public class LongJump extends Module {
 
-    public ModeValue<String> mode = new ModeValue<>("LongJump Mode", "Mineplex", new String[]{"Mineplex"}, this);
+    public ModeValue<String> mode = new ModeValue<>("LongJump Mode", "RedeSky", new String[]{"RedeSky"}, this);
 
     public LongJump() {
         super("LongJump", Category.MOVEMENT);
@@ -24,15 +24,12 @@ public class LongJump extends Module {
             setModuleInfo(mode.getSelectedMode());
 
             switch (mode.getSelectedMode()) {
-                case "Mineplex":
+                case "RedeSky":
                     if (mc.thePlayer.onGround) {
-                        mc.thePlayer.motionY = 0.44;
-                    } else {
-                        MovementUtil movementUtil = new MovementUtil();
-                        mc.thePlayer.motionY *= 0.95;
-                        if (mc.thePlayer.fallDistance > 0)
-                            movementUtil.setSpeed(mc.thePlayer.fallDistance / 2);
+                        mc.thePlayer.jump();
                     }
+                    mc.thePlayer.motionY += 0.03;
+                    mc.thePlayer.jumpMovementFactor = 0.15F;
                     break;
             }
         }

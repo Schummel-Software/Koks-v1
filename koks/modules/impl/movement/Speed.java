@@ -15,7 +15,7 @@ import net.minecraft.util.BlockPos;
  */
 public class Speed extends Module {
 
-    public ModeValue<String> mode = new ModeValue<>("Mode", "Mineplex", new String[]{"Mineplex", "AAC 3.2.2", "Hypixel"}, this);
+    public ModeValue<String> mode = new ModeValue<>("Mode", "Mineplex", new String[]{"Mineplex", "AAC 3.2.2", "Hypixel", "MCCentral"}, this);
     public boolean canSpeed;
     public MovementUtil movementUtil = new MovementUtil();
 
@@ -65,6 +65,18 @@ public class Speed extends Module {
                         }
                     } else {
                         canSpeed = false;
+                    }
+                    break;
+                case "MCCentral":
+                    if (mc.thePlayer.hurtTime == 0) {
+                        if (mc.thePlayer.onGround) {
+                            mc.thePlayer.motionY = 0.52;
+                        }
+                        movementUtil.setSpeed(0.6F);
+                    }
+
+                    if (mc.thePlayer.hurtTime == 10) {
+                        mc.thePlayer.motionY = 1;
                     }
                     break;
             }

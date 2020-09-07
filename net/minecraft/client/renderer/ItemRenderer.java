@@ -363,8 +363,10 @@ public class ItemRenderer
                         break;
 
                     case 4:
-                        this.transformFirstPersonItem(f - 0.1F, f1);
-                        this.func_178103_d();
+                        this.func_178105_d(f1);
+                        this.transformFirstPersonItem(f, f1);
+/*                        this.transformFirstPersonItem(f - 0.1F, f1);
+                        this.func_178103_d();*/
                         break;
 
                     case 5:
