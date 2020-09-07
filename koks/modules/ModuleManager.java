@@ -70,6 +70,7 @@ public class ModuleManager {
         addModule(new NoHurtcam());
         addModule(new PlayerESP());
         addModule(new HitAnimation());
+        addModule(new FullBright());
 
         // World
         addModule(new ScaffoldWalk());
