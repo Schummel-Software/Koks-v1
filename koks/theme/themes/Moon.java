@@ -8,6 +8,7 @@ import koks.modules.impl.visuals.ClearTag;
 import koks.theme.Theme;
 import koks.utilities.CustomFont;
 import koks.utilities.DeltaTime;
+import koks.utilities.RenderUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
@@ -118,14 +119,25 @@ public class Moon extends Theme {
 
     @Override
     public void waterMarkDesign() {
+
         GL11.glPushMatrix();
         GlStateManager.disableAlpha();
         GlStateManager.enableBlend();
         GL11.glEnable(GL11.GL_BLEND);
         GL11.glColor4f(1, 1, 1, 1);
         getRenderUtils().drawImage(new ResourceLocation("client/shadows/arraylistshadow.png"), -13, -5, 70, 40, false);
+
         unicodeFont.drawStringWithShadow(Koks.getKoks().CLIENT_NAME.substring(0, 1), 5, 5, Koks.getKoks().client_color.getRGB());
         unicodeFont.drawStringWithShadow(Koks.getKoks().CLIENT_NAME.substring(1), 5 + unicodeFont.getStringWidth(Koks.getKoks().CLIENT_NAME.substring(0, 1)), 5, -1);
+
+        String cords = Math.round(Minecraft.getMinecraft().thePlayer.posX) + " " + Math.round(Minecraft.getMinecraft().thePlayer.posY) + " " + Math.round(Minecraft.getMinecraft().thePlayer.posZ);
+
+        GL11.glColor4f(1, 1, 1, 1);
+        getRenderUtils().drawImage(new ResourceLocation("client/shadows/arraylistshadow.png"), 5, 107, 70, 40, false);
+
+        arrayListFont.drawStringWithShadow(cords, 5 / 2 + 80 / 2 - arrayListFont.getStringWidth(cords) / 2, 115, -1);
+        arrayListFont.drawStringWithShadow(Minecraft.getMinecraft().getDebugFPS() + " FPS", 5 / 2 + 80 / 2 - arrayListFont.getStringWidth(Minecraft.getDebugFPS() + " FPS") / 2, 115 + 3 + arrayListFont.FONT_HEIGHT, -1);
+
         GL11.glDisable(GL11.GL_BLEND);
         GlStateManager.enableAlpha();
         GlStateManager.disableBlend();
