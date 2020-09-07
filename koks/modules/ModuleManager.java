@@ -37,6 +37,7 @@ public class ModuleManager {
         addModule(new NoSlowdown());
         addModule(new Sprint());
         addModule(new LongJump());
+        addModule(new TargetStrafe());
 
         // Player
         addModule(new AntiFire());
