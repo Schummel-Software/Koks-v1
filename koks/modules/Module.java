@@ -3,6 +3,7 @@ package koks.modules;
 import koks.Koks;
 import koks.event.Event;
 import koks.files.impl.KeyBindFile;
+import koks.utilities.AnimationModule;
 import koks.utilities.value.Value;
 import net.minecraft.client.Minecraft;
 import org.lwjgl.input.Keyboard;
@@ -23,11 +24,14 @@ public abstract class Module {
     private String moduleInfo = "";
     private boolean visible = true, enabled, bypassed;
     private int keyBind;
+    private AnimationModule animationModule = new AnimationModule();
 
     public Module(String moduleName, Category moduleCategory) {
         this.moduleName = moduleName;
         this.moduleCategory = moduleCategory;
         this.displayName = moduleName;
+        this.animationModule.setZoomAnimation(0);
+        this.animationModule.setYAnimation(0);
     }
 
     public enum Category {
@@ -47,6 +51,8 @@ public abstract class Module {
             onDisable();
             enabled = false;
         } else {
+            this.animationModule.setZoomAnimation(0);
+            this.animationModule.setYAnimation(0);
             onEnable();
             enabled = true;
         }
@@ -125,6 +131,14 @@ public abstract class Module {
 
     public void setDisplayName(String displayName) {
         this.displayName = displayName;
+    }
+
+    public AnimationModule getAnimationModule() {
+        return animationModule;
+    }
+
+    public void setAnimationModule(AnimationModule animationModule) {
+        this.animationModule = animationModule;
     }
 
     public String getNameForArrayList() {
