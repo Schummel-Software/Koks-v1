@@ -34,7 +34,7 @@ public class NoFall extends Module {
                     }
                     break;
                 case "AAC 3.2.2":
-                    if (mc.thePlayer.onGround)
+                    if (mc.thePlayer.onGround && !mc.thePlayer.isInWater() && !mc.thePlayer.isInLava())
                         mc.thePlayer.motionY -= 999;
                     break;
             }
