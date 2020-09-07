@@ -115,10 +115,13 @@ public class Fly extends Module {
     public void mccentral() {
         System.out.println(mc.thePlayer.fallDistance);
             mc.thePlayer.motionY = 0;
-            mc.thePlayer.onGround = true;
+
             MovementUtil movementUtil = new MovementUtil();
             if(mc.gameSettings.keyBindBack.pressed || mc.gameSettings.keyBindForward.pressed) {
                 movementUtil.setSpeed(1.5F);
+            }
+            if(mc.gameSettings.keyBindJump.pressed) {
+                mc.thePlayer.motionY += 0.1;
             }
             if(mc.gameSettings.keyBindSneak.pressed) {
                 mc.thePlayer.motionY -= 0.1;

@@ -1,9 +1,6 @@
 package koks.theme;
 
-import koks.theme.themes.Clientus;
-import koks.theme.themes.GAL;
-import koks.theme.themes.Jello;
-import koks.theme.themes.Moon;
+import koks.theme.themes.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +18,7 @@ public class ThemeManager {
         addTheme(new Moon());
         addTheme(new GAL());
         addTheme(new Clientus());
+        addTheme(new Klientus());
     }
 
     public void addTheme(Theme theme) {

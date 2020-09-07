@@ -21,7 +21,7 @@ public class SetBack extends Module {
 
     public double deathX, deathY, deathZ;
 
-    public ModeValue<String> mode = new ModeValue<>("Mode", "Intave", new String[]{"Intave", "AAC3.0.1", "Hypixel"}, this);
+    public ModeValue<String> mode = new ModeValue<>("Mode", "Intave", new String[]{"Intave", "AAC3.0.1"}, this);
 
     public SetBack() {
         super("SetBack", Category.PLAYER);
@@ -83,25 +83,6 @@ public class SetBack extends Module {
                     break;
                 case "AAC3.0.1":
                     aac301();
-                    break;
-                case "Hypixel":
-
-                    double distance = 0;
-
-                    for (int i = 0; i < 256; i++) {
-                        BlockPos currentPos = new BlockPos(mc.thePlayer.posX, mc.thePlayer.posY - i, mc.thePlayer.posZ);
-                        if ((this.mc.theWorld.getBlockState(currentPos).getBlock() != Blocks.air) && (this.mc.theWorld.getBlockState(currentPos).getBlock() != Blocks.grass) && (this.mc.theWorld.getBlockState(currentPos).getBlock() != Blocks.tallgrass) && (this.mc.theWorld.getBlockState(currentPos).getBlock() != Blocks.red_flower) && (this.mc.theWorld.getBlockState(currentPos).getBlock() != Blocks.yellow_flower)) {
-                            distance = mc.thePlayer.posY - currentPos.getY();
-                        }
-                    }
-
-
-                    if (mc.thePlayer.fallDistance > 6 && distance == 0) {
-                        mc.getNetHandler().addToSendQueue(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, mc.thePlayer.posY + 6D, mc.thePlayer.posZ, false));
-                    }
-                    if (mc.thePlayer.onGround)
-                        mc.thePlayer.fallDistance = 0;
-
                     break;
             }
         }

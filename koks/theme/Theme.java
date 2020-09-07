@@ -78,6 +78,7 @@ public abstract class Theme {
         MOON,
         GAL,
         CLIENTUS,
+        KLIENTUS,
         NONE;
     }
 

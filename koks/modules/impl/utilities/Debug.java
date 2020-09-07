@@ -11,6 +11,7 @@ import koks.utilities.value.values.NumberValue;
 import koks.utilities.value.values.TitleValue;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import org.lwjgl.Sys;
 
 /**
  * @author avox | lmao | kroko
@@ -61,11 +62,11 @@ public class Debug extends Module {
         Koks.getKoks().valueManager.addValue(cpsL);
     }
 
+    int counter;
+
     @Override
     public void onEvent(Event event) {
-        if (event instanceof EventUpdate) {
 
-        }
     }
 
     @Override

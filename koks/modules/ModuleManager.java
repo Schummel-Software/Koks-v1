@@ -58,6 +58,7 @@ public class ModuleManager {
         addModule(new Cosmetics());
 
         // Visuals
+        addModule(new Ambiance());
         addModule(new Animations());
         addModule(new BlockESP());
         addModule(new ChestESP());
