@@ -13,6 +13,7 @@ import koks.utilities.CustomFont;
 import koks.utilities.value.values.BooleanValue;
 import koks.utilities.value.values.ModeValue;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.FontRenderer;
 
 /**
  * @author avox | lmao | kroko
@@ -65,9 +66,9 @@ public class HUD extends Module {
                     watermark.drawWatermark();
                     if (Koks.getKoks().tabGUI != null && tabGUI.isToggled()) {
                         if (watermarkStyle.getSelectedMode().equals("Custom with Shadow"))
-                            Koks.getKoks().tabGUI.drawScreen(2, 70, 80, 15, this.tabGUI_shadow.isToggled(), (CustomFont) Minecraft.getMinecraft().fontRendererObj, tabGUI_client_color.isToggled(), tabGUICenteredString.isToggled());
+                            Koks.getKoks().tabGUI.drawScreen(2, 70, 80, 15, this.tabGUI_shadow.isToggled(), tabGUI_client_color.isToggled(), tabGUICenteredString.isToggled());
                         else
-                            Koks.getKoks().tabGUI.drawScreen(2, 20, 80, 15, this.tabGUI_shadow.isToggled(), (CustomFont) Minecraft.getMinecraft().fontRendererObj, tabGUI_client_color.isToggled(), tabGUICenteredString.isToggled());
+                            Koks.getKoks().tabGUI.drawScreen(2, 20, 80, 15, this.tabGUI_shadow.isToggled(), tabGUI_client_color.isToggled(), tabGUICenteredString.isToggled());
                     }
                     if (customCrossHair.isToggled())
                         new CrossHair().drawCrosshair();

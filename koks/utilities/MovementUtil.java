@@ -12,15 +12,15 @@ public class MovementUtil {
     public final Minecraft mc = Minecraft.getMinecraft();
 
     public double getDirection(float rotationYaw) {
-        float left = mc.gameSettings.keyBindLeft.pressed ? mc.gameSettings.keyBindBack.pressed ? 45 : -45 : 0;
-        float right = mc.gameSettings.keyBindRight.pressed ? mc.gameSettings.keyBindBack.pressed ? -45 : 45 : 0;
+        float left = mc.gameSettings.keyBindLeft.pressed ? mc.gameSettings.keyBindBack.pressed ? 45 : mc.gameSettings.keyBindForward.pressed ? -45 : -90 : 0;
+        float right = mc.gameSettings.keyBindRight.pressed ? mc.gameSettings.keyBindBack.pressed ? -45 : mc.gameSettings.keyBindForward.pressed ? 45 : 90 : 0;
         float back = mc.gameSettings.keyBindBack.pressed ? 180 : 0;
         float yaw = back + right + left;
         return rotationYaw + yaw;
     }
 
     public float baseSpeed() {
-        
+
         return 0.2875F;
     }
 
