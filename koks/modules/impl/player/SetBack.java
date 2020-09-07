@@ -96,7 +96,7 @@ public class SetBack extends Module {
                     }
 
 
-                    if (mc.thePlayer.fallDistance > 4 && distance == 0) {
+                    if (mc.thePlayer.fallDistance > 6 && distance == 0) {
                         mc.getNetHandler().addToSendQueue(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, mc.thePlayer.posY + 6D, mc.thePlayer.posZ, false));
                     }
                     if (mc.thePlayer.onGround)

@@ -5,6 +5,7 @@ import koks.event.impl.EventUpdate;
 import koks.modules.Module;
 import koks.utilities.value.values.ModeValue;
 import net.minecraft.block.BlockAir;
+import net.minecraft.init.Blocks;
 import net.minecraft.network.play.client.C03PacketPlayer;
 import net.minecraft.util.BlockPos;
 import org.lwjgl.Sys;
@@ -27,10 +28,19 @@ public class NoFall extends Module {
         if (event instanceof EventUpdate) {
             setModuleInfo(mode.getSelectedMode());
             switch (mode.getSelectedMode()) {
+
+
                 case "Spoof Ground":
-                    if (mc.thePlayer.fallDistance > 5) {
+                    double distance = 0;
+                    for (int i = 0; i < 256; i++) {
+                        BlockPos currentPos = new BlockPos(mc.thePlayer.posX, mc.thePlayer.posY - i, mc.thePlayer.posZ);
+                        if ((this.mc.theWorld.getBlockState(currentPos).getBlock() != Blocks.air) && (this.mc.theWorld.getBlockState(currentPos).getBlock() != Blocks.grass) && (this.mc.theWorld.getBlockState(currentPos).getBlock() != Blocks.tallgrass) && (this.mc.theWorld.getBlockState(currentPos).getBlock() != Blocks.red_flower) && (this.mc.theWorld.getBlockState(currentPos).getBlock() != Blocks.yellow_flower)) {
+                            distance = mc.thePlayer.posY - currentPos.getY();
+                        }
+                    }
+                    if (mc.thePlayer.fallDistance > 2 && distance != 0) {
                         mc.thePlayer.sendQueue.addToSendQueue(new C03PacketPlayer(true));
-                        mc.thePlayer.fallDistance = 5;
+                        mc.thePlayer.fallDistance = 2;
                     }
                     break;
                 case "AAC 3.2.2":
