@@ -74,10 +74,6 @@ public class Speed extends Module {
                         }
                         movementUtil.setSpeed(0.6F);
                     }
-
-                    if (mc.thePlayer.hurtTime == 10) {
-                        mc.thePlayer.motionY = 1;
-                    }
                     break;
             }
         }
