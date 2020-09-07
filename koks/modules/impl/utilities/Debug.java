@@ -2,8 +2,12 @@ package koks.modules.impl.utilities;
 
 import koks.Koks;
 import koks.event.Event;
+import koks.event.impl.EventMove;
 import koks.event.impl.EventUpdate;
+import koks.event.impl.MotionEvent;
 import koks.modules.Module;
+import koks.modules.impl.combat.KillAura;
+import koks.utilities.MovementUtil;
 import koks.utilities.value.Value;
 import koks.utilities.value.values.BooleanValue;
 import koks.utilities.value.values.ModeValue;
@@ -43,6 +47,8 @@ public class Debug extends Module {
 
     public TitleValue titleValue = new TitleValue("Title CPS", true, new Value[]{cps, cpsF, cpsL}, this);
 
+    private int direction;
+
     public Debug() {
         super("Debug", Category.UTILITIES);
 
@@ -61,8 +67,6 @@ public class Debug extends Module {
         Koks.getKoks().valueManager.addValue(cpsF);
         Koks.getKoks().valueManager.addValue(cpsL);
     }
-
-    int counter;
 
     @Override
     public void onEvent(Event event) {

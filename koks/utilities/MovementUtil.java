@@ -22,14 +22,26 @@ public class MovementUtil {
         return rotationYaw + yaw;
     }
 
+    public double getDirectionEvent(float rotationYaw, boolean forward, boolean backwards, boolean leftP, boolean rightP) {
+        float left = leftP ? backwards ? 45 : forward ? -45 : -90 : 0;
+        float right = rightP ? backwards ? -45 : forward ? 45 : 90 : 0;
+        float back = backwards ? 180 : 0;
+        float yaw = back + right + left;
+        return rotationYaw + yaw;
+    }
+
     public float baseSpeed() {
-        float baseSpeed = 0.2875F;
-        return baseSpeed;
+        return 0.2875F;
     }
 
     public void setSpeed(double speed) {
         mc.thePlayer.motionX = -Math.sin(Math.toRadians(getDirection(mc.thePlayer.rotationYaw))) * speed;
         mc.thePlayer.motionZ = Math.cos(Math.toRadians(getDirection(mc.thePlayer.rotationYaw))) * speed;
+    }
+
+    public void setSpeedEvent(double speed, float yaw, boolean forward, boolean backwards, boolean leftP, boolean rightP) {
+        mc.thePlayer.motionX = -Math.sin(Math.toRadians(getDirectionEvent(yaw, forward, backwards, leftP, rightP))) * speed;
+        mc.thePlayer.motionZ = Math.cos(Math.toRadians(getDirectionEvent(yaw, forward, backwards, leftP, rightP))) * speed;
     }
 
 }

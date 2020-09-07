@@ -1,5 +1,6 @@
 package koks.modules.impl.movement;
 
+import koks.Koks;
 import koks.event.Event;
 import koks.event.impl.EventUpdate;
 import koks.modules.Module;
@@ -8,6 +9,8 @@ import koks.utilities.value.values.ModeValue;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.BlockPos;
+
+import java.lang.annotation.Target;
 
 /**
  * @author avox | lmao | kroko
@@ -18,7 +21,7 @@ public class Speed extends Module {
     public ModeValue<String> mode = new ModeValue<>("Mode", "Mineplex", new String[]{"Mineplex", "AAC 3.2.2", "Hypixel", "MCCentral"}, this);
     public boolean canSpeed;
     public MovementUtil movementUtil = new MovementUtil();
-
+    public TargetStrafe targetStrafe = new TargetStrafe();
 
     public Speed() {
         super("Speed", Category.MOVEMENT);
@@ -28,6 +31,8 @@ public class Speed extends Module {
 
     @Override
     public void onEvent(Event event) {
+        if (targetStrafe.allowStrafing())
+            targetStrafe.strafe(event);
         if (event instanceof EventUpdate) {
             setModuleInfo(mode.getSelectedMode());
             switch (mode.getSelectedMode()) {
@@ -36,7 +41,7 @@ public class Speed extends Module {
                         if (mc.thePlayer.onGround) {
                             mc.thePlayer.jump();
                         } else {
-                            movementUtil.setSpeed(0.285D);
+                                movementUtil.setSpeed(0.285D);
                             mc.thePlayer.jumpMovementFactor = 0.035F;
                         }
                     }
@@ -81,6 +86,8 @@ public class Speed extends Module {
 
     @Override
     public void onEnable() {
+        if (targetStrafe != null)
+            this.targetStrafe = Koks.getKoks().moduleManager.getModule(TargetStrafe.class);
         mc.timer.timerSpeed = 1.0;
         mc.thePlayer.jumpMovementFactor = 0.02F;
         canSpeed = false;
