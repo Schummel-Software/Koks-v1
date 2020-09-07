@@ -57,6 +57,7 @@ public class GAL extends Theme {
                 Gui.drawRect(sr.getScaledWidth() - bebasNeue22.getStringWidth(finalString) - 6, y[0], sr.getScaledWidth() - bebasNeue22.getStringWidth(finalString) - 4, y[0] + bebasNeue22.FONT_HEIGHT, colorUtil.rainbow(7000, y[0] * 3, 1.0F));
                 bebasNeue22.drawString(module.getNameForArrayList(), sr.getScaledWidth() - bebasNeue22.getStringWidth(finalString) - 2, y[0] - 0.5F, colorUtil.rainbow(7000, y[0] * 3, 1.0F));
                 y[0] += bebasNeue22.FONT_HEIGHT;
+                module.getAnimationModule().setYAnimation(y[0]);
             }
         });
     }

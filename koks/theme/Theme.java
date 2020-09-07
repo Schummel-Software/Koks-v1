@@ -77,6 +77,7 @@ public abstract class Theme {
         JELLO,
         MOON,
         GAL,
+        CLIENTUS,
         NONE;
     }
 

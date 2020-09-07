@@ -34,7 +34,7 @@ public class CustomFont extends FontRenderer {
             unicodeFont.getEffects().add(new ColorEffect(java.awt.Color.white)); //You can change your color here, but you can also change it in the render{ ... }
             unicodeFont.addAsciiGlyphs();
             unicodeFont.loadGlyphs();
-            FONT_HEIGHT = unicodeFont.getHeight("abcdefghijklmnopqrstuvxyzäü+#-.,<>1234567890ß´!§$%&/()=?`*'_::") / 2;
+            FONT_HEIGHT = unicodeFont.getHeight("abcdefghijklmnopqrstuvxyzABCDEFGHIJKLMOPQRSTUVWXYZäü+#-.,<>1234567890ß´!§$%&/()=?`*'_::") / 2;
         } catch (Exception e) {
             e.printStackTrace();
         }
