@@ -22,10 +22,7 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.play.client.C09PacketHeldItemChange;
 import net.minecraft.network.play.client.C0APacketAnimation;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.MathHelper;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.*;
 import org.lwjgl.input.Keyboard;
 
 import java.util.ArrayList;
@@ -54,6 +51,9 @@ public class ScaffoldWalk extends Module {
 
     private final NumberValue<Float> pitchVal = new NumberValue<Float>("Pitch", 82F, 90F, 70F, this);
 
+    private final BooleanValue<Boolean> sneak = new BooleanValue<>("Sneak", false, this);
+    private final NumberValue<Integer> sneakAfterBlocks = new NumberValue<>("Sneak After...", 10, 20, 0, this);
+
     private final BooleanValue<Boolean> swingItem = new BooleanValue<>("Swing Item", true, this);
     private final BooleanValue<Boolean> safeWalk = new BooleanValue<>("SafeWalk", true, this);
     private final BooleanValue<Boolean> randomHit = new BooleanValue<>("Random Hit", true, this);
@@ -67,8 +67,8 @@ public class ScaffoldWalk extends Module {
 
     public final BooleanValue<Boolean> AlwaysLook = new BooleanValue<>("AlwaysLook", true, this);
 
-    public float pitch;
-    public float yaw;
+    public float pitch, yaw;
+    public int sneakCount;
 
     public ScaffoldWalk() {
         super("ScaffoldWalk", Category.WORLD);
@@ -76,6 +76,8 @@ public class ScaffoldWalk extends Module {
         addValue(delay);
         addValue(Motion);
         addValue(pitchVal);
+        addValue(sneak);
+        addValue(sneakAfterBlocks);
         addValue(swingItem);
         addValue(safeWalk);
         addValue(randomHit);
@@ -214,6 +216,9 @@ public class ScaffoldWalk extends Module {
             }
         }
 
+        if (sneakCount >= sneakAfterBlocks.getDefaultValue() && sneak.isToggled())
+            mc.gameSettings.keyBindSneak.pressed = true;
+
         if (mc.theWorld.getBlockState(new BlockPos(mc.thePlayer.posX, mc.thePlayer.posY - 1.0D - (shouldBuildDown ? 1 : 0), mc.thePlayer.posZ)).getBlock() instanceof net.minecraft.block.BlockAir) {
 
             if (!simpleRotations.isToggled())
@@ -226,11 +231,15 @@ public class ScaffoldWalk extends Module {
 
                     if(Intave.isToggled()) {
                         mc.playerController.onPlayerRightClick(mc.thePlayer, mc.theWorld, silentItemStack, rayCastUtil.getRayCastBlock(this.yaw,this.pitch).getBlockPos(), rayCastUtil.getRayCastBlock(this.yaw,this.pitch).sideHit, rayCastUtil.getRayCastBlock(this.yaw,this.pitch).hitVec);
+                        sneakCount++;
                     }else {
                         mc.playerController.onPlayerRightClick(mc.thePlayer, mc.theWorld, silentItemStack, pos, face, new Vec3(pos.getX() + (this.randomHit.isToggled() ? randomutil.randomDouble(0, 0.7) : 0), pos.getY() + (this.randomHit.isToggled() ? randomutil.randomDouble(0, 0.7) : 0), pos.getZ() + (this.randomHit.isToggled() ? randomutil.randomDouble(0, 0.7) : 0)));
                     }
                     mc.thePlayer.motionX *= Motion.getDefaultValue();
                     mc.thePlayer.motionZ *= Motion.getDefaultValue();
+
+                    if (sneakCount > sneakAfterBlocks.getDefaultValue())
+                        sneakCount = 0;
 
                     timeUtil.reset();
                 }
@@ -239,6 +248,7 @@ public class ScaffoldWalk extends Module {
                 timeUtil.reset();
             }
         } else {
+            mc.gameSettings.keyBindSneak.pressed = false;
             timeUtil.reset();
             if (!simpleRotations.isToggled())
                 setYaw();
@@ -252,6 +262,7 @@ public class ScaffoldWalk extends Module {
 
     @Override
     public void onDisable() {
+        sneakCount = 0;
         yaw = 0;
         pitch = 0;
         mc.timer.timerSpeed = 1F;

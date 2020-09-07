@@ -1,6 +1,8 @@
 package net.minecraft.client.renderer;
 
 import koks.Koks;
+import koks.event.impl.EventItemRenderer;
+import koks.event.impl.EventUpdate;
 import koks.modules.impl.combat.KillAura;
 import koks.modules.impl.visuals.HitAnimation;
 import net.minecraft.block.Block;
@@ -340,6 +342,9 @@ public class ItemRenderer
         GlStateManager.enableRescaleNormal();
         GlStateManager.pushMatrix();
 
+        EventItemRenderer eventItemRenderer = new EventItemRenderer(f, f1);
+        Koks.getKoks().eventManager.onEvent(eventItemRenderer);
+
         KillAura killAura = Koks.getKoks().moduleManager.getModule(KillAura.class);
 
         if (this.itemToRender != null)
@@ -369,7 +374,7 @@ public class ItemRenderer
                             this.func_178105_d(f1);
                             this.transformFirstPersonItem(f, f1);
                         } else {
-                            this.transformFirstPersonItem(f - 0.1F, f1);
+                            this.transformFirstPersonItem(eventItemRenderer.getFirstArg(), eventItemRenderer.getLastArg());
                             this.func_178103_d();
                         }
                         break;
@@ -382,7 +387,7 @@ public class ItemRenderer
             else
             {
                 if (killAura.isToggled() && killAura.finalEntity != null && killAura.fakeBlocking.isToggled() && !killAura.silentBlocking.isToggled()) {
-                    this.transformFirstPersonItem(f - 0.1F, f1);
+                    this.transformFirstPersonItem(eventItemRenderer.getFirstArg(), eventItemRenderer.getLastArg());
                     this.func_178103_d();
                 } else {
                     if (!Koks.getKoks().moduleManager.getModule(HitAnimation.class).isToggled())

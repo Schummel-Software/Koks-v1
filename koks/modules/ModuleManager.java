@@ -56,6 +56,7 @@ public class ModuleManager {
         addModule(new Debug());
         addModule(new Disabler());
         addModule(new Cosmetics());
+        addModule(new CustomBlock());
 
         // Visuals
         addModule(new Ambiance());
