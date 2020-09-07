@@ -19,6 +19,7 @@ public class ThemeManager {
         addTheme(new GAL());
         addTheme(new Clientus());
         addTheme(new Klientus());
+        addTheme(new Vega());
     }
 
     public void addTheme(Theme theme) {

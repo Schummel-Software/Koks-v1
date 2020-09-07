@@ -96,6 +96,7 @@ public abstract class Theme {
         GAL,
         CLIENTUS,
         KLIENTUS,
+        VEGA,
         NONE;
     }
 

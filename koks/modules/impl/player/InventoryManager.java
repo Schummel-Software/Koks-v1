@@ -94,7 +94,7 @@ public class InventoryManager extends Module {
                         } else if (shovelSlot.getDefaultValue() != 0 && is.getItem() instanceof ItemSpade && is == bestShovel() && is != bestWeapon() && keepTools.isToggled() && mc.thePlayer.inventoryContainer.getInventory().contains(bestShovel()) && mc.thePlayer.inventoryContainer.getSlot(35 + shovelSlot.getDefaultValue()).getStack() != is) {
                             mc.playerController.windowClick(mc.thePlayer.inventoryContainer.windowId, i, shovelSlot.getDefaultValue() - 1, 2, mc.thePlayer);
                             throwTimer.reset();
-                        } else if (trashItems.contains(is.getItem())) {
+                        } else if (trashItems.contains(is.getItem()) || isBadStack(is)) {
                             mc.playerController.windowClick(mc.thePlayer.inventoryContainer.windowId, i, 1, 4, mc.thePlayer);
                             throwTimer.reset();
                             break;
