@@ -182,9 +182,6 @@ public class KillAura extends Module {
                 mc.gameSettings.keyBindSprint.pressed = false;
                 mc.thePlayer.setSprinting(false);
             }
-
-            if (finalEntity == null || listCount > entities.size() - 1)
-                listCount = 0;
         }
 
         if (legitMovement.isToggled() && finalEntity != null) {
@@ -234,12 +231,10 @@ public class KillAura extends Module {
                 else
                     mc.thePlayer.sendQueue.addToSendQueue(new C02PacketUseEntity(rayCast, C02PacketUseEntity.Action.ATTACK));
 
-                if (!entities.isEmpty()) {
-                    if (listCount < entities.size() - 1)
+                    if (listCount < entities.size() - 1 && !entities.isEmpty())
                         listCount++;
                     else
                         listCount = 0;
-                }
 
                 timeUtil.reset();
             }
@@ -283,8 +278,13 @@ public class KillAura extends Module {
             }
         }
 
-        if (finalEntity != null && !isValidEntity(finalEntity))
+        if (finalEntity != null && !isValidEntity(finalEntity)) {
             finalEntity = null;
+            listCount = 0;
+        }
+
+        if (finalEntity == null || entities.isEmpty() || listCount > entities.size() - 1)
+            listCount = 0;
     }
 
     public boolean isValidEntity(Entity entity) {
