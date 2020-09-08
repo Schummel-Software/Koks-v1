@@ -35,9 +35,11 @@ public class MovementUtil {
     }
 
     public void setSpeed(double speed) {
-        mc.thePlayer.motionX = -Math.sin(Math.toRadians(getDirection(mc.thePlayer.rotationYaw))) * speed;
-        mc.thePlayer.motionZ = Math.cos(Math.toRadians(getDirection(mc.thePlayer.rotationYaw))) * speed;
-    }
+        if(mc.gameSettings.keyBindForward.pressed || mc.gameSettings.keyBindRight.pressed || mc.gameSettings.keyBindLeft.pressed || mc.gameSettings.keyBindBack.pressed) {
+            mc.thePlayer.motionX = -Math.sin(Math.toRadians(getDirection(mc.thePlayer.rotationYaw))) * speed;
+            mc.thePlayer.motionZ = Math.cos(Math.toRadians(getDirection(mc.thePlayer.rotationYaw))) * speed;
+        }
+        }
 
     public void setSpeedEvent(double speed, float yaw, boolean forward, boolean backwards, boolean leftP, boolean rightP) {
         mc.thePlayer.motionX = -Math.sin(Math.toRadians(getDirectionEvent(yaw, forward, backwards, leftP, rightP))) * speed;
