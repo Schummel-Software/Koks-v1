@@ -31,19 +31,24 @@ public class MovementUtil {
     }
 
     public float baseSpeed() {
-        return 0.2875F;
+        float baseMovementSpeed = 0.2875F;
+        if (Minecraft.getMinecraft().thePlayer.isPotionActive(Potion.moveSpeed))
+            baseMovementSpeed *= (Minecraft.getMinecraft().thePlayer.getActivePotionEffect(Potion.moveSpeed).getAmplifier() + 1);
+        return baseMovementSpeed;
     }
 
     public void setSpeed(double speed) {
-        if(mc.gameSettings.keyBindForward.pressed || mc.gameSettings.keyBindRight.pressed || mc.gameSettings.keyBindLeft.pressed || mc.gameSettings.keyBindBack.pressed) {
+        if (mc.gameSettings.keyBindForward.pressed || mc.gameSettings.keyBindRight.pressed || mc.gameSettings.keyBindLeft.pressed || mc.gameSettings.keyBindBack.pressed) {
             mc.thePlayer.motionX = -Math.sin(Math.toRadians(getDirection(mc.thePlayer.rotationYaw))) * speed;
             mc.thePlayer.motionZ = Math.cos(Math.toRadians(getDirection(mc.thePlayer.rotationYaw))) * speed;
         }
-        }
+    }
 
     public void setSpeedEvent(double speed, float yaw, boolean forward, boolean backwards, boolean leftP, boolean rightP) {
-        mc.thePlayer.motionX = -Math.sin(Math.toRadians(getDirectionEvent(yaw, forward, backwards, leftP, rightP))) * speed;
-        mc.thePlayer.motionZ = Math.cos(Math.toRadians(getDirectionEvent(yaw, forward, backwards, leftP, rightP))) * speed;
+        if (forward || backwards || leftP || rightP) {
+            mc.thePlayer.motionX = -Math.sin(Math.toRadians(getDirectionEvent(yaw, forward, backwards, leftP, rightP))) * speed;
+            mc.thePlayer.motionZ = Math.cos(Math.toRadians(getDirectionEvent(yaw, forward, backwards, leftP, rightP))) * speed;
+        }
     }
 
 }

@@ -27,7 +27,7 @@ public class Speed extends Module {
     @Override
     public void onEvent(Event event) {
         if (targetStrafe.allowStrafing()) {
-            targetStrafe.strafe(event, 0.305D);
+            targetStrafe.strafe(event, movementUtil.baseSpeed());
         }
         if (event instanceof EventUpdate) {
             setModuleInfo(mode.getSelectedMode());
@@ -36,9 +36,10 @@ public class Speed extends Module {
                     if (!mc.gameSettings.keyBindJump.isKeyDown()) {
                         if (mc.thePlayer.onGround) {
                             mc.thePlayer.jump();
+                            movementUtil.setSpeed(movementUtil.baseSpeed() + 0.005);
                         } else {
                             if (!targetStrafe.allowStrafing() && mc.thePlayer.movementInput.moveForward != 0 || mc.thePlayer.movementInput.moveStrafe != 0)
-                                movementUtil.setSpeed(0.285D);
+                                movementUtil.setSpeed(movementUtil.baseSpeed() );
                             mc.thePlayer.jumpMovementFactor = 0.035F;
                         }
                     }
