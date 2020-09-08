@@ -12,7 +12,7 @@ import java.util.Arrays;
  */
 public class ElementTitle extends Element {
 
-    private final TitleValue titleValue;
+    public final TitleValue titleValue;
     private final ArrayList<Value> savedVisibilty = new ArrayList<>();
 
     public ElementTitle(TitleValue value) {

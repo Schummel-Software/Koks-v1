@@ -43,9 +43,11 @@ public class KillAura extends Module {
     public BooleanValue<Boolean> ignoreTeam = new BooleanValue<>("Ignore Team", true, this);
     public BooleanValue<Boolean> ignoreFriend = new BooleanValue<>("Ignore Friends", true, this);
     public ModeValue<String> targets = new ModeValue<>("Targets", new BooleanValue[]{player, animals, mobs, invisible, ignoreTeam, ignoreFriend}, this);
-
     public ModeValue<String> targetMode = new ModeValue<>("Target Mode", "Hybrid", new String[]{"Single", "Switch", "Hybrid"}, this);
     public ModeValue<String> preferTarget = new ModeValue<>("Prefer Check", "Distance", new String[]{"Distance", "Health"}, this);
+
+    public TitleValue targetSettings = new TitleValue("Target Settings", true, new Value[]{targets, targetMode, preferTarget}, this);
+
     public NumberValue<Double> range = new NumberValue<>("Hit Range", 4.0D, 6.0D, 3.4D, this);
     public BooleanValue<Boolean> preAim = new BooleanValue<>("Pre Aiming", false, this);
     public NumberValue<Double> preAimRange = new NumberValue<>("Aiming Range", 0.0D, 1.0D, 0.0D, this);
@@ -87,6 +89,7 @@ public class KillAura extends Module {
     public KillAura() {
         super("KillAura", Category.COMBAT);
 
+        addValue(targetSettings);
         addValue(targets);
         addValue(targetMode);
         addValue(preferTarget);
@@ -190,8 +193,8 @@ public class KillAura extends Module {
         if (legitMovement.isToggled() && finalEntity != null) {
             if (event instanceof MoveFlyingEvent) {
                 MoveFlyingEvent e = (MoveFlyingEvent) event;
-/*                float difference = MathHelper.wrapAngleTo180_float(Math.abs(mc.thePlayer.rotationYaw - yaw));
-                if (difference > 90) {
+                float difference = MathHelper.wrapAngleTo180_float(Math.abs(mc.thePlayer.rotationYaw - yaw));
+/*                if (difference > 90) {
                     e.setForward(-e.getForward());
                     e.setStrafe(-e.getStrafe());
                 }*/

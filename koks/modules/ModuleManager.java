@@ -38,6 +38,8 @@ public class ModuleManager {
         addModule(new Sprint());
         addModule(new LongJump());
         addModule(new TargetStrafe());
+        addModule(new AirJump());
+        addModule(new Parkour());
 
         // Player
         addModule(new AntiFire());
@@ -51,6 +53,7 @@ public class ModuleManager {
         addModule(new InventoryManager());
         addModule(new ChestStealer());
         addModule(new AntiVoid());
+        addModule(new ArmorManager());
 
         // Utilities
         addModule(new ClickGUI());

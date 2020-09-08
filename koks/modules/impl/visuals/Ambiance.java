@@ -13,7 +13,7 @@ import net.minecraft.network.play.server.S03PacketTimeUpdate;
  */
 public class Ambiance extends Module {
 
-    public NumberValue<Integer> time = new NumberValue<Integer>("Time", 0, 16500, 0, this);
+    public NumberValue<Integer> time = new NumberValue<Integer>("Time", 0, 18000, 0, this);
 
     public Ambiance() {
         super("Ambiance", Category.VISUALS);

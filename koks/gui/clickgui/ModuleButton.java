@@ -72,27 +72,27 @@ public class ModuleButton {
                 if (element.getValue() != null) {
 
                     if (element.getValue().isVisible()) {
-                        element.setPosition(x + 3, this.y + height + yHeight[0], width - 6, height - 2);
-                        element.drawScreen(mouseX, mouseY);
+                            element.setPosition(x + 3, this.y + height + yHeight[0], width - 6, height - 2);
+                            element.drawScreen(mouseX, mouseY);
 
-                        if (element instanceof ElementMode) {
-                            Arrays.stream(((ElementMode) element).modeValue.getModes()).forEach(module -> {
-                                if (element.isExtended())
-                                    yHeight[0] += height - 2;
-                            });
-                        }
-
-                        if (element instanceof ElementModeCheckBox) {
-                            Arrays.stream(((ElementModeCheckBox) element).modeValue.getObjects()).forEach(module -> {
-                                if (element.isExtended())
-                                    if (module.isVisible())
+                            if (element instanceof ElementMode) {
+                                Arrays.stream(((ElementMode) element).modeValue.getModes()).forEach(module -> {
+                                    if (element.isExtended())
                                         yHeight[0] += height - 2;
-                            });
-                        }
+                                });
+                            }
 
-                        yHeight[0] += height;
-                        yMaxElements = yHeight[0];
-                    }
+                            if (element instanceof ElementModeCheckBox) {
+                                Arrays.stream(((ElementModeCheckBox) element).modeValue.getObjects()).forEach(module -> {
+                                    if (element.isExtended())
+                                        if (module.isVisible())
+                                            yHeight[0] += height - 2;
+                                });
+                            }
+
+                            yHeight[0] += height;
+                            yMaxElements = yHeight[0];
+                        }
                 } else {
                     element.setPosition(x + 3, this.y + height + yHeight[0], width - 6, height - 2);
                     element.drawScreen(mouseX, mouseY);
@@ -126,7 +126,7 @@ public class ModuleButton {
             }
         }
         this.elementList.forEach(element -> {
-           if(this.extended) element.mouseClicked(mouseX, mouseY, mouseButton);
+            if (this.extended) element.mouseClicked(mouseX, mouseY, mouseButton);
         });
     }
 

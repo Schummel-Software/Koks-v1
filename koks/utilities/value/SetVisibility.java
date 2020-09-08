@@ -14,8 +14,11 @@ public class SetVisibility {
     public void setVisibility() {
         for (Module module : Koks.getKoks().moduleManager.getModules()) {
             if (module instanceof KillAura) {
+                if(((KillAura) module).targetSettings.isExpanded()){
+                    ((KillAura) module).preferTarget.setVisible(!((KillAura) module).targetMode.getSelectedMode().equals("Switch"));
+                }
                 ((KillAura) module).preAimRange.setVisible(((KillAura) module).preAim.isToggled());
-                ((KillAura) module).preferTarget.setVisible(!((KillAura) module).targetMode.getSelectedMode().equals("Switch"));
+
                 ((KillAura) module).serverSideSwing.setVisible(((KillAura) module).silentSwing.isToggled());
                 ((KillAura) module).swingChance.setVisible(((KillAura) module).silentSwing.isToggled());
                 ((KillAura) module).ignoreTeam.setVisible(((KillAura) module).player.isToggled());
