@@ -7,6 +7,7 @@ import koks.event.impl.EventMove;
 import koks.event.impl.EventUpdate;
 import koks.event.impl.MotionEvent;
 import koks.modules.impl.movement.NoSlowdown;
+import koks.theme.ThemeSelection;
 import koks.utilities.value.SetVisibility;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.MovingSoundMinecartRiding;
