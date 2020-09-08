@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * @author avox | lmao | kroko
@@ -210,7 +211,11 @@ public class KillAura extends Module {
     }
 
     public void attackEntity() {
-        double cps = this.cps.getMinValue().equals(this.cps.getMaxValue()) ? this.cps.getMaxValue() : randomUtil.randomInt(this.cps.getMinValue(), this.cps.getMaxValue());
+        double maxCps = cps.getDefaultValue() < 10 ? cps.getDefaultValue() : cps.getDefaultValue() + 5;
+
+        double minCps = cps.getMinDefaultValue() < 10 ? cps.getMinDefaultValue() : cps.getMinDefaultValue() + 5;
+
+        double cps = maxCps == minCps ? maxCps : ThreadLocalRandom.current().nextDouble(minCps,maxCps);
         Entity rayCast = rayCastUtil.getRayCastedEntity(range.getDefaultValue(), yaw, pitch);
 
         if (!isFailing && rayCast != null) {
@@ -221,7 +226,7 @@ public class KillAura extends Module {
             for (int i = 0; i < 2; i++)
                 mc.effectRenderer.emitParticleAtEntity(rayCast, EnumParticleTypes.PORTAL);
 
-            if (timeUtil.hasReached((long) (1000 / (cps + (cps > 10 ? 5 : 0))))) {
+            if (timeUtil.hasReached((long) (1000 / cps))) {
                 if (silentSwing.isToggled()) {
                     if (canSwing) {
                         mc.thePlayer.swingItem();
