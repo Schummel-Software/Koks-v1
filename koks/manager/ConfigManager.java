@@ -70,7 +70,15 @@ public class ConfigManager {
                         if (value instanceof BooleanValue) {
                             ((BooleanValue<Boolean>) value).setToggled(Boolean.parseBoolean(args[3]));
                         } else if (value instanceof ModeValue) {
-                            ((ModeValue) value).setSelectedMode(args[3]);
+                            if(((ModeValue) value).getSelectedMode() != null) {
+                                ((ModeValue) value).setSelectedMode(args[3]);
+                            }else{
+                                for(BooleanValue booleanValue : ((ModeValue) value).getObjects()) {
+                                    if(booleanValue.getName().equalsIgnoreCase(args[3])) {
+                                        booleanValue.setToggled(Boolean.parseBoolean(args[4]));
+                                    }
+                                }
+                            }
                         } else if (value instanceof NumberValue) {
                             if (((NumberValue) value).getMinDefaultValue() != null) {
                                 if(((NumberValue) value).getDefaultValue() instanceof  Float) {
@@ -142,7 +150,13 @@ public class ConfigManager {
                         if (value instanceof BooleanValue) {
                             fileWriter.write("Setting:" + module.getModuleName() + ":" + value.getName() + ":" + ((BooleanValue) value).isToggled() + "\n");
                         } else if (value instanceof ModeValue) {
-                            fileWriter.write("Setting:" + module.getModuleName() + ":" + value.getName() + ":" + ((ModeValue) value).getSelectedMode() + "\n");
+                            if(((ModeValue) value).getSelectedMode() != null) {
+                                fileWriter.write("Setting:" + module.getModuleName() + ":" + value.getName() + ":" + ((ModeValue) value).getSelectedMode() + "\n");
+                            }else{
+                                for(BooleanValue booleanValues : ((ModeValue) value).getObjects()) {
+                                    fileWriter.write("Setting:" + module.getModuleName() + ":" + value.getName() + ":" + booleanValues.getName() + ":" + booleanValues.isToggled() + "\n");
+                                }
+                            }
                         } else if (value instanceof NumberValue) {
                             if (((NumberValue) value).getMinDefaultValue() != null) {
                                 fileWriter.write("Setting:" + module.getModuleName() + ":" + value.getName() + ":" + ((NumberValue) value).getMinDefaultValue() + ":" + ((NumberValue) value).getDefaultValue() + "\n");
