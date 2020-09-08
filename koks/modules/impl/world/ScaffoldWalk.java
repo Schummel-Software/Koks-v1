@@ -262,6 +262,7 @@ public class ScaffoldWalk extends Module {
 
     @Override
     public void onDisable() {
+        mc.gameSettings.keyBindSneak.pressed = false;
         sneakCount = 0;
         yaw = 0;
         pitch = 0;

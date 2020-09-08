@@ -26,24 +26,27 @@ public class TargetStrafe extends Module {
 
         if (event instanceof MotionEvent) {
             if (((MotionEvent) event).getType() == MotionEvent.Type.PRE) {
+                mc.gameSettings.keyBindForward.pressed = false;
+                mc.gameSettings.keyBindBack.pressed = false;
                 if (mc.thePlayer.isCollidedHorizontally) {
                     if (direction == 0)
                         direction = 1;
                     else
                         direction = 0;
                 }
-                if (mc.gameSettings.keyBindLeft.pressed)
+                if (mc.gameSettings.keyBindLeft.pressed) {
                     direction = 0;
-                if (mc.gameSettings.keyBindRight.pressed)
+                    mc.gameSettings.keyBindLeft.pressed = false;
+                } else if (mc.gameSettings.keyBindRight.pressed) {
                     direction = 1;
-                System.out.println(direction);
+                    mc.gameSettings.keyBindRight.pressed = false;
+                }
             }
         }
 
         if (event instanceof EventMove) {
-            mc.gameSettings.keyBindForward.pressed = false;
-            mc.gameSettings.keyBindBack.pressed = false;
             if (allowStrafing()) {
+                mc.thePlayer.setSprinting(true);
                 if (mc.thePlayer.getDistanceToEntity(Koks.getKoks().moduleManager.getModule(KillAura.class).finalEntity) <= 1) {
                     movementUtil.setSpeedEvent(speed, Koks.getKoks().moduleManager.getModule(KillAura.class).yaw, false, true, direction == 0, direction == 1);
                 } else {

@@ -296,6 +296,8 @@ public class KillAura extends Module {
     }
 
     public boolean isValidEntity(Entity entity) {
+        if (entity == null)
+            return false;
         if (!(entity instanceof EntityLivingBase))
             return false;
         if (checkName.isToggled() && entity instanceof EntityPlayer && !isValidEntityName(entity))

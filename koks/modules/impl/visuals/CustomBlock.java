@@ -33,7 +33,7 @@ public class CustomBlock extends Module {
                     break;
                 case "Eject":
                     e.setFirstArg(e.getF() - 0.25F);
-                    e.setLastArg(e.getF1() * 0.3F - 0.02F); // e.setLastArg(e.getF1() * 0.15F - 0.1F);
+                    e.setLastArg(e.getF1() * 0.3F - 0.02F);
                     break;
                 case "Simple":
                     e.setFirstArg(e.getF());
