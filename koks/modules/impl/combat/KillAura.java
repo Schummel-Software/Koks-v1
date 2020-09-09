@@ -75,6 +75,10 @@ public class KillAura extends Module {
     public NumberValue<Integer> swingChance = new NumberValue<>("ClientSide SwingChance", 100, 100, 0, this);
     public TitleValue visualSettings = new TitleValue("Visual Settings", false, new Value[]{fakeBlocking, silentBlocking, silentSwing, serverSideSwing, swingChance}, this);
 
+    public ModeValue<String> attackEvent = new ModeValue<>("Attack Event", "Pre Motion", new String[]{"Pre Motion", "On Tick"}, this);
+
+    public TitleValue adjustmentSettings = new TitleValue("Fine Tuning Settings", false, new Value[]{attackEvent}, this);
+
     public List<Entity> entities = new ArrayList<>();
     FriendManager friendManager = new FriendManager();
     public RandomUtil randomUtil = new RandomUtil();
@@ -120,6 +124,9 @@ public class KillAura extends Module {
         addValue(silentSwing);
         addValue(serverSideSwing);
         addValue(swingChance);
+
+        addValue(adjustmentSettings);
+        addValue(attackEvent);
     }
 
     @Override
@@ -134,7 +141,7 @@ public class KillAura extends Module {
                     e.setYaw(yaw);
                     e.setPitch(pitch);
 
-                    if (mc.thePlayer.getDistanceToEntity(finalEntity) <= range.getDefaultValue())
+                    if (mc.thePlayer.getDistanceToEntity(finalEntity) <= range.getDefaultValue() && attackEvent.getSelectedMode().equals("Pre Motion"))
                         attackEntity();
                 }
 
@@ -201,6 +208,11 @@ public class KillAura extends Module {
                     e.setStrafe(-e.getStrafe());
                 }*/
                 e.setYaw(yaw);
+            }
+
+            if (finalEntity != null) {
+                if (mc.thePlayer.getDistanceToEntity(finalEntity) <= range.getDefaultValue() && attackEvent.getSelectedMode().equals("On Tick"))
+                    attackEntity();
             }
 
             if (event instanceof JumpEvent) {
