@@ -8,6 +8,7 @@ import koks.modules.impl.visuals.ClearTag;
 import koks.theme.Theme;
 import koks.utilities.CustomFont;
 import koks.utilities.DeltaTime;
+import koks.utilities.RenderUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
@@ -104,6 +105,9 @@ public class Jello extends Theme {
 
     @Override
     public void waterMarkDesign() {
+
+        getRenderUtils().drawRect(7, 100, 100, 350, 350, Color.WHITE);
+
         GL11.glPushMatrix();
         GlStateManager.disableAlpha();
         GlStateManager.enableBlend();

@@ -82,7 +82,6 @@ public class ClickGUI extends GuiScreen {
         renderUtils.drawOutlineRect(x, this.y - 5, x + width, this.y + height, 2, new Color(40, 39, 42, 255));
         this.commonPanel.drawScreen(mouseX, mouseY);
 
-        renderUtils.drawShadow(x - 20F, this.y - 21, width + 40, height + 39.5F, false);
 
         super.drawScreen(mouseX, mouseY, partialTicks);
     }
