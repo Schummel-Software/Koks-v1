@@ -43,7 +43,7 @@ public class InventoryManager extends Module {
     public InventoryManager() {
         super("InventoryManager", Category.PLAYER);
 
-        trashItems = Arrays.asList(Items.feather, Items.dye, Items.paper, Items.saddle, Items.string, Items.banner);
+        trashItems = Arrays.asList(Items.feather, Items.dye, Items.paper, Items.saddle, Items.string, Items.banner, Items.fishing_rod);
         addValue(openedInventory);
         addValue(startDelay);
         addValue(throwDelay);

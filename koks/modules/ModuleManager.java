@@ -61,6 +61,7 @@ public class ModuleManager {
         addModule(new Disabler());
         addModule(new Cosmetics());
         addModule(new CustomBlock());
+        addModule(new AntiFlag());
 
         // Visuals
         addModule(new Ambiance());

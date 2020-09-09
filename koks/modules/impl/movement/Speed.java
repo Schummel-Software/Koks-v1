@@ -13,7 +13,7 @@ import koks.utilities.value.values.ModeValue;
  */
 public class Speed extends Module {
 
-    public ModeValue<String> mode = new ModeValue<>("Mode", "Mineplex", new String[]{"Mineplex", "AAC 3.2.2", "Hypixel", "MCCentral"}, this);
+    public ModeValue<String> mode = new ModeValue<>("Mode", "Mineplex", new String[]{"Mineplex", "AAC 3.2.2", "Hypixel", "MCCentral LongHop", "MCCentral LowHop", "MCCentral YPort", "MCCentral Ground"}, this);
     public boolean canSpeed;
     public MovementUtil movementUtil = new MovementUtil();
     public TargetStrafe targetStrafe = new TargetStrafe();
@@ -39,7 +39,7 @@ public class Speed extends Module {
                             movementUtil.setSpeed(movementUtil.baseSpeed() + 0.005);
                         } else {
                             if (!targetStrafe.allowStrafing() && mc.thePlayer.movementInput.moveForward != 0 || mc.thePlayer.movementInput.moveStrafe != 0)
-                                movementUtil.setSpeed(movementUtil.baseSpeed() );
+                                movementUtil.setSpeed(movementUtil.baseSpeed());
                             mc.thePlayer.jumpMovementFactor = 0.035F;
                         }
                     }
@@ -70,13 +70,28 @@ public class Speed extends Module {
                         canSpeed = false;
                     }
                     break;
-                case "MCCentral":
-                    if (mc.thePlayer.hurtTime == 0) {
-                        if (mc.thePlayer.onGround) {
-                            mc.thePlayer.motionY = 0.52;
-                        }
-                        movementUtil.setSpeed(0.6F);
+                case "MCCentral LongHop":
+                    if (mc.thePlayer.onGround) {
+                        mc.thePlayer.motionY = 0.52;
                     }
+                    movementUtil.setSpeed(0.6F);
+                    break;
+                case "MCCentral LowHop":
+                    if (mc.thePlayer.onGround) {
+                        mc.thePlayer.motionY = 0.30;
+                    }
+                    movementUtil.setSpeed(0.7F);
+                    break;
+                case "MCCentral YPort":
+                    if (mc.thePlayer.onGround) {
+                        mc.thePlayer.motionY = 0.15;
+                    } else {
+                        mc.thePlayer.motionY = -0.15;
+                    }
+                    movementUtil.setSpeed(0.6F);
+                    break;
+                case "MCCentral Ground":
+                    movementUtil.setSpeed(0.4F);
                     break;
             }
         }
