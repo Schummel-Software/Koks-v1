@@ -84,13 +84,14 @@ public class KillAura extends Module {
     public RandomUtil randomUtil = new RandomUtil();
     public AuraUtil auraUtil = new AuraUtil();
     public TimeUtil timeUtil = new TimeUtil();
+    public TimeUtil cpsTimer = new TimeUtil();
     public RayCastUtil rayCastUtil = new RayCastUtil();
     public RotationUtil rotationUtil = new RotationUtil();
     public EntityUtil entityUtil = new EntityUtil();
     public Entity finalEntity;
     public boolean isFailing, canSwing;
     public float yaw, pitch;
-    public int listCount;
+    public int listCount, finalCPS, shouldCPS;
 
     public KillAura() {
         super("KillAura", Category.COMBAT);
@@ -197,6 +198,11 @@ public class KillAura extends Module {
                 mc.gameSettings.keyBindSprint.pressed = false;
                 mc.thePlayer.setSprinting(false);
             }
+
+            if (finalEntity != null) {
+                if (mc.thePlayer.getDistanceToEntity(finalEntity) <= range.getDefaultValue() && attackEvent.getSelectedMode().equals("On Tick"))
+                    attackEntity();
+            }
         }
 
         if (legitMovement.isToggled() && finalEntity != null) {
@@ -210,11 +216,6 @@ public class KillAura extends Module {
                 e.setYaw(yaw);
             }
 
-            if (finalEntity != null) {
-                if (mc.thePlayer.getDistanceToEntity(finalEntity) <= range.getDefaultValue() && attackEvent.getSelectedMode().equals("On Tick"))
-                    attackEntity();
-            }
-
             if (event instanceof JumpEvent) {
                 JumpEvent e = (JumpEvent) event;
                 e.setYaw(yaw);
@@ -224,11 +225,18 @@ public class KillAura extends Module {
     }
 
     public void attackEntity() {
-        double maxCps = cps.getDefaultValue() < 10 ? cps.getDefaultValue() : cps.getDefaultValue() + 5;
+        int maxCps = cps.getDefaultValue() < 10 ? cps.getDefaultValue() : cps.getDefaultValue() + 5;
+        int minCps = cps.getMinDefaultValue() < 10 ? cps.getMinDefaultValue() : cps.getMinDefaultValue() + 5;
+        if (cpsTimer.hasReached(500)) {
+            shouldCPS = maxCps == minCps ? maxCps : randomUtil.randomInt(minCps,maxCps);
+            cpsTimer.reset();
+        }
 
-        double minCps = cps.getMinDefaultValue() < 10 ? cps.getMinDefaultValue() : cps.getMinDefaultValue() + 5;
+        if (finalCPS < shouldCPS)
+            finalCPS++;
+        if (finalCPS > shouldCPS)
+            finalCPS--;
 
-        double cps = maxCps == minCps ? maxCps : ThreadLocalRandom.current().nextDouble(minCps,maxCps);
         Entity rayCast = rayCastUtil.getRayCastedEntity(range.getDefaultValue(), yaw, pitch);
 
         if (!isFailing && rayCast != null) {
@@ -237,9 +245,9 @@ public class KillAura extends Module {
                 mc.getNetHandler().addToSendQueue(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.RELEASE_USE_ITEM, BlockPos.ORIGIN, EnumFacing.DOWN));
 
             for (int i = 0; i < 2; i++)
-                mc.effectRenderer.emitParticleAtEntity(rayCast, EnumParticleTypes.PORTAL);
+                mc.effectRenderer.emitParticleAtEntity(rayCast, EnumParticleTypes.SNOWBALL);
 
-            if (timeUtil.hasReached((long) (1000 / cps))) {
+            if (timeUtil.hasReached(1000 / finalCPS)) {
                 if (silentSwing.isToggled()) {
                     if (canSwing) {
                         mc.thePlayer.swingItem();
@@ -266,9 +274,11 @@ public class KillAura extends Module {
     }
 
     public void setRotations(Entity entity) {
-        float[] rotations = rotationUtil.faceEntity(entity, yaw, pitch, smoothRotation.isToggled());
-        yaw = rotations[0];
-        pitch = rotations[1];
+        if (!isFailing) {
+            float[] rotations = rotationUtil.faceEntity(entity, yaw, pitch, smoothRotation.isToggled());
+            yaw = rotations[0];
+            pitch = rotations[1];
+        }
     }
 
     public void manageEntities() {
