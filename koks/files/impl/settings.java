@@ -33,13 +33,14 @@ public class settings extends Files {
             if (value instanceof BooleanValue) {
                 fileWriter.write(value.getModule().getModuleName() + ":" + value.getName() + ":" + ((BooleanValue) value).isToggled() + "\n");
             } else if (value instanceof ModeValue) {
-
+                String text = ((ModeValue) value).getModule().getModuleName() + ":" + value.getName() + ":";
                 if (((ModeValue) value).getObjects() != null) {
-                    String text = "";
                     for (BooleanValue s : ((ModeValue) value).getObjects()) {
-                        text = text + ":" + s.getName() + ":" + s.isToggled();
+                        if(s.getModule() == value.getModule()) {
+                            fileWriter.write(text + s.getName() + ":" + s.isToggled() + "\n");
+                        }
                     }
-                    fileWriter.write(value.getModule().getModuleName() + ":" + value.getName() + ":" + "KOKSIGERCUSTOM" + text + "\n");
+
                 } else {
                     fileWriter.write(value.getModule().getModuleName() + ":" + value.getName() + ":" + ((ModeValue) value).getSelectedMode() + "\n");
                 }
@@ -62,28 +63,21 @@ public class settings extends Files {
             String[] args = line.split(":");
             Module module = Koks.getKoks().moduleManager.getModule(args[0]);
             Value value = Koks.getKoks().valueManager.getValue(module, args[1]);
-
+            if(module == null)continue;
             if (value instanceof BooleanValue) {
                 ((BooleanValue) value).setToggled(Boolean.parseBoolean(args[2]));
             } else if (value instanceof ModeValue) {
-
-                if (((ModeValue) value).getObjects() != null && value.getModule() instanceof HUD) {
-                    for (int i = 0; i < ((ModeValue) value).getObjects().length * 2; i++) {
-                        int finalI = i;
-                        Arrays.stream(((ModeValue) value).getObjects()).forEach(value1 -> {
-                            if (value1.getName().equals(args[3 + finalI])) {
-                                System.out.println(value1.getName());
-                                if (args[4 + finalI].equals("true") || args[4 + finalI].equals("false")) {
-                                    Boolean t = Boolean.parseBoolean(args[4 + finalI]);
-                                    value1.setToggled(t);
-                                }
+                if(((ModeValue) value).getObjects() == null) {
+                    ((ModeValue) value).setSelectedMode(args[3]);
+                }else{
+                    for(BooleanValue booleanValue : ((ModeValue) value).getObjects()) {
+                        if(booleanValue.getModule() == module) {
+                            if (booleanValue.getName().equalsIgnoreCase(args[3])) {
+                                booleanValue.setToggled(Boolean.parseBoolean(args[4]));
                             }
-                        });
+                        }
                     }
-                } else {
-                    ((ModeValue) value).setSelectedMode(args[2]);
                 }
-
             } else if (value instanceof NumberValue) {
                 if (((NumberValue) value).getMinDefaultValue() != null) {
                     if (((NumberValue) value).getDefaultValue() instanceof Float) {
@@ -113,19 +107,5 @@ public class settings extends Files {
             }
         }
         fileReader.close();
-    }
-
-    private static int countLetter(String str, char letter) {
-        str = str.toLowerCase();
-        letter = Character.toLowerCase(letter);
-        int count = 0;
-
-        for (int i = 0; i < str.length(); i++) {
-            char currentLetter = str.charAt(i);
-            if (currentLetter == letter)
-                count++;
-        }
-
-        return count;
     }
 }
