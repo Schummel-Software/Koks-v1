@@ -68,12 +68,12 @@ public class settings extends Files {
                 ((BooleanValue) value).setToggled(Boolean.parseBoolean(args[2]));
             } else if (value instanceof ModeValue) {
                 if(((ModeValue) value).getObjects() == null) {
-                    ((ModeValue) value).setSelectedMode(args[3]);
+                    ((ModeValue) value).setSelectedMode(args[2]);
                 }else{
                     for(BooleanValue booleanValue : ((ModeValue) value).getObjects()) {
                         if(booleanValue.getModule() == module) {
-                            if (booleanValue.getName().equalsIgnoreCase(args[3])) {
-                                booleanValue.setToggled(Boolean.parseBoolean(args[4]));
+                            if (booleanValue.getName().equalsIgnoreCase(args[2])) {
+                                booleanValue.setToggled(Boolean.parseBoolean(args[3]));
                             }
                         }
                     }
