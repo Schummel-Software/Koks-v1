@@ -48,12 +48,11 @@ public class ModuleManager {
         addModule(new NoFall());
         addModule(new Phase());
         addModule(new SetBack());
-        addModule(new AutoArmor());
         addModule(new NoRotate());
         addModule(new InventoryManager());
         addModule(new ChestStealer());
         addModule(new AntiVoid());
-        addModule(new ArmorManager());
+        addModule(new AutoArmor());
 
         // Utilities
         addModule(new ClickGUI());
