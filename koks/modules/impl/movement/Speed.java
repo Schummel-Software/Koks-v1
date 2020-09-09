@@ -13,7 +13,7 @@ import koks.utilities.value.values.ModeValue;
  */
 public class Speed extends Module {
 
-    public ModeValue<String> mode = new ModeValue<>("Mode", "Mineplex", new String[]{"Mineplex", "AAC 3.2.2", "Hypixel", "MCCentral LongHop", "MCCentral LowHop", "MCCentral YPort", "MCCentral Ground"}, this);
+    public ModeValue<String> mode = new ModeValue<>("Mode", "Mineplex", new String[]{"Mineplex", "AAC 3.2.2", "Hypixel", "MCCentral LongHop", "MCCentral LowHop"}, this);
     public boolean canSpeed;
     public MovementUtil movementUtil = new MovementUtil();
     public TargetStrafe targetStrafe = new TargetStrafe();
@@ -78,20 +78,9 @@ public class Speed extends Module {
                     break;
                 case "MCCentral LowHop":
                     if (mc.thePlayer.onGround) {
-                        mc.thePlayer.motionY = 0.30;
+                        mc.thePlayer.motionY = 0.32;
                     }
-                    movementUtil.setSpeed(0.7F);
-                    break;
-                case "MCCentral YPort":
-                    if (mc.thePlayer.onGround) {
-                        mc.thePlayer.motionY = 0.15;
-                    } else {
-                        mc.thePlayer.motionY = -0.15;
-                    }
-                    movementUtil.setSpeed(0.6F);
-                    break;
-                case "MCCentral Ground":
-                    movementUtil.setSpeed(0.4F);
+                    movementUtil.setSpeed(0.55F);
                     break;
             }
         }
