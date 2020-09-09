@@ -4,6 +4,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.BlockPos;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.MathHelper;
 
 import java.util.Random;
@@ -24,9 +25,9 @@ public class RotationUtil {
 
         double distance = mc.thePlayer.getDistanceToEntity(entity);
         double angle = MathHelper.sqrt_double(x * x + z * z);
-        float yawAngle = (float) ((float) (MathHelper.func_181159_b(z, x) * 180.0D / Math.PI) - 90.0F + randomUtil.randomGaussian((3 / distance)));
-        float pitchAngle = (float) ((float) (-(MathHelper.func_181159_b(y, angle) * 180.0D / Math.PI )) + randomUtil.randomGaussian((3 / distance)));
-        float speed = (float) (20 + distance * 5);
+        float yawAngle = (float) ((float) (MathHelper.func_181159_b(z, x) * 180.0D / Math.PI) - 90.0F + randomUtil.randomGaussian((3.5F + randomUtil.randomGaussian(1) / distance)));
+        float pitchAngle = (float) ((float) (-(MathHelper.func_181159_b(y, angle) * 180.0D / Math.PI )) + randomUtil.randomGaussian((3 + randomUtil.randomGaussian(1) / distance)) + randomUtil.randomFloat(-2, 10) + (mc.thePlayer.onGround ? 0 : -7));
+        float speed = (float) ((22 + distance * (5 + randomUtil.randomGaussian(1.25F))) + randomUtil.randomGaussian(4));
         float yaw = updateRotation(currentYaw, yawAngle, smooth ? speed : 1000);
         float pitch = updateRotation(currentPitch, pitchAngle, smooth ? speed : 1000);
 
@@ -34,6 +35,8 @@ public class RotationUtil {
         float fix = sense * sense * sense * 1.2F;
         yaw -= yaw % fix;
         pitch -= pitch % fix;
+
+        mc.thePlayer.addChatMessage(new ChatComponentText("Rotation Speed: " + speed));
 
         if (pitch > 90)
             pitch = 90;
