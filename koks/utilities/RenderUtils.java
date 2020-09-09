@@ -54,7 +54,7 @@ public class RenderUtils {
         GlStateManager.disableBlend();
     }
 
-    public void scissor (final double x, final double y, final double x2, final double y2) {
+    public void scissor(final double x, final double y, final double x2, final double y2) {
         final ScaledResolution scaledResolution = new ScaledResolution(Minecraft.getMinecraft());
         final int factor = scaledResolution.getScaleFactor();
         GL11.glScissor((int) (x * factor), (int) ((scaledResolution.getScaledHeight() - y2) * factor), (int) ((x2 - x) * factor), (int) ((y2 - y) * factor));
@@ -62,33 +62,32 @@ public class RenderUtils {
 
     public void drawImage(ResourceLocation resourceLocation, float x, float y, double pictureWidth, double pictureHeight, boolean grayedOut) {
         GL11.glPushMatrix();
-        if(grayedOut)
-        GL11.glColor4f(0.5F,0.5F,0.5F,1);
+        if (grayedOut)
+            GL11.glColor4f(0.5F, 0.5F, 0.5F, 1);
         else
-            GL11.glColor4f(1F,1F,1F,1);
+            GL11.glColor4f(1F, 1F, 1F, 1);
         Minecraft.getMinecraft().getTextureManager().bindTexture(resourceLocation);
         Gui.drawModalRectWithCustomSizedTexture(x, y, 0, 0, pictureWidth, pictureHeight, pictureWidth, pictureHeight);
-        GlStateManager.color(1,1,1,1);
+        GlStateManager.color(1, 1, 1, 1);
         GL11.glPopMatrix();
     }
 
-    public void drawShadow(float x, float y, double pictureWidth, double pictureHeight, boolean grayedOut) {
+    public void drawShadow(float x, float y, double width, double height) {
         GL11.glPushMatrix();
         GlStateManager.disableAlpha();
         GlStateManager.enableBlend();
         GL11.glEnable(GL11.GL_BLEND);
-        GL11.glColor4f(1, 1, 1, 1);
-        if(grayedOut)
-            GL11.glColor4f(0.5F,0.5F,0.5F,1);
-        else
-            GL11.glColor4f(1F,1F,1F,1);
-        Minecraft.getMinecraft().getTextureManager().bindTexture(new ResourceLocation("client/shadows/shadow.png"));
-        Gui.drawModalRectWithCustomSizedTexture(x, y, 0, 0, pictureWidth, pictureHeight, pictureWidth, pictureHeight);
-        GlStateManager.color(1,1,1,1);
+        GL11.glColor4f(1F, 1F, 1F, 1);
+        drawImage(new ResourceLocation("client/shadows/top.png"), x, y - 3, width, 3, false);
+        drawImage(new ResourceLocation("client/shadows/bottom.png"), x, (float) (y + height), width, 6, false);
+        drawImage(new ResourceLocation("client/shadows/left.png"), x - 3, y - 1, 3, height + 2, false);
+        drawImage(new ResourceLocation("client/shadows/right.png"), (float) (x + width), y - 1, 3, height + 2, false);
+        GlStateManager.color(1, 1, 1, 1);
         GL11.glDisable(GL11.GL_BLEND);
         GlStateManager.enableAlpha();
         GlStateManager.disableBlend();
         GL11.glPopMatrix();
     }
+
 
 }
