@@ -36,8 +36,6 @@ public class RotationUtil {
         yaw -= yaw % fix;
         pitch -= pitch % fix;
 
-        mc.thePlayer.addChatMessage(new ChatComponentText("Rotation Speed: " + speed));
-
         if (pitch > 90)
             pitch = 90;
         if (pitch < -90)
