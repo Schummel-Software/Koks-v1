@@ -105,9 +105,6 @@ public class Jello extends Theme {
 
     @Override
     public void waterMarkDesign() {
-
-        getRenderUtils().drawRect(7, 100, 100, 350, 350, Color.WHITE);
-
         GL11.glPushMatrix();
         GlStateManager.disableAlpha();
         GlStateManager.enableBlend();

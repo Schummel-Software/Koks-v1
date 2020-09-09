@@ -137,14 +137,7 @@ public class HypixelFly {
         playerCapabilities.isFlying = true;
         netHandler.addToSendQueue(new C13PacketPlayerAbilities(playerCapabilities));
 
-        for (int i = 0; i < mc.thePlayer.getMaxFallHeight() / 0.055; ++i) {
-            netHandler.addToSendQueue(new C03PacketPlayer.C04PacketPlayerPosition(x, y + 0.06, z, false));
-            netHandler.addToSendQueue(new C03PacketPlayer.C04PacketPlayerPosition(x, y + 0.016, z, false));
-            netHandler.addToSendQueue(new C03PacketPlayer.C04PacketPlayerPosition(x, y + 0.0049 + 0.0003, z, false));
-        }
-        netHandler.addToSendQueue(new C03PacketPlayer(true));
 
-        netHandler.addToSendQueue(new C03PacketPlayer(false));
         mc.thePlayer.onGround = false;
 
         zoom = true;
