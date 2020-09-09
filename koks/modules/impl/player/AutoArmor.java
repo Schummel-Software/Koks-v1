@@ -32,14 +32,14 @@ public class AutoArmor extends Module {
 
     public BooleanValue<Boolean> openedInventory = new BooleanValue<>("Opened Inventory", true, this);
     public NumberValue<Long> startDelay = new NumberValue<>("Start Delay", 100L, 500L, 0L, this);
-    public NumberValue<Long> throwDelay = new NumberValue<>("Throw Delay", 90L, 125L, 150L, 0L, this);
+    public NumberValue<Long> throwDelay = new NumberValue<>("Equip Delay", 90L, 125L, 150L, 0L, this);
 
     private final RandomUtil randomUtil = new RandomUtil();
     private final TimeUtil startTimer = new TimeUtil();
     private final TimeUtil throwTimer = new TimeUtil();
 
     public AutoArmor() {
-        super("ArmorManager", Category.PLAYER);
+        super("AutoArmor", Category.PLAYER);
         addValue(openedInventory);
         addValue(startDelay);
         addValue(throwDelay);
