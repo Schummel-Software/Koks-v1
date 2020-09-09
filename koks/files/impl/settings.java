@@ -63,7 +63,7 @@ public class settings extends Files {
             String[] args = line.split(":");
             Module module = Koks.getKoks().moduleManager.getModule(args[0]);
             Value value = Koks.getKoks().valueManager.getValue(module, args[1]);
-            if (module != null) {
+            if (module != null && value != null) {
                 if (value instanceof BooleanValue) {
                     ((BooleanValue) value).setToggled(Boolean.parseBoolean(args[2]));
                 } else if (value instanceof ModeValue) {
