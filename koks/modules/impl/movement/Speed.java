@@ -36,7 +36,7 @@ public class Speed extends Module {
                 if (targetStrafe.allowStrafing()) {
                     if(mc.thePlayer.onGround)
                         mc.thePlayer.motionY = 0.42;
-                    targetStrafe.strafe(event, 0.4743);
+                    targetStrafe.strafe(event, 0.4543);
                 }
                 break;
         }
@@ -62,7 +62,7 @@ public class Speed extends Module {
                             mc.thePlayer.motionY = 0.42;
                         } else {
                             if (mc.thePlayer.fallDistance < 0.5 && !targetStrafe.allowStrafing()) {
-                                movementUtil.setSpeed(0.4743);
+                                movementUtil.setSpeed(0.4543);
                                 mc.thePlayer.jumpMovementFactor = 0.024F;
                             }
                         }
