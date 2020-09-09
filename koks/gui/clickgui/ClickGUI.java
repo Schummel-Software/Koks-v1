@@ -95,7 +95,7 @@ public class ClickGUI extends GuiScreen {
             this.dragY = y - mouseY;
         }
         if (mouseX > 0 && mouseX < 70 && mouseY > 0 && mouseY < 50 && mouseButton == 0) {
-            mc.displayGuiScreen(Koks.getKoks().configScreen);
+            mc.displayGuiScreen(Koks.getKoks().drawConfigManager);
         }
         panelList.forEach(panelButton -> panelButton.mouseClicked(mouseX, mouseY, mouseButton));
         this.commonPanel.mouseClicked(mouseX, mouseY, mouseButton);

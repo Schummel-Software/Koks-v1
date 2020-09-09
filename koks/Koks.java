@@ -6,6 +6,7 @@ import koks.files.FileManager;
 import koks.gui.clickgui.ClickGUI;
 import koks.gui.clickgui.commonvalue.CommonValueManager;
 import koks.gui.configs.ConfigScreen;
+import koks.gui.configsnew.DrawConfigManager;
 import koks.gui.customhud.CustomHUD;
 import koks.gui.customhud.valuehudsystem.ValueHUDManager;
 import koks.hud.tabgui.TabGUI;
@@ -58,6 +59,8 @@ public class Koks {
     public ConfigManager configManager;
     public CustomHUD customHUD;
     public TabGUI tabGUI;
+    public DrawConfigManager drawConfigManager;
+    public koks.gui.configsnew.ConfigManager configManagerFromScreen;
 
     public void initClient() {
         koksSound = PositionedSoundRecord.create(new ResourceLocation("koks.sound"));
@@ -75,7 +78,9 @@ public class Koks {
         if(!configManager.DIR.exists())configManager.DIR.mkdirs();
         configScreen = new ConfigScreen();
         customHUD = new CustomHUD();
-        this.tabGUI = new TabGUI();
+        tabGUI = new TabGUI();
+        drawConfigManager = new DrawConfigManager();
+        configManagerFromScreen = new koks.gui.configsnew.ConfigManager();
         fileManager.createFiles();
 
     }
