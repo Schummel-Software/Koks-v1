@@ -34,8 +34,10 @@ public class KeyBindFile extends Files {
         while((line = fileReader.readLine()) != null) {
             String[] args = line.split(":");
             Module module = Koks.getKoks().moduleManager.getModule(args[0]);
-            int key = Integer.parseInt(args[1]);
-            module.setKeyBind(key);
+            if(module != null) {
+                int key = Integer.parseInt(args[1]);
+                module.setKeyBind(key);
+            }
         }
         fileReader.close();
     }
