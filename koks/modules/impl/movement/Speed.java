@@ -26,9 +26,21 @@ public class Speed extends Module {
 
     @Override
     public void onEvent(Event event) {
-        if (targetStrafe.allowStrafing()) {
-            targetStrafe.strafe(event, movementUtil.baseSpeed());
+        switch (mode.getSelectedMode()) {
+            case "Hypixel":
+                if (targetStrafe.allowStrafing()) {
+                    targetStrafe.strafe(event, movementUtil.baseSpeed());
+                }
+                break;
+            case "Mineplex":
+                if (targetStrafe.allowStrafing()) {
+                    if(mc.thePlayer.onGround)
+                        mc.thePlayer.motionY = 0.42;
+                    targetStrafe.strafe(event, 0.4743);
+                }
+                break;
         }
+
         if (event instanceof EventUpdate) {
             setModuleInfo(mode.getSelectedMode());
             switch (mode.getSelectedMode()) {
@@ -49,7 +61,7 @@ public class Speed extends Module {
                         if (mc.thePlayer.onGround) {
                             mc.thePlayer.motionY = 0.42;
                         } else {
-                            if (mc.thePlayer.fallDistance < 0.5) {
+                            if (mc.thePlayer.fallDistance < 0.5 && !targetStrafe.allowStrafing()) {
                                 movementUtil.setSpeed(0.4743);
                                 mc.thePlayer.jumpMovementFactor = 0.024F;
                             }
