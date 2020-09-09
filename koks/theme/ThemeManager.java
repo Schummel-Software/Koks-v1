@@ -20,6 +20,7 @@ public class ThemeManager {
         addTheme(new Clientus());
         addTheme(new Klientus());
         addTheme(new Vega());
+        addTheme(new LiquidSense());
     }
 
     public void addTheme(Theme theme) {

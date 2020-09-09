@@ -30,7 +30,7 @@ public class ThemeSelection extends GuiScreen {
             this.buttonList.add(new GuiButton(i, cords[0], cords[1], 80, 20, themeName));
             cords[0] += 85;
             if (cords[0] > scaledResolution.getScaledWidth() - 100) {
-                cords[0] = 0;
+                cords[0] = 20;
                 cords[1] += 30;
             }
         }
