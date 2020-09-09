@@ -64,6 +64,8 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
      */
     private float updateCounter;
 
+    private boolean playingSound = true;
+
     /**
      * The splash message.
      */
@@ -196,7 +198,6 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
      * Adds the buttons (and other controls) to the screen in question. Called when the GUI is displayed and when the
      * window resizes, the buttonList is cleared beforehand.
      */
-    public boolean song = false;
 
     public void initGui() {
 
@@ -224,6 +225,8 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
 
         this.buttonList.add(new GuiButton(0, this.width / 2 - 100, j + 72 + 12, 98, 20, I18n.format("menu.options", new Object[0])));
         this.buttonList.add(new GuiButton(12512, this.width / 2 - 100, j + 72 + 36, 98, 20, I18n.format("Theme Selection", new Object[0])));
+
+        this.buttonList.add(new GuiButton(12401, 1, 1, 98, 20, "Sound " + playingSound));
 
         this.buttonList.add(new GuiButton(4, this.width / 2 + 2, j + 72 + 12, 98, 20, I18n.format("menu.quit", new Object[0])));
         this.buttonList.add(new GuiButtonLanguage(5, this.width / 2 - 124, j + 72 + 12));
@@ -275,7 +278,11 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
 
     protected void actionPerformed(GuiButton button) throws IOException {
         mc.getSoundHandler().stopSounds();
-        song = false;
+
+        if (button.id == 12401) {
+            playingSound = !playingSound;
+        }
+
         if (button.id == 0) {
             this.mc.displayGuiScreen(new GuiOptions(this, this.mc.gameSettings));
         }
@@ -513,14 +520,14 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
      */
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
 
-        // TODO FIX SOUND CRASHING
-
-       try {
-            if (!mc.getSoundHandler().isSoundPlaying(Koks.getKoks().koksSound)) {
-                mc.getSoundHandler().playSound(Koks.getKoks().koksSound);
+        if (playingSound) {
+            try {
+                if (!mc.getSoundHandler().isSoundPlaying(Koks.getKoks().koksSound)) {
+                    mc.getSoundHandler().playSound(Koks.getKoks().koksSound);
+                }
+            } catch (IllegalArgumentException ignore) {
+                System.out.println("crash");
             }
-        } catch (IllegalArgumentException ignore) {
-            System.out.println("crash");
         }
 
         GlStateManager.disableAlpha();
@@ -569,6 +576,12 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
             drawRect(this.field_92022_t - 2, this.field_92021_u - 2, this.field_92020_v + 2, this.field_92019_w - 1, 1428160512);
             this.drawString(this.fontRendererObj, this.openGLWarning1, this.field_92022_t, this.field_92021_u, -1);
             this.drawString(this.fontRendererObj, this.openGLWarning2, (this.width - this.field_92024_r) / 2, ((GuiButton) this.buttonList.get(0)).yPosition - 12, -1);
+        }
+
+        for (int jhg = 0; jhg < this.buttonList.size(); ++jhg) {
+            if (this.buttonList.get(jhg).id == 12401) {
+                this.buttonList.get(jhg).displayString = "Sound " + playingSound;
+            }
         }
 
         super.drawScreen(mouseX, mouseY, partialTicks);
