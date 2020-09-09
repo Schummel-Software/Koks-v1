@@ -10,6 +10,7 @@ import koks.utilities.value.values.BooleanValue;
 import koks.utilities.value.values.ModeValue;
 import koks.utilities.value.values.NumberValue;
 import koks.utilities.value.values.TitleValue;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityArmorStand;
@@ -25,6 +26,7 @@ import net.minecraft.network.play.client.C07PacketPlayerDigging;
 import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
 import net.minecraft.network.play.client.C0APacketAnimation;
 import net.minecraft.util.*;
+import org.lwjgl.opengl.GL11;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -76,8 +78,9 @@ public class KillAura extends Module {
     public TitleValue visualSettings = new TitleValue("Visual Settings", false, new Value[]{fakeBlocking, silentBlocking, silentSwing, serverSideSwing, swingChance}, this);
 
     public ModeValue<String> attackEvent = new ModeValue<>("Attack Event", "Pre Motion", new String[]{"Pre Motion", "On Tick"}, this);
+    public NumberValue<Double> animationSpeed = new NumberValue<>("Animation Speed", 0.35D, 1D, 0D, this);
 
-    public TitleValue adjustmentSettings = new TitleValue("Fine Tuning Settings", false, new Value[]{attackEvent}, this);
+    public TitleValue adjustmentSettings = new TitleValue("Fine Tuning Settings", false, new Value[]{attackEvent, animationSpeed}, this);
 
     public List<Entity> entities = new ArrayList<>();
     FriendManager friendManager = new FriendManager();
@@ -90,7 +93,7 @@ public class KillAura extends Module {
     public EntityUtil entityUtil = new EntityUtil();
     public Entity finalEntity;
     public boolean isFailing, canSwing;
-    public float yaw, pitch;
+    public float yaw, pitch, animation;
     public int listCount, finalCPS, shouldCPS;
 
     public KillAura() {
@@ -128,6 +131,7 @@ public class KillAura extends Module {
 
         addValue(adjustmentSettings);
         addValue(attackEvent);
+        addValue(animationSpeed);
     }
 
     @Override
@@ -163,7 +167,8 @@ public class KillAura extends Module {
             float partialTicks = ((EventRender3D) event).getPartialTicks();
 
             if (finalEntity != null) {
-                double x = (finalEntity.lastTickPosX + (finalEntity.posX - finalEntity.lastTickPosX) * partialTicks) - mc.getRenderManager().renderPosX;
+                drawESP(finalEntity, partialTicks, 1);
+       /*         double x = (finalEntity.lastTickPosX + (finalEntity.posX - finalEntity.lastTickPosX) * partialTicks) - mc.getRenderManager().renderPosX;
                 double y = (finalEntity.lastTickPosY + (finalEntity.posY - finalEntity.lastTickPosY) * partialTicks) - mc.getRenderManager().renderPosY;
                 double z = (finalEntity.lastTickPosZ + (finalEntity.posZ - finalEntity.lastTickPosZ) * partialTicks) - mc.getRenderManager().renderPosZ;
 
@@ -179,12 +184,14 @@ public class KillAura extends Module {
                         axisalignedbb.maxZ - finalEntity.posZ + z + width);
 
                 BoxUtil boxUtil = new BoxUtil();
-                boxUtil.renderOutline(axisalignedbb1);
+                boxUtil.renderOutline(axisalignedbb1);*/
+
+
             }
         }
 
         if (event instanceof EventUpdate) {
-            setModuleInfo(targetMode.getSelectedMode() + (targetMode.getSelectedMode().equals("Switch") ? "" : ", "+ preferTarget.getSelectedMode()));
+            setModuleInfo(targetMode.getSelectedMode() + (targetMode.getSelectedMode().equals("Switch") ? "" : ", " + preferTarget.getSelectedMode()));
             manageEntities();
             setRotations(finalEntity);
             isFailing = new Random().nextInt(100) <= failingChance.getDefaultValue();
@@ -224,11 +231,157 @@ public class KillAura extends Module {
 
     }
 
+    public void drawESP(Entity entity, float partialTicks, double radius) {
+        double x = entity.lastTickPosX + (entity.posX - entity.lastTickPosX) * partialTicks - (mc.getRenderManager()).viewerPosX;
+        double y = entity.lastTickPosY + (entity.posY - entity.lastTickPosY) * partialTicks - (mc.getRenderManager()).viewerPosY;
+        double z = entity.lastTickPosZ + (entity.posZ - entity.lastTickPosZ) * partialTicks - (mc.getRenderManager()).viewerPosZ;
+
+        animation += animationSpeed.getDefaultValue() * DeltaTime.getDeltaTime();
+
+        int sections = 1920;
+        double dAngle = 2 * Math.PI / sections;
+
+        float[] yTest = {0, 0, 0, 0, 0, 0};
+
+        GL11.glPushMatrix();
+        double yMid = mc.thePlayer.posY + 1 / 2 + 1;
+
+        GL11.glTranslated(x, yMid, z);
+        GL11.glRotatef(animation, 0, (float) yMid, 0);
+        GL11.glTranslated(-x, -yMid, -z);
+
+        GL11.glPushMatrix();
+        GL11.glPushAttrib(GL11.GL_ENABLE_BIT);
+        GL11.glEnable(GL11.GL_BLEND);
+        GL11.glDepthMask(false);
+        GL11.glDisable(GL11.GL_TEXTURE_2D);
+        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+        GL11.glLineWidth(1);
+        GL11.glEnable(GL11.GL_LINE_SMOOTH);
+        GL11.glBegin(GL11.GL_LINE_STRIP);
+        for (int i = 0; i < sections; i++) {
+            GL11.glColor4f(Koks.getKoks().client_color.getRed() / 255F, Koks.getKoks().client_color.getGreen() / 255F, Koks.getKoks().client_color.getBlue() / 255F, Koks.getKoks().client_color.getAlpha() / 255F);
+            GL11.glVertex3d(x + radius * Math.cos((i * dAngle)), y + 0.1 + yTest[0], z - radius * Math.sin((i * dAngle)));
+            yTest[0] += 0.0011;
+        }
+        GlStateManager.color(0, 0, 0);
+        GL11.glEnd();
+        GL11.glDepthMask(true);
+        GL11.glPopAttrib();
+        GL11.glPopMatrix();
+
+        GL11.glPushMatrix();
+        GL11.glPushAttrib(GL11.GL_ENABLE_BIT);
+        GL11.glEnable(GL11.GL_BLEND);
+        GL11.glDepthMask(false);
+        GL11.glDisable(GL11.GL_TEXTURE_2D);
+        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+        GL11.glLineWidth(1);
+        GL11.glEnable(GL11.GL_LINE_SMOOTH);
+        GL11.glBegin(GL11.GL_LINE_STRIP);
+        for (int i = 0; i < sections; i++) {
+            GL11.glColor4f(Koks.getKoks().client_color.getRed() / 255F, Koks.getKoks().client_color.getGreen() / 255F, Koks.getKoks().client_color.getBlue() / 255F, Koks.getKoks().client_color.getAlpha() / 255F);
+            GL11.glVertex3d(x + radius * Math.cos((i * dAngle)), y + 0.12 + yTest[1], z - radius * Math.sin((i * dAngle)));
+            yTest[1] += 0.0011;
+        }
+        GlStateManager.color(0, 0, 0);
+        GL11.glEnd();
+        GL11.glDepthMask(true);
+        GL11.glPopAttrib();
+        GL11.glPopMatrix();
+
+        GL11.glPushMatrix();
+        GL11.glPushAttrib(GL11.GL_ENABLE_BIT);
+        GL11.glEnable(GL11.GL_BLEND);
+        GL11.glDepthMask(false);
+        GL11.glDisable(GL11.GL_TEXTURE_2D);
+        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+        GL11.glLineWidth(1);
+        GL11.glEnable(GL11.GL_LINE_SMOOTH);
+        GL11.glBegin(GL11.GL_LINE_STRIP);
+        for (int i = 0; i < sections; i++) {
+            GL11.glColor4f(Koks.getKoks().client_color.getRed() / 255F, Koks.getKoks().client_color.getGreen() / 255F, Koks.getKoks().client_color.getBlue() / 255F, Koks.getKoks().client_color.getAlpha() / 255F);
+            GL11.glVertex3d(x + radius * Math.cos((i * dAngle)), y + 0.14 + yTest[2], z - radius * Math.sin((i * dAngle)));
+            yTest[2] += 0.0011;
+        }
+        GlStateManager.color(0, 0, 0);
+        GL11.glEnd();
+        GL11.glDepthMask(true);
+        GL11.glPopAttrib();
+        GL11.glPopMatrix();
+
+        // OTHER
+
+        GL11.glPushMatrix();
+        GL11.glPushAttrib(GL11.GL_ENABLE_BIT);
+        GL11.glEnable(GL11.GL_BLEND);
+        GL11.glDepthMask(false);
+        GL11.glDisable(GL11.GL_TEXTURE_2D);
+        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+        GL11.glLineWidth(1);
+        GL11.glEnable(GL11.GL_LINE_SMOOTH);
+        GL11.glBegin(GL11.GL_LINE_STRIP);
+        for (int i = 0; i < sections; i++) {
+            GL11.glColor4f(Koks.getKoks().client_color.getRed() / 255F, Koks.getKoks().client_color.getGreen() / 255F, Koks.getKoks().client_color.getBlue() / 255F, Koks.getKoks().client_color.getAlpha() / 255F);
+            GL11.glVertex3d(x + radius * -Math.cos((i * dAngle)), y + 0.1 + yTest[3], z - radius * -Math.sin((i * dAngle)));
+            yTest[3] += 0.0011;
+        }
+        GlStateManager.color(0, 0, 0);
+        GL11.glEnd();
+        GL11.glDepthMask(true);
+        GL11.glPopAttrib();
+        GL11.glPopMatrix();
+
+        GL11.glPushMatrix();
+        GL11.glPushAttrib(GL11.GL_ENABLE_BIT);
+        GL11.glEnable(GL11.GL_BLEND);
+        GL11.glDepthMask(false);
+        GL11.glDisable(GL11.GL_TEXTURE_2D);
+        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+        GL11.glLineWidth(1);
+        GL11.glEnable(GL11.GL_LINE_SMOOTH);
+        GL11.glBegin(GL11.GL_LINE_STRIP);
+        for (int i = 0; i < sections; i++) {
+            GL11.glColor4f(Koks.getKoks().client_color.getRed() / 255F, Koks.getKoks().client_color.getGreen() / 255F, Koks.getKoks().client_color.getBlue() / 255F, Koks.getKoks().client_color.getAlpha() / 255F);
+            GL11.glVertex3d(x + radius * -Math.cos((i * dAngle)), y + 0.12 + yTest[4], z - radius * -Math.sin((i * dAngle)));
+            yTest[4] += 0.0011;
+        }
+        GlStateManager.color(0, 0, 0);
+        GL11.glEnd();
+        GL11.glDepthMask(true);
+        GL11.glPopAttrib();
+        GL11.glPopMatrix();
+
+
+        GL11.glPushMatrix();
+        GL11.glPushAttrib(GL11.GL_ENABLE_BIT);
+        GL11.glEnable(GL11.GL_BLEND);
+        GL11.glDepthMask(false);
+        GL11.glDisable(GL11.GL_TEXTURE_2D);
+        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+        GL11.glLineWidth(1);
+        GL11.glEnable(GL11.GL_LINE_SMOOTH);
+        GL11.glBegin(GL11.GL_LINE_STRIP);
+        for (int i = 0; i < sections; i++) {
+            GL11.glColor4f(Koks.getKoks().client_color.getRed() / 255F, Koks.getKoks().client_color.getGreen() / 255F, Koks.getKoks().client_color.getBlue() / 255F, Koks.getKoks().client_color.getAlpha() / 255F);
+            GL11.glVertex3d(x + radius * -Math.cos((i * dAngle)), y + 0.14 + yTest[5], z - radius * -Math.sin((i * dAngle)));
+            yTest[5] += 0.0011;
+        }
+        GlStateManager.color(0, 0, 0);
+        GL11.glEnd();
+        GL11.glDepthMask(true);
+        GL11.glPopAttrib();
+        GL11.glPopMatrix();
+
+        GL11.glPopMatrix();
+
+    }
+
     public void attackEntity() {
         int maxCps = cps.getDefaultValue() < 10 ? cps.getDefaultValue() : cps.getDefaultValue() + 5;
         int minCps = cps.getMinDefaultValue() < 10 ? cps.getMinDefaultValue() : cps.getMinDefaultValue() + 5;
         if (cpsTimer.hasReached(500)) {
-            shouldCPS = maxCps == minCps ? maxCps : randomUtil.randomInt(minCps,maxCps);
+            shouldCPS = maxCps == minCps ? maxCps : randomUtil.randomInt(minCps, maxCps);
             cpsTimer.reset();
         }
 
@@ -263,10 +416,10 @@ public class KillAura extends Module {
                 else
                     mc.thePlayer.sendQueue.addToSendQueue(new C02PacketUseEntity(rayCast, C02PacketUseEntity.Action.ATTACK));
 
-                    if (listCount < entities.size() - 1 && !entities.isEmpty())
-                        listCount++;
-                    else
-                        listCount = 0;
+                if (listCount < entities.size() - 1 && !entities.isEmpty())
+                    listCount++;
+                else
+                    listCount = 0;
 
                 timeUtil.reset();
             }
