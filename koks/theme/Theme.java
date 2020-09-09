@@ -97,6 +97,7 @@ public abstract class Theme {
         CLIENTUS,
         KLIENTUS,
         VEGA,
+        LIQUIDSENSE,
         NONE;
     }
 
