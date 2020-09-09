@@ -47,10 +47,10 @@ public class TargetStrafe extends Module {
         if (event instanceof EventMove) {
             if (allowStrafing()) {
                 mc.thePlayer.setSprinting(true);
-                if (mc.thePlayer.getDistanceToEntity(Koks.getKoks().moduleManager.getModule(KillAura.class).finalEntity) <= 1) {
+                if (mc.thePlayer.getDistanceToEntity(Koks.getKoks().moduleManager.getModule(KillAura.class).finalEntity) <= 0) {
                     movementUtil.setSpeedEvent(speed, Koks.getKoks().moduleManager.getModule(KillAura.class).yaw, false, true, direction == 0, direction == 1);
                 } else {
-                    if (mc.thePlayer.getDistanceToEntity(Koks.getKoks().moduleManager.getModule(KillAura.class).finalEntity) >= 2) {
+                    if (mc.thePlayer.getDistanceToEntity(Koks.getKoks().moduleManager.getModule(KillAura.class).finalEntity) >= 1) {
                         movementUtil.setSpeedEvent(speed, Koks.getKoks().moduleManager.getModule(KillAura.class).yaw, true, false, direction == 0, direction == 1);
                     } else {
                         movementUtil.setSpeedEvent(speed, Koks.getKoks().moduleManager.getModule(KillAura.class).yaw, false, false, direction == 0, direction == 1);

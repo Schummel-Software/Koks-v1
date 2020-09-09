@@ -35,9 +35,7 @@ public class HypixelFly {
     private final RandomUtil randomUtil = new RandomUtil();
     private final MovementUtil movementUtil = new MovementUtil();
     private final TimeUtil timeUtil = new TimeUtil();
-    private final TimeUtil timeUtil2 = new TimeUtil();
 
-    private boolean done;
 
     public void onEvent(Event event) {
 
@@ -114,8 +112,6 @@ public class HypixelFly {
 
     public void onEnable() {
 
-        timeUtil2.reset();
-        done = true;
         zoom = false;
         this.moveSpeed = 0.0D;
         this.stage = 0;
