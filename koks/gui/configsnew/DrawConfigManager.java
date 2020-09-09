@@ -52,12 +52,15 @@ public class DrawConfigManager extends GuiScreen {
         configAdded.sort(Comparator.comparing(File::getName));
 
         Gui.drawRect(x, y, x + width, y + height, 0xFFFFFFFF);
+        renderUtils.drawShadow(x, y, width, height);
 
         int expandLeftSide = 50;
+
         Gui.drawRect(x + 20, y + 20, x + width / 2 - 10 + expandLeftSide, y + height - 20, 0xFFFFFFFF);
-        renderUtils.drawOutlineRect(x + 20, y + 20 - 0.5F, x + width / 2 - 10 + expandLeftSide + 0.5F, y + height - 20, 1, Color.BLACK);
+        renderUtils.drawShadow(x + 20, y + 20, width / 2 + expandLeftSide - 30, height - 40);
+
         Gui.drawRect(x + width - 20, y + 20, x + width / 2 + 10 + expandLeftSide, y + height - 20, 0xFFFFFFFF);
-        renderUtils.drawOutlineRect(x + width - 20, y + 20 - 0.5F, x + width / 2 + 10 + expandLeftSide + 0.5F, y + height - 20, 1, Color.BLACK);
+        renderUtils.drawShadow(x + width / 2 + 10 + expandLeftSide, y + 20, width / 2 - expandLeftSide - 30, height - 40);
 
         int y = this.y + 20;
         for (DrawConfig drawConfigs : configs) {
