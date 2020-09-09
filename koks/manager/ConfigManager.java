@@ -61,6 +61,7 @@ public class ConfigManager {
                 while ((line = bufferedReader.readLine()) != null) {
                     String[] args = line.split(":");
                     Module module = Koks.getKoks().moduleManager.getModule(args[1]);
+                    if(module == null)continue;
                     if (args[0].equalsIgnoreCase("Module")) {
                         module.setToggled(Boolean.parseBoolean(args[2]));
                         module.setBypassed(Boolean.parseBoolean(args[3]));
@@ -70,13 +71,16 @@ public class ConfigManager {
                         if (value instanceof BooleanValue) {
                             ((BooleanValue<Boolean>) value).setToggled(Boolean.parseBoolean(args[3]));
                         } else if (value instanceof ModeValue) {
-                            if(((ModeValue) value).getSelectedMode() != null) {
+                            if(((ModeValue) value).getObjects() == null) {
                                 ((ModeValue) value).setSelectedMode(args[3]);
                             }else{
                                 for(BooleanValue booleanValue : ((ModeValue) value).getObjects()) {
-                                    if(booleanValue.getName().equalsIgnoreCase(args[3])) {
-                                        booleanValue.setToggled(Boolean.parseBoolean(args[4]));
-                                    }
+                                   if(booleanValue.getModule() == module) {
+                                       System.out.println(args[3] + ":" + args[4]);
+                                       if (booleanValue.getName().equalsIgnoreCase(args[3])) {
+                                           booleanValue.setToggled(Boolean.parseBoolean(args[4]));
+                                       }
+                                   }
                                 }
                             }
                         } else if (value instanceof NumberValue) {
@@ -150,11 +154,13 @@ public class ConfigManager {
                         if (value instanceof BooleanValue) {
                             fileWriter.write("Setting:" + module.getModuleName() + ":" + value.getName() + ":" + ((BooleanValue) value).isToggled() + "\n");
                         } else if (value instanceof ModeValue) {
-                            if(((ModeValue) value).getSelectedMode() != null) {
+                            if(((ModeValue) value).getObjects() == null) {
                                 fileWriter.write("Setting:" + module.getModuleName() + ":" + value.getName() + ":" + ((ModeValue) value).getSelectedMode() + "\n");
                             }else{
                                 for(BooleanValue booleanValues : ((ModeValue) value).getObjects()) {
-                                    fileWriter.write("Setting:" + module.getModuleName() + ":" + value.getName() + ":" + booleanValues.getName() + ":" + booleanValues.isToggled() + "\n");
+                                    if (booleanValues.getModule() == module) {
+                                        fileWriter.write("Setting:" + module.getModuleName() + ":" + value.getName() + ":" + booleanValues.getName() + ":" + booleanValues.isToggled() + "\n");
+                                    }
                                 }
                             }
                         } else if (value instanceof NumberValue) {
