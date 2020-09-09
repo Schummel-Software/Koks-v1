@@ -3,8 +3,10 @@ package koks.gui.configsnew;
 import koks.Koks;
 import koks.utilities.CustomFont;
 import koks.utilities.RenderUtils;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
@@ -80,13 +82,16 @@ public class DrawCurrentInfo {
 
     public void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
         if (mouseButton == 0 && hoveredAccept(mouseX, mouseY)) {
+            Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText( Koks.getKoks().PREFIX + "Loaded Config: §b" + name.toUpperCase()));
             Koks.getKoks().configManagerFromScreen.currentLoadedConfig = file;
             Koks.getKoks().configManager.loadConfig(name);
         }
         if (mouseButton == 0 && hoveredDelete(mouseX, mouseY)) {
+            Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText( Koks.getKoks().PREFIX + "Deleted Config: §b" + name.toUpperCase()));
             Koks.getKoks().configManager.deleteConfig(name);
         }
         if (mouseButton == 0 && hoveredSave(mouseX, mouseY)) {
+            Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText( Koks.getKoks().PREFIX + "Saved Config: §b" + name.toUpperCase()));
             Koks.getKoks().configManager.createConfig(name);
         }
     }
