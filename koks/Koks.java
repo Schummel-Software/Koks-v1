@@ -41,6 +41,8 @@ public class Koks {
     public final String[] CLIENT_DEVELOPER = new String[] {"avox", "lmao", "Kroko"};
     public final String CLIENT_VERSION = "1.0.0";
     public final String PREFIX = "§c" + CLIENT_NAME + " §7>> §f";
+    public boolean playingSound = false;
+
     public Color client_color = Color.PINK;
     private Theme.ThemeCategory themeCategory = Theme.ThemeCategory.JELLO;
 

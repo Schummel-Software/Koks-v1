@@ -107,6 +107,7 @@ public class HypixelFly {
                         mc.thePlayer.sendQueue.addToSendQueue(new C13PacketPlayerAbilities(playerCapabilities));
                     }
                 }
+
             }
         }
     }

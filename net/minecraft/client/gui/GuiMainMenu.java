@@ -64,7 +64,6 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
      */
     private float updateCounter;
 
-    private boolean playingSound = true;
 
     /**
      * The splash message.
@@ -200,7 +199,6 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
      */
 
     public void initGui() {
-
         this.viewportTexture = new DynamicTexture(256, 256);
         this.backgroundTexture = this.mc.getTextureManager().getDynamicTextureLocation("background", this.viewportTexture);
         Calendar calendar = Calendar.getInstance();
@@ -226,7 +224,7 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
         this.buttonList.add(new GuiButton(0, this.width / 2 - 100, j + 72 + 12, 98, 20, I18n.format("menu.options", new Object[0])));
         this.buttonList.add(new GuiButton(12512, this.width / 2 - 100, j + 72 + 36, 98, 20, I18n.format("Theme Selection", new Object[0])));
 
-        this.buttonList.add(new GuiButton(12401, 1, 1, 98, 20, "Sound " + playingSound));
+        this.buttonList.add(new GuiButton(12401, 1, 1, 98, 20, "Sound " + Koks.getKoks().playingSound));
 
         this.buttonList.add(new GuiButton(4, this.width / 2 + 2, j + 72 + 12, 98, 20, I18n.format("menu.quit", new Object[0])));
         this.buttonList.add(new GuiButtonLanguage(5, this.width / 2 - 124, j + 72 + 12));
@@ -280,7 +278,7 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
         mc.getSoundHandler().stopSounds();
 
         if (button.id == 12401) {
-            playingSound = !playingSound;
+            Koks.getKoks().playingSound = !Koks.getKoks().playingSound;
         }
 
         if (button.id == 0) {
@@ -520,7 +518,7 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
      */
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
 
-        if (playingSound) {
+        if (Koks.getKoks().playingSound) {
             try {
                 if (!mc.getSoundHandler().isSoundPlaying(Koks.getKoks().koksSound)) {
                     mc.getSoundHandler().playSound(Koks.getKoks().koksSound);
@@ -580,7 +578,7 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
 
         for (int jhg = 0; jhg < this.buttonList.size(); ++jhg) {
             if (this.buttonList.get(jhg).id == 12401) {
-                this.buttonList.get(jhg).displayString = "Sound " + playingSound;
+                this.buttonList.get(jhg).displayString = "Sound " + Koks.getKoks().playingSound;
             }
         }
 
