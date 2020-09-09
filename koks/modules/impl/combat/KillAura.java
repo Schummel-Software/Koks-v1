@@ -12,6 +12,7 @@ import koks.utilities.value.values.NumberValue;
 import koks.utilities.value.values.TitleValue;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.item.EntityArmorStand;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.passive.EntityVillager;
@@ -318,6 +319,8 @@ public class KillAura extends Module {
         if (!animals.isToggled() && entity instanceof EntityVillager)
             return false;
         if (!mobs.isToggled() && entity instanceof EntityMob)
+            return false;
+        if (entity instanceof EntityArmorStand)
             return false;
         if (!invisible.isToggled() && entity.isInvisible())
             return false;
