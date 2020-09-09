@@ -33,7 +33,7 @@ public class MovementUtil {
     public float baseSpeed() {
         float baseMovementSpeed = 0.2875F;
         if (Minecraft.getMinecraft().thePlayer.isPotionActive(Potion.moveSpeed))
-            baseMovementSpeed *= (Minecraft.getMinecraft().thePlayer.getActivePotionEffect(Potion.moveSpeed).getAmplifier() + 1);
+            baseMovementSpeed *= 1 + (0.2F * (Minecraft.getMinecraft().thePlayer.getActivePotionEffect(Potion.moveSpeed).getAmplifier() + 1F));
         return baseMovementSpeed;
     }
 

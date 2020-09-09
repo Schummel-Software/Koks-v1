@@ -10,6 +10,8 @@ import koks.utilities.TimeUtil;
 import koks.utilities.value.values.BooleanValue;
 import koks.utilities.value.values.NumberValue;
 import net.minecraft.client.gui.inventory.GuiInventory;
+import net.minecraft.enchantment.Enchantment;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import org.lwjgl.Sys;
@@ -119,8 +121,9 @@ public class AutoArmor extends Module {
         for (int i = 5; i < 45; i++) {
             if (mc.thePlayer.inventoryContainer.getSlot(i).getHasStack()) {
                 ItemStack itemStack1 = mc.thePlayer.inventoryContainer.getSlot(i).getStack();
-                if (getDamageReduceAmount(itemStack1) > damageReduceAmount && itemStack1.getItem().getUnlocalizedName().contains(armorType))
+                if (getDamageReduceAmount(itemStack1) > damageReduceAmount && itemStack1.getItem().getUnlocalizedName().contains(armorType)) {
                     return false;
+                }
             }
         }
         return true;

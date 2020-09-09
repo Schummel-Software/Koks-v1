@@ -82,7 +82,7 @@ public class HypixelFly {
             if (mc.thePlayer.moveForward != 0 || mc.thePlayer.moveStrafing != 0) {
                 if (this.moveSpeed < 0.2875D)
                     moveSpeed = 0.2875F;
-                movementUtil.setSpeed(Math.max(this.moveSpeed, 0.2875D));
+                movementUtil.setSpeed(Math.max(this.moveSpeed, movementUtil.baseSpeed()));
             }
             this.stage++;
         }
@@ -98,13 +98,14 @@ public class HypixelFly {
 
                 if (this.stage > 2) {
                     mc.thePlayer.motionY = 0.0D;
-                }
-                mc.thePlayer.cameraYaw = 0.025F;
 
-                if (mc.thePlayer.ticksExisted % 30 == 0) {
-                    PlayerCapabilities playerCapabilities = new PlayerCapabilities();
-                    playerCapabilities.isCreativeMode = true;
-                    mc.thePlayer.sendQueue.addToSendQueue(new C13PacketPlayerAbilities(playerCapabilities));
+                    mc.thePlayer.cameraYaw = 0.025F;
+
+                    if (mc.thePlayer.ticksExisted % 30 == 0) {
+                        PlayerCapabilities playerCapabilities = new PlayerCapabilities();
+                        playerCapabilities.isCreativeMode = true;
+                        mc.thePlayer.sendQueue.addToSendQueue(new C13PacketPlayerAbilities(playerCapabilities));
+                    }
                 }
             }
         }
