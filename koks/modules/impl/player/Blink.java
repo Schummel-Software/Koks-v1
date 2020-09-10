@@ -1,6 +1,7 @@
 package koks.modules.impl.player;
 
 import koks.event.Event;
+import koks.event.impl.EventRender3D;
 import koks.event.impl.EventUpdate;
 import koks.event.impl.PacketEvent;
 import koks.modules.Module;
@@ -17,6 +18,7 @@ import java.util.List;
 public class Blink extends Module {
 
     public ArrayList<Packet> packets = new ArrayList<>();
+    public double x, y, z, yaw;
 
     public Blink() {
         super("Blink", Category.PLAYER);
@@ -24,6 +26,12 @@ public class Blink extends Module {
 
     @Override
     public void onEvent(Event event) {
+        if (event instanceof EventRender3D) {
+/*            mc.getRenderManager().doRenderEntity(mc.thePlayer, x, y, z, (float) yaw, ((EventRender3D) event).getPartialTicks(), false);
+            mc.getRenderManager().doRenderEntity(mc.thePlayer, x, y, z, (float) yaw, ((EventRender3D) event).getPartialTicks(), true);
+            mc.getRenderManager().renderEntityWithPosYaw(mc.thePlayer, x, y, z, (float) yaw, ((EventRender3D) event).getPartialTicks());*/
+        }
+
         if (event instanceof PacketEvent) {
             PacketEvent e = (PacketEvent) event;
             if (e.getType() == PacketEvent.Type.SEND) {
@@ -37,7 +45,10 @@ public class Blink extends Module {
 
     @Override
     public void onEnable() {
-
+        x = mc.thePlayer.posX;
+        y = mc.thePlayer.posY;
+        z = mc.thePlayer.posZ;
+        yaw = mc.thePlayer.rotationYaw;
     }
 
     @Override

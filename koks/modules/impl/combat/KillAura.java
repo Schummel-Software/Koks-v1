@@ -174,25 +174,6 @@ public class KillAura extends Module {
 
             if (finalEntity != null) {
                 drawESP(finalEntity, partialTicks, 1);
-       /*         double x = (finalEntity.lastTickPosX + (finalEntity.posX - finalEntity.lastTickPosX) * partialTicks) - mc.getRenderManager().renderPosX;
-                double y = (finalEntity.lastTickPosY + (finalEntity.posY - finalEntity.lastTickPosY) * partialTicks) - mc.getRenderManager().renderPosY;
-                double z = (finalEntity.lastTickPosZ + (finalEntity.posZ - finalEntity.lastTickPosZ) * partialTicks) - mc.getRenderManager().renderPosZ;
-
-                float width = 0.16F;
-
-                AxisAlignedBB axisalignedbb = finalEntity.getEntityBoundingBox();
-                AxisAlignedBB axisalignedbb1 = new AxisAlignedBB(
-                        axisalignedbb.minX - finalEntity.posX + x - width,
-                        axisalignedbb.maxY - finalEntity.posY + y + 0.30 - (finalEntity.isSneaking() ? 0.25 : 0),
-                        axisalignedbb.minZ - finalEntity.posZ + z - width,
-                        axisalignedbb.maxX - finalEntity.posX + x + width,
-                        axisalignedbb.maxY - finalEntity.posY + y + 0.35 - (finalEntity.isSneaking() ? 0.25 : 0),
-                        axisalignedbb.maxZ - finalEntity.posZ + z + width);
-
-                BoxUtil boxUtil = new BoxUtil();
-                boxUtil.renderOutline(axisalignedbb1);*/
-
-
             }
         }
 
@@ -235,6 +216,163 @@ public class KillAura extends Module {
             }
         }
 
+    }
+
+    public void attackEntity() {
+        int maxCps = cps.getDefaultValue() < 10 ? cps.getDefaultValue() : cps.getDefaultValue() + 5;
+        int minCps = cps.getMinDefaultValue() < 10 ? cps.getMinDefaultValue() : cps.getMinDefaultValue() + 5;
+        if (cpsTimer.hasReached(500)) {
+            shouldCPS = maxCps == minCps ? maxCps : randomUtil.randomInt(minCps, maxCps);
+            cpsTimer.reset();
+        }
+
+        if (finalCPS < shouldCPS)
+            finalCPS++;
+        if (finalCPS > shouldCPS)
+            finalCPS--;
+
+        Entity rayCast = rayCastUtil.getRayCastedEntity(range.getDefaultValue(), yaw, pitch);
+
+        if (!isFailing && rayCast != null) {
+
+            if (autoBlock.isToggled())
+                mc.getNetHandler().addToSendQueue(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.RELEASE_USE_ITEM, BlockPos.ORIGIN, EnumFacing.DOWN));
+
+            for (int i = 0; i < 1; i++)
+                mc.effectRenderer.emitParticleAtEntity(rayCast, EnumParticleTypes.SNOWBALL);
+
+            if (timeUtil.hasReached(1000 / finalCPS)) {
+                if (silentSwing.isToggled()) {
+                    if (canSwing) {
+                        mc.thePlayer.swingItem();
+                    } else {
+                        if (serverSideSwing.isToggled())
+                            mc.thePlayer.sendQueue.addToSendQueue(new C0APacketAnimation());
+                    }
+                } else
+                    mc.thePlayer.swingItem();
+
+                if (hitSlow.isToggled())
+                    mc.playerController.attackEntity(mc.thePlayer, rayCast);
+                else
+                    mc.thePlayer.sendQueue.addToSendQueue(new C02PacketUseEntity(rayCast, C02PacketUseEntity.Action.ATTACK));
+
+                if (listCount < entities.size() - 1 && !entities.isEmpty())
+                    listCount++;
+                else
+                    listCount = 0;
+
+                timeUtil.reset();
+            }
+        }
+    }
+
+    public void setRotations(Entity entity) {
+        if (!isFailing) {
+            float[] rotations = rotationUtil.faceEntity(entity, yaw, pitch, smoothRotation.isToggled());
+            yaw = rotations[0];
+            pitch = rotations[1];
+        }
+    }
+
+    public void manageEntities() {
+
+        if (!entities.isEmpty()) {
+
+            entities.removeIf(entity -> !isValidEntity(entity));
+            Entity entityToSet = preferTarget.getSelectedMode().equals("Distance") ? auraUtil.getNearest(entities) : preferTarget.getSelectedMode().equals("Health") ? auraUtil.getLowest(entities) : null;
+            switch (targetMode.getSelectedMode()) {
+                case "Single":
+                    if (finalEntity == null) finalEntity = entityToSet;
+                    break;
+                case "Switch":
+                    finalEntity = entities.get(listCount);
+                    break;
+                case "Hybrid":
+                    finalEntity = entityToSet;
+                    break;
+                default:
+                    finalEntity = entities.get(0);
+                    break;
+            }
+        }
+
+        for (Entity entity : mc.theWorld.loadedEntityList) {
+            if (isValidEntity(entity)) {
+                if (!entities.contains(entity))
+                    entities.add(entity);
+            } else {
+                entities.remove(entity);
+            }
+        }
+
+        if (finalEntity != null && !entities.contains(finalEntity))
+            finalEntity = null;
+
+        if (finalEntity == null || listCount > entities.size() - 1)
+            listCount = 0;
+    }
+
+    public boolean isValidEntity(Entity entity) {
+        if (entity == null)
+            return false;
+        if (!(entity instanceof EntityLivingBase))
+            return false;
+        if (checkName.isToggled() && entity instanceof EntityPlayer && !isValidEntityName(entity))
+            return false;
+        if (entity instanceof EntityPlayer && entity == mc.thePlayer)
+            return false;
+        if (entity.isDead)
+            return false;
+        if (!mc.thePlayer.canEntityBeSeen(entity))
+            return false;
+        if (!player.isToggled() && entity instanceof EntityPlayer)
+            return false;
+        if (!animals.isToggled() && entity instanceof EntityAnimal)
+            return false;
+        if (!animals.isToggled() && entity instanceof EntityVillager)
+            return false;
+        if (!mobs.isToggled() && entity instanceof EntityMob)
+            return false;
+        if (entity instanceof EntityArmorStand)
+            return false;
+        if (!invisible.isToggled() && entity.isInvisible())
+            return false;
+        if (entity.ticksExisted < ticksExisting.getDefaultValue())
+            return false;
+        if (friendManager.isFriend(entity.getName()) && !ignoreFriend.isToggled())
+            return false;
+        if (!Float.isNaN(((EntityLivingBase) entity).getHealth()) && needNaNHealth.isToggled())
+            return false;
+        if (!ignoreTeam.isToggled() && entityUtil.isTeam(mc.thePlayer, (EntityPlayer) entity))
+            return false;
+        if (mc.thePlayer.getDistanceToEntity(entity) > range.getDefaultValue() + (preAim.isToggled() ? 0 : preAimRange.getDefaultValue()))
+            return false;
+        return true;
+    }
+
+    public boolean isValidEntityName(Entity entity) {
+        String name = entity.getName();
+        if (name.length() < 3 || name.length() > 16)
+            return false;
+        if (name.contains(".") || name.contains("-") || name.contains("§") || name.contains("&") || name.contains("/"))
+            return false;
+        return true;
+    }
+
+    @Override
+    public void onEnable() {
+        listCount = 0;
+        timeUtil.reset();
+        yaw = mc.thePlayer.rotationYaw;
+        pitch = mc.thePlayer.rotationPitch;
+    }
+
+    @Override
+    public void onDisable() {
+        finalEntity = null;
+        entities.clear();
+        mc.getNetHandler().addToSendQueue(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.RELEASE_USE_ITEM, BlockPos.ORIGIN, EnumFacing.DOWN));
     }
 
     public void drawESP(Entity entity, float partialTicks, double radius) {
@@ -381,165 +519,6 @@ public class KillAura extends Module {
 
         GL11.glPopMatrix();
 
-    }
-
-    public void attackEntity() {
-        int maxCps = cps.getDefaultValue() < 10 ? cps.getDefaultValue() : cps.getDefaultValue() + 5;
-        int minCps = cps.getMinDefaultValue() < 10 ? cps.getMinDefaultValue() : cps.getMinDefaultValue() + 5;
-        if (cpsTimer.hasReached(500)) {
-            shouldCPS = maxCps == minCps ? maxCps : randomUtil.randomInt(minCps, maxCps);
-            cpsTimer.reset();
-        }
-
-        if (finalCPS < shouldCPS)
-            finalCPS++;
-        if (finalCPS > shouldCPS)
-            finalCPS--;
-
-        Entity rayCast = rayCastUtil.getRayCastedEntity(range.getDefaultValue(), yaw, pitch);
-
-        if (!isFailing && rayCast != null) {
-
-            if (autoBlock.isToggled())
-                mc.getNetHandler().addToSendQueue(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.RELEASE_USE_ITEM, BlockPos.ORIGIN, EnumFacing.DOWN));
-
-            for (int i = 0; i < 1; i++)
-                mc.effectRenderer.emitParticleAtEntity(rayCast, EnumParticleTypes.SNOWBALL);
-
-            if (timeUtil.hasReached(1000 / finalCPS)) {
-                if (silentSwing.isToggled()) {
-                    if (canSwing) {
-                        mc.thePlayer.swingItem();
-                    } else {
-                        if (serverSideSwing.isToggled())
-                            mc.thePlayer.sendQueue.addToSendQueue(new C0APacketAnimation());
-                    }
-                } else
-                    mc.thePlayer.swingItem();
-
-                if (hitSlow.isToggled())
-                    mc.playerController.attackEntity(mc.thePlayer, rayCast);
-                else
-                    mc.thePlayer.sendQueue.addToSendQueue(new C02PacketUseEntity(rayCast, C02PacketUseEntity.Action.ATTACK));
-
-                if (listCount < entities.size() - 1 && !entities.isEmpty())
-                    listCount++;
-                else
-                    listCount = 0;
-
-                timeUtil.reset();
-            }
-        }
-    }
-
-    public void setRotations(Entity entity) {
-        if (!isFailing) {
-            float[] rotations = rotationUtil.faceEntity(entity, yaw, pitch, smoothRotation.isToggled());
-            yaw = rotations[0];
-            pitch = rotations[1];
-        }
-    }
-
-    public void manageEntities() {
-
-        if (!entities.isEmpty()) {
-
-            entities.removeIf(entity -> !isValidEntity(entity));
-            Entity entityToSet = preferTarget.getSelectedMode().equals("Distance") ? auraUtil.getNearest(entities) : preferTarget.getSelectedMode().equals("Health") ? auraUtil.getLowest(entities) : null;
-            switch (targetMode.getSelectedMode()) {
-                case "Single":
-                    if (finalEntity == null) finalEntity = entityToSet;
-                    break;
-                case "Switch":
-                    finalEntity = entities.get(listCount);
-                    break;
-                case "Hybrid":
-                    finalEntity = entityToSet;
-                    break;
-                default:
-                    finalEntity = entities.get(0);
-                    break;
-            }
-        }
-
-        for (Entity entity : mc.theWorld.loadedEntityList) {
-            if (isValidEntity(entity)) {
-                if (!entities.contains(entity))
-                    entities.add(entity);
-            } else {
-                entities.remove(entity);
-            }
-        }
-
-        if (finalEntity != null && !isValidEntity(finalEntity)) {
-            finalEntity = null;
-            listCount = 0;
-        }
-
-        if (finalEntity == null || entities.isEmpty() || listCount > entities.size() - 1)
-            listCount = 0;
-    }
-
-    public boolean isValidEntity(Entity entity) {
-        if (entity == null)
-            return false;
-        if (!(entity instanceof EntityLivingBase))
-            return false;
-        if (checkName.isToggled() && entity instanceof EntityPlayer && !isValidEntityName(entity))
-            return false;
-        if (entity instanceof EntityPlayer && entity == mc.thePlayer)
-            return false;
-        if (entity.isDead)
-            return false;
-        if (!mc.thePlayer.canEntityBeSeen(entity))
-            return false;
-        if (!player.isToggled() && entity instanceof EntityPlayer)
-            return false;
-        if (!animals.isToggled() && entity instanceof EntityAnimal)
-            return false;
-        if (!animals.isToggled() && entity instanceof EntityVillager)
-            return false;
-        if (!mobs.isToggled() && entity instanceof EntityMob)
-            return false;
-        if (entity instanceof EntityArmorStand)
-            return false;
-        if (!invisible.isToggled() && entity.isInvisible())
-            return false;
-        if (entity.ticksExisted < ticksExisting.getDefaultValue())
-            return false;
-        if (friendManager.isFriend(entity.getName()) && !ignoreFriend.isToggled())
-            return false;
-        if (!Float.isNaN(((EntityLivingBase) entity).getHealth()) && needNaNHealth.isToggled())
-            return false;
-        if (!ignoreTeam.isToggled() && entityUtil.isTeam(mc.thePlayer, (EntityPlayer) entity))
-            return false;
-        if (mc.thePlayer.getDistanceToEntity(entity) > range.getDefaultValue() + (preAim.isToggled() ? 0 : preAimRange.getDefaultValue()))
-            return false;
-        return true;
-    }
-
-    public boolean isValidEntityName(Entity entity) {
-        String name = entity.getName();
-        if (name.length() < 3 || name.length() > 16)
-            return false;
-        if (name.contains(".") || name.contains("-") || name.contains("§") || name.contains("&") || name.contains("/"))
-            return false;
-        return true;
-    }
-
-    @Override
-    public void onEnable() {
-        listCount = 0;
-        timeUtil.reset();
-        yaw = mc.thePlayer.rotationYaw;
-        pitch = mc.thePlayer.rotationPitch;
-    }
-
-    @Override
-    public void onDisable() {
-        finalEntity = null;
-        entities.clear();
-        mc.getNetHandler().addToSendQueue(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.RELEASE_USE_ITEM, BlockPos.ORIGIN, EnumFacing.DOWN));
     }
 
 }

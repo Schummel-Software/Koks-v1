@@ -42,7 +42,7 @@ public class DrawPanel {
             y = dragY + mouseY;
         }
 
-        Gui.drawRect(x, y, x + width, y + height, Koks.getKoks().client_color.darker().getRGB());
+        Gui.drawRect(x, y, x + width, y + height, Koks.getKoks().client_color.getRGB());
         String catName = category.name().substring(0, 1) + category.name().substring(1).toLowerCase();
         arial18.drawString(catName, x + width / 2 - arial18.getStringWidth(catName) / 2, y + height / 2 - arial18.FONT_HEIGHT / 2, 0xFFFFFFFF);
 

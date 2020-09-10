@@ -6,6 +6,7 @@ import koks.event.impl.EventUpdate;
 import koks.modules.Module;
 import koks.utilities.MovementUtil;
 import koks.utilities.value.values.ModeValue;
+import net.minecraft.item.ItemSword;
 
 /**
  * @author avox | lmao | kroko
@@ -13,7 +14,7 @@ import koks.utilities.value.values.ModeValue;
  */
 public class Speed extends Module {
 
-    public ModeValue<String> mode = new ModeValue<>("Mode", "Mineplex", new String[]{"Mineplex", "AAC 3.2.2", "Hypixel", "MCCentral LongHop", "MCCentral LowHop"}, this);
+    public ModeValue<String> mode = new ModeValue<>("Mode", "Mineplex", new String[]{"Mineplex", "AAC 3.2.2", "Hypixel", "MCCentral"}, this);
     public boolean canSpeed;
     public MovementUtil movementUtil = new MovementUtil();
     public TargetStrafe targetStrafe = new TargetStrafe();
@@ -82,17 +83,18 @@ public class Speed extends Module {
                         canSpeed = false;
                     }
                     break;
-                case "MCCentral LongHop":
+                case "MCCentral":
+                    if ((mc.thePlayer.isUsingItem() && !(mc.thePlayer.getCurrentEquippedItem().getItem() instanceof ItemSword)) || mc.thePlayer.moveForward == 0 || mc.gameSettings.keyBindJump.isKeyDown())
+                        return;
                     if (mc.thePlayer.onGround) {
-                        mc.thePlayer.motionY = 0.52;
+                        mc.thePlayer.motionY = 0.05;
+                        mc.timer.timerSpeed = 1.15;
+                    } else {
+                        mc.timer.timerSpeed = 1.00;
+                        if (mc.thePlayer.fallDistance < 0.06)
+                            mc.thePlayer.motionY = -0.05;
                     }
-                    movementUtil.setSpeed(0.6F);
-                    break;
-                case "MCCentral LowHop":
-                    if (mc.thePlayer.onGround) {
-                        mc.thePlayer.motionY = 0.32;
-                    }
-                    movementUtil.setSpeed(0.55F);
+                    movementUtil.setSpeed(0.42F);
                     break;
             }
         }
