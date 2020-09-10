@@ -87,14 +87,9 @@ public class Speed extends Module {
                     if ((mc.thePlayer.isUsingItem() && !(mc.thePlayer.getCurrentEquippedItem().getItem() instanceof ItemSword)) || mc.thePlayer.moveForward == 0 || mc.gameSettings.keyBindJump.isKeyDown())
                         return;
                     if (mc.thePlayer.onGround) {
-                        mc.thePlayer.motionY = 0.20;
-                        mc.timer.timerSpeed = 1.15;
-                    } else {
-                        mc.timer.timerSpeed = 1.00;
-                        if (mc.thePlayer.fallDistance < 0.20)
-                            mc.thePlayer.motionY = -0.00;
+                        mc.thePlayer.motionY = 0.37;
                     }
-                    movementUtil.setSpeed(0.42F);
+                    movementUtil.setSpeed(0.45F);
                     break;
             }
         }

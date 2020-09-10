@@ -98,7 +98,8 @@ public abstract class Theme {
         KLIENTUS,
         VEGA,
         LIQUIDSENSE,
-        NONE;
+        PERFORMANCE,
+        NONE
     }
 
     public ThemeCategory getThemeCategory() {

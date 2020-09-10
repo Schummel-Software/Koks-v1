@@ -21,6 +21,7 @@ public class ThemeManager {
         addTheme(new Klientus());
         addTheme(new Vega());
         addTheme(new LiquidSense());
+        addTheme(new Performance());
     }
 
     public void addTheme(Theme theme) {

@@ -184,10 +184,6 @@ public class KillAura extends Module {
             isFailing = new Random().nextInt(100) <= failingChance.getDefaultValue();
             canSwing = new Random().nextInt(100) <= swingChance.getDefaultValue();
 
-            if (autoBlock.isToggled() && finalEntity != null) {
-                mc.thePlayer.getCurrentEquippedItem().useItemRightClick(mc.theWorld, mc.thePlayer);
-            }
-
             if (stopSprinting.isToggled() && mc.thePlayer.rotationYaw != yaw && finalEntity != null) {
                 mc.gameSettings.keyBindSprint.pressed = false;
                 mc.thePlayer.setSprinting(false);
