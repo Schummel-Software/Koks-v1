@@ -34,12 +34,12 @@ public class RotationUtil {
         float yaw = updateRotation(currentYaw, yawAngle, smooth ? speed : 1000);
         float pitch = updateRotation(currentPitch, pitchAngle, smooth ? speed : 1000);
 
-        float sense = mc.gameSettings.mouseSensitivity * 0.8F;
+/*        float sense = mc.gameSettings.mouseSensitivity * 0.8F;
         float fix = sense * sense * sense * 1.2F;
         yaw -= yaw % fix;
-        pitch -= pitch % fix;
+        pitch -= pitch % fix;*/
 
-        /*float[] yawdiff = calculateDiff(currentYaw,yaw);
+        float[] yawdiff = calculateDiff(currentYaw,yaw);
         float[] pitchdiff = calculateDiff(currentPitch,pitch);
         float[] fixed = fixedSensivity(mc.gameSettings.mouseSensitivity, yawdiff[0], pitchdiff[0]);
         yawdiff[0] = fixed[0];
@@ -62,7 +62,7 @@ public class RotationUtil {
             pitch -= pitchdiff[0];
         }else {
             pitch += pitchdiff[0];
-        }*/
+        }
         return new float[]{yaw,pitch};
     }
 
