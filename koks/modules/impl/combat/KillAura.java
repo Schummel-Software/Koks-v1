@@ -162,7 +162,7 @@ public class KillAura extends Module {
 
             if (e.getType() == MotionEvent.Type.POST) {
                 if (finalEntity != null && autoBlock.isToggled()) {
-                    if (mc.thePlayer.getCurrentEquippedItem().getItem() != null && mc.thePlayer.getCurrentEquippedItem().getItem() instanceof ItemSword && blockAlways.isToggled()) {
+                    if (autoBlock.isToggled() && blockAlways.isToggled() && mc.thePlayer.getCurrentEquippedItem().getItem() != null && mc.thePlayer.getCurrentEquippedItem().getItem() instanceof ItemSword) {
                         mc.playerController.sendUseItem(mc.thePlayer, mc.theWorld, mc.thePlayer.getCurrentEquippedItem());
                     }
                 }
@@ -225,39 +225,43 @@ public class KillAura extends Module {
 
         Entity rayCast = rayCastUtil.getRayCastedEntity(range.getDefaultValue(), yaw, pitch);
 
-        if (!isFailing && rayCast != null) {
+        if (autoBlock.isToggled() && !blockAlways.isToggled() && mc.thePlayer.getCurrentEquippedItem().getItem() != null && mc.thePlayer.getCurrentEquippedItem().getItem() instanceof ItemSword) {
+            mc.playerController.sendUseItem(mc.thePlayer, mc.theWorld, mc.thePlayer.getCurrentEquippedItem());
+        }
 
-            if (mc.thePlayer.getCurrentEquippedItem().getItem() != null && mc.thePlayer.getCurrentEquippedItem().getItem() instanceof ItemSword && !blockAlways.isToggled()) {
-                mc.playerController.sendUseItem(mc.thePlayer, mc.theWorld, mc.thePlayer.getCurrentEquippedItem());
-                mc.getNetHandler().addToSendQueue(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.RELEASE_USE_ITEM, BlockPos.ORIGIN, EnumFacing.DOWN));
-            }
 
-            for (int i = 0; i < 1; i++)
-                mc.effectRenderer.emitParticleAtEntity(rayCast, EnumParticleTypes.SNOWBALL);
+        for (int i = 0; i < 1; i++)
+            mc.effectRenderer.emitParticleAtEntity(rayCast, EnumParticleTypes.SNOWBALL);
 
-            if (timeUtil.hasReached(1000 / finalCPS)) {
-                if (silentSwing.isToggled()) {
-                    if (canSwing) {
-                        mc.thePlayer.swingItem();
-                    } else {
-                        if (serverSideSwing.isToggled())
-                            mc.thePlayer.sendQueue.addToSendQueue(new C0APacketAnimation());
-                    }
-                } else
+        if (timeUtil.hasReached(1000 / finalCPS)) {
+            if (silentSwing.isToggled()) {
+                if (canSwing) {
                     mc.thePlayer.swingItem();
+                } else {
+                    if (serverSideSwing.isToggled())
+                        mc.thePlayer.sendQueue.addToSendQueue(new C0APacketAnimation());
+                }
+            } else
+                mc.thePlayer.swingItem();
+
+
+            if (!isFailing && rayCast != null) {
+
+                if (autoBlock.isToggled())
+                    mc.getNetHandler().addToSendQueue(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.RELEASE_USE_ITEM, BlockPos.ORIGIN, EnumFacing.DOWN));
 
                 if (hitSlow.isToggled())
                     mc.playerController.attackEntity(mc.thePlayer, rayCast);
                 else
                     mc.thePlayer.sendQueue.addToSendQueue(new C02PacketUseEntity(rayCast, C02PacketUseEntity.Action.ATTACK));
-
-                if (listCount < entities.size() - 1 && !entities.isEmpty())
-                    listCount++;
-                else
-                    listCount = 0;
-
-                timeUtil.reset();
             }
+
+            if (listCount < entities.size() - 1 && !entities.isEmpty())
+                listCount++;
+            else
+                listCount = 0;
+
+            timeUtil.reset();
         }
     }
 
