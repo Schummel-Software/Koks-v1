@@ -1,5 +1,6 @@
 package koks.modules.impl.player;
 
+import koks.Koks;
 import koks.event.Event;
 import koks.event.impl.EventUpdate;
 import koks.modules.Module;
@@ -20,6 +21,7 @@ public class ChestStealer extends Module {
     private final RandomUtil randomUtil = new RandomUtil();
     private final TimeUtil startTimer = new TimeUtil();
     private final TimeUtil throwTimer = new TimeUtil();
+    private InventoryManager inventoryManager;
 
     public ChestStealer() {
         super("ChestStealer", Category.PLAYER);
@@ -38,7 +40,7 @@ public class ChestStealer extends Module {
                 ContainerChest chest = (ContainerChest) mc.thePlayer.openContainer;
                 boolean empty = true;
                 for (int i = 0; i < chest.getLowerChestInventory().getSizeInventory(); i++) {
-                    if ((chest.getSlot(i).getHasStack() && chest.getSlot(i).getStack() != null)) {
+                    if (chest.getSlot(i).getHasStack() && chest.getSlot(i).getStack() != null && !inventoryManager.trashItems.contains(chest.getSlot(i).getStack().getItem())) {
                         if (throwTimer.hasReached(randomUtil.randomLong(takeDelay.getMinDefaultValue(), takeDelay.getDefaultValue()))) {
                             mc.playerController.windowClick(chest.windowId, i, 0, 1, mc.thePlayer);
                             throwTimer.reset();
@@ -58,7 +60,7 @@ public class ChestStealer extends Module {
 
     @Override
     public void onEnable() {
-
+        inventoryManager = Koks.getKoks().moduleManager.getModule(InventoryManager.class);
     }
 
     @Override

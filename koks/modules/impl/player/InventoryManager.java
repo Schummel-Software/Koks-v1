@@ -1,5 +1,6 @@
 package koks.modules.impl.player;
 
+import koks.Koks;
 import koks.event.Event;
 import koks.event.impl.EventUpdate;
 import koks.modules.Module;
@@ -36,6 +37,7 @@ public class InventoryManager extends Module {
     public NumberValue<Integer> pickSlot = new NumberValue<>("Pickaxe Slot", 3, 9, 0, this);
     public NumberValue<Integer> axeSlot = new NumberValue<>("Axe Slot", 4, 9, 0, this);
     public NumberValue<Integer> shovelSlot = new NumberValue<>("Shovel Slot", 5, 9, 0, this);
+    private AutoArmor autoArmor;
     private final RandomUtil randomUtil = new RandomUtil();
     private final TimeUtil startTimer = new TimeUtil();
     private final TimeUtil throwTimer = new TimeUtil();
@@ -71,6 +73,13 @@ public class InventoryManager extends Module {
                     return;
             }
 
+            if (autoArmor.isToggled() && !autoArmor.isFinished()) {
+                startTimer.reset();
+                throwTimer.reset();
+                if (openedInventory.isToggled())
+                    return;
+            }
+
             for (int i = 9; i < 45; i++) {
                 if (mc.thePlayer.inventoryContainer.getSlot(i).getHasStack()) {
                     ItemStack is = mc.thePlayer.inventoryContainer.getSlot(i).getStack();
@@ -79,21 +88,27 @@ public class InventoryManager extends Module {
                         if (swordSlot.getDefaultValue() != 0 && (is.getItem() instanceof ItemSword || is.getItem() instanceof ItemAxe || is.getItem() instanceof ItemPickaxe) && is == bestWeapon() && mc.thePlayer.inventoryContainer.getInventory().contains(bestWeapon()) && mc.thePlayer.inventoryContainer.getSlot(35 + swordSlot.getDefaultValue()).getStack() != is && !preferSword.isToggled()) {
                             mc.playerController.windowClick(mc.thePlayer.inventoryContainer.windowId, i, swordSlot.getDefaultValue() - 1, 2, mc.thePlayer);
                             throwTimer.reset();
+                            break;
                         } else if (swordSlot.getDefaultValue() != 0 && is.getItem() instanceof ItemSword && is == bestSword() && mc.thePlayer.inventoryContainer.getInventory().contains(bestSword()) && mc.thePlayer.inventoryContainer.getSlot(35 + swordSlot.getDefaultValue()).getStack() != is && preferSword.isToggled()) {
                             mc.playerController.windowClick(mc.thePlayer.inventoryContainer.windowId, i, swordSlot.getDefaultValue() - 1, 2, mc.thePlayer);
                             throwTimer.reset();
+                            break;
                         } else if (bowSlot.getDefaultValue() != 0 && is.getItem() instanceof ItemBow && is == bestBow() && mc.thePlayer.inventoryContainer.getInventory().contains(bestBow()) && mc.thePlayer.inventoryContainer.getSlot(35 + bowSlot.getDefaultValue()).getStack() != is) {
                             mc.playerController.windowClick(mc.thePlayer.inventoryContainer.windowId, i, bowSlot.getDefaultValue() - 1, 2, mc.thePlayer);
                             throwTimer.reset();
+                            break;
                         } else if (pickSlot.getDefaultValue() != 0 && is.getItem() instanceof ItemPickaxe && is == bestPick() && is != bestWeapon() && keepTools.isToggled() && mc.thePlayer.inventoryContainer.getInventory().contains(bestPick()) && mc.thePlayer.inventoryContainer.getSlot(35 + pickSlot.getDefaultValue()).getStack() != is) {
                             mc.playerController.windowClick(mc.thePlayer.inventoryContainer.windowId, i, pickSlot.getDefaultValue() - 1, 2, mc.thePlayer);
                             throwTimer.reset();
+                            break;
                         } else if (axeSlot.getDefaultValue() != 0 && is.getItem() instanceof ItemAxe && is == bestAxe() && is != bestWeapon() && keepTools.isToggled() && mc.thePlayer.inventoryContainer.getInventory().contains(bestAxe()) && mc.thePlayer.inventoryContainer.getSlot(35 + axeSlot.getDefaultValue()).getStack() != is) {
                             mc.playerController.windowClick(mc.thePlayer.inventoryContainer.windowId, i, axeSlot.getDefaultValue() - 1, 2, mc.thePlayer);
                             throwTimer.reset();
+                            break;
                         } else if (shovelSlot.getDefaultValue() != 0 && is.getItem() instanceof ItemSpade && is == bestShovel() && is != bestWeapon() && keepTools.isToggled() && mc.thePlayer.inventoryContainer.getInventory().contains(bestShovel()) && mc.thePlayer.inventoryContainer.getSlot(35 + shovelSlot.getDefaultValue()).getStack() != is) {
                             mc.playerController.windowClick(mc.thePlayer.inventoryContainer.windowId, i, shovelSlot.getDefaultValue() - 1, 2, mc.thePlayer);
                             throwTimer.reset();
+                            break;
                         } else if (trashItems.contains(is.getItem()) || isBadStack(is)) {
                             mc.playerController.windowClick(mc.thePlayer.inventoryContainer.windowId, i, 1, 4, mc.thePlayer);
                             throwTimer.reset();
@@ -365,7 +380,7 @@ public class InventoryManager extends Module {
 
     @Override
     public void onEnable() {
-
+        autoArmor = Koks.getKoks().moduleManager.getModule(AutoArmor.class);
     }
 
     @Override

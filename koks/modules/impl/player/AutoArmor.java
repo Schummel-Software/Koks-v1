@@ -50,6 +50,18 @@ public class AutoArmor extends Module {
         boot = Arrays.asList(Items.leather_boots, Items.golden_boots, Items.chainmail_boots, Items.iron_boots, Items.diamond_boots);
     }
 
+    public boolean isFinished() {
+        if (mc.thePlayer.inventoryContainer.getInventory().contains(bestHelmet()) && mc.thePlayer.inventoryContainer.getSlot(5).getStack() != bestHelmet())
+            return false;
+        if (mc.thePlayer.inventoryContainer.getInventory().contains(bestChestplate()) && mc.thePlayer.inventoryContainer.getSlot(6).getStack() != bestChestplate())
+            return false;
+        if (mc.thePlayer.inventoryContainer.getInventory().contains(bestLeggings()) && mc.thePlayer.inventoryContainer.getSlot(7).getStack() != bestLeggings())
+            return false;
+        if (mc.thePlayer.inventoryContainer.getInventory().contains(bestBoots()) && mc.thePlayer.inventoryContainer.getSlot(8).getStack() != bestBoots())
+            return false;
+        return true;
+    }
+
     /*
         5 = Helmet
         6 = ChestPlate
@@ -76,20 +88,24 @@ public class AutoArmor extends Module {
                 if (mc.thePlayer.inventoryContainer.getSlot(i).getHasStack()) {
                     ItemStack is = mc.thePlayer.inventoryContainer.getSlot(i).getStack();
                     if (throwTimer.hasReached(randomUtil.randomLong(throwDelay.getMinDefaultValue(), throwDelay.getDefaultValue()))) {
-                        if (is.getItem() instanceof ItemArmor && helmet.contains(is.getItem()) && is == bestHelmet() && !mc.thePlayer.inventoryContainer.getSlot(5).getHasStack()) {
+                        if (is.getItem() instanceof ItemArmor && isTrashArmor(is)) {
+                            mc.playerController.windowClick(mc.thePlayer.inventoryContainer.windowId, i, 1, 4, mc.thePlayer);
+                            throwTimer.reset();
+                            break;
+                        } else if (is.getItem() instanceof ItemArmor && helmet.contains(is.getItem()) && is == bestHelmet() && !mc.thePlayer.inventoryContainer.getSlot(5).getHasStack()) {
                             mc.playerController.windowClick(mc.thePlayer.inventoryContainer.windowId, i, 0, 1, mc.thePlayer);
                             throwTimer.reset();
+                            break;
                         } else if (is.getItem() instanceof ItemArmor && chest.contains(is.getItem()) && is == bestChestplate() && !mc.thePlayer.inventoryContainer.getSlot(6).getHasStack()) {
                             mc.playerController.windowClick(mc.thePlayer.inventoryContainer.windowId, i, 0, 1, mc.thePlayer);
                             throwTimer.reset();
+                            break;
                         } else if (is.getItem() instanceof ItemArmor && legging.contains(is.getItem()) && is == bestLeggings() && !mc.thePlayer.inventoryContainer.getSlot(7).getHasStack()) {
                             mc.playerController.windowClick(mc.thePlayer.inventoryContainer.windowId, i, 0, 1, mc.thePlayer);
                             throwTimer.reset();
+                            break;
                         } else if (is.getItem() instanceof ItemArmor && boot.contains(is.getItem()) && is == bestBoots() && !mc.thePlayer.inventoryContainer.getSlot(8).getHasStack()) {
                             mc.playerController.windowClick(mc.thePlayer.inventoryContainer.windowId, i, 0, 1, mc.thePlayer);
-                            throwTimer.reset();
-                        } else if (is.getItem() instanceof ItemArmor && isTrashArmor(is)) {
-                            mc.playerController.windowClick(mc.thePlayer.inventoryContainer.windowId, i, 8, 4, mc.thePlayer);
                             throwTimer.reset();
                             break;
                         }

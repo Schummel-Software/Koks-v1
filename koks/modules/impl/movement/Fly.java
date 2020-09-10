@@ -145,6 +145,10 @@ public class Fly extends Module {
         else
             mc.thePlayer.speedInAir = 0.2F;
 
+        if (mc.thePlayer.ticksExisted % 10 == 0) {
+            mc.thePlayer.sendQueue.addToSendQueue(new C03PacketPlayer(true));
+        }
+
         mc.thePlayer.motionY += new RandomUtil().randomDouble(-0.05, 0.10);
     }
 

@@ -4,7 +4,7 @@ import koks.Koks;
 import koks.files.impl.KeyBindFile;
 import koks.files.impl.Toggled;
 import koks.files.impl.client;
-import koks.files.impl.settings;
+import koks.files.impl.Settings;
 import net.minecraft.client.Minecraft;
 
 import java.io.*;
@@ -26,7 +26,7 @@ public class FileManager {
         addFile(new KeyBindFile());
         addFile(new Toggled());
 
-        addFile(new settings());
+        addFile(new Settings());
 
         addFile(new client());
     }

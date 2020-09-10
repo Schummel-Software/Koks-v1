@@ -40,6 +40,7 @@ public class ModuleManager {
         addModule(new TargetStrafe());
         addModule(new AirJump());
         addModule(new Parkour());
+        addModule(new Step());
 
         // Player
         addModule(new AntiFire());

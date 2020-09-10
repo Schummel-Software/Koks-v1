@@ -10,7 +10,7 @@ public abstract class Value {
 
     private String name;
     private Module module;
-    private boolean visible = true;
+    private boolean visible = true, shouldSave = true;
 
     public String getName() {
         return name;
@@ -35,4 +35,13 @@ public abstract class Value {
     public void setModule(Module module) {
         this.module = module;
     }
+
+    public boolean shouldSave() {
+        return shouldSave;
+    }
+
+    public void setShouldSave(boolean shouldSave) {
+        this.shouldSave = shouldSave;
+    }
+
 }

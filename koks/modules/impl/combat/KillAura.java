@@ -397,7 +397,7 @@ public class KillAura extends Module {
             if (autoBlock.isToggled())
                 mc.getNetHandler().addToSendQueue(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.RELEASE_USE_ITEM, BlockPos.ORIGIN, EnumFacing.DOWN));
 
-            for (int i = 0; i < 2; i++)
+            for (int i = 0; i < 1; i++)
                 mc.effectRenderer.emitParticleAtEntity(rayCast, EnumParticleTypes.SNOWBALL);
 
             if (timeUtil.hasReached(1000 / finalCPS)) {
