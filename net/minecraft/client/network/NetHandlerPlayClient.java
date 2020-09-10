@@ -15,6 +15,7 @@ import java.util.UUID;
 import java.util.Map.Entry;
 
 import koks.Koks;
+import koks.event.impl.EventVelocity;
 import koks.event.impl.PacketEvent;
 import net.minecraft.block.Block;
 import net.minecraft.client.ClientBrandRetriever;
@@ -505,10 +506,14 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
     {
         PacketThreadUtil.checkThreadAndEnqueue(packetIn, this, this.gameController);
         Entity entity = this.clientWorldController.getEntityByID(packetIn.getEntityID());
+        EventVelocity eventVelocity = new EventVelocity(100, 100);
+        Koks.getKoks().eventManager.onEvent(eventVelocity);
 
         if (entity != null)
         {
-            entity.setVelocity((double)packetIn.getMotionX() / 8000.0D, (double)packetIn.getMotionY() / 8000.0D, (double)packetIn.getMotionZ() / 8000.0D);
+            if (eventVelocity.isCanceled())
+                return;
+            entity.setVelocity((double)packetIn.getMotionX() / 8000.0D * eventVelocity.getHorizontal() / 100, (double)packetIn.getMotionY() / 8000.0D * eventVelocity.getVertical() / 100, (double)packetIn.getMotionZ() / 8000.0D * eventVelocity.getHorizontal() / 100);
         }
     }
 

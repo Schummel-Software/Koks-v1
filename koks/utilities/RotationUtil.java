@@ -27,8 +27,8 @@ public class RotationUtil {
 
         double distance = mc.thePlayer.getDistanceToEntity(entity);
         double angle = MathHelper.sqrt_double(x * x + z * z);
-        float yawAngle = (float) ((float) (MathHelper.func_181159_b(z, x) * 180.0D / Math.PI) - 90.0F + randomUtil.randomGaussian((3.5F + randomUtil.randomGaussian(1) / distance)));
-        float pitchAngle = (float) ((float) (-(MathHelper.func_181159_b(y, angle) * 180.0D / Math.PI)) + randomUtil.randomGaussian((3 + randomUtil.randomGaussian(1) / distance)) + randomUtil.randomFloat(-2, 10) + (mc.thePlayer.onGround ? 0 : -7));
+        float yawAngle = (float) ((float) (MathHelper.func_181159_b(z, x) * 180.0D / Math.PI) - 90.0F);
+        float pitchAngle = (float) ((float) (-(MathHelper.func_181159_b(y, angle) * 180.0D / Math.PI)));
         float speed = (float) ((22 + distance * (5 + randomUtil.randomGaussian(1.25F))) + randomUtil.randomGaussian(4));
 
         float yaw = updateRotation(currentYaw, yawAngle, smooth ? speed : 1000);
@@ -54,31 +54,32 @@ public class RotationUtil {
         }
 //        System.out.println(fixed[0]/0.15);
         if (yawdiff[1] == 1) {
-            yaw -= yawdiff[0];
+            if (yaw > currentYaw) currentYaw -= yawdiff[0];else
+            if (yaw < currentYaw) currentYaw += yawdiff[0];
         }else {
-            yaw += yawdiff[0];
+            if (yaw > currentYaw) currentYaw += yawdiff[0];else
+            if (yaw < currentYaw) currentYaw -= yawdiff[0];
         }
         if (pitchdiff[1] == 1) {
-            pitch -= pitchdiff[0];
+            if (pitch > currentPitch) currentPitch -= pitchdiff[0];else
+            if (pitch < currentPitch) currentPitch += pitchdiff[0];
         }else {
-            pitch += pitchdiff[0];
+            if (pitch > currentPitch) currentPitch += pitchdiff[0];else
+            if (pitch < currentPitch) currentPitch -= pitchdiff[0];
         }
-        return new float[]{yaw,pitch};
+        return new float[]{currentYaw,currentPitch};
     }
 
 
     public float[] calculateDiff(float v1,float v2) {
-        float diff1 = Math.abs(v1 - v2);
-        float diff2 = 360 - diff1;
-        if (diff2 >= 360) diff2 -= 360;
-        if (diff2 < 0) diff2 += 360;
-        if (diff1 > diff2) {
-            return new float[] {diff2,0};
-        }
-        if (diff2 > diff1) {
-            return new float[] {diff1,1};
-        }
-        return new float[] {diff2,0};
+        float y = Math.abs(v1 - v2);
+        if (y < 0) y += 360;
+        if (y > 360) y -= 360;
+        float y1 = 360 - y;
+        float oneoranother = 0;
+        if (y > y1) oneoranother++;
+        if (y > y1) y = y1;
+        return new float[] {y,oneoranother};
     }
 
     public float[] fixedSensivity(float sensitivity, float yawdiff, float pitchdiff)
