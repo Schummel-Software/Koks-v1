@@ -23,6 +23,9 @@ public class Performance extends Theme {
             if (module.isToggled() && module.isVisible()) {
                 fr.drawString(module.getDisplayName(), sr.getScaledWidth() - 1 - fr.getStringWidth(module.getModuleName()), y, 0xFFFFFFFF);
                 y += fr.FONT_HEIGHT;
+                module.getAnimationModule().setYAnimation(fr.FONT_HEIGHT);
+            } else {
+                module.getAnimationModule().setYAnimation(0);
             }
         }
     }
