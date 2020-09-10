@@ -59,11 +59,12 @@ public class KillAura extends Module {
     public BooleanValue<Boolean> smoothRotation = new BooleanValue<>("Smooth Rotation", false, this);
     public NumberValue<Integer> failingChance = new NumberValue<>("FailHit Percent", 0, 20, 0, this);
     public BooleanValue<Boolean> autoBlock = new BooleanValue<>("AutoBlock", false, this);
+    public BooleanValue<Boolean> blockAlways = new BooleanValue<>("Block Always", true, this);
     public BooleanValue<Boolean> legitMovement = new BooleanValue<>("Legit Movement", false, this);
     public BooleanValue<Boolean> stopSprinting = new BooleanValue<>("Stop Sprinting", false, this);
     public BooleanValue<Boolean> hitSlow = new BooleanValue<>("Hit Slow", false, this);
 
-    public TitleValue generalSettings = new TitleValue("General", true, new Value[]{range, preAim, preAimRange, cps, smoothRotation, failingChance, autoBlock, legitMovement, stopSprinting, hitSlow}, this);
+    public TitleValue generalSettings = new TitleValue("General", true, new Value[]{range, preAim, preAimRange, cps, smoothRotation, failingChance, autoBlock, blockAlways, legitMovement, stopSprinting, hitSlow}, this);
 
     public BooleanValue<Boolean> needNaNHealth = new BooleanValue<>("NaN Health", false, this);
     public BooleanValue<Boolean> checkName = new BooleanValue<>("Check Name", true, this);
@@ -113,6 +114,7 @@ public class KillAura extends Module {
         addValue(smoothRotation);
         addValue(failingChance);
         addValue(autoBlock);
+        addValue(blockAlways);
         addValue(legitMovement);
         addValue(stopSprinting);
         addValue(hitSlow);
@@ -160,9 +162,8 @@ public class KillAura extends Module {
 
             if (e.getType() == MotionEvent.Type.POST) {
                 if (finalEntity != null && autoBlock.isToggled()) {
-                    if (mc.thePlayer.getCurrentEquippedItem().getItem() != null && mc.thePlayer.getCurrentEquippedItem().getItem() instanceof ItemSword) {
+                    if (autoBlock.isToggled() && blockAlways.isToggled() && mc.thePlayer.getCurrentEquippedItem().getItem() != null && mc.thePlayer.getCurrentEquippedItem().getItem() instanceof ItemSword) {
                         mc.playerController.sendUseItem(mc.thePlayer, mc.theWorld, mc.thePlayer.getCurrentEquippedItem());
-                        //mc.getNetHandler().addToSendQueue(new C08PacketPlayerBlockPlacement(new BlockPos(-1, -1, -1), 255, mc.thePlayer.inventory.getCurrentItem(), 0.0F, 0.0F, 0.0F));
                     }
                 }
             }
@@ -198,11 +199,6 @@ public class KillAura extends Module {
         if (legitMovement.isToggled() && finalEntity != null) {
             if (event instanceof MoveFlyingEvent) {
                 MoveFlyingEvent e = (MoveFlyingEvent) event;
-                float difference = MathHelper.wrapAngleTo180_float(Math.abs(mc.thePlayer.rotationYaw - yaw));
-/*                if (difference > 90) {
-                    e.setForward(-e.getForward());
-                    e.setStrafe(-e.getStrafe());
-                }*/
                 e.setYaw(yaw);
             }
 
@@ -229,37 +225,43 @@ public class KillAura extends Module {
 
         Entity rayCast = rayCastUtil.getRayCastedEntity(range.getDefaultValue(), yaw, pitch);
 
-        if (!isFailing && rayCast != null) {
+        if (autoBlock.isToggled() && !blockAlways.isToggled() && mc.thePlayer.getCurrentEquippedItem().getItem() != null && mc.thePlayer.getCurrentEquippedItem().getItem() instanceof ItemSword) {
+            mc.playerController.sendUseItem(mc.thePlayer, mc.theWorld, mc.thePlayer.getCurrentEquippedItem());
+        }
 
-            if (autoBlock.isToggled())
-                mc.getNetHandler().addToSendQueue(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.RELEASE_USE_ITEM, BlockPos.ORIGIN, EnumFacing.DOWN));
 
-            for (int i = 0; i < 1; i++)
-                mc.effectRenderer.emitParticleAtEntity(rayCast, EnumParticleTypes.SNOWBALL);
+        for (int i = 0; i < 1; i++)
+            mc.effectRenderer.emitParticleAtEntity(rayCast, EnumParticleTypes.SNOWBALL);
 
-            if (timeUtil.hasReached(1000 / finalCPS)) {
-                if (silentSwing.isToggled()) {
-                    if (canSwing) {
-                        mc.thePlayer.swingItem();
-                    } else {
-                        if (serverSideSwing.isToggled())
-                            mc.thePlayer.sendQueue.addToSendQueue(new C0APacketAnimation());
-                    }
-                } else
+        if (timeUtil.hasReached(1000 / finalCPS)) {
+            if (silentSwing.isToggled()) {
+                if (canSwing) {
                     mc.thePlayer.swingItem();
+                } else {
+                    if (serverSideSwing.isToggled())
+                        mc.thePlayer.sendQueue.addToSendQueue(new C0APacketAnimation());
+                }
+            } else
+                mc.thePlayer.swingItem();
+
+
+            if (!isFailing && rayCast != null) {
+
+                if (autoBlock.isToggled())
+                    mc.getNetHandler().addToSendQueue(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.RELEASE_USE_ITEM, BlockPos.ORIGIN, EnumFacing.DOWN));
 
                 if (hitSlow.isToggled())
                     mc.playerController.attackEntity(mc.thePlayer, rayCast);
                 else
                     mc.thePlayer.sendQueue.addToSendQueue(new C02PacketUseEntity(rayCast, C02PacketUseEntity.Action.ATTACK));
-
-                if (listCount < entities.size() - 1 && !entities.isEmpty())
-                    listCount++;
-                else
-                    listCount = 0;
-
-                timeUtil.reset();
             }
+
+            if (listCount < entities.size() - 1 && !entities.isEmpty())
+                listCount++;
+            else
+                listCount = 0;
+
+            timeUtil.reset();
         }
     }
 

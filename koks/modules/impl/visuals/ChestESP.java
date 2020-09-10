@@ -42,7 +42,7 @@ public class ChestESP extends Module {
                     double z = (e.getPos().getZ() - mc.getRenderManager().renderPosZ);
 
                     if (theme.getSelectedMode().equals("2D")) {
-                        cornerESPUtil.drawCorners(x + 0.5, y + 0.5, z + 0.5, 15, 15, 15, 0.7F);
+                        cornerESPUtil.drawCorners(x + 0.5, y + 0.5, z + 0.5, 16, 16, 8, 3.0F);
                     }
 
                     if (theme.getSelectedMode().equals("Box")) {

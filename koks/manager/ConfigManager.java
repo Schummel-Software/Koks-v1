@@ -67,47 +67,49 @@ public class ConfigManager {
                         module.setBypassed(Boolean.parseBoolean(args[3]));
                     } else if (args[0].equalsIgnoreCase("Setting")) {
                         Value value = Koks.getKoks().valueManager.getValue(module, args[2]);
+                        if (value.shouldSave()) {
 
-                        if (value instanceof BooleanValue) {
-                            ((BooleanValue<Boolean>) value).setToggled(Boolean.parseBoolean(args[3]));
-                        } else if (value instanceof ModeValue) {
-                            if(((ModeValue) value).getObjects() == null) {
-                                ((ModeValue) value).setSelectedMode(args[3]);
-                            }else{
-                                for(BooleanValue booleanValue : ((ModeValue) value).getObjects()) {
-                                   if(booleanValue.getModule() == module) {
-                                       System.out.println(args[3] + ":" + args[4]);
-                                       if (booleanValue.getName().equalsIgnoreCase(args[3])) {
-                                           booleanValue.setToggled(Boolean.parseBoolean(args[4]));
-                                       }
-                                   }
+                            if (value instanceof BooleanValue) {
+                                ((BooleanValue<Boolean>) value).setToggled(Boolean.parseBoolean(args[3]));
+                            } else if (value instanceof ModeValue) {
+                                if (((ModeValue) value).getObjects() == null) {
+                                    ((ModeValue) value).setSelectedMode(args[3]);
+                                } else {
+                                    for (BooleanValue booleanValue : ((ModeValue) value).getObjects()) {
+                                        if (booleanValue.getModule() == module) {
+                                            System.out.println(args[3] + ":" + args[4]);
+                                            if (booleanValue.getName().equalsIgnoreCase(args[3])) {
+                                                booleanValue.setToggled(Boolean.parseBoolean(args[4]));
+                                            }
+                                        }
+                                    }
                                 }
-                            }
-                        } else if (value instanceof NumberValue) {
-                            if (((NumberValue) value).getMinDefaultValue() != null) {
-                                if(((NumberValue) value).getDefaultValue() instanceof  Float) {
-                                    ((NumberValue) value).setMinDefaultValue(Float.parseFloat(args[3]));
-                                    ((NumberValue) value).setDefaultValue(Float.parseFloat(args[4]));
-                                }else if(((NumberValue) value).getDefaultValue() instanceof  Long) {
-                                    ((NumberValue) value).setMinDefaultValue(Long.parseLong(args[3]));
-                                    ((NumberValue) value).setDefaultValue(Long.parseLong(args[4]));
-                                }else if(((NumberValue) value).getDefaultValue() instanceof  Integer) {
-                                    ((NumberValue) value).setMinDefaultValue(Integer.parseInt(args[3]));
-                                    ((NumberValue) value).setDefaultValue(Integer.parseInt(args[4]));
-                                }else if(((NumberValue) value).getDefaultValue() instanceof  Double) {
-                                    ((NumberValue) value).setMinDefaultValue(Double.parseDouble(args[3]));
-                                    ((NumberValue) value).setDefaultValue(Double.parseDouble(args[4]));
-                                }
+                            } else if (value instanceof NumberValue) {
+                                if (((NumberValue) value).getMinDefaultValue() != null) {
+                                    if (((NumberValue) value).getDefaultValue() instanceof Float) {
+                                        ((NumberValue) value).setMinDefaultValue(Float.parseFloat(args[3]));
+                                        ((NumberValue) value).setDefaultValue(Float.parseFloat(args[4]));
+                                    } else if (((NumberValue) value).getDefaultValue() instanceof Long) {
+                                        ((NumberValue) value).setMinDefaultValue(Long.parseLong(args[3]));
+                                        ((NumberValue) value).setDefaultValue(Long.parseLong(args[4]));
+                                    } else if (((NumberValue) value).getDefaultValue() instanceof Integer) {
+                                        ((NumberValue) value).setMinDefaultValue(Integer.parseInt(args[3]));
+                                        ((NumberValue) value).setDefaultValue(Integer.parseInt(args[4]));
+                                    } else if (((NumberValue) value).getDefaultValue() instanceof Double) {
+                                        ((NumberValue) value).setMinDefaultValue(Double.parseDouble(args[3]));
+                                        ((NumberValue) value).setDefaultValue(Double.parseDouble(args[4]));
+                                    }
 
-                            } else {
-                                if(((NumberValue) value).getDefaultValue() instanceof  Float) {
-                                    ((NumberValue) value).setDefaultValue(Float.parseFloat(args[3]));
-                                }else if(((NumberValue) value).getDefaultValue() instanceof  Long) {
-                                    ((NumberValue) value).setDefaultValue(Long.parseLong(args[3]));
-                                }else if(((NumberValue) value).getDefaultValue() instanceof  Integer) {
-                                    ((NumberValue) value).setDefaultValue(Integer.parseInt(args[3]));
-                                }else if(((NumberValue) value).getDefaultValue() instanceof  Double) {
-                                    ((NumberValue) value).setDefaultValue(Double.parseDouble(args[3]));
+                                } else {
+                                    if (((NumberValue) value).getDefaultValue() instanceof Float) {
+                                        ((NumberValue) value).setDefaultValue(Float.parseFloat(args[3]));
+                                    } else if (((NumberValue) value).getDefaultValue() instanceof Long) {
+                                        ((NumberValue) value).setDefaultValue(Long.parseLong(args[3]));
+                                    } else if (((NumberValue) value).getDefaultValue() instanceof Integer) {
+                                        ((NumberValue) value).setDefaultValue(Integer.parseInt(args[3]));
+                                    } else if (((NumberValue) value).getDefaultValue() instanceof Double) {
+                                        ((NumberValue) value).setDefaultValue(Double.parseDouble(args[3]));
+                                    }
                                 }
                             }
                         }

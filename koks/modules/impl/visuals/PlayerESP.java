@@ -42,7 +42,7 @@ public class PlayerESP extends Module {
                     double z = (entity.lastTickPosZ + (entity.posZ - entity.lastTickPosZ) * partialTicks) - mc.getRenderManager().renderPosZ;
 
                     if (theme.getSelectedMode().equals("2D")) {
-                        cornerESPUtil.drawCorners(x, y + 0.9, z, 20, 40, 40, 0.7F);
+                        cornerESPUtil.drawCorners(x, y + 0.9, z, 20, 40, 10, 3.0F);
                     }
 
                     if (theme.getSelectedMode().equals("Box")) {

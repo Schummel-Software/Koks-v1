@@ -42,7 +42,7 @@ public class ItemESP extends Module {
                     double z = (e.lastTickPosZ + (e.posZ - e.lastTickPosZ) * ((EventRender3D) event).getPartialTicks()) - mc.getRenderManager().renderPosZ;
 
                     if (theme.getSelectedMode().equals("2D")) {
-                        cornerESPUtil.drawCorners(x, y + 0.25, z, 5, 5, 5, 0.7F);
+                        cornerESPUtil.drawCorners(x, y + 0.30, z, 5, 5, 1, 3.0F);
                     }
 
                     if (theme.getSelectedMode().equals("Box")) {
