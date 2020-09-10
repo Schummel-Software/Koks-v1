@@ -54,6 +54,7 @@ public class ModuleManager {
         addModule(new ChestStealer());
         addModule(new AntiVoid());
         addModule(new AutoArmor());
+        addModule(new Blink());
 
         // Utilities
         addModule(new ClickGUI());

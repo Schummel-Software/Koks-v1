@@ -9,6 +9,7 @@ import koks.gui.configs.ConfigScreen;
 import koks.gui.configsnew.DrawConfigManager;
 import koks.gui.customhud.CustomHUD;
 import koks.gui.customhud.valuehudsystem.ValueHUDManager;
+import koks.gui.panelgui.PanelGUI;
 import koks.hud.tabgui.TabGUI;
 import koks.manager.ConfigManager;
 import koks.modules.ModuleManager;
@@ -54,6 +55,7 @@ public class Koks {
     public CommonValueManager commonValueManager;
     public ThemeManager themeManager;
     public ClickGUI clickGUI;
+    public PanelGUI panelGUI;
     public EventManager eventManager;
     public CommandManager commandManager;
     public FileManager fileManager;
@@ -73,6 +75,7 @@ public class Koks {
         moduleManager = new ModuleManager();
         themeManager = new ThemeManager();
         clickGUI = new ClickGUI();
+        panelGUI = new PanelGUI();
         commandManager = new CommandManager();
         eventManager = new EventManager();
         fileManager = new FileManager();

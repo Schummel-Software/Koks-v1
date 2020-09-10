@@ -124,14 +124,20 @@ public class KillAura extends Module {
 
         addValue(visualSettings);
         addValue(fakeBlocking);
+        fakeBlocking.setShouldSave(false);
         addValue(silentBlocking);
+        silentBlocking.setShouldSave(false);
         addValue(silentSwing);
+        silentSwing.setShouldSave(false);
         addValue(serverSideSwing);
+        serverSideSwing.setShouldSave(false);
         addValue(swingChance);
+        swingChance.setShouldSave(false);
 
         addValue(adjustmentSettings);
         addValue(attackEvent);
         addValue(animationSpeed);
+        animationSpeed.setShouldSave(false);
     }
 
     @Override

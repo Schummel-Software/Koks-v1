@@ -41,7 +41,7 @@ public class CustomBlock extends Module {
                     break;
                 case "Power":
                     e.setFirstArg(e.getF() - 0.25F);
-                    e.setLastArg(e.getF1() * 0.9F - 0.1F);
+                    e.setLastArg(e.getF1() * 0.1F - 0.9F);
                     break;
             }
         }

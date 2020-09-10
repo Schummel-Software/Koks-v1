@@ -3,7 +3,7 @@ package koks.files;
 import koks.Koks;
 import koks.files.impl.KeyBindFile;
 import koks.files.impl.Toggled;
-import koks.files.impl.client;
+import koks.files.impl.Client;
 import koks.files.impl.Settings;
 import net.minecraft.client.Minecraft;
 
@@ -28,7 +28,7 @@ public class FileManager {
 
         addFile(new Settings());
 
-        addFile(new client());
+        addFile(new Client());
     }
 
     private void addFile(Files file) {

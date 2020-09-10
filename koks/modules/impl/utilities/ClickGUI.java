@@ -20,8 +20,8 @@ public class ClickGUI extends Module {
 
     @Override
     public void onEvent(Event event) {
-        if(event instanceof  EventUpdate) {
-            if(mc.currentScreen != null) mc.displayGuiScreen(null);
+        if (event instanceof EventUpdate) {
+            if (mc.currentScreen != null) mc.displayGuiScreen(null);
             this.setToggled(false);
             mc.displayGuiScreen(Koks.getKoks().clickGUI);
         }

@@ -141,15 +141,13 @@ public class Fly extends Module {
         mc.thePlayer.setSneaking(false);
         movementUtil.setSpeed(0.4);
         if (mc.gameSettings.keyBindSprint.isKeyDown())
-            mc.thePlayer.speedInAir = 2.0F;
+            mc.thePlayer.speedInAir = 0.6F;
         else
             mc.thePlayer.speedInAir = 0.2F;
 
-        if (mc.thePlayer.ticksExisted % 10 == 0) {
-            mc.thePlayer.sendQueue.addToSendQueue(new C03PacketPlayer(true));
-        }
+        double addY = new RandomUtil().randomDouble(-0.05, 0.10);
 
-        mc.thePlayer.motionY += new RandomUtil().randomDouble(-0.05, 0.10);
+        mc.thePlayer.motionY += addY;
     }
 
     public void aac322() {

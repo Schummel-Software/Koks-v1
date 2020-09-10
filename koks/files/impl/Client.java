@@ -14,9 +14,9 @@ import java.io.FileWriter;
  * @author avox | lmao | kroko
  * @created on 05.09.2020 : 02:00
  */
-public class client extends Files {
+public class Client extends Files {
 
-    public client() {
+    public Client() {
         super("client");
     }
 
