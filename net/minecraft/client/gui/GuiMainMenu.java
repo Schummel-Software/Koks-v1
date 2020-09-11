@@ -20,6 +20,7 @@ import com.mojang.authlib.Agent;
 import com.mojang.authlib.yggdrasil.YggdrasilAuthenticationService;
 import com.mojang.authlib.yggdrasil.YggdrasilUserAuthentication;
 import com.thealtening.AltService;
+import koks.ClientSwitch;
 import koks.Koks;
 import koks.account.Account;
 import koks.theme.ThemeSelection;
@@ -223,6 +224,7 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
 
         this.buttonList.add(new GuiButton(0, this.width / 2 - 100, j + 72 + 12, 98, 20, I18n.format("menu.options", new Object[0])));
         this.buttonList.add(new GuiButton(12512, this.width / 2 - 100, j + 72 + 36, 98, 20, I18n.format("Theme Selection", new Object[0])));
+        this.buttonList.add(new GuiButton(12513, this.width / 2 + 2, j + 72 + 36, 98, 20, I18n.format("Change Client", new Object[0])));
 
         this.buttonList.add(new GuiButton(12401, 1, 1, 98, 20, "Sound " + Koks.getKoks().playingSound));
 
@@ -276,6 +278,12 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
 
     protected void actionPerformed(GuiButton button) throws IOException {
         mc.getSoundHandler().stopSounds();
+
+        if (button.id == 12513) {
+            ClientSwitch.currentType = ClientSwitch.currentType == ClientSwitch.ClientType.KOKS ? ClientSwitch.ClientType.LEGIT : ClientSwitch.ClientType.KOKS;
+            Koks.getKoks().shutdownClient();
+            Koks.getKoks().initClient();
+        }
 
         if (button.id == 12401) {
             Koks.getKoks().playingSound = !Koks.getKoks().playingSound;
@@ -581,6 +589,9 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
                 this.buttonList.get(jhg).displayString = "Sound " + Koks.getKoks().playingSound;
             }
         }
+
+        String clientVer = ClientSwitch.currentType.toString().substring(0, 1).toUpperCase() + ClientSwitch.currentType.toString().substring(1).toLowerCase();
+        mc.fontRendererObj.drawString(clientVer, 3, 30, 0xFFFFFFFF);
 
         super.drawScreen(mouseX, mouseY, partialTicks);
     }
