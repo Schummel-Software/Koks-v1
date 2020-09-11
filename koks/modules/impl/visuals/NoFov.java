@@ -11,7 +11,7 @@ import koks.modules.Module;
 public class NoFov extends Module {
 
     public NoFov() {
-        super("NoFov", Category.VISUALS);
+        super("NoFov", "", Category.VISUALS);
     }
 
     @Override

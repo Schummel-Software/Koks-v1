@@ -18,7 +18,7 @@ public class BoatFly extends Module {
     public NumberValue<Integer> aac4boost = new NumberValue<>("AAC4-Boost", 8, 10,5,this);
 
     public BoatFly() {
-        super("BoatFly", Category.MOVEMENT);
+        super("BoatFly", "", Category.MOVEMENT);
         addValue(aac4boost);
         addValue(mode);
     }

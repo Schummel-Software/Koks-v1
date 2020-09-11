@@ -21,7 +21,7 @@ public class Cosmetics extends Module {
     public TitleValue particles = new TitleValue("Particles", true, new Value[]{particle, particleMode}, this);
 
     public Cosmetics() {
-        super("Cosmetics", Category.UTILITIES);
+        super("Cosmetics", "", Category.UTILITIES);
 
         addValue(particles);
         addValue(particle);

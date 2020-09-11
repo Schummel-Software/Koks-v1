@@ -12,7 +12,7 @@ import net.minecraft.network.play.client.C03PacketPlayer;
 public class NoRotate extends Module {
 
     public NoRotate() {
-        super("NoRotate", Category.PLAYER);
+        super("NoRotate", "", Category.PLAYER);
     }
 
     @Override

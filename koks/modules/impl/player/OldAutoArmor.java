@@ -32,7 +32,7 @@ public class OldAutoArmor extends Module {
     public boolean done;
 
     public OldAutoArmor() {
-        super("AutoArmor", Category.PLAYER);
+        super("AutoArmor", "", Category.PLAYER);
 
         addValue(openedInventory);
         addValue(startDelayValue);

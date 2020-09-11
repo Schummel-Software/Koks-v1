@@ -11,7 +11,7 @@ import koks.modules.Module;
 public class AirJump extends Module {
 
     public AirJump() {
-        super("AirJump", Category.MOVEMENT);
+        super("AirJump", "", Category.MOVEMENT);
     }
 
     @Override

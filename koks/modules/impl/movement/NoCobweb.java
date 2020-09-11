@@ -16,7 +16,7 @@ public class NoCobweb extends Module {
     public ModeValue<String> mode = new ModeValue<String>("Mode", "Intave", new String[]{"Intave"}, this);
 
     public NoCobweb() {
-        super("NoCobweb", Category.MOVEMENT);
+        super("NoCobweb", "", Category.MOVEMENT);
         addValue(mode);
     }
 

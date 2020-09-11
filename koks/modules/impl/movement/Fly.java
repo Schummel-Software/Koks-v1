@@ -41,7 +41,7 @@ public class Fly extends Module {
     public final NumberValue<Integer> aac322boost = new NumberValue<Integer>("AAC3.2.2-Boost", 9, 10, 5, this);
 
     public Fly() {
-        super("Fly", Category.MOVEMENT);
+        super("Fly", "", Category.MOVEMENT);
         addValue(aac322boost);
         Koks.getKoks().valueManager.addValue(modeValue);
         hypixelFly = new HypixelFly();

@@ -24,7 +24,7 @@ public class SetBack extends Module {
     public ModeValue<String> mode = new ModeValue<>("Mode", "Intave", new String[]{"Intave", "AAC3.0.1"}, this);
 
     public SetBack() {
-        super("SetBack", Category.PLAYER);
+        super("SetBack", "", Category.PLAYER);
         Koks.getKoks().valueManager.addValue(mode);
     }
 

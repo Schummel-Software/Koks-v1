@@ -10,7 +10,7 @@ import koks.modules.Module;
 public class HitAnimation extends Module {
 
     public HitAnimation() {
-        super("HitAnimation", Category.VISUALS);
+        super("HitAnimation", "", Category.VISUALS);
     }
 
     @Override

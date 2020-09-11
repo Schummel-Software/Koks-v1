@@ -4,8 +4,10 @@ import koks.Koks;
 import koks.gui.panelgui.guistuff.DrawModule;
 import koks.modules.Module;
 import koks.utilities.CustomFont;
+import koks.utilities.RenderUtils;
 import net.minecraft.client.gui.Gui;
 
+import java.awt.*;
 import java.util.ArrayList;
 
 /**
@@ -14,7 +16,7 @@ import java.util.ArrayList;
  */
 public class DrawPanel {
 
-    private final ArrayList<DrawModule> drawModules = new ArrayList<>();
+    public final ArrayList<DrawModule> drawModules = new ArrayList<>();
     public final CustomFont arial20 = new CustomFont("fonts/arial.ttf", 20);
     public final CustomFont arial18 = new CustomFont("fonts/arial.ttf", 18);
     public final CustomFont arial16 = new CustomFont("fonts/arial.ttf", 16);
@@ -52,6 +54,19 @@ public class DrawPanel {
                 drawModule.updatePosition(x, y, width, height);
                 drawModule.drawScreen(mouseX, mouseY, partialTicks);
                 y += this.height;
+            }
+            int y2 = this.y + this.height;
+            for (DrawModule drawModule : drawModules) {
+                if (mouseX > x && mouseX < x + width && mouseY > y2 && mouseY < y2 + height && !drawModule.module.getModuleDescription().equals("")) {
+                    String desc = drawModule.module.getModuleDescription();
+                    int renderX = mouseX + 6;
+                    int renderY = mouseY - 10;
+                    RenderUtils renderUtils = new RenderUtils();
+                    Gui.drawRect(renderX - 1, renderY, renderX + arial16.getStringWidth(desc) + 2, renderY + arial16.FONT_HEIGHT + 1, Koks.getKoks().client_color.getRGB());
+                    renderUtils.drawOutlineRect(renderX - 1, renderY, renderX + arial16.getStringWidth(desc) + 2, renderY + arial16.FONT_HEIGHT + 1, 1, Color.BLACK);
+                    arial16.drawString(desc, renderX, renderY, 0xFFFFFFFF);
+                }
+                y2 += this.height;
             }
         }
     }

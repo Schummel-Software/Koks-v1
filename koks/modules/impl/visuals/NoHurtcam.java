@@ -11,7 +11,7 @@ import koks.modules.Module;
 public class NoHurtcam extends Module {
 
     public NoHurtcam() {
-        super("NoHurtcam", Category.VISUALS);
+        super("NoHurtcam", "", Category.VISUALS);
     }
 
     @Override

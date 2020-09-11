@@ -16,7 +16,7 @@ public class NoSlowdown extends Module {
     public BooleanValue<Boolean> sprint = new BooleanValue<>("Sprint", true, this);
 
     public NoSlowdown() {
-        super("NoSlowdown", Category.MOVEMENT);
+        super("NoSlowdown", "", Category.MOVEMENT);
         addValue(speedInPercent);
         addValue(sprint);
     }

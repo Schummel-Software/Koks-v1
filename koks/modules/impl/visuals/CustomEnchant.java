@@ -12,7 +12,7 @@ import net.minecraft.util.ResourceLocation;
 public class CustomEnchant extends Module {
 
     public CustomEnchant() {
-        super("CustomEnchant", Category.VISUALS);
+        super("CustomEnchant", "", Category.VISUALS);
     }
 
     @Override

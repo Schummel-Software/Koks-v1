@@ -25,7 +25,7 @@ public class ItemESP extends Module {
     public CornerESPUtil cornerESPUtil = new CornerESPUtil();
 
     public ItemESP() {
-        super("ItemESP", Category.VISUALS);
+        super("ItemESP", "", Category.VISUALS);
 
         Koks.getKoks().valueManager.addValue(theme);
     }

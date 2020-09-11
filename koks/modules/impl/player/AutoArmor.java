@@ -39,7 +39,7 @@ public class AutoArmor extends Module {
     private final TimeUtil throwTimer = new TimeUtil();
 
     public AutoArmor() {
-        super("AutoArmor", Category.PLAYER);
+        super("AutoArmor", "", Category.PLAYER);
         addValue(openedInventory);
         addValue(startDelay);
         addValue(throwDelay);

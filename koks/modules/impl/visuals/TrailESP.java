@@ -22,7 +22,7 @@ public class TrailESP extends Module {
     public NumberValue<Integer> length = new NumberValue<Integer>("Length", 10, 1000,5,this);
 
     public TrailESP() {
-        super("TrailESP", Category.VISUALS);
+        super("TrailESP", "", Category.VISUALS);
         addValue(length);
     }
 

@@ -37,7 +37,7 @@ public class HUD extends Module {
     public ModeValue<String> arrayListSettings = new ModeValue<>("Arraylist Settings", new BooleanValue[]{shadowArrayList}, this);
 
     public HUD() {
-        super("HUD", Category.UTILITIES);
+        super("HUD", "", Category.UTILITIES);
         addValue(tabGuiSettings);
         addValue(arrayListSettings);
         addValue(watermarkStyle);

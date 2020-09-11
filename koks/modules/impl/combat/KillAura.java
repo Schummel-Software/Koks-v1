@@ -98,7 +98,7 @@ public class KillAura extends Module {
     public int listCount, finalCPS, shouldCPS;
 
     public KillAura() {
-        super("KillAura", Category.COMBAT);
+        super("KillAura", "Testing out new Module Descriptions", Category.COMBAT);
 
         addValue(targetSettings);
         addValue(targets);

@@ -22,12 +22,14 @@ public abstract class Module {
     private String displayName;
     private Category moduleCategory;
     private String moduleInfo = "";
+    private String moduleDescription;
     private boolean visible = true, enabled, bypassed, legit;
     private int keyBind;
     private AnimationModule animationModule = new AnimationModule();
 
-    public Module(String moduleName, Category moduleCategory) {
+    public Module(String moduleName, String moduleDescription, Category moduleCategory) {
         this.moduleName = moduleName;
+        this.moduleDescription = moduleDescription;
         this.moduleCategory = moduleCategory;
         this.displayName = moduleName;
         this.animationModule.setUp();
@@ -154,4 +156,13 @@ public abstract class Module {
     public void setLegit(boolean legit) {
         this.legit = legit;
     }
+
+    public String getModuleDescription() {
+        return moduleDescription;
+    }
+
+    public void setModuleDescription(String moduleDescription) {
+        this.moduleDescription = moduleDescription;
+    }
+
 }

@@ -25,7 +25,7 @@ public class BlockESP extends Module {
     public BoxUtil boxUtil = new BoxUtil();
 
     public BlockESP() {
-        super("BlockESP", Category.VISUALS);
+        super("BlockESP", "", Category.VISUALS);
 
         Koks.getKoks().valueManager.addValue(renderRange);
     }

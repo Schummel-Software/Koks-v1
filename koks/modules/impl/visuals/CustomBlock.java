@@ -14,7 +14,7 @@ public class CustomBlock extends Module {
     public ModeValue<String> blockAnimation = new ModeValue<>("Block Animation", "1.8", new String[]{"1.8", "1.7", "Eject", "Simple", "Power"}, this);
 
     public CustomBlock() {
-        super("CustomBlock", Category.VISUALS);
+        super("CustomBlock", "", Category.VISUALS);
         addValue(blockAnimation);
     }
 

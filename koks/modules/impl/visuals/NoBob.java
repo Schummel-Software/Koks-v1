@@ -11,7 +11,7 @@ import koks.modules.Module;
 public class NoBob extends Module {
 
     public NoBob() {
-        super("NoBob", Category.VISUALS);
+        super("NoBob", "", Category.VISUALS);
     }
 
     @Override

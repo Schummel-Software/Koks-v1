@@ -11,7 +11,7 @@ import koks.modules.Module;
 public class FastPlace extends Module {
 
     public FastPlace() {
-        super("FastPlace", Category.WORLD);
+        super("FastPlace", "", Category.WORLD);
     }
 
     @Override

@@ -50,7 +50,7 @@ public class Debug extends Module {
     private int direction;
 
     public Debug() {
-        super("Debug", Category.UTILITIES);
+        super("Debug", "", Category.UTILITIES);
 
         Koks.getKoks().valueManager.addValue(b);
 

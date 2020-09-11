@@ -16,7 +16,7 @@ import net.minecraft.entity.Entity;
 public class TargetStrafe extends Module {
 
     public TargetStrafe() {
-        super("TargetStrafe", Category.MOVEMENT);
+        super("TargetStrafe", "", Category.MOVEMENT);
     }
 
     int direction;

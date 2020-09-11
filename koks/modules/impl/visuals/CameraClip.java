@@ -10,7 +10,7 @@ import koks.modules.Module;
 public class CameraClip extends Module {
 
     public CameraClip() {
-        super("CameraClip", Category.VISUALS);
+        super("CameraClip", "", Category.VISUALS);
     }
 
     @Override

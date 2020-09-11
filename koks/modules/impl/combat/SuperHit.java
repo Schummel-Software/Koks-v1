@@ -20,7 +20,7 @@ import net.minecraft.util.Vec3;
 public class SuperHit extends Module {
 
     public SuperHit() {
-        super("SuperHit", Category.COMBAT);
+        super("SuperHit", "", Category.COMBAT);
     }
 
     public void setPosition(double x, double y, double z) {

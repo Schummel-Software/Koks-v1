@@ -15,7 +15,7 @@ public class Reach extends Module {
     public NumberValue<Double> reach = new NumberValue<>("Extra Reach", 0.2D, 1D, 0D, this);
 
     public Reach() {
-        super("Reach", Category.COMBAT);
+        super("Reach", "", Category.COMBAT);
         addValue(reach);
     }
 

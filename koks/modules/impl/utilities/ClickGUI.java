@@ -14,7 +14,7 @@ import org.lwjgl.input.Keyboard;
 public class ClickGUI extends Module {
 
     public ClickGUI() {
-        super("ClickGUI", Category.UTILITIES);
+        super("ClickGUI", "", Category.UTILITIES);
         this.setKeyBind(Keyboard.KEY_RSHIFT);
     }
 

@@ -16,7 +16,7 @@ public class Ambiance extends Module {
     public NumberValue<Integer> time = new NumberValue<Integer>("Time", 0, 18000, 0, this);
 
     public Ambiance() {
-        super("Ambiance", Category.VISUALS);
+        super("Ambiance", "", Category.VISUALS);
         addValue(time);
     }
 

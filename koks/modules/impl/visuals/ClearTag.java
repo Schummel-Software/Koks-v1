@@ -10,7 +10,7 @@ import koks.modules.Module;
 public class ClearTag extends Module {
 
     public ClearTag() {
-        super("ClearTag", Category.VISUALS);
+        super("ClearTag", "", Category.VISUALS);
     }
 
     @Override

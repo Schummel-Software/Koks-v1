@@ -13,7 +13,7 @@ import net.minecraft.util.BlockPos;
 public class FastBridge extends Module {
 
     public FastBridge() {
-        super("FastBridge", Category.WORLD);
+        super("FastBridge", "", Category.WORLD);
     }
 
     @Override

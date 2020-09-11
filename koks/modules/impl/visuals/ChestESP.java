@@ -25,7 +25,7 @@ public class ChestESP extends Module {
     public CornerESPUtil cornerESPUtil = new CornerESPUtil();
 
     public ChestESP() {
-        super("ChestESP", Category.VISUALS);
+        super("ChestESP", "", Category.VISUALS);
 
         Koks.getKoks().valueManager.addValue(theme);
     }
