@@ -22,7 +22,7 @@ public abstract class Module {
     private String displayName;
     private Category moduleCategory;
     private String moduleInfo = "";
-    private boolean visible = true, enabled, bypassed;
+    private boolean visible = true, enabled, bypassed, legit;
     private int keyBind;
     private AnimationModule animationModule = new AnimationModule();
 
@@ -147,4 +147,11 @@ public abstract class Module {
         return displayName + (moduleInfo.equals("") ? "" : " " + color + moduleInfo);
     }
 
+    public boolean isLegit() {
+        return legit;
+    }
+
+    public void setLegit(boolean legit) {
+        this.legit = legit;
+    }
 }

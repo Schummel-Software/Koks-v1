@@ -42,7 +42,7 @@ public class RotationUtil {
         return bestVector;
     }
 
-    public float[] faceEntityWithVector(Entity entity, float currentYaw, float currentPitch, boolean smooth) {
+    public float[] faceEntityWithVector(Entity entity, float currentYaw, float currentPitch, boolean smooth, boolean failing) {
         try {
             if (entity instanceof EntityLivingBase && mc.thePlayer.getDistanceToEntity(entity) >= 0.2) {
                 Vec3 rotations = bestRotationVector(entity);
@@ -61,8 +61,8 @@ public class RotationUtil {
                 float pitchAngle = (float) (-(MathHelper.func_181159_b(y, angle) * 180.0D / Math.PI));
                 yawAngle += addRotation;
                 pitchAngle += addRotation;
-                float yaw = updateRotation(currentYaw, yawAngle, smooth ? speed : 1000);
-                float pitch = updateRotation(currentPitch, pitchAngle, smooth ? speed : 1000);
+                float yaw = updateRotation(currentYaw, failing ? currentYaw - 10 : yawAngle, smooth ? speed : 1000);
+                float pitch = updateRotation(currentPitch, failing ? currentPitch + 10 : pitchAngle, smooth ? speed : 1000);
 
                 float[] yawDiff = calculateDiff(currentYaw, yaw);
                 float[] pitchDiff = calculateDiff(currentPitch, pitch);

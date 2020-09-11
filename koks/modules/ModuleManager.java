@@ -22,130 +22,80 @@ public class ModuleManager {
     private final List<Module> MODULES = new ArrayList<>();
 
     public ModuleManager() {
-        if (ClientSwitch.currentType == ClientSwitch.ClientType.KOKS) {
-            // Combat
-            addModule(new KillAura());
-            addModule(new SuperHit());
-            addModule(new Velocity());
-            addModule(new Reach());
-            addModule(new TriggerBot());
+        // Combat
+        addModule(new KillAura(), false);
+        addModule(new SuperHit(), false);
+        addModule(new Velocity(), false);
+        addModule(new Reach(), true);
+        addModule(new TriggerBot(), true);
 
-            // Movement
-            addModule(new BoatFly());
-            addModule(new InventoryMove());
-            addModule(new Jesus());
-            addModule(new NoCobweb());
-            addModule(new Speed());
-            addModule(new Fly());
-            addModule(new NoSlowdown());
-            addModule(new Sprint());
-            addModule(new LongJump());
-            addModule(new TargetStrafe());
-            addModule(new AirJump());
-            addModule(new Parkour());
-            addModule(new Step());
+        // Movement
+        addModule(new BoatFly(), false);
+        addModule(new InventoryMove(), false);
+        addModule(new Jesus(), false);
+        addModule(new NoCobweb(), false);
+        addModule(new Speed(), false);
+        addModule(new Fly(), false);
+        addModule(new NoSlowdown(), false);
+        addModule(new Sprint(), true);
+        addModule(new LongJump(), false);
+        addModule(new TargetStrafe(), false);
+        addModule(new AirJump(), false);
+        addModule(new Parkour(), true);
+        addModule(new Step(), false);
 
-            // Player
-            addModule(new AntiFire());
-            addModule(new BedFucker());
-            addModule(new FastConsume());
-            addModule(new NoFall());
-            addModule(new Phase());
-            addModule(new SetBack());
-            addModule(new NoRotate());
-            addModule(new InventoryManager());
-            addModule(new ChestStealer());
-            addModule(new AntiVoid());
-            addModule(new AutoArmor());
-            addModule(new Blink());
+        // Player
+        addModule(new AntiFire(), false);
+        addModule(new BedFucker(), false);
+        addModule(new FastConsume(), false);
+        addModule(new NoFall(), false);
+        addModule(new Phase(), false);
+        addModule(new SetBack(), false);
+        addModule(new NoRotate(), false);
+        addModule(new InventoryManager(), true);
+        addModule(new ChestStealer(), true);
+        addModule(new AntiVoid(), false);
+        addModule(new AutoArmor(), true);
+        addModule(new Blink(), true);
 
-            // Utilities
-            addModule(new ClickGUI());
-            addModule(new HUD());
-            addModule(new Debug());
-            addModule(new Disabler());
-            addModule(new Cosmetics());
-            addModule(new CustomBlock());
-            addModule(new AntiFlag());
+        // Utilities
+        addModule(new ClickGUI(), true);
+        addModule(new HUD(), true);
+        addModule(new Debug(), true);
+        addModule(new Disabler(), true);
+        addModule(new Cosmetics(), true);
+        addModule(new CustomBlock(), true);
+        addModule(new AntiFlag(), true);
 
-            // Visuals
-            addModule(new Ambiance());
-            addModule(new Animations());
-            addModule(new BlockESP());
-            addModule(new ChestESP());
-            addModule(new ClearTag());
-            addModule(new CustomEnchant());
-            addModule(new TrailESP());
-            addModule(new ItemESP());
-            addModule(new NameTags());
-            addModule(new NoBob());
-            addModule(new NoFov());
-            addModule(new NoHurtcam());
-            addModule(new CameraClip());
-            addModule(new PlayerESP());
-            addModule(new HitAnimation());
-            addModule(new FullBright());
+        // Visuals
+        addModule(new Ambiance(), true);
+        addModule(new Animations(), true);
+        addModule(new BlockESP(), true);
+        addModule(new ChestESP(), true);
+        addModule(new ClearTag(), true);
+        addModule(new CustomEnchant(), true);
+        addModule(new TrailESP(), true);
+        addModule(new ItemESP(), true);
+        addModule(new NameTags(), true);
+        addModule(new NoBob(), true);
+        addModule(new NoFov(), true);
+        addModule(new NoHurtcam(), true);
+        addModule(new CameraClip(), true);
+        addModule(new PlayerESP(), true);
+        addModule(new HitAnimation(), true);
+        addModule(new FullBright(), true);
 
-            // World
-            addModule(new ScaffoldWalk());
-            addModule(new FastBridge());
-            addModule(new FastPlace());
-            addModule(new SafeWalk());
-        }
-
-        if (ClientSwitch.currentType == ClientSwitch.ClientType.LEGIT) {
-            // Combat
-            addModule(new Reach());
-            addModule(new TriggerBot());
-
-            // Movement
-            addModule(new Sprint());
-            addModule(new Parkour());
-
-            // Player
-            addModule(new AntiFire());
-            addModule(new InventoryManager());
-            addModule(new ChestStealer());
-            addModule(new AutoArmor());
-            addModule(new Blink());
-
-            // Utilities
-            addModule(new ClickGUI());
-            addModule(new HUD());
-            addModule(new Debug());
-            addModule(new Disabler());
-            addModule(new Cosmetics());
-            addModule(new CustomBlock());
-            addModule(new AntiFlag());
-
-            // Visuals
-            addModule(new Ambiance());
-            addModule(new Animations());
-            addModule(new BlockESP());
-            addModule(new ChestESP());
-            addModule(new ClearTag());
-            addModule(new CustomEnchant());
-            addModule(new TrailESP());
-            addModule(new ItemESP());
-            addModule(new NameTags());
-            addModule(new NoBob());
-            addModule(new NoFov());
-            addModule(new NoHurtcam());
-            addModule(new CameraClip());
-            addModule(new PlayerESP());
-            addModule(new HitAnimation());
-            addModule(new FullBright());
-
-            // World
-            addModule(new FastBridge());
-            addModule(new FastPlace());
-            addModule(new SafeWalk());
-        }
+        // World
+        addModule(new ScaffoldWalk(), false);
+        addModule(new FastBridge(), true);
+        addModule(new FastPlace(), true);
+        addModule(new SafeWalk(), true);
         getModules().sort(Comparator.comparing(Module::getModuleName));
     }
 
-    public void addModule(Module module) {
+    public void addModule(Module module, boolean legitMod) {
         MODULES.add(module);
+        module.setLegit(ClientSwitch.currentType == ClientSwitch.ClientType.KOKS || legitMod);
     }
 
     public List<Module> getModules() {
