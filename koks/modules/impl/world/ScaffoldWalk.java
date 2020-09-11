@@ -180,11 +180,11 @@ public class ScaffoldWalk extends Module {
     }
 
     public float getPitch(int speed) {
-    if(mc.thePlayer.onGround) {
-      return pitchVal.getDefaultValue();
-    }else {
-        return rotationUtil.faceBlock(finalPos, true, yaw, pitch, speed)[1];
-    }
+        if (mc.thePlayer.onGround) {
+            return pitchVal.getDefaultValue();
+        } else {
+            return rotationUtil.faceBlock(finalPos, true, yaw, pitch, speed)[1];
+        }
     }
 
     public void placeBlock(BlockPos pos, EnumFacing face) {
@@ -220,7 +220,6 @@ public class ScaffoldWalk extends Module {
             mc.gameSettings.keyBindSneak.pressed = true;
 
         if (mc.theWorld.getBlockState(new BlockPos(mc.thePlayer.posX, mc.thePlayer.posY - 1.0D - (shouldBuildDown ? 1 : 0), mc.thePlayer.posZ)).getBlock() instanceof net.minecraft.block.BlockAir) {
-
             if (!simpleRotations.isToggled())
                 setYaw();
             boolean rayCasted = !rayCast.isToggled() || rayCastUtil.isRayCastBlock(pos, yaw, pitch);
@@ -229,10 +228,10 @@ public class ScaffoldWalk extends Module {
                     if (blackList.contains(((ItemBlock) silentItemStack.getItem()).getBlock()))
                         return;
 
-                    if(Intave.isToggled()) {
-                        mc.playerController.onPlayerRightClick(mc.thePlayer, mc.theWorld, silentItemStack, rayCastUtil.getRayCastBlock(this.yaw,this.pitch).getBlockPos(), rayCastUtil.getRayCastBlock(this.yaw,this.pitch).sideHit, rayCastUtil.getRayCastBlock(this.yaw,this.pitch).hitVec);
+                    if (Intave.isToggled()) {
+                        mc.playerController.onPlayerRightClick(mc.thePlayer, mc.theWorld, silentItemStack, rayCastUtil.getRayCastBlock(this.yaw, this.pitch).getBlockPos(), rayCastUtil.getRayCastBlock(this.yaw, this.pitch).sideHit, rayCastUtil.getRayCastBlock(this.yaw, this.pitch).hitVec);
                         sneakCount++;
-                    }else {
+                    } else {
                         mc.playerController.onPlayerRightClick(mc.thePlayer, mc.theWorld, silentItemStack, pos, face, new Vec3(pos.getX() + (this.randomHit.isToggled() ? randomutil.randomDouble(0, 0.7) : 0), pos.getY() + (this.randomHit.isToggled() ? randomutil.randomDouble(0, 0.7) : 0), pos.getZ() + (this.randomHit.isToggled() ? randomutil.randomDouble(0, 0.7) : 0)));
                     }
                     mc.thePlayer.motionX *= Motion.getDefaultValue();

@@ -267,7 +267,7 @@ public class KillAura extends Module {
 
     public void setRotations(Entity entity) {
         if (!isFailing) {
-            float[] rotations = rotationUtil.faceEntity(entity, yaw, pitch, smoothRotation.isToggled());
+            float[] rotations = rotationUtil.faceEntityWithVector(entity, yaw, pitch, smoothRotation.isToggled());
             yaw = rotations[0];
             pitch = rotations[1];
         }
