@@ -55,7 +55,7 @@ public class Jello extends Theme {
 
         Koks.getKoks().moduleManager.getModules().stream().sorted(Comparator.comparingDouble(module -> -ARRAY_LIST_FONT.getStringWidth(Koks.getKoks().moduleManager.getModule(ClearTag.class).isToggled() ? module.getDisplayName() : module.getNameForArrayList()))).forEach(module -> {
 
-            if (module.isToggled()) {
+            if (module.isToggled() && module.isVisible()) {
 
                 if (module.getAnimationModule().getYAnimation() < ARRAY_LIST_FONT.FONT_HEIGHT)
                     module.getAnimationModule().setYAnimation(module.getAnimationModule().getYAnimation() + 0.075F * DeltaTime.getDeltaTime());
