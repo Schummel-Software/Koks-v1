@@ -52,7 +52,7 @@ public class KillAura extends Module {
 
     public TitleValue targetSettings = new TitleValue("Target Settings", true, new Value[]{targets, targetMode, preferTarget}, this);
 
-    public NumberValue<Double> range = new NumberValue<>("Hit Range", 4.0D, 6.0D, 3.4D, this);
+    public NumberValue<Double> range = new NumberValue<>("Hit Range", 4.0D, 6.0D, 3.0D, this);
     public BooleanValue<Boolean> preAim = new BooleanValue<>("Pre Aiming", false, this);
     public NumberValue<Double> preAimRange = new NumberValue<>("Aiming Range", 0.0D, 1.0D, 0.0D, this);
     public NumberValue<Integer> cps = new NumberValue<>("CPS", 7, 12, 20, 1, this);
@@ -223,7 +223,7 @@ public class KillAura extends Module {
         if (finalCPS > shouldCPS)
             finalCPS--;
 
-        Entity rayCast = rayCastUtil.getRayCastedEntity(range.getDefaultValue(), yaw, pitch);
+        Entity rayCast = rayCastUtil.getMouseOver(range.getDefaultValue(), yaw, pitch);
 
         for (int i = 0; i < 1; i++)
             mc.effectRenderer.emitParticleAtEntity(rayCast, EnumParticleTypes.SNOWBALL);
