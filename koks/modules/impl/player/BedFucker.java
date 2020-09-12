@@ -24,7 +24,7 @@ public class BedFucker extends Module {
     NumberValue<Integer> range = new NumberValue<Integer>("Range", 10, 20, 0, this);
 
     public BedFucker() {
-        super("BedFucker", "", Category.PLAYER);
+        super("BedFucker", "You break the bed automaticaly", Category.PLAYER);
         addValue(range);
     }
 

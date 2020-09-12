@@ -14,7 +14,7 @@ import net.minecraft.network.play.client.C0BPacketEntityAction;
 public class AntiFlag extends Module {
 
     public AntiFlag() {
-        super("AntiFlag", "", Category.UTILITIES);
+        super("AntiFlag", "Its detect when you flag", Category.UTILITIES);
     }
 
     @Override

@@ -15,7 +15,7 @@ import net.minecraft.network.play.client.C03PacketPlayer;
 public class FastConsume extends Module {
 
     public FastConsume() {
-        super("FastConsume", "", Category.PLAYER);
+        super("FastConsume", "You eating very fast", Category.PLAYER);
     }
 
     @Override

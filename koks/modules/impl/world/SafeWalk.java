@@ -11,7 +11,7 @@ import koks.modules.Module;
 public class SafeWalk extends Module {
 
     public SafeWalk() {
-        super("SafeWalk", "", Category.WORLD);
+        super("SafeWalk", "You cant fall down from a block", Category.WORLD);
     }
 
     @Override

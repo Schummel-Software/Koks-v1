@@ -38,6 +38,7 @@ import javax.imageio.ImageIO;
 
 import koks.Koks;
 import koks.event.impl.EventTick;
+import koks.event.impl.KeyBindEvent;
 import koks.event.impl.KeyPressEvent;
 import koks.modules.Module;
 import net.minecraft.block.Block;
@@ -1895,6 +1896,11 @@ public class Minecraft implements IThreadListener, IPlayerUsage
                 int k = Keyboard.getEventKey() == 0 ? Keyboard.getEventCharacter() + 256 : Keyboard.getEventKey();
                 KeyBinding.setKeyBindState(k, Keyboard.getEventKeyState());
 
+                KeyPressEvent keyPressEvent = new KeyPressEvent(Keyboard.getEventKey() == 0 ? Keyboard.getEventCharacter() + 256 : Keyboard.getEventKey());
+                Koks.getKoks().eventManager.onEvent(keyPressEvent);
+                if(keyPressEvent.isCanceled())break;
+
+
                 if (Keyboard.getEventKeyState())
                 {
                     KeyBinding.onTick(k);
@@ -1936,9 +1942,6 @@ public class Minecraft implements IThreadListener, IPlayerUsage
                         {
                             this.displayInGameMenu();
                         }
-
-                        KeyPressEvent keyPressEvent = new KeyPressEvent(Keyboard.getEventKey() == 0 ? Keyboard.getEventCharacter() + 256 : Keyboard.getEventKey());
-                        Koks.getKoks().eventManager.onEvent(keyPressEvent);
 
                         for (Module module : Koks.getKoks().moduleManager.getModules()) {
                             if (module.getKeyBind() == k) {

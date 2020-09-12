@@ -12,7 +12,7 @@ import net.minecraft.network.play.client.C03PacketPlayer;
 public class AntiFire extends Module {
 
     public AntiFire() {
-        super("AntiFire", "", Category.PLAYER);
+        super("AntiFire", "You dont burn", Category.PLAYER);
     }
 
     @Override

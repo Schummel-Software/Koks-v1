@@ -19,7 +19,7 @@ public class Sprint extends Module {
     public ModeValue<String> mode = new ModeValue<String>("Mode", "Intave", new String[]{"Intave", "Legit"}, this);
 
     public Sprint() {
-        super("Sprint", "", Category.MOVEMENT);
+        super("Sprint", "you sprint automaticaly", Category.MOVEMENT);
         addValue(mode);
     }
 

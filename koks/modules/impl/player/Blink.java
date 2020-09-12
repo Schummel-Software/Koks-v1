@@ -21,7 +21,7 @@ public class Blink extends Module {
     public double x, y, z, yaw;
 
     public Blink() {
-        super("Blink", "", Category.PLAYER);
+        super("Blink", "You dont send any packets to the server", Category.PLAYER);
     }
 
     @Override

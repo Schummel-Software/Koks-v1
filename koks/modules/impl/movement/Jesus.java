@@ -16,7 +16,7 @@ public class Jesus extends Module {
     public ModeValue<String> mode = new ModeValue<String>("Mode", "Intave",new String[] {"Intave"},this);
 
     public Jesus() {
-        super("Jesus", "", Category.MOVEMENT);
+        super("Jesus", "You can walk on water", Category.MOVEMENT);
         addValue(mode);
     }
 

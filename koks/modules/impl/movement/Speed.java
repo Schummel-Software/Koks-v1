@@ -20,7 +20,7 @@ public class Speed extends Module {
     public TargetStrafe targetStrafe = new TargetStrafe();
 
     public Speed() {
-        super("Speed", "", Category.MOVEMENT);
+        super("Speed", "you are fast af boyy", Category.MOVEMENT);
         addValue(mode);
     }
 

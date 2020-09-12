@@ -43,7 +43,7 @@ public class InventoryManager extends Module {
     private final TimeUtil throwTimer = new TimeUtil();
 
     public InventoryManager() {
-        super("InventoryManager", "", Category.PLAYER);
+        super("InventoryManager", "Your inventory is clean", Category.PLAYER);
 
         trashItems = Arrays.asList(Items.feather, Items.dye, Items.paper, Items.saddle, Items.string, Items.banner, Items.fishing_rod, Items.boat);
         addValue(openedInventory);

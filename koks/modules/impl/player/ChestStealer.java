@@ -24,7 +24,7 @@ public class ChestStealer extends Module {
     private InventoryManager inventoryManager;
 
     public ChestStealer() {
-        super("ChestStealer", "", Category.PLAYER);
+        super("ChestStealer", "You steal the items from a chest", Category.PLAYER);
 
         addValue(startDelay);
         addValue(takeDelay);

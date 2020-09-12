@@ -14,7 +14,7 @@ import net.minecraft.util.BlockPos;
 public class AntiVoid extends Module {
 
     public AntiVoid() {
-        super("AntiVoid", "", Category.PLAYER);
+        super("AntiVoid", "you canot fall in the void", Category.PLAYER);
     }
 
     @Override

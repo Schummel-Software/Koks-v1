@@ -10,7 +10,7 @@ import koks.modules.Module;
 public class Animations extends Module {
 
     public Animations() {
-        super("Animations", "", Category.VISUALS);
+        super("Animations", "You have animations", Category.VISUALS);
     }
 
     @Override

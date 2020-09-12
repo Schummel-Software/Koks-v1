@@ -19,7 +19,7 @@ public class TriggerBot extends Module {
     private final TimeUtil timeUtil = new TimeUtil();
 
     public TriggerBot() {
-        super("TriggerBot", "", Category.COMBAT);
+        super("TriggerBot", "You hit enemies when you look at them", Category.COMBAT);
         addValue(cps);
     }
 
