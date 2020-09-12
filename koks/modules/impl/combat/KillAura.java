@@ -98,7 +98,7 @@ public class KillAura extends Module {
     public int listCount, finalCPS, shouldCPS;
 
     public KillAura() {
-        super("KillAura", "Testing out new Module Descriptions", Category.COMBAT);
+        super("KillAura", "Destroy all on the world.", Category.COMBAT);
 
         addValue(targetSettings);
         addValue(targets);
@@ -254,7 +254,7 @@ public class KillAura extends Module {
                 else
                     mc.thePlayer.sendQueue.addToSendQueue(new C02PacketUseEntity(rayCast, C02PacketUseEntity.Action.ATTACK));
             } else {
-                if (isFailing) mc.thePlayer.addChatMessage(new ChatComponentText("Failing HitChance"));
+                //if (isFailing) mc.thePlayer.addChatMessage(new ChatComponentText("Failing HitChance"));
 
                 if (mc.thePlayer.ticksExisted % 3 == 0) {
                     if (silentSwing.isToggled()) {
