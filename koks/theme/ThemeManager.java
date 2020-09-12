@@ -22,6 +22,8 @@ public class ThemeManager {
         addTheme(new Vega());
         addTheme(new LiquidSense());
         addTheme(new Performance());
+        addTheme(new Suicide());
+        addTheme(new Modern());
     }
 
     public void addTheme(Theme theme) {

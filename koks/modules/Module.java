@@ -3,6 +3,7 @@ package koks.modules;
 import koks.Koks;
 import koks.event.Event;
 import koks.files.impl.KeyBindFile;
+import koks.modules.impl.visuals.ClearTag;
 import koks.utilities.AnimationModule;
 import koks.utilities.value.Value;
 import net.minecraft.client.Minecraft;
@@ -147,6 +148,10 @@ public abstract class Module {
 
     public String getNameForArrayList(String color) {
         return displayName + (moduleInfo.equals("") ? "" : " " + color + moduleInfo);
+    }
+
+    public String getFinalNameForArrayList() {
+        return Koks.getKoks().moduleManager.getModule(ClearTag.class).isToggled() ? displayName : displayName + (moduleInfo.equals("") ? "" : " §7" + moduleInfo);
     }
 
     public boolean isLegit() {

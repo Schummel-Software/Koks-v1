@@ -99,6 +99,8 @@ public abstract class Theme {
         VEGA,
         LIQUIDSENSE,
         PERFORMANCE,
+        SUICIDE,
+        MODERN,
         NONE
     }
 

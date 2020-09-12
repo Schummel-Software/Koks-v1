@@ -229,18 +229,18 @@ public class KillAura extends Module {
             mc.effectRenderer.emitParticleAtEntity(rayCast, EnumParticleTypes.SNOWBALL);
 
         if (timeUtil.hasReached(1000 / finalCPS)) {
-            if (silentSwing.isToggled()) {
-                if (canSwing) {
-                    mc.thePlayer.swingItem();
-                } else {
-                    if (serverSideSwing.isToggled())
-                        mc.thePlayer.sendQueue.addToSendQueue(new C0APacketAnimation());
-                }
-            } else
-                mc.thePlayer.swingItem();
-
 
             if (rayCast != null && !isFailing) {
+
+                if (silentSwing.isToggled()) {
+                    if (canSwing) {
+                        mc.thePlayer.swingItem();
+                    } else {
+                        if (serverSideSwing.isToggled())
+                            mc.thePlayer.sendQueue.addToSendQueue(new C0APacketAnimation());
+                    }
+                } else
+                    mc.thePlayer.swingItem();
 
                 if (autoBlock.isToggled() && !blockAlways.isToggled() && mc.thePlayer.getCurrentEquippedItem().getItem() != null && mc.thePlayer.getCurrentEquippedItem().getItem() instanceof ItemSword) {
                     mc.playerController.sendUseItem(mc.thePlayer, mc.theWorld, mc.thePlayer.getCurrentEquippedItem());
@@ -255,6 +255,18 @@ public class KillAura extends Module {
                     mc.thePlayer.sendQueue.addToSendQueue(new C02PacketUseEntity(rayCast, C02PacketUseEntity.Action.ATTACK));
             } else {
                 if (isFailing) mc.thePlayer.addChatMessage(new ChatComponentText("Failing HitChance"));
+
+                if (mc.thePlayer.ticksExisted % 3 == 0) {
+                    if (silentSwing.isToggled()) {
+                        if (canSwing) {
+                            mc.thePlayer.swingItem();
+                        } else {
+                            if (serverSideSwing.isToggled())
+                                mc.thePlayer.sendQueue.addToSendQueue(new C0APacketAnimation());
+                        }
+                    } else
+                        mc.thePlayer.swingItem();
+                }
             }
 
             if (listCount < entities.size() - 1 && !entities.isEmpty())
