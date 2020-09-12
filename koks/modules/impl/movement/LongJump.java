@@ -20,7 +20,7 @@ public class LongJump extends Module {
     public NumberValue<Double> decreaseFalling = new NumberValue<>("Decrease FallDistance", 0.04D, 0.10D, 0.00D, this);
 
     public LongJump() {
-        super("LongJump", "", Category.MOVEMENT);
+        super("LongJump", "you jump a very long distance", Category.MOVEMENT);
         addValue(jumpFactor);
         addValue(timerSpeed);
         addValue(speed);

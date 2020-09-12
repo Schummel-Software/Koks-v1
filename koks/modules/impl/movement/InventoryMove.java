@@ -13,7 +13,7 @@ import org.lwjgl.input.Keyboard;
 public class InventoryMove extends Module {
 
     public InventoryMove() {
-        super("InventoryMove", "", Category.MOVEMENT);
+        super("InventoryMove", "You can move in your inventory", Category.MOVEMENT);
     }
 
     @Override

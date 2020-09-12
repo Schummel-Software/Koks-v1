@@ -39,7 +39,7 @@ public class Velocity extends Module {
     public double x, y, z;
 
     public Velocity() {
-        super("Velocity", "", Category.COMBAT);
+        super("Velocity", "Your haben not any velocity", Category.COMBAT);
         addValue(mode);
         addValue(velHorizontal);
         addValue(velVertical);

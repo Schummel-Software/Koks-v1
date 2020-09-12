@@ -77,7 +77,6 @@ public class ConfigManager {
                                 } else {
                                     for (BooleanValue booleanValue : ((ModeValue) value).getObjects()) {
                                         if (booleanValue.getModule() == module) {
-                                            System.out.println(args[3] + ":" + args[4]);
                                             if (booleanValue.getName().equalsIgnoreCase(args[3])) {
                                                 booleanValue.setToggled(Boolean.parseBoolean(args[4]));
                                             }

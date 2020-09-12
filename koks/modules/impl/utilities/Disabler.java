@@ -22,7 +22,7 @@ public class Disabler extends Module {
     public ModeValue<String> mode = new ModeValue<String>("Mode", "Hypixel", new String[]{"Hypixel"}, this);
 
     public Disabler() {
-        super("Disabler", "", Category.UTILITIES);
+        super("Disabler", "You disable the anticheat", Category.UTILITIES);
         addValue(mode);
     }
 

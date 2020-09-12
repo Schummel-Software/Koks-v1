@@ -14,7 +14,7 @@ public class Phase extends Module {
     public ModeValue<String> mode = new ModeValue<String>("Mode","Hive",new String[] {"Hive"},this);
 
     public Phase() {
-        super("Phase", "", Category.PLAYER);
+        super("Phase", "You can walk through walls", Category.PLAYER);
         addValue(mode);
     }
 

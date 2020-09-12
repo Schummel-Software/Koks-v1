@@ -14,7 +14,7 @@ public class Step extends Module {
     public NumberValue<Integer> stepHeight = new NumberValue<>("Step Height", 0, 10, 0, this);
 
     public Step() {
-        super("Step", "", Category.MOVEMENT);
+        super("Step", "you step high", Category.MOVEMENT);
         addValue(stepHeight);
     }
 

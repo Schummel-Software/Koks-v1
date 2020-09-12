@@ -25,7 +25,7 @@ public class PlayerESP extends Module {
     public CornerESPUtil cornerESPUtil = new CornerESPUtil();
 
     public PlayerESP() {
-        super("PlayerESP", "", Category.VISUALS);
+        super("PlayerESP", "Its mark all players", Category.VISUALS);
 
         Koks.getKoks().valueManager.addValue(theme);
     }

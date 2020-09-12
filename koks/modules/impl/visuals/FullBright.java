@@ -12,7 +12,7 @@ public class FullBright extends Module {
     private float savedGammaSetting = mc.gameSettings.gammaSetting;
 
     public FullBright() {
-        super("FullBright", "", Category.VISUALS);
+        super("FullBright", "You can see in darkness", Category.VISUALS);
     }
 
     @Override

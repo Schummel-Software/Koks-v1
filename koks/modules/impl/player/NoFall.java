@@ -19,7 +19,7 @@ public class NoFall extends Module {
     public ModeValue<String> mode = new ModeValue<>("Mode", "Spoof Ground", new String[]{"Spoof Ground", "AAC 3.2.2"}, this);
 
     public NoFall() {
-        super("NoFall", "", Category.PLAYER);
+        super("NoFall", "You dosnt take fall damage", Category.PLAYER);
         addValue(mode);
     }
 

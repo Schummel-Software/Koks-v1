@@ -13,7 +13,7 @@ import net.minecraft.util.BlockPos;
 public class Parkour extends Module {
 
     public Parkour() {
-        super("Parkour", "", Category.MOVEMENT);
+        super("Parkour", "Your jump automaticaly", Category.MOVEMENT);
     }
 
     @Override

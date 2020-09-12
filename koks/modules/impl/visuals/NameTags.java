@@ -23,7 +23,7 @@ public class NameTags extends Module {
     FriendManager friendManager = new FriendManager();
 
     public NameTags() {
-        super("NameTags", "", Category.VISUALS);
+        super("NameTags", "Its make better Nametags", Category.VISUALS);
     }
 
     @Override
